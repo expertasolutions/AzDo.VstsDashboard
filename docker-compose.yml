@@ -1,0 +1,17 @@
+version: '3.1'
+
+services:
+    app:
+        image: 'vstsdashboard'
+        build: '.'
+        ports:
+            - 3000:80
+            - 8080:80
+        deploy:
+            resources:
+                limits:
+                    cpus: '0.15'
+                    memory: 64M
+                reservations:
+                    cpus: '0.05'
+                    memory: 20M
