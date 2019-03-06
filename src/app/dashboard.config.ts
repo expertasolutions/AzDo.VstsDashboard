@@ -7,7 +7,7 @@ export class DashboardConfig {
   static settings: IDashboardConfig;
   constructor(private http: HttpClient){}
   load(){
-     const jsonFile = 'secret/vstsDashboard.secret.release.json';
+     const jsonFile = 'secrets/vstsDashboard.secret.release.json';
     return new Promise<void>((resolve, reject) => {
       this.http.get(jsonFile).toPromise().then((response : IDashboardConfig) => {
          DashboardConfig.settings = <IDashboardConfig>response;
