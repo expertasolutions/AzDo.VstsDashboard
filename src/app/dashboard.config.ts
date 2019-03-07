@@ -8,7 +8,7 @@ export class DashboardConfig {
   static settings: IDashboardConfig;
   constructor(private http: HttpClient){}
   load() {
-     const jsonFile = '/secrets/vstsDashboard.secret.release.json';
+     const jsonFile = '/secrets/bportal.appsettings.secrets.json';
      console.log(jsonFile);
      
      return new Promise<void>((resolve, reject) => {
