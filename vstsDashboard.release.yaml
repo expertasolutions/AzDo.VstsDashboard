@@ -17,7 +17,7 @@ spec:
           name: httpvsts
         volumeMounts:
           - name: vstsvol__envName__
-            mountPath: /usr/share/nginx/html
+            mountPath: /app/secrets
             readOnly: true
         resources:
           limits:
