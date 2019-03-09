@@ -11,7 +11,7 @@ spec:
     spec:
       containers:
       - name: vstsdashboard__envName__
-        image: __acrmain__.azurecr.io/__Build.SourceBranchName__.vstsdashboard:__imageVersion__
+        image: docker.io/lturmel/vstsdashboard:__imageVersion__
         ports:
         - containerPort: 80
           name: httpvsts
