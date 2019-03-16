@@ -7,6 +7,8 @@ services:
         ports:
             - 3000:80
             - 8080:80
+        volumes:
+            - '../Configs/Docker/:/app/secrets'
         deploy:
             resources:
                 limits:

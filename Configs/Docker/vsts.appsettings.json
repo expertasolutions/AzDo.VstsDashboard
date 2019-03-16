@@ -3,7 +3,7 @@
     "name":"prod"
   },
   "azureDevOpsDetails": {
-    "orgName":"myorg",
-    "pat":"mypat"
+    "orgName":"__yourOrg__",
+    "pat":"__yourPAT__"
   }
 }

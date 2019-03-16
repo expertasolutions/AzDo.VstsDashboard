@@ -1,4 +1,11 @@
+## Stage 1 (Build)
+
 FROM nginx:alpine
+
+#RUN npm install
+#RUN ng build
+
+## Stage 2 (Setup)
 
 COPY nginx.conf /etc/nginx/nginx.conf
 
