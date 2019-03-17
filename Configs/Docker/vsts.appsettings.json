@@ -1,9 +1,0 @@
-{
-  "env": {
-    "name":"prod"
-  },
-  "azureDevOpsDetails": {
-    "orgName":"__yourOrg__",
-    "pat":"__yourPAT__"
-  }
-}
