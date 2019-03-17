@@ -3,7 +3,7 @@ version: '3.1'
 services:
     app:
         image: 'vstsdashboard'
-        build: '.'
+        build: '../app'
         ports:
             - 3000:80
             - 8080:80
