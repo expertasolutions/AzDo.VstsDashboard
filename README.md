@@ -19,5 +19,8 @@ The intend was to see what's currently happenned into the CI/CD pipeline and pro
 2) Type this command 'docker-compose build && docker-compose up' and wait
 3) Open a web browser on 'http://localhost:3000' and tada !!!
 
+## Current status
+<img src="https://dev.azure.com/experta/ExpertaSolutions/_apis/build/status/GitHub-VstsDasboard-CI?branchName=master">
+
 ## Next: 
 - How to build and release it to Kubernetes cluster with AzureDevOps Build and Release pipeline
