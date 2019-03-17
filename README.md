@@ -12,7 +12,7 @@ The intend was to see what's currently happenned into the CI/CD pipeline and pro
 2) Copy the content of the file 'vsts.appsettings.template.json' into your file 'vsts.appsettings.json'
 3) Put your AzureDevOps value into these properties
 - OrgName: name of your AzureDevOps subscription
-- PAT: Personal Access Token from you AzureDevOps (just give access in read to build and release scope)
+- PAT: Personal Access Token from you AzureDevOps (just give access to read to build and release scope)
 
 ## Build it from command line or vscode terminal
 1) With the command line or vscode terminal, go into 'Builds' folder
