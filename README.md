@@ -20,7 +20,7 @@ The intend was to see what's currently happenned into the CI/CD pipeline and pro
 3) Open a web browser on 'http://localhost:3000' and tada !!!
 
 ## Current status
-<img src="https://dev.azure.com/experta/ExpertaSolutions/_apis/build/status/GitHub-VstsDasboard-CI?branchName=master">
+[![Build status](https://dev.azure.com/experta/ExpertaSolutions/_apis/build/status/GitHub-VstsDasboard-CI)](https://dev.azure.com/experta/ExpertaSolutions/_build/latest?definitionId=204)
 
 ## Next: 
 - How to build and release it to Kubernetes cluster with AzureDevOps Build and Release pipeline
