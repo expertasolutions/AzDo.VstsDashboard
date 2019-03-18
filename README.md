@@ -11,8 +11,8 @@ The intend was to see what's currently happened into the CI/CD pipeline and prov
     This file will not get push into git (see .gitignore files)
 2) Copy the content of the file 'vsts.appsettings.template.json' into your file 'vsts.appsettings.json'
 3) Put your AzureDevOps value into these properties
-- OrgName: name of your AzureDevOps subscription
-- PAT: Personal Access Token from your AzureDevOps (just give access to read to build and release scope)
+    - OrgName: name of your AzureDevOps subscription
+    - PAT: Personal Access Token from your AzureDevOps (just give access to read to build and release scope)
 
 ## Build it from command line or vscode terminal
 1) With the command line or vscode terminal, go into 'Builds' folder
