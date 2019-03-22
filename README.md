@@ -23,4 +23,5 @@ The intend was to see what's currently happened into the CI/CD pipeline and prov
 [![Build status](https://dev.azure.com/experta/ExpertaSolutions/_apis/build/status/GitHub-VstsDasboard-CI)](https://dev.azure.com/experta/ExpertaSolutions/_build/latest?definitionId=204)
 
 ## Next: 
+- TFS on premise support
 - How to build and release it to Kubernetes cluster with AzureDevOps Build and Release pipeline
