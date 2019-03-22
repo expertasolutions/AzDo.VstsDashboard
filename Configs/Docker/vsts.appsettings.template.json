@@ -2,6 +2,7 @@
   "env": {
     "name":"prod"
   },
+  "TfsKind": "AzureDevOps",
   "azureDevOpsDetails": {
     "orgName":"__yourOrg__",
     "pat":"__yourPAT__"

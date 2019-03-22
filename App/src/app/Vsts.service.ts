@@ -11,9 +11,17 @@ export class VstsDataService {
   private orgName = null;
   private pat = null;
 
-  constructor(private http:HttpClient){
+  private tfsUrl = null;
+
+  constructor(private http:HttpClient) {
     this.orgName = DashboardConfig.settings.azureDevOpsDetails.orgName;
     this.pat = DashboardConfig.settings.azureDevOpsDetails.pat;
+    console.log("tfs Kind: " + DashboardConfig.settings.tfsKind);
+    if(DashboardConfig.settings.tfsKind == "OnPremise"){
+      this.tfsUrl = DashboardConfig.settings.OnPremise.TfsUrl;
+    } else {
+      this.tfsUrl = "https://dev.azure.com/" + this.orgName;
+    }
 
     this._token = "Basic " + btoa(":" + this.pat);
     this.__HEADER = new HttpHeaders()
@@ -23,17 +31,20 @@ export class VstsDataService {
   }
 
   getProjects() : Observable<object> {
-    var projectListUrl = "https://dev.azure.com/" + this.orgName + "/_apis/projects?api-version=5.0-preview.3";
+    var projectListUrl = this.tfsUrl + "/_apis/projects?api-version=5.0-preview.3";
     return this.http.get(projectListUrl, this._httpOptions);
   }
 
   getDeployments(projectName, minTime) : Observable<object>{
-    var deploymentUrl = "https://vsrm.dev.azure.com/" + this.orgName + "/"+ projectName + "/_apis/release/deployments?minStartedTime=" + minTime + "&api-version=5.0-preview.2";
+    var relUrl = "https://vsrm.dev.azure.com/" + this.orgName;
+
+    var deploymentUrl = relUrl + "/"+ projectName + "/_apis/release/deployments?minStartedTime=" + minTime + "&api-version=5.0-preview.2";
+    
     return this.http.get(deploymentUrl, this._httpOptions)
   }
 
   getBuilds(projectName, minTime) : Observable<object>{
-    var buildDefUrl = "https://dev.azure.com/" + this.orgName + "/" + projectName + "/_apis/build/builds?minTime=" + minTime + "&queryOrder=queueTimeAscending&deletedFilter=includeDeleted&api-version=5.0-preview.5";
+    var buildDefUrl = this.tfsUrl + "/" + projectName + "/_apis/build/builds?minTime=" + minTime + "&queryOrder=queueTimeAscending&deletedFilter=includeDeleted&api-version=5.0-preview.5";
     return this.http.get(buildDefUrl, this._httpOptions);
   }
 }
