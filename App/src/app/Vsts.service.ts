@@ -33,7 +33,7 @@ export class VstsDataService {
   }
 
   getDeployments(projectName, minTime) : Observable<object>{
-    var deploymentUrl = this.tfsUrl + projectName + "/_apis/release/releases?minStartedTime=" + minTime + "&api-version=" + this._apiVersions.releases;
+    var deploymentUrl = this.tfsUrl + projectName + "/_apis/release/deployments?minStartedTime=" + minTime + "&api-version=" + this._apiVersions.releases;
     return this.http.get(deploymentUrl, this._httpOptions)
   }
 
