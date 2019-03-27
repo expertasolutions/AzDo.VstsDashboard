@@ -14,7 +14,7 @@ The intend was to see what's currently happened into the CI/CD pipeline and prov
         - AzureDevOps -> (https://dev.azure.com/{your_organization_name}/)
         - Tfs On Premise -> (http|https://{your_tfs_server}:8080/tfs/DefaultCollection)
     - PAT: Personal Access Token from your AzureDevOps (just give access to read to build and release scope)
-    - ApiVersion: TDB
+    - ApiVersion: Set the API-version for builds, releases and projects TFS Rest API
 
 ## Build it from command line or vscode terminal
 1) With the command line or vscode terminal, go into 'Builds' folder
@@ -25,4 +25,5 @@ The intend was to see what's currently happened into the CI/CD pipeline and prov
 [![Build status](https://dev.azure.com/experta/ExpertaSolutions/_apis/build/status/GitHub-VstsDasboard-CI)](https://dev.azure.com/experta/ExpertaSolutions/_build/latest?definitionId=204)
 
 ## Next: 
-- How to build and release it to Kubernetes cluster with AzureDevOps Build and Release pipeline
+- Build and Release instruction for Kubernetes cluster
+- docker-compose.yaml with docker hub container image reference
