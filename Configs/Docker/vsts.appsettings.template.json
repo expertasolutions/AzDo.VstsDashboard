@@ -2,9 +2,13 @@
   "env": {
     "name":"prod"
   },
-  "TfsKind": "AzureDevOps",
-  "azureDevOpsDetails": {
-    "orgName":"__yourOrg__",
-    "pat":"__yourPAT__"
+  "TfsAccessInfo": {
+    "TfsUrl":"https://dev.azure.com/__yourOrg__/",
+    "pat":"__yourPAT__",
+    "apiVersion": {
+      "projects": "5.1-preview.3",
+      "builds": "5.1-preview.2",
+      "releases": "5.1-preview.5"
+    }
   }
 }

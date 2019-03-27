@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { VstsDataService } from './Vsts.service';
-import { DashboardConfig } from './dashboard.config';
 
 @Component({
   selector: 'app-root',
@@ -21,7 +20,7 @@ export class AppComponent {
 
   _minDate = null;
 
-  constructor(private _vstsService : VstsDataService) { 2
+  constructor(private _vstsService : VstsDataService) {
     
   }
 

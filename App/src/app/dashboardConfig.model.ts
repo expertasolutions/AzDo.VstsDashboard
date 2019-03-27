@@ -2,12 +2,15 @@ export interface IDashboardConfig {
   env: {
     name:string;
   },
-  tfsKind:string;
-  azureDevOpsDetails:{
-    orgName:string;
-    pat:string;
-  },
-  OnPremise: {
+  TfsAccessInfo: {
     TfsUrl:string;
+    pat:string;
+    apiVersion :IApiVersion;
   }
+}
+
+export interface IApiVersion{
+    projects:string;
+    builds:string;
+    releases:string;
 }
