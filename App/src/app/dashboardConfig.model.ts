@@ -13,4 +13,5 @@ export interface IApiVersion{
     projects:string;
     builds:string;
     releases:string;
+    resourceAreas:string;
 }
