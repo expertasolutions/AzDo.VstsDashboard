@@ -7,7 +7,7 @@ The intend was to see what's currently happened into the CI/CD pipeline and prov
 
 ## Local setup from the code
 1) Create a file named 'vsts.appsettings.json' into the folder 'Configs/Docker'.
-    This file will not get push into git (see .gitignore files)
+    This file will not get push into git (see .gitignore file)
 2) Copy the content of the file 'vsts.appsettings.template.json' into your file 'vsts.appsettings.json'
 3) Put your AzureDevOps value into these properties
     - TfsUrl: Tfs Url of your Tfs or Azure DevOps source control
