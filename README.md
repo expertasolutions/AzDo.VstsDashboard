@@ -16,7 +16,8 @@ The intend was to see what's currently happened into the CI/CD pipeline and prov
     - PAT: Personal Access Token from your AzureDevOps (just give access to read to build and release scope)
     - ApiVersion: Set the API-version for builds, releases and projects TFS Rest API
 
-## Vsts.appSettings.json example
+## Example of vsts.appsettings.json
+### Azure DevOps vsts.appsettings.json
 ```json
 {
   "env": {
@@ -30,6 +31,24 @@ The intend was to see what's currently happened into the CI/CD pipeline and prov
       "builds": "5.0-preview.2",
       "releases": "5.0-preview.5",
       "resourceAreas": "5.0-preview.1"
+    }
+  }
+}
+```
+### Azure DevOps Server vsts.appsettings.json
+```json
+{
+  "env": {
+    "name":"prod"
+  },
+  "TfsAccessInfo": {
+    "TfsUrl": "https://{YOUR_TFS_IP}:8080/tfs/defaultCollection/",
+    "pat": "__yourPAT__",
+    "apiVersion": {
+      "projects": "4.1",
+      "builds":"4.1",
+      "releases":"4.1-preview.6",
+      "resourceAreas":"0"
     }
   }
 }
