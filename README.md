@@ -17,8 +17,8 @@ The intend was to see what's currently happened into the CI/CD pipeline and prov
     - ApiVersion: Set the API-version for builds, releases and projects TFS Rest API
       To find the specifics ApiVersion required, please take a look on the [Azure DevOps Services REST API Reference](https://docs.microsoft.com/en-us/rest/api/azure/devops/?view=azure-devops-rest-5.0) to find which apply to your TFS.
 
-## Example of vsts.appsettings.json
-### Azure DevOps vsts.appsettings.json
+## Example of 'vsts.appsettings.json' file content
+### Azure DevOps 'vsts.appsettings.json' file
 ```json
 {
   "env": {
@@ -36,7 +36,7 @@ The intend was to see what's currently happened into the CI/CD pipeline and prov
   }
 }
 ```
-### Azure DevOps Server vsts.appsettings.json
+### Azure DevOps Server 'vsts.appsettings.json' file
 ```json
 {
   "env": {
