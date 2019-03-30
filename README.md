@@ -1,4 +1,4 @@
-# CI/CD Dashboard
+# CI/CD dashboard
 
 ## Objectives
 
