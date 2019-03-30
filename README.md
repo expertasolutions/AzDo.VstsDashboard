@@ -1,9 +1,9 @@
-# VstsDashboard
+# CI/CD Dashboard
 
 ## Objectives
 
 Provide a simple way to view all Builds and Releases on a single page.
-The intend was to see what's currently happened into the CI/CD pipeline and provide quick feedback of what's going on
+The intend was to see what's currently happened into the CI/CD pipeline and provide quick feedback of what's going on.
 
 ## Local setup from the code
 1) Create a file named 'vsts.appsettings.json' into the folder 'Configs/Docker'.
@@ -15,6 +15,7 @@ The intend was to see what's currently happened into the CI/CD pipeline and prov
         - Tfs On Premise -> (http|https://{your_tfs_server}:8080/tfs/DefaultCollection)
     - PAT: Personal Access Token from your AzureDevOps (just give access to read to build and release scope)
     - ApiVersion: Set the API-version for builds, releases and projects TFS Rest API
+      To find the specifics ApiVersion required, please take a look on the [Azure DevOps Services REST API Reference](https://docs.microsoft.com/en-us/rest/api/azure/devops/?view=azure-devops-rest-5.0) to find which apply to your TFS.
 
 ## Example of vsts.appsettings.json
 ### Azure DevOps vsts.appsettings.json
@@ -47,7 +48,7 @@ The intend was to see what's currently happened into the CI/CD pipeline and prov
     "apiVersion": {
       "projects": "4.1",
       "builds":"4.1",
-      "releases":"4.1-preview.6",
+      "releases":"4.1-preview.2",
       "resourceAreas":"0"
     }
   }

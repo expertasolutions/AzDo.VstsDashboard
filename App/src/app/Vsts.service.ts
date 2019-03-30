@@ -31,8 +31,17 @@ export class VstsDataService {
                         .append("Content-Type", "application/json");
     this._httpOptions = { headers : this.__HEADER };
 
-    this.loadUrl(this._coreAreaId).then(url => this._coreUrl = url);
-    this.loadUrl(this._releaseManagementAreaId).then(url => this._releaseUrl = url);
+
+    if(this._apiVersions.resourceAreas === "0") {
+      this._coreUrl = this.tfsUrl;
+      this._releaseUrl = this.tfsUrl;
+    }
+    else {
+      this.loadUrl(this._coreAreaId).then(url => this._coreUrl = url);
+      this.loadUrl(this._releaseManagementAreaId).then(url => this._releaseUrl = url);
+    }
+    console.log(this._coreUrl);
+    console.log(this._releaseUrl);
   }
 
   loadUrl(areaId): Promise<string> {
