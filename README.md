@@ -28,9 +28,9 @@ The intend was to see what's currently happened into the CI/CD pipeline and prov
     "TfsUrl":"https://dev.azure.com/__yourOrg__/",
     "pat":"__yourPAT__",
     "apiVersion": {
-      "projects": "5.0-preview.3",
-      "builds": "5.0-preview.2",
-      "releases": "5.0-preview.5",
+      "projects": "5.1-preview.3",
+      "builds": "5.1-preview.2",
+      "releases": "5.1-preview.5",
       "resourceAreas": "5.0-preview.1"
     }
   }
