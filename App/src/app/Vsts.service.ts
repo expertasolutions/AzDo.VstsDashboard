@@ -2,9 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { DashboardConfig } from './dashboard.config';
-import { getUrlScheme } from '@angular/compiler';
-import { resolve } from 'url';
-import { rejects } from 'assert';
 
 @Injectable()
 export class VstsDataService {
@@ -36,12 +33,6 @@ export class VstsDataService {
 
     this.loadUrl(this._coreAreaId).then(url => this._coreUrl = url);
     this.loadUrl(this._releaseManagementAreaId).then(url => this._releaseUrl = url);
-
-    console.log("coreUrl");
-    console.log(this._coreUrl);
-
-    console.log("releaseUrl")
-    console.log(this._releaseUrl);
   }
 
   loadUrl(areaId): Promise<string> {
@@ -49,9 +40,7 @@ export class VstsDataService {
 
     return this.http.get(orgResUrl).toPromise()
       .then(data => {
-          console.log(data);
           var locationUrl = data['locationUrl'];
-          console.log("locationUrl = " + locationUrl);
           return locationUrl;
         }
       );

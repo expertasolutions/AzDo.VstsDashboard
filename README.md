@@ -16,6 +16,25 @@ The intend was to see what's currently happened into the CI/CD pipeline and prov
     - PAT: Personal Access Token from your AzureDevOps (just give access to read to build and release scope)
     - ApiVersion: Set the API-version for builds, releases and projects TFS Rest API
 
+## Vsts.appSettings.json example
+```json
+{
+  "env": {
+    "name":"prod"
+  },
+  "TfsAccessInfo": {
+    "TfsUrl":"https://dev.azure.com/__yourOrg__/",
+    "pat":"__yourPAT__",
+    "apiVersion": {
+      "projects": "5.0-preview.3",
+      "builds": "5.0-preview.2",
+      "releases": "5.0-preview.5",
+      "resourceAreas": "5.0-preview.1"
+    }
+  }
+}
+```
+
 ## Build it from command line or vscode terminal
 1) With the command line or vscode terminal, go into 'Builds' folder
 2) Type this command 'docker-compose build && docker-compose up --force-recreate' and wait
