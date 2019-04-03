@@ -5,7 +5,6 @@
 Provide a simple way to view all Builds and Releases on a single page.
 The intend was to see what's currently happened into the CI/CD pipeline and provide quick feedback of what's going on.
 
-## Current UI
 ![CICD_Screencapture](Screenshots/CI_CD_Dashboard.jpg)
 
 ## Local setup from the code
