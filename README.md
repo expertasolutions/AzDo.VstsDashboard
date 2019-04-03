@@ -14,7 +14,7 @@ The intend was to see what's currently happened into the CI/CD pipeline and prov
 3) Put your AzureDevOps value into these properties
     - TfsUrl: Tfs Url of your Tfs or Azure DevOps source control
         - AzureDevOps -> (https://dev.azure.com/{your_organization_name}/)
-        - Tfs On Premise -> (http|https://{your_tfs_server}:8080/tfs/DefaultCollection)
+        - TFS On Premise -> (http|https://{your_tfs_server}:8080/tfs/DefaultCollection)
     - PAT: Personal Access Token from your AzureDevOps (just give access to read to build and release scope)
     - ApiVersion: Set the API-version for builds, releases and projects TFS Rest API
       To find the specifics ApiVersion required, please take a look on the [Azure DevOps Services REST API Reference](https://docs.microsoft.com/en-us/rest/api/azure/devops/?view=azure-devops-rest-5.0) to find which apply to your TFS.
