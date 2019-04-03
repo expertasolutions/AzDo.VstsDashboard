@@ -76,8 +76,8 @@
           <tbody>
             <tr *ngFor="let qBuild of buildsList" class="{{qBuild.result}} {{qBuild.status}}">
               <td style="font-size:10pt;">
-                <b>Team project:</b> {{qBuild.project.name}}<br>
-                <b>Build definition:</b> {{qBuild.definition.name}}
+                <b>Build definition:</b> {{qBuild.definition.name}}<br>
+                <b>Team project:</b> {{qBuild.project.name}}
                 <div style="font-size:8pt;">
                   <b>Requested by:</b> {{qBuild.requestedFor.displayName}} ({{qBuild.result}})
                 </div>

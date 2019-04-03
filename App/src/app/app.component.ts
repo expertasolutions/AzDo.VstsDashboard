@@ -56,7 +56,6 @@ export class AppComponent {
       for(let feB in this.buildsList){
         var build = this.buildsList[feB];
         var emplInfo = this.emplList.find(x=> x.id == build.requestedFor.id);
-        console.log(build);
         if(emplInfo == null) {
           var emplDetails = { 
             emplName : build.requestedFor.displayName, id: build.requestedFor.id, 
@@ -150,7 +149,6 @@ export class AppComponent {
                 var arr = data['value'];
                 for(let feB in arr){
                   var currentBuild = arr[feB];
-                  //console.log(currentBuild);
 
                   var elm = this.buildsList.find(x=> x.id == currentBuild.id);
 

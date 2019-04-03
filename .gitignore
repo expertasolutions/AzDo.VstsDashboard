@@ -1,4 +1,4 @@
 node_modules
-package-lock.json
 dist
+secrets
 configs/docker/vsts.appsettings.json
