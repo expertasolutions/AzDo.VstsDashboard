@@ -7,9 +7,10 @@ RUN apk add
 RUN apk add --update nodejs nodejs-npm
 
 RUN npm install -g @angular/cli
-RUN ng --version
 RUN npm install
 COPY . ./
+
+RUN ng --version
 RUN ng build
 
 ## Stage 2 (Setup)
