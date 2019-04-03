@@ -6,7 +6,7 @@ Provide a simple way to view all Builds and Releases on a single page.
 The intend was to see what's currently happened into the CI/CD pipeline and provide quick feedback of what's going on.
 
 ## Current UI
-![CICD_Screencapture](screenshots/CI_CD_Dashboard.jpg)
+![CICD_Screencapture](Screenshots/CI_CD_Dashboard.jpg)
 
 ## Local setup from the code
 1) Create a file named 'vsts.appsettings.json' into the folder 'Configs/Docker'.
