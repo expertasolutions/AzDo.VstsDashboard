@@ -22,10 +22,10 @@ spec:
         resources:
           limits:
             cpu: "0.05"
-            memory: "200Mi"
+            memory: "50Mi"
           requests:
             cpu: "0.05"
-            memory: "200Mi"
+            memory: "50Mi"
       volumes:
       - name: vstsvol__envName__
         secret:
