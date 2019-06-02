@@ -61,6 +61,12 @@
     background-color: orange;
   }
 
+  .nothingToShow {
+    text-align: center;
+    color:lightslategray;
+    font-weight: bold;
+  }
+
 </style>
 <div class="container-fluid">
   <div class="row">
@@ -68,12 +74,17 @@
         <table class="table table-sm" style="font-size: 11pt;">
           <thead class="table-dark">
             <tr>
-              <th style="width:350px;">Definition Name</th>
-              <th style="width:150px;">Build</th>
+              <th style="width:300px;">Definition Name</th>
+              <th style="width:200px;">Build</th>
               <th style="width:250px;">Release</th>
             </tr>
           </thead>
           <tbody>
+            <tr *ngIf="buildsList.length < 1">
+              <td colspan="3" class="nothingToShow">
+                Nothing to show
+              </td>
+            </tr>
             <tr *ngFor="let qBuild of buildsList" class="{{qBuild.result}} {{qBuild.status}}">
               <td style="font-size:10pt;">
                 <b>Build definition:</b> {{qBuild.definition.name}}<br>
@@ -115,6 +126,11 @@
                 <th style="width:75px; text-align:right;">Status</th>
               </thead>
               <tbody>
+                <tr *ngIf="_teamProjectsSummary.length < 1">
+                  <td colspan="4" class="nothingToShow">
+                    Nothing to show
+                  </td>
+                </tr>
                 <tr *ngFor="let qProject of _teamProjectsSummary">
                   <td style="vertical-align: middle; font-weight: bold;">{{qProject.name}}</td>
                   <td style="text-align: center;font-weight: bold; vertical-align: middle;">{{qProject.buildCount}}</td>
@@ -142,6 +158,11 @@
               </tr>
             </thead>
             <tbody>
+              <tr *ngIf="_teamProjectsSummary.length < 1">
+                <td colspan="4" class="nothingToShow">
+                  Nothing to show
+                </td>
+              </tr>
               <tr *ngFor="let fEmpl of emplList">
                 <td>{{fEmpl.emplName}}</td>
                 <td style="text-align: center;font-weight: bold; vertical-align: middle;">{{fEmpl.buildCount}}</td>
