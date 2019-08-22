@@ -1,0 +1,15 @@
+{
+    "env": {
+      "name":"prod"
+    },
+    "TfsAccessInfo": {
+      "TfsUrl":"https://dev.azure.com/__yourOrg__/",
+      "pat":"__yourPAT__",
+      "apiVersion": {
+        "projects": "5.0",
+        "builds": "5.0",
+        "releases": "5.0",
+        "resourceAreas": "5.0"
+      }
+    }
+  }
