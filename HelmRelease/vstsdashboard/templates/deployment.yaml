@@ -3,20 +3,20 @@ kind: Deployment
 metadata:
   name: "{{ .Release.Name }}"
   labels:
-    app.kubernetes.io/name: {{ include "cicdboard.name" . }}
-    helm.sh/chart: {{ include "cicdboard.chart" . }}
+    app.kubernetes.io/name: {{ include "vstsdashboard.name" . }}
+    helm.sh/chart: {{ include "vstsdashboard.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ include "cicdboard.name" . }}
+      app.kubernetes.io/name: {{ include "vstsdashboard.name" . }}
       app.kubernetes.io/instance: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: {{ include "cicdboard.name" . }}
+        app.kubernetes.io/name: {{ include "vstsdashboard.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       volumes:
