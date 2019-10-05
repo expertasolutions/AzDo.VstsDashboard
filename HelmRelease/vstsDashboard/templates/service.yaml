@@ -3,8 +3,8 @@ kind: Service
 metadata:
   name: "{{ .Release.Name }}"
   labels:
-    app.kubernetes.io/name: {{ include "vstsDashboard.name" . }}
-    helm.sh/chart: {{ include "vstsDashboard.chart" . }}
+    app.kubernetes.io/name: {{ include "vstsdashboard.name" . }}
+    helm.sh/chart: {{ include "vstsdashboard.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
@@ -15,5 +15,5 @@ spec:
       protocol: TCP
       name: http
   selector:
-    app.kubernetes.io/name: {{ include "vstsDashboard.name" . }}
+    app.kubernetes.io/name: {{ include "vstsdashboard.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}

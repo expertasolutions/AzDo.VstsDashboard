@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: "{{ include "vstsDashboard.fullname" . }}-test-connection"
+  name: "{{ include "vstsdashboard.fullname" . }}-test-connection"
   labels:
-    app.kubernetes.io/name: {{ include "vstsDashboard.name" . }}
-    helm.sh/chart: {{ include "vstsDashboard.chart" . }}
+    app.kubernetes.io/name: {{ include "vstsdashboard.name" . }}
+    helm.sh/chart: {{ include "vstsdashboard.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
   annotations:
@@ -14,5 +14,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args:  ['{{ include "vstsDashboard.fullname" . }}:{{ .Values.service.port }}']
+      args:  ['{{ include "vstsdashboard.fullname" . }}:{{ .Values.service.port }}']
   restartPolicy: Never
