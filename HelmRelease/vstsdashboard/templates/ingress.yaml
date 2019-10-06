@@ -1,0 +1,28 @@
+{{- if .Values.ingress.enabled -}}
+  {{- $fullName := include "vstsdashboard.fullname" . -}}
+  {{- $ingressPaths := .Values.ingress.paths -}}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ $fullName }}
+  labels:
+    app.kubernetes.io/name: {{ include "vstsdashboard.name" . }}
+    helm.sh/chart: {{ include "vstsdashboard.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+  {{- with .Values.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  rules:
+  {{- range .Values.ingress.hosts }}
+    - host: {{ . | quote }}
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName : {{ $fullName }}
+              servicePort: 80
+  {{- end}}
+{{- end }}
