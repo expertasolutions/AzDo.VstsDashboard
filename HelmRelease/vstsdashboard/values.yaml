@@ -4,8 +4,7 @@ image:
   tag: __build.fullVersion__
   pullPolicy: IfNotPresent
 envName: dev
-env:
-  secretContent: _invalid_
+appSettingsSecretContent: _invalid_
 vstsInfo:
   url: _invalid_
   patToken: _invalid_
