@@ -22,7 +22,7 @@ spec:
       volumes:
       - name: appsettings
         secret:
-          secretName: {{ .Release.Name }}}-secrets
+          secretName: {{ .Release.Name }}-secrets
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
