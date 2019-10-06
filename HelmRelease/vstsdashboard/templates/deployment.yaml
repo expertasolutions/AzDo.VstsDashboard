@@ -20,7 +20,7 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       volumes:
-      - name: "vstsvol{{ .Values.envName }}"
+      - name: appsettings
         secret:
           secretName: {{ .Release.Name }}}-secrets
       containers:
@@ -32,7 +32,7 @@ spec:
               containerPort: 80
               protocol: TCP
           volumeMounts:
-          - name: "vstsvol{{ .Values.envName }}"
+          - name: appsettings
             mountPath: /app/secrets
             readOnly: true
           #livenessProbe:
