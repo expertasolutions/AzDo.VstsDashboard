@@ -22,7 +22,7 @@ spec:
       volumes:
       - name: "vstsvol{{ .Values.envName }}"
         secret:
-          secretName: "secret-vstsdashboard-appsettings{{ .Values.envName }}"
+          secretName: {{ .Release.Name }}}-secrets
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
