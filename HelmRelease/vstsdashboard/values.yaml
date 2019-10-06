@@ -1,6 +1,6 @@
 replicaCount: 1
 image:
-  repository: docker.io/lturmel/vstsdashboard:__build.fullVersion__
+  repository: docker.io/lturmel/vstsdashboard
   tag: __build.fullVersion__
   pullPolicy: IfNotPresent
 envName: dev
