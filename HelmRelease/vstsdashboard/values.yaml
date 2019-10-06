@@ -1,7 +1,7 @@
 replicaCount: 1
 image:
   repository: docker.io/lturmel/vstsdashboard
-  tag: __build.fullVersion__
+  tag: __build.SourceBranchName__-__build.fullVersion__
   pullPolicy: IfNotPresent
 envName: dev
 appSettingsSecretContent: _invalid_
