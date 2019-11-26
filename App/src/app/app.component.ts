@@ -28,7 +28,7 @@ export class AppComponent {
     this.refreshData(true);
     this.interval = setInterval(() => {
       this.refreshData(false);
-    }, 2000);
+    }, 5000);
   }
 
   ngOnDestroy(){
