@@ -1,4 +1,4 @@
-name: CI-VstsDashboard-v$(date:yyMMdd)$(rev:.r)-$(Build.SourceBranchName)
+name: CD-GitHub-VstsDashboard-v$(date:yyMMdd)$(rev:.r)-$(Build.SourceBranchName)
 
 trigger:
 - master
@@ -20,9 +20,9 @@ steps:
   name: build
   displayName: 'Version extractor digit'
   inputs:
-    stringToAnalyze: '$(Build.BuildNumber)'
+    stringToAnalyze: '$(build.buildNumber)'
 
-- task: qetza.replacetokens.replacetokens-task.replacetokens@3
+- task: replacetokens@3
   displayName: 'Replace tokens in **/values.yaml **/Chart.yaml'
   inputs:
     targetFiles: |
@@ -33,11 +33,20 @@ steps:
     tokenSuffix: '__'
 
 - task: Docker@2
-  displayName: 'Build an image to Experta Container Registry (hub.docker.com)'
+  displayName: 'Push an image to Experta Container Registry'
+  inputs:
+    containerRegistry: 'docker-lturmel'
+    repository: '$(Build.SourceBranchName).$(Build.Repository.Name)'
+    Dockerfile: App/dockerfile
+    buildContext: App
+    tags: '$(build.fullVersion)'
+  enabled: false
+
+- task: Docker@2
+  displayName: 'Push an image to Experta Container Registry (hub.docker.com)'
   inputs:
     containerRegistry: 'docker-lturmel'
     repository: lturmel/vstsdashboard
-    command: build
     Dockerfile: App/dockerfile
     buildContext: App
     tags: |
@@ -47,3 +56,32 @@ steps:
 
 - powershell: 'docker system prune --force'
   displayName: 'Purge unused docker images'
+
+- task: CopyFiles@2
+  displayName: 'Copy Configs'
+  inputs:
+    SourceFolder: Configs
+    Contents: |
+     **/*.yaml
+     **/*.release.json
+    TargetFolder: '$(build.artifactstagingdirectory)\Configs'
+
+- task: CopyFiles@2
+  displayName: 'Copy HelmChart'
+  inputs:
+    SourceFolder: HelmRelease
+    Contents: '**/*'
+    TargetFolder: '$(build.artifactstagingdirectory)\HelmRelease'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Configs Artifacts'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)\Configs'
+    ArtifactName: Configs
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish HelmRelease Artifacts'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)\HelmRelease'
+    ArtifactName: HelmRelease
+
