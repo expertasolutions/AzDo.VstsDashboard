@@ -1,9 +1,5 @@
 name: CD-GitHub-VstsDashboard-v$(date:yyMMdd)$(rev:.r)-$(Build.SourceBranchName)
 
-trigger:
-- master
-- Issue*
-
 pr:
 - master
 
