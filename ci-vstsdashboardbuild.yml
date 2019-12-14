@@ -1,0 +1,49 @@
+name: CI-VstsDashboard-v$(date:yyMMdd)$(rev:.r)-$(Build.SourceBranchName)
+
+trigger:
+- master
+- Issue*
+
+pr:
+- master
+
+pool:
+  name: MacNetCorePools
+workspace:
+ clean: true
+
+steps:
+- task: UseNode@1
+  displayName: 'Use Node 10.x'
+
+- task: VersionExtractor@5
+  name: build
+  displayName: 'Version extractor digit'
+  inputs:
+    stringToAnalyze: '$(Build.BuildNumber)'
+
+- task: qetza.replacetokens.replacetokens-task.replacetokens@3
+  displayName: 'Replace tokens in **/values.yaml **/Chart.yaml'
+  inputs:
+    targetFiles: |
+     **/values.yaml
+     **/Chart.yaml
+    keepToken: true
+    tokenPrefix: '__'
+    tokenSuffix: '__'
+
+- task: Docker@2
+  displayName: 'Build an image to Experta Container Registry (hub.docker.com)'
+  inputs:
+    containerRegistry: 'docker-lturmel'
+    repository: lturmel/vstsdashboard
+    command: build
+    Dockerfile: App/dockerfile
+    buildContext: App
+    tags: |
+     $(Build.SourceBranchName)-$(build.fullVersion)
+     $(Build.SourceBranchName)-latest
+     latest
+
+- powershell: 'docker system prune --force'
+  displayName: 'Purge unused docker images'
