@@ -1,19 +1,49 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+name: CI-VstsDashboard-v$(date:yyMMdd)$(rev:.r)-$(Build.SourceBranchName)
 
 trigger:
 - master
+- Issue*
+
+pr:
+- master
 
 pool:
-  vmImage: 'ubuntu-latest'
+  name: MacNetCorePools
+workspace:
+ clean: true
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+- task: UseNode@1
+  displayName: 'Use Node 10.x'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+- task: VersionExtractor@5
+  name: build
+  displayName: 'Version extractor digit'
+  inputs:
+    stringToAnalyze: '$(Build.BuildNumber)'
+
+- task: qetza.replacetokens.replacetokens-task.replacetokens@3
+  displayName: 'Replace tokens in **/values.yaml **/Chart.yaml'
+  inputs:
+    targetFiles: |
+     **/values.yaml
+     **/Chart.yaml
+    keepToken: true
+    tokenPrefix: '__'
+    tokenSuffix: '__'
+
+- task: Docker@2
+  displayName: 'Build an image to Experta Container Registry (hub.docker.com)'
+  inputs:
+    containerRegistry: 'docker-lturmel'
+    repository: lturmel/vstsdashboard
+    command: build
+    Dockerfile: App/dockerfile
+    buildContext: App
+    tags: |
+     $(Build.SourceBranchName)-$(build.fullVersion)
+     $(Build.SourceBranchName)-latest
+     latest
+
+- powershell: 'docker system prune --force'
+  displayName: 'Purge unused docker images'
