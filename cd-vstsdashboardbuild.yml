@@ -47,9 +47,6 @@ steps:
      $(Build.SourceBranchName)-latest
      latest
 
-- powershell: 'docker system prune --force'
-  displayName: 'Purge unused docker images'
-
 - task: CopyFiles@2
   displayName: 'Copy Configs'
   inputs:
