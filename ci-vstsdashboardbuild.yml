@@ -44,6 +44,3 @@ steps:
      $(Build.SourceBranchName)-$(build.fullVersion)
      $(Build.SourceBranchName)-latest
      latest
-
-- powershell: 'docker system prune --force'
-  displayName: 'Purge unused docker images'
