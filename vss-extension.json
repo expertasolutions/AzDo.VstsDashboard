@@ -35,11 +35,7 @@
   },
   "files": [
     {
-      "path": "app",
-      "addressable": true
-    },
-    {
-      "path": "dist",
+      "path": "app/dist",
       "addressable": true
     }  
   ],
