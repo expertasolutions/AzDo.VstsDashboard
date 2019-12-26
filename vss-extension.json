@@ -47,8 +47,8 @@
         "ms.vss-build-web.build-release-hub-group"
       ],
       "properties": {
-        "name":"CICDPipelines",
-        "order":99,
+        "name":"CI/CD Dashboard",
+        "order":1,
         "uri":"VstsDashboard/index.html"
       }
     }
