@@ -5,7 +5,7 @@
   "version": "0.0.0",
   "name": "CICDDashboard",
   "description": "Track events important to your team, view and manage days off, quickly see when sprints start and end, and more.",
-  "categories": ["Azure Boards"],
+  "categories": ["Azure Pipelines"],
   "targets": [
     {
       "id": "Microsoft.VisualStudio.Services"
