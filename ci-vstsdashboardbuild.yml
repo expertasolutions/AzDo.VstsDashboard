@@ -51,7 +51,7 @@ steps:
 - task: PackageAzureDevOpsExtension@2
   displayName: 'Package Extension: '
   inputs:
-    extensionVersion: '$(versionExtractor.fullVersion)'
+    extensionVersion: '$(build.fullVersion)'
     updateTasksVersion: true
 
 - task: CopyFiles@2
