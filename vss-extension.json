@@ -1,0 +1,45 @@
+{
+  "manifestVersion": 1,
+  "id": "cicd-dashboard",
+  "publisher": "experta",
+  "version": "0.0.0",
+  "name": "CICDDashboard",
+  "description": "Track events important to your team, view and manage days off, quickly see when sprints start and end, and more.",
+  "public": true,
+  "categories": ["Plan and track"],
+  "targets": [
+    {
+      "id": "Microsoft.VisualStudio.Services"
+    }
+  ],
+  "scopes": ["vso.work_write"],
+  "icons": {
+    "default": "icon.png"
+  },
+  "content": {
+    "details": {
+      "path": "README.md"
+    },
+    "license": {
+      "path": "LICENSE"
+    }
+  },
+  "links": {
+    "support": {
+      "uri": "https://github.com/expertasolutions/VstsDashboard/issues"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/expertasolutions/VstsDashboard"
+  },
+  "files": [
+    {
+      "path": "app",
+      "addressable": true
+    },
+    {
+      "path": "dist",
+      "addressable": true
+    }  ]
+}

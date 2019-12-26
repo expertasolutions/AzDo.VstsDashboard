@@ -74,4 +74,3 @@ steps:
   inputs:
     PathtoPublish: '$(build.artifactstagingdirectory)\HelmRelease'
     ArtifactName: HelmRelease
-
