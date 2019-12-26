@@ -41,5 +41,21 @@
     {
       "path": "dist",
       "addressable": true
-    }  ]
+    }  
+  ],
+  "contributions:" [
+    {
+      "id":"cicdpipelines",
+      "type":"CI/CD Pipelines hub",
+      "description": "CI/CD Pipelines in the Work Hub group",
+      "targets":[
+        "ms.vss-work-web.work-hub-group"
+      ],
+      "properties": {
+        "name":"CICDPipelines",
+        "order":99,
+        "uri":"static/cicdpipeline.html"
+      }
+    }
+  ]
 }
