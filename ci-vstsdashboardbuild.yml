@@ -22,25 +22,36 @@ steps:
   inputs:
     stringToAnalyze: '$(Build.BuildNumber)'
 
-- task: qetza.replacetokens.replacetokens-task.replacetokens@3
-  displayName: 'Replace tokens in **/values.yaml **/Chart.yaml'
-  inputs:
-    targetFiles: |
-     **/values.yaml
-     **/Chart.yaml
-    keepToken: true
-    tokenPrefix: '__'
-    tokenSuffix: '__'
+- task: TfxInstaller@2
+  displayName: 'Use Node CLI for Azure DevOps (tfx-cli): v0.6.x'
 
-- task: Docker@2
-  displayName: 'Build an image to Experta Container Registry (hub.docker.com)'
+- task: Npm@1
+  displayName: 'Install TypeScript'
   inputs:
-    containerRegistry: 'docker-lturmel'
-    repository: lturmel/vstsdashboard
-    command: build
-    Dockerfile: App/dockerfile
-    buildContext: App
-    tags: |
-     $(Build.SourceBranchName)-$(build.fullVersion)
-     $(Build.SourceBranchName)-latest
-     latest
+    command: custom
+    verbose: false
+    customCommand: 'install -g typescript'
+
+- task: Npm@1
+  displayName: 'Publish RemoveAzureAdApplication'
+  inputs:
+    command: custom
+    workingDir: App
+    verbose: false
+    customCommand: 'run publishExt'
+
+- task: PackageAzureDevOpsExtension@2
+  displayName: 'Package Extension: '
+  inputs:
+    extensionVersion: '$(versionExtractor.fullVersion)'
+    updateTasksVersion: true
+
+- task: CopyFiles@2
+  displayName: 'Copy Files *.vsix'
+  inputs:
+    SourceFolder: '$(Build.SourcesDirectory)'
+    Contents: '*.vsix'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: drop'
