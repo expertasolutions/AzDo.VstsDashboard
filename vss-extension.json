@@ -44,7 +44,7 @@
       "type":"ms.vss-web.hub",
       "description": "CI/CD Pipelines in the Work Hub group",
       "targets":[
-        "ms.vss-work-web.work-hub-group"
+        "ms.vss-build-web.build-release-hub-group"
       ],
       "properties": {
         "name":"CICDPipelines",
