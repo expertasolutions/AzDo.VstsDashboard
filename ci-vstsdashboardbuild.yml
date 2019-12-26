@@ -33,12 +33,12 @@ steps:
     customCommand: 'install -g typescript'
 
 - task: Npm@1
-  displayName: 'Publish RemoveAzureAdApplication'
+  displayName: 'Publish CICDDashboard'
   inputs:
     command: custom
     workingDir: App
     verbose: false
-    customCommand: 'run publishExt'
+    customCommand: 'run build'
 
 - task: PackageAzureDevOpsExtension@2
   displayName: 'Package Extension: '
