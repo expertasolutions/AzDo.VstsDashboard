@@ -49,7 +49,7 @@
       "properties": {
         "name":"CICDPipelines",
         "order":99,
-        "uri":"static/cicdpipeline.html"
+        "uri":"VstsDashboard/index.html"
       }
     }
   ]
