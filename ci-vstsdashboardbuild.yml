@@ -32,9 +32,17 @@ steps:
     command: custom
     verbose: false
     customCommand: 'install -g typescript'
+    
+- task: Npm@1
+  displayName: 'Build CICDDashboard'
+  inputs:
+    command: custom
+    workingDir: App
+    verbose: false
+    customCommand: 'run build'
 
 - task: Npm@1
-  displayName: 'Publish CICDDashboard'
+  displayName: 'Build CICDDashboard'
   inputs:
     command: custom
     workingDir: App
