@@ -41,7 +41,7 @@
   "contributions": [
     {
       "id":"cicdpipelines",
-      "type":"CI/CD Pipelines hub",
+      "type":"ms.vss-web.hub",
       "description": "CI/CD Pipelines in the Work Hub group",
       "targets":[
         "ms.vss-work-web.work-hub-group"
