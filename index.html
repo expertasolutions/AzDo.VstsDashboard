@@ -11,10 +11,28 @@
             font-size: 14px;
             line-height: 1.3em;
         }
+
         </style>
 </head>
 
 <body style="padding-left: 20px; padding-top: 20px; overflow-y: auto; background-color: #eee">
     
+    <h2>Web Context</h2>
+    <pre id="context-display"></pre>
+    
+    <div id="configuration" style="display:none">
+        <h2>Configuration</h2>
+        <pre id="configuration-display"></pre>
+    </div>
+    <script type="text/javascript">
+        VSS.init({explicitNotifyLoaded: true, usePlatformScripts: true, usePlatformStyles: true, extensionReusedCallback: registerContribution });
+
+        // Show context info when ready
+        VSS.ready(function () {
+            var context = VSS.getWebContext();
+            VSS.notifyLoadSucceeded();
+        });
+
+    </script>
 </body>
 </html>
