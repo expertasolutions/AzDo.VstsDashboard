@@ -17,7 +17,9 @@ import Grids = require("VSS/Controls/Grids");
 
 class buildGrid {
   id: number;
+  teamProject: string;
   definitionName: string;
+  buildNumber: string;
   requestedFor: string;
 }
 
@@ -27,7 +29,9 @@ export function getLastBuilds(source: Array<buildGrid>, target: Grids.Grid): voi
     builds.forEach(b=> {
       source.push({ 
         id: b.id, 
+        teamProject: b.project.name,
         definitionName: b.definition.name,
+        buildNumber: b.buildNumber,
         requestedFor: b.requestedFor.displayName
       });
       target.setDataSource(source);
@@ -38,12 +42,12 @@ export function getLastBuilds(source: Array<buildGrid>, target: Grids.Grid): voi
 var buildContainer = $("#gridLastBuilds");
 var buildSource = new Array<buildGrid>();
 var buildGridOptions: Grids.IGridOptions = {
-  height: "300px",
-  width: "500px",
   source: buildSource,
   columns: [
     { text: "Id", width: 100, index: "id"},
+    { text: "Team Project", width:200, index: "teamProject"},
     { text: "Build Definition", width: 200, index: "definitionName" },
+    { text: "Build #", width:200, index: "buildNumber"},
     { text: "RequestedFor", width: 200, index: "requestedFor" }
   ]
 }
