@@ -34,7 +34,15 @@
   },
   "files": [
     {
+      "path":"scripts",
+      "addressable": true
+    },
+    {
       "path": "index.html",
+      "addressable": true
+    },
+    {
+      "path":"node_modules/vss-web-extension-sdk/lib",
       "addressable": true
     }
   ],

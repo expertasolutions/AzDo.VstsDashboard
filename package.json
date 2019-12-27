@@ -1,0 +1,9 @@
+{
+  "name": "cicd-dashboard",
+  "version": "1.0.0",
+  "description": "CICD Dashboard",
+  "author": "ExpertaSolutions",
+  "dependencies": {
+    "vss-web-extension-sdk": "^2.109.0"
+  }
+}
