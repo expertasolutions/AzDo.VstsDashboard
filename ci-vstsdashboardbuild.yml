@@ -39,13 +39,13 @@ steps:
     command: 'install'
     verbose: false
 
-#- task: Npm@1
-#  displayName: 'Build CICDDashboard'
-#  inputs:
-#    command: custom
-#    workingDir: App
-#    verbose: false
-#    customCommand: 'run build'
+- task: Npm@1
+  displayName: 'Build CICDDashboard'
+  inputs:
+    command: custom
+    workingDir: App
+    verbose: false
+    customCommand: 'run build'
 
 - task: PackageAzureDevOpsExtension@2
   displayName: 'Package Extension: '

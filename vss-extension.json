@@ -34,16 +34,18 @@
   },
   "files": [
     {
-      "path":"scripts",
-      "addressable": true
-    },
-    {
-      "path": "index.html",
+      "path":"app/node_modules",
+      "packagePath": "node_modules",
       "addressable": true
     },
     {
       "path":"node_modules/vss-web-extension-sdk/lib",
       "addressable": true
+    },
+    {
+      "path":"app/dist/VstsDashboard",
+      "packagePath":"VstsDashboard",
+      "addressable":true
     }
   ],
   "contributions": [
@@ -57,7 +59,7 @@
       "properties": {
         "name":"CI/CD Dashboard",
         "order":100,
-        "uri":"index.html"
+        "uri":"VstsDashboard/index.html"
       }
     }
   ]

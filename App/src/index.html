@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>CI/CD Dashboard</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  <script src="node_modules/vss-web-extension-sdk/lib/VSS.SDK.min.js"></script> 
+  <script>
+      var showPropertiesMenuProvider = (function () {
+      "use strict";
+      return {
+          showPropertiesInDialog: function(properties, title) {
+
+              VSS.getService("ms.vss-web.dialog-service").then(function (dialogSvc) {
+
+                  var extInfo = VSS.getExtensionContext();
+
+                  var dialogOptions = {
+                      title: title || "Properties",
+                      width: 800,
+                      height: 600,
+                      buttons: null
+                  };
+
+                  var contributionConfig = {
+                      properties: properties
+                  };
+
+                  dialogSvc.openDialog(extInfo.publisherId + "." + extInfo.extensionId + "." + "contextForm", dialogOptions, contributionConfig);
+              });
+          },
+          execute: function(actionContext) {
+              this.showPropertiesInDialog(actionContext);
+          }
+      };
+    }());
+
+    VSS.register("showProperties", function (context) {
+      return showPropertiesMenuProvider;
+    });
+
+    VSS.register("statusCustomAction", function (context) {
+      return {
+          execute: function (context) {
+              var statusName = context.status.context.genre + "/" + context.status.context.name;
+              var prId = context.pullRequest.pullRequestId;
+              alert("Execute custom action for status " + statusName + " on pull request " + prId);
+          }
+      };
+    });
+  </script>
+  <script>
+      VSS.init({ usePlatformScripts: true, usePlatformStyles: true });
+  </script>
+  </script>
+
+  <app-root></app-root>
+</body>
+</html>

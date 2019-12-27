@@ -1,0 +1,182 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<style>
+
+  .succeeded {
+    background-color: lightgreen;
+  }
+
+  .partiallySucceeded {
+    background-color: orange;
+  }
+
+  .failed {
+    background-color: lightcoral;
+  }
+
+  .queued{
+    background-color: yellow;
+  }
+
+  .notStarted {
+    background-color:yellow;
+  }
+
+  .canceled {
+    background-color: lightgray;
+  }
+
+  .inProgress {
+    background-color: lightskyblue;
+  }
+
+  .releaseStatus {
+
+  }
+
+  .releaseStatus ul {
+    list-style:none;
+    left:0px;
+  }
+
+  .releaseStatus ul li{
+    list-style-type: none;
+    display:inline;
+    left:0px;
+  }
+
+  .releaseStatus .succeeded{
+    background-color: greenyellow;
+  }
+
+  .releaseStatus .failed {
+    background-color: red;
+    color:white;
+  }
+
+  .releaseStatus .notDeployed {
+    background-color: lightgray;
+  }
+
+  .releaseStatus .partiallySucceeded {
+    background-color: orange;
+  }
+
+  .nothingToShow {
+    text-align: center;
+    color:lightslategray;
+    font-weight: bold;
+  }
+
+</style>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col col-md-8">
+        <table class="table table-sm" style="font-size: 11pt;">
+          <thead class="table-dark">
+            <tr>
+              <th style="width:300px;">Definition Name</th>
+              <th style="width:200px;">Build</th>
+              <th style="width:250px;">Release</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="buildsList.length < 1">
+              <td colspan="3" class="nothingToShow">
+                Nothing to show
+              </td>
+            </tr>
+            <tr *ngFor="let qBuild of buildsList" class="{{qBuild.result}} {{qBuild.status}}">
+              <td style="font-size:10pt;">
+                <b>Build definition:</b> {{qBuild.definition.name}}<br>
+                <b>Team project:</b> {{qBuild.project.name}}
+                <div style="font-size:8pt;">
+                  <b>Requested by:</b> {{qBuild.requestedFor.displayName}} ({{qBuild.result}})
+                </div>
+              </td>
+              <td style="font-size:8pt; font-weight: bold;">{{qBuild.buildNumber}}</td>
+              <td>
+                <div class="releaseStatus">
+                  <ul style="list-style:none; padding-left:0px;">
+                    <li *ngIf="qBuild.releases == null" style="font-size: 10pt; background-color:lightgray; padding:2px;" class="rounded">Not deployed</li>
+                    <li *ngFor="let qRel of qBuild.releases" style="font-size:10pt;">
+                      <span style="background-color: lightseagreen; color:white; font-weight: bold; padding:2px;" class="rounded">{{qRel.releaseName}}</span>
+                      <ul style="list-style:none;padding-left:15px;">
+                        <li *ngFor="let qEnv of qRel.env" style="font-size: 10pt; word-break: keep-all; padding:2px; margin-right: 3px;" class="{{qEnv.status}} rounded">{{qEnv.env}}
+                          <span *ngIf="qEnv.attempt > 1" style="font-size: 8pt;">({{qEnv.attempt}})</span>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="content col-md-4">
+        <h2>Last 7 days stats</h2>
+        <!-- Project summary -->
+        <div>
+          <h4>Team projects stats</h4>
+          <table class="table table-sm" style="font-size: 9pt;">
+              <thead style="background-color: orange; color:white;">
+                <th>Project</th>
+                <th style="text-align:center;">#Builds</th>
+                <th style="width:50px; text-align: center;">%</th>
+                <th style="width:75px; text-align:right;">Status</th>
+              </thead>
+              <tbody>
+                <tr *ngIf="_teamProjectsSummary.length < 1">
+                  <td colspan="4" class="nothingToShow">
+                    Nothing to show
+                  </td>
+                </tr>
+                <tr *ngFor="let qProject of _teamProjectsSummary">
+                  <td style="vertical-align: middle; font-weight: bold;">{{qProject.name}}</td>
+                  <td style="text-align: center;font-weight: bold; vertical-align: middle;">{{qProject.buildCount}}</td>
+                  <td style="text-align: center;font-weight: bold; vertical-align: middle;">{{qProject.successRate}}%</td>
+                  <td class="releaseStatus" style="text-align: left; vertical-align: middle;">
+                    <ul style="list-style:none; padding-left:0px; text-align:right;">
+                      <li class="rounded succeeded" style="padding: 2px; margin-right:3px;">{{qProject.succeed}}</li>
+                      <li class="rounded failed" style="padding: 2px;">{{qProject.failed}}</li>
+                    </ul>
+                  </td>
+                </tr>
+              </tbody>
+          </table>
+        </div>
+        <!-- Employee Summary -->
+        <div>
+          <h4>Employees summary stats</h4>
+          <table class="table table-sm" style="font-size: 9pt;">
+            <thead style="background-color:orange; color:white;">
+              <tr>
+                <th>Employee</th>
+                <th style="text-align:center;">#Builds</th>
+                <th style="width:50px; text-align: center;">%</th>
+                <th style="width:75px; text-align:right;">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngIf="_teamProjectsSummary.length < 1">
+                <td colspan="4" class="nothingToShow">
+                  Nothing to show
+                </td>
+              </tr>
+              <tr *ngFor="let fEmpl of emplList">
+                <td>{{fEmpl.emplName}}</td>
+                <td style="text-align: center;font-weight: bold; vertical-align: middle;">{{fEmpl.buildCount}}</td>
+                <td style="text-align: center;font-weight: bold; vertical-align: middle;">{{fEmpl.successRate}}%</td>
+                <td class="releaseStatus" style="text-align: left; vertical-align: middle;">
+                    <ul style="list-style:none; padding-left:0px; text-align:right;">
+                      <li class="rounded succeeded" style="padding: 2px; margin-right:3px;">{{fEmpl.succeed}}</li>
+                      <li class="rounded failed" style="padding: 2px;">{{fEmpl.failed}}</li>
+                    </ul>
+                  </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+    </div>
+  </div>
+<router-outlet></router-outlet>
