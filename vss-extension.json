@@ -49,7 +49,7 @@
       "properties": {
         "name":"CI/CD Dashboard",
         "order":99,
-        "uri":"index.html"
+        "uri":"static/index.html"
       }
     }
   ]
