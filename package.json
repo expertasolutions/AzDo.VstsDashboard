@@ -1,8 +1,8 @@
 {
-  "name": "scripts",
+  "name": "vstsDashboard",
   "version": "1.0.0",
   "description": "## Objectives",
-  "main": "main.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "PublisExt": "tsc -p ."
