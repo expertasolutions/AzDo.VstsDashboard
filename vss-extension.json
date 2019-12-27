@@ -11,7 +11,12 @@
       "id": "Microsoft.VisualStudio.Services"
     }
   ],
-  "scopes": ["vso.work_write"],
+  "scopes": [
+    "vso.project", 
+    "vso.build", 
+    "vso.release",
+    "vso.agentpool"
+  ],
   "icons": {
     "default": "icon.png"
   },
