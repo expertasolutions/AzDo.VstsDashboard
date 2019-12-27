@@ -49,7 +49,7 @@
       "properties": {
         "name":"CI/CD Dashboard",
         "order":1,
-        "uri":"app/dist/VstsDashboard/index.html"
+        "uri":"VstsDashboard/index.html"
       }
     }
   ]
