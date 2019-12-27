@@ -1,79 +1,17 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>CI/CD Dashboard</title>
-    <script src="node_modules/vss-web-extension-sdk/lib/VSS.SDK.js"></script>
-    <style>
-        h2 {
-            font-weight: 400;
-        }
-
-        pre {
-            font-size: 14px;
-            line-height: 1.3em;
-        }
-
-        </style>
 </head>
+<body>
+    <div>Users will never see this page.</div>
 
-<body style="padding-left: 20px; padding-top: 20px; overflow-y: auto; background-color: #eee">
+    <script src="node_modules/vss-web-extension-sdk/lib/VSS.SDK.min.js"></script> 
     
-    <h2>Web Context</h2>
-    <pre id="context-display"></pre>
-    
-    <div id="configuration" style="display:none">
-        <h2>Configuration</h2>
-        <pre id="configuration-display"></pre>
-    </div>
-    <script type="text/javascript">
-        //VSS.init({explicitNotifyLoaded: true, usePlatformScripts: true, usePlatformStyles: true, extensionReusedCallback: registerContribution });
-        VSS.init({explicitNotifyLoaded: true, usePlatformScripts: true, usePlatformStyles: true });
-
-        // We need to register the new contribution if this extension host is reused
-        function registerContribution(contribution) {
-            updateConfiguration(VSS.getConfiguration());
-            document.getElementById("configuration").style.display = "block";
-            if (contribution.type === "ms.vss-web.tab") {
-
-                // Register the fully-qualified contribution id here.
-                // Because we're using the contribution id, we do NOT need to define a registeredObjectId in the extension manfiest.
-                VSS.register(contribution.id, {
-                    pageTitle: getTabTitle,
-
-                    // We set the "dynamic" contribution property to true in the manifest so that it will get the tab name from this function.
-                    name: getTabTitle,
-
-                    updateContext: updateConfiguration,
-
-                    isInvisible: function(state) {
-                        // tab is always visible
-                        return false;
-                    }
-                });
-            }
-        }
-
-        function updateConfiguration(tabContext) {
-            if (typeof tabContext === "object") {
-                document.getElementById("configuration-display").textContent = JSON.stringify(tabContext, null, 4);
-            }
-        }
-
-        function getTabTitle(tabContext) {
-            if (tabContext && tabContext.iterationId) {
-                return "Web Context (iterationId: " + tabContext.iterationId.substr(0, 5) + ")";
-            } else {
-                return "Web Context";
-            }
-        }
-
-        // Show context info when ready
-        VSS.ready(function () {
-            var context = VSS.getWebContext();
-            //document.getElementById("context-display").textContent = JSON.stringify(context, null, 4);
-            //registerContribution(VSS.getContribution());
-            VSS.notifyLoadSucceeded();
-        });
-
+    <script src="scripts/main.js"></script>
+    <script>
+        VSS.init({ usePlatformScripts: true, usePlatformStyles: true });
     </script>
 </body>
 </html>
