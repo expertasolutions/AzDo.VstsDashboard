@@ -47,7 +47,7 @@ var buildGridOptions: Grids.IGridOptions = {
   source: buildSource,
   columns: [
     { text: "Id", width: 100, index: "id"},
-    { text: "Team Project", width:200, index: "teamProject"}
+    { text: "Team Project", width:200, index: "teamProject"},
     { text: "Build Definition", width: 200, index: "definitionName" },
     { text: "Build #", width:200, index: "buildNumber"},
     { text: "RequestedFor", width: 200, index: "requestedFor" }
