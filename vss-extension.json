@@ -34,13 +34,15 @@
   },
   "files": [
     {
-      "path":"app/node_modules",
-      "packagePath": "node_modules",
+      "path":"node_modules/vss-web-extension-sdk/lib",
       "addressable": true
     },
     {
-      "path":"app/dist/VstsDashboard",
-      "packagePath":"VstsDashboard",
+      "path": "scripts",
+      "addressable": true
+    },
+    {
+      "path":"index.html",
       "addressable":true
     }
   ],
