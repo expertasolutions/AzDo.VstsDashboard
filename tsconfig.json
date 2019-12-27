@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "skipLibCheck": true,
     "strict": false,
     "module": "amd",
     "moduleResolution": "node",
