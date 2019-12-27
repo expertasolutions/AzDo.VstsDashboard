@@ -46,7 +46,7 @@
       "addressable": true
     },
     {
-      "path":"node_module/vss-web-extension-sdk/lib",
+      "path":"node_modules/vss-web-extension-sdk/lib",
       "addressable":true,
       "packagePath":"lib"
     }
