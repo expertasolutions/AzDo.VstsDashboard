@@ -36,10 +36,6 @@
     {
       "path": "app",
       "addressable": true,
-    },
-    {
-      "path": "app/dist/VstsDashboard",
-      "addressable": true
     }
   ],
   "contributions": [
