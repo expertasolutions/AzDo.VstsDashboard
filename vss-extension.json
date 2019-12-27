@@ -34,7 +34,7 @@
   },
   "files": [
     {
-      "path": "app/dist",
+      "path": "app/dist/VstsDashboard",
       "addressable": true
     }
   ],
