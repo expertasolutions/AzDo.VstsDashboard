@@ -20,7 +20,7 @@ export function getAvailableBuildDefinitions(target: HTMLElement): void {
         target.innerText = "Loaded !!";
     });
 } 
-//show("builds", getAvailableBuildDefinitions);
+show("builds", getAvailableBuildDefinitions);
 
 // List all Build instance runs...
 
@@ -47,7 +47,7 @@ export function getLastBuilds(source: Array<buildGrid>, target: Grids.Grid): voi
   });
 }
 
-var buildContainer = $("#grid-lastBuilds");
+var buildContainer = $("#gridLastBuilds");
 var buildSource = new Array<buildGrid>();
 var buildGridOptions: Grids.IGridOptions = {
   height: "300px",
@@ -59,6 +59,8 @@ var buildGridOptions: Grids.IGridOptions = {
     { text: "RequestedFor", width: 200, index: "requestedFor" }
   ]
 }
+var grid = Controls.create(Grids.Grid, buildContainer, buildGridOptions);
+getLastBuilds(buildSource, grid);
 
 //import RestClient = require("ReleaseManagement/Core/RestClient");
 //import Controls = require("VSS/Controls");
