@@ -25,7 +25,8 @@
         <pre id="configuration-display"></pre>
     </div>
     <script type="text/javascript">
-        VSS.init({explicitNotifyLoaded: true, usePlatformScripts: true, usePlatformStyles: true, extensionReusedCallback: registerContribution });
+        //VSS.init({explicitNotifyLoaded: true, usePlatformScripts: true, usePlatformStyles: true, extensionReusedCallback: registerContribution });
+        VSS.init({explicitNotifyLoaded: true, usePlatformScripts: true, usePlatformStyles: true });
 
         // We need to register the new contribution if this extension host is reused
         function registerContribution(contribution) {
@@ -44,16 +45,32 @@
                     updateContext: updateConfiguration,
 
                     isInvisible: function(state) {
+                        // tab is always visible
                         return false;
                     }
                 });
             }
-        }}
+        }
+
+        function updateConfiguration(tabContext) {
+            if (typeof tabContext === "object") {
+                document.getElementById("configuration-display").textContent = JSON.stringify(tabContext, null, 4);
+            }
+        }
+
+        function getTabTitle(tabContext) {
+            if (tabContext && tabContext.iterationId) {
+                return "Web Context (iterationId: " + tabContext.iterationId.substr(0, 5) + ")";
+            } else {
+                return "Web Context";
+            }
         }
 
         // Show context info when ready
         VSS.ready(function () {
             var context = VSS.getWebContext();
+            //document.getElementById("context-display").textContent = JSON.stringify(context, null, 4);
+            //registerContribution(VSS.getContribution());
             VSS.notifyLoadSucceeded();
         });
 
