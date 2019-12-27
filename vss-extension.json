@@ -34,7 +34,7 @@
   },
   "files": [
     {
-      "path": "static",
+      "path": "index.html",
       "addressable": true
     }
   ],
@@ -47,9 +47,10 @@
         "ms.vss-build-web.build-release-hub-group"
       ],
       "properties": {
-        "name":"CI/CD Dashboard",
-        "order":99,
-        "uri":"static/index.html"
+        "name": "CICDMainDashboard",
+        "text":"CI/CD Dashboard",
+        "order":100,
+        "uri":"index.html"
       }
     }
   ]
