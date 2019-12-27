@@ -38,16 +38,17 @@
   },
   "files": [
     {
-      "path":"node_modules/vss-web-extension-sdk/lib",
+      "path":"dist",
       "addressable": true
     },
     {
-      "path": "scripts",
+      "path":"static",
       "addressable": true
     },
     {
-      "path":"index.html",
-      "addressable":true
+      "path":"node_module/vss-web-extension-sdk/lib",
+      "addressable":true,
+      "packagePath":"lib"
     }
   ],
   "contributions": [
@@ -61,7 +62,7 @@
       "properties": {
         "name":"CI/CD Dashboard",
         "order":100,
-        "uri":"index.html"
+        "uri":"static/index.html"
       }
     }
   ]

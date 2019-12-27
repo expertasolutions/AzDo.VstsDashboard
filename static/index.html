@@ -1,0 +1,22 @@
+
+<head>
+  <script src="../lib/VSS.SDK.min.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+ // Initialize the VSS sdk
+ VSS.init({
+     usePlatformScripts: true,
+     usePlatformStyles: true
+ });</script>
+
+ <p id="builds">Loading...</p>
+ <p id="workitems">Loading...</p>
+ <div id="grid-container"></div>
+
+ <script type="text/javascript">
+ VSS.require(["dist/index"], function (app) { 
+     
+ });
+</script>
+</body>

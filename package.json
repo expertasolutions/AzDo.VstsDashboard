@@ -1,9 +1,30 @@
 {
-  "name": "cicd-dashboard",
+  "name": "scripts",
   "version": "1.0.0",
-  "description": "CICD Dashboard",
-  "author": "ExpertaSolutions",
+  "description": "## Objectives",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "PublisExt": "tsc -p ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "dependencies": {
-    "vss-web-extension-sdk": "^2.109.0"
-  }
+    "@types/jquery": "^3.3.31",
+    "@types/q": "^1.5.2",
+    "vss-web-extension-sdk": "^4.126.2"
+  },
+  "devDependencies": {
+    "tfx-cli": "^0.4.16",
+    "typescript": "^2.9.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/expertasolutions/VstsDashboard.git"
+  },
+  "bugs": {
+    "url": "https://github.com/expertasolutions/VstsDashboard/issues"
+  },
+  "homepage": "https://github.com/expertasolutions/VstsDashboard#readme"
 }
