@@ -3,6 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <title>CI/CD Dashboard</title>
+
+    <style>
+
+        .succeeded {
+          background-color: lightgreen;
+        }
+      
+        .partiallySucceeded {
+          background-color: orange;
+        }
+      
+        .failed {
+          background-color: lightcoral;
+        }
+      
+        .queued{
+          background-color: yellow;
+        }
+      
+        .notStarted {
+          background-color:yellow;
+        }
+      
+        .canceled {
+          background-color: lightgray;
+        }
+      
+        .inProgress {
+          background-color: lightskyblue;
+        }
+      
+        .releaseStatus {
+      
+        }
+      
+        .releaseStatus ul {
+          list-style:none;
+          left:0px;
+        }
+      
+        .releaseStatus ul li{
+          list-style-type: none;
+          display:inline;
+          left:0px;
+        }
+      
+        .releaseStatus .succeeded{
+          background-color: greenyellow;
+        }
+      
+        .releaseStatus .failed {
+          background-color: red;
+          color:white;
+        }
+      
+        .releaseStatus .notDeployed {
+          background-color: lightgray;
+        }
+      
+        .releaseStatus .partiallySucceeded {
+          background-color: orange;
+        }
+      
+        .nothingToShow {
+          text-align: center;
+          color:lightslategray;
+          font-weight: bold;
+        }
+      
+      </style>
 </head>
 <body>
     <div>Users will never see this page.</div>
