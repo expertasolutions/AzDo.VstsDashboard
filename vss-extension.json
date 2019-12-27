@@ -39,10 +39,6 @@
       "addressable": true
     },
     {
-      "path":"node_modules/vss-web-extension-sdk/lib",
-      "addressable": true
-    },
-    {
       "path":"app/dist/VstsDashboard",
       "packagePath":"VstsDashboard",
       "addressable":true
