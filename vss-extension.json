@@ -35,7 +35,7 @@
   "files": [
     {
       "path":"app/node_modules",
-      "packagePath": "node_modules",
+      "packagePath": "node_modulesd",
       "addressable": true
     },
     {

@@ -37,6 +37,7 @@ steps:
   displayName: 'Install CICDDashboard'
   inputs:
     command: 'install'
+    workingDir: 'App'
     verbose: false
 
 - task: Npm@1
