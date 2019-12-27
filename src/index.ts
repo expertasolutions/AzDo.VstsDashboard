@@ -42,10 +42,12 @@ export function getLastBuilds(source: Array<buildGrid>, target: Grids.Grid): voi
 var buildContainer = $("#gridLastBuilds");
 var buildSource = new Array<buildGrid>();
 var buildGridOptions: Grids.IGridOptions = {
+  width: "100%",
+  height: "100%",
   source: buildSource,
   columns: [
     { text: "Id", width: 100, index: "id"},
-    { text: "Team Project", width:200, index: "teamProject"},
+    { text: "Team Project", width:200, index: "teamProject"}
     { text: "Build Definition", width: 200, index: "definitionName" },
     { text: "Build #", width:200, index: "buildNumber"},
     { text: "RequestedFor", width: 200, index: "requestedFor" }
