@@ -20,13 +20,52 @@ export function getAvailableBuildDefinitions(target: HTMLElement): void {
         target.innerText = "Loaded !!";
     });
 } 
-show("builds", getAvailableBuildDefinitions);
+//show("builds", getAvailableBuildDefinitions);
 
-import RestClient = require("ReleaseManagement/Core/RestClient");
+// List all Build instance runs...
+
 import Controls = require("VSS/Controls");
 import Grids = require("VSS/Controls/Grids");
 
+class buildGrid {
+  id: number;
+  definitionName: string;
+  requestedFor: string;
+}
+
+export function getLastBuilds(source: Array<buildGrid>, target: Grids.Grid): void {
+  let client = BuildRestClient.getClient();
+  client.getBuilds(getTeamContext().projectname).then(builds => {
+    builds.forEach(b=> {
+      source.push({ 
+        id: b.id, 
+        definitionName: b.definition.name,
+        requestedFor: b.requestedFor.displayName
+      });
+      target.setDataSource(source);
+    })
+  });
+}
+
+var buildContainer = $("#grid-lastBuilds");
+var buildSource = new Array<buildGrid>();
+var buildGridOptions: Grids.IGridOptions = {
+  height: "300px",
+  width: "500px",
+  source: buildSource,
+  columns: [
+    { text: "Id", width: 100, index: "id"},
+    { text: "Build Definition", width: 200, index: "definitionName" },
+    { text: "RequestedFor", width: 200, index: "requestedFor" }
+  ]
+}
+
+//import RestClient = require("ReleaseManagement/Core/RestClient");
+//import Controls = require("VSS/Controls");
+//import Grids = require("VSS/Controls/Grids");
+
 //little holder class for my grid datasource
+/*
 class releaseGrid {
     name: string;
     id: number;
@@ -62,3 +101,4 @@ var gridOptions: Grids.IGridOptions = {
 var grid = Controls.create(Grids.Grid, container, gridOptions);
 
 getAvailableReleaseDefinitions(source, grid);
+*/
