@@ -12,6 +12,7 @@
     }
   ],
   "scopes": [
+    "vso.project",
     "vso.build", 
     "vso.release"
   ],
