@@ -12,18 +12,6 @@ export function show(divName: string, func: (target: HTMLElement) => void){
 }
 
 import BuildRestClient = require("TFS/Build/RestClient");
-export function getAvailableBuildDefinitions(target: HTMLElement): void {
-    // Get an instance of the client
-    let client = BuildRestClient.getClient();
-    client.getDefinitions(getTeamContext().projectname).then(definitions => {
-        //target.innerText = JSON.stringify(definitions);
-        target.innerText = "Loaded !!";
-    });
-} 
-show("builds", getAvailableBuildDefinitions);
-
-// List all Build instance runs...
-
 import Controls = require("VSS/Controls");
 import Grids = require("VSS/Controls/Grids");
 
