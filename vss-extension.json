@@ -12,10 +12,8 @@
     }
   ],
   "scopes": [
-    "vso.project", 
     "vso.build", 
-    "vso.release",
-    "vso.agentpool"
+    "vso.release"
   ],
   "icons": {
     "default": "icon.png"
