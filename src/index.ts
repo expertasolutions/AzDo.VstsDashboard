@@ -21,21 +21,25 @@ class buildGrid {
   definitionName: string;
   buildNumber: string;
   requestedFor: string;
+  releases: any[];
 }
 
 export function getLastBuilds(source: Array<buildGrid>, target: Grids.Grid): void {
   let client = BuildRestClient.getClient();
   client.getBuilds(getTeamContext().projectname).then(builds => {
     builds.forEach(b=> {
+      
       source.push({ 
         id: b.id, 
         teamProject: b.project.name,
         definitionName: b.definition.name,
         buildNumber: b.buildNumber,
-        requestedFor: b.requestedFor.displayName
+        requestedFor: b.requestedFor.displayName,
+        releases: [{ id: 0, releaseName: "invalid", status: "Pending"}]
       });
-      target.setDataSource(source);
-    })
+    });
+    var gridSource = new Grids.GridHierarchySource(source);
+    target.setDataSource(gridSource);
   });
 }
 
@@ -46,10 +50,10 @@ var buildGridOptions: Grids.IGridOptions = {
   height: "100%",
   source: buildSource,
   columns: [
-    { text: "Id", width: 100, index: "id"},
-    { text: "Team Project", width:200, index: "teamProject"},
+    { text: "Id", width: 50, index: "id"},
+    { text: "Team Project", width: 150, index: "teamProject"},
     { text: "Build Definition", width: 200, index: "definitionName" },
-    { text: "Build #", width:200, index: "buildNumber"},
+    { text: "Build #", width: 250, index: "buildNumber"},
     { text: "RequestedFor", width: 200, index: "requestedFor" }
   ]
 }
