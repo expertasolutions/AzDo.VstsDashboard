@@ -146,10 +146,10 @@ var buildGridOptions: Grids.IGridOptions = {
   columns: getColumns(),
   openRowDetail: (index: number) => {
     var buildInstance = grid.getRowData(index);
+   
+    //var releases = releaseSource.filter(x=> x.artifacts.filter(a=> a.definitionReference.version.id === buildInstance.Id));
 
-    var releases = releaseSource.filter(x=> x.artifacts.filter(a=> a.definitionReference.version.id === buildInstance.Id));
-
-    $("#buildDetails").text(JSON.stringify(releases));
+    //$("#buildDetails").text(JSON.stringify(releases));
   }
 }
 var grid = Controls.create(Grids.Grid, buildContainer, buildGridOptions);
