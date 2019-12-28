@@ -127,18 +127,14 @@ class releaseGrid {
     //artifacts: Artifact[];
 }
  
-/*
 export function getRelease(source: Array<releaseGrid>): void {    
   let client = ReleaseRestClient.getClient();
   client.getDeployments(getTeamContext().projectname).then(definitions => {
       definitions.forEach(d => {
-          source.push({ name: d.release.name, id: d.id
-                    //  , artifacts: d.release.artifacts 
-                    });
+          source.push({ name: d.release.name, id: d.id });
       });
   });
 }
-*/
 
 var buildContainer = $("#gridLastBuilds");
 var buildSource = new Array<buildGrid>();
@@ -148,18 +144,20 @@ var buildGridOptions: Grids.IGridOptions = {
   width: "99%",
   height: "50%",
   columns: getColumns(),
-  /*
   openRowDetail: (index: number) => {
     var buildInstance = grid.getRowData(index);
 
+    var releases = "test";
+    /*
     var releases = releaseSource.find(function(elm:releaseGrid) {
       return true;
     //  return elm.artifacts.filter(a=> a.definitionReference.version.id === buildInstance.Id) != null;
     });
+    */
     $("#buildDetails").text(JSON.stringify(releases));
   }
-  */
+  
 }
 var grid = Controls.create(Grids.Grid, buildContainer, buildGridOptions);
-//getRelease(releaseSource);
+getRelease(releaseSource);
 getLastBuilds(buildSource, grid);
