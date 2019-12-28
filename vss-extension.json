@@ -56,6 +56,7 @@
       "id":"cicdpipelines",
       "type":"ms.vss-web.hub",
       "description": "CI/CD Pipelines in the Work Hub group",
+      "icons": "small-icon.png",
       "targets":[
         "ms.vss-build-web.build-release-hub-group"
       ],

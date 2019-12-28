@@ -111,7 +111,7 @@ export function getLastBuilds(source: Array<buildGrid>, target: Grids.Grid): voi
         definitionName: b.definition.name,
         buildNumber: b.buildNumber,
         requestedFor: b.requestedFor.displayName,
-        children: [{ id: 0, releaseName: "invalid", status: "Pending"}],
+        children: [{ id: 0, releaseName: "invalid", status: "Pending", }],
         queueTime: b.queueTime.getMinutes(),
         result: b.result,
         status: b.status,
