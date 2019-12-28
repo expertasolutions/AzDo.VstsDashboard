@@ -129,7 +129,8 @@ var buildGridOptions: Grids.IGridOptions = {
   columns: getColumns(),
   openRowDetail: (index: number) => {
     var buildInstance = grid.getRowData(index);
-    $(".item-details").text(JSON.stringify(buildInstance));
+    //$(".item-details").text(JSON.stringify(buildInstance));
+    alert(JSON.stringify(buildInstance));
   }
 }
 var grid = Controls.create(Grids.Grid, buildContainer, buildGridOptions);
