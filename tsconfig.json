@@ -4,7 +4,7 @@
     "strict": false,
     "module": "amd",
     "moduleResolution": "node",
-    "target": "es5",
+    "target": "es6",
     "rootDir": "src/",
     "outDir": "dist/",
     "types": [

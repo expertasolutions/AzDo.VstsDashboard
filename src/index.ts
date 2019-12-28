@@ -124,7 +124,7 @@ export function getLastBuilds(source: Array<buildGrid>, target: Grids.Grid): voi
 class releaseGrid {
     name: string;
     id: number;
-    artifacts: Artifact[]
+    artifacts: Artifact[];
 }
   
 export function getRelease(source: Array<releaseGrid>): void {    
@@ -146,10 +146,11 @@ var buildGridOptions: Grids.IGridOptions = {
   columns: getColumns(),
   openRowDetail: (index: number) => {
     var buildInstance = grid.getRowData(index);
-   
-    //var releases = releaseSource.filter(x=> x.artifacts.filter(a=> a.definitionReference.version.id === buildInstance.Id));
 
-    //$("#buildDetails").text(JSON.stringify(releases));
+    var releases = releaseSource.find(function(elm:releaseGrid) {
+      return elm.artifacts.filter(a=> a.definitionReference.version.id === buildInstance.Id) != null;
+    });
+    $("#buildDetails").text(JSON.stringify(releases));
   }
 }
 var grid = Controls.create(Grids.Grid, buildContainer, buildGridOptions);
