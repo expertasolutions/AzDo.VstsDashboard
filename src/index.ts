@@ -157,5 +157,5 @@ var buildGridOptions: Grids.IGridOptions = {
   }
 }
 var grid = Controls.create(Grids.Grid, buildContainer, buildGridOptions);
-getRelease(releaseSource);
+//getRelease(releaseSource);
 getLastBuilds(buildSource, grid);
