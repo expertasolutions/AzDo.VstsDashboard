@@ -56,12 +56,12 @@
       "id":"cicdpipelines",
       "type":"ms.vss-web.hub",
       "description": "CI/CD Pipelines in the Work Hub group",
-      "icons": "small-icon.png",
       "targets":[
         "ms.vss-build-web.build-release-hub-group"
       ],
       "properties": {
         "name":"CI/CD Dashboard",
+        "icons":"small-icon.png",
         "order":100,
         "uri":"static/index.html"
       }
