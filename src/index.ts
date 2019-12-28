@@ -141,7 +141,7 @@ var buildSource = new Array<buildGrid>();
 var releaseSource = new Array<releaseGrid>();
 
 var buildGridOptions: Grids.IGridOptions = {
-  width: "99%",
+  width: "98%",
   height: "50%",
   columns: getColumns(),
   openRowDetail: (index: number) => {
