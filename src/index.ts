@@ -28,14 +28,13 @@ export function getLastBuilds(source: Array<buildGrid>, target: Grids.Grid): voi
   let client = BuildRestClient.getClient();
   client.getBuilds(getTeamContext().projectname).then(builds => {
     builds.forEach(b=> {
-      
       source.push({ 
         id: b.id, 
         teamProject: b.project.name,
         definitionName: b.definition.name,
         buildNumber: b.buildNumber,
         requestedFor: b.requestedFor.displayName,
-        releases: [{ id: 0, releaseName: "invalid", status: "Pending"}]
+        releases: [{ id: 0, releaseName: "invalid", status: "Pending"}],
       });
     });
     var gridSource = new Grids.GridHierarchySource(source);
@@ -48,7 +47,6 @@ var buildSource = new Array<buildGrid>();
 var buildGridOptions: Grids.IGridOptions = {
   width: "100%",
   height: "100%",
-  source: buildSource,
   columns: [
     { text: "Id", width: 50, index: "id"},
     { text: "Team Project", width: 150, index: "teamProject"},
