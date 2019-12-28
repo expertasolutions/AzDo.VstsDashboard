@@ -22,6 +22,8 @@ class buildGrid {
   buildNumber: string;
   requestedFor: string;
   releases: any[];
+  result: string;
+  status: string;
 }
 
 export function getLastBuilds(source: Array<buildGrid>, target: Grids.Grid): void {
@@ -35,6 +37,8 @@ export function getLastBuilds(source: Array<buildGrid>, target: Grids.Grid): voi
         buildNumber: b.buildNumber,
         requestedFor: b.requestedFor.displayName,
         releases: [{ id: 0, releaseName: "invalid", status: "Pending"}],
+        result: b.result.toString(),
+        status: b.status.toString(),
       });
     });
     var gridSource = new Grids.GridHierarchySource(source);
@@ -48,11 +52,12 @@ var buildGridOptions: Grids.IGridOptions = {
   width: "100%",
   height: "100%",
   columns: [
-    { text: "Id", width: 75, index: "id"},
     { text: "Team Project", width: 150, index: "teamProject"},
     { text: "Build Definition", width: 200, index: "definitionName" },
     { text: "Build #", width: 350, index: "buildNumber"},
-    { text: "RequestedFor", width: 200, index: "requestedFor" }
+    { text: "RequestedFor", width: 200, index: "requestedFor" },
+    { text: "result", width: 200, index: "result" },
+    { text: "Status", width: 200, index: "status" },
   ]
 }
 var grid = Controls.create(Grids.Grid, buildContainer, buildGridOptions);
