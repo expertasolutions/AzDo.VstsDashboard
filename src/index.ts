@@ -11,9 +11,9 @@ export function show(divName: string, func: (target: HTMLElement) => void){
     let result = func(elt);
 }
 
-import { Artifact } from "ReleaseManagement/Core/Contracts";
+//import { Artifact } from "ReleaseManagement/Core/Contracts";
 import BuildRestClient = require("TFS/Build/RestClient");
-//import ReleaseRestClient = require("ReleaseManagement/Core/RestClient");
+import ReleaseRestClient = require("ReleaseManagement/Core/RestClient");
 import Controls = require("VSS/Controls");
 import Grids = require("VSS/Controls/Grids");
 import { BuildResult, BuildStatus } from "TFS/Build/Contracts";
@@ -38,7 +38,7 @@ function getColumns() {
     { text: "Build #", width: 350, index: "buildNumber"},
     { text: "RequestedFor", width: 200, index: "requestedFor" },
     { text: "Queue Time (min)", width: 250, index: "queueTime"},
-    { text: "result", width: 200, index: "result",
+    { text: "Result", width: 200, index: "result",
       getCellContents: function (
         rowInfo, 
         dataIndex, 
@@ -122,12 +122,10 @@ export function getLastBuilds(source: Array<buildGrid>, target: Grids.Grid): voi
 }
 
 class releaseGrid {
-    name: string;
     id: number;
-    //artifacts: Artifact[];
+    name: string;
 }
  
-/*
 export function getRelease(source: Array<releaseGrid>): void {    
   let client = ReleaseRestClient.getClient();
   client.getDeployments(getTeamContext().projectname).then(definitions => {
@@ -136,7 +134,6 @@ export function getRelease(source: Array<releaseGrid>): void {
       });
   });
 }
-*/
 
 var buildContainer = $("#gridLastBuilds");
 var buildSource = new Array<buildGrid>();
@@ -148,7 +145,7 @@ var buildGridOptions: Grids.IGridOptions = {
   columns: getColumns(),
   openRowDetail: (index: number) => {
     var buildInstance = grid.getRowData(index);
-
+    
     var releases = "test";
     /*
     var releases = releaseSource.find(function(elm:releaseGrid) {
