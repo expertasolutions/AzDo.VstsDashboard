@@ -28,6 +28,47 @@ class buildGrid {
   status: BuildStatus;
 }
 
+function getColumns() {
+  return [
+    { text: "Id", width: 100, index: "id" },
+    { text: "Team Project", width: 150, index: "teamProject"},
+    { text: "Build Definition", width: 200, index: "definitionName" },
+    { text: "Build #", width: 350, index: "buildNumber"},
+    { text: "RequestedFor", width: 200, index: "requestedFor" },
+    { text: "Queue Time (minutes)", width: 250, index: "queueTime"},
+    { text: "result", width: 200, index: "result",
+      getCellContents: function (
+        rowInfo, 
+        dataIndex, 
+        expandedState, 
+        level, 
+        column, 
+        indentIndex, 
+        columnOrder)
+      {
+        var resultValue = this.getColumnValue(dataIndex, column.index);
+        var resultText = "NA";
+        switch(resultValue){
+          case BuildResult.Canceled: 
+            resultText = "Canceled";
+            break;
+          case BuildResult.Failed:
+            resultText = "Failed";
+            break;
+          case BuildResult.PartiallySucceeded:
+            resultText = "Partially Succeeded";
+            break;
+          case BuildResult.Succeeded:
+            resultText = "Succeeded";
+            break;
+        }
+        return $("<div class='grid-cell'/>").width("200").text(resultText);
+      }
+    },
+    { text: "Status", width: 200, index: "status" },
+  ]
+}
+
 export function getLastBuilds(source: Array<buildGrid>, target: Grids.Grid): void {
   let client = BuildRestClient.getClient();
   client.getBuilds(getTeamContext().projectname).then(builds => {
@@ -54,15 +95,7 @@ var buildSource = new Array<buildGrid>();
 var buildGridOptions: Grids.IGridOptions = {
   width: "100%",
   height: "100%",
-  columns: [
-    { text: "Team Project", width: 150, index: "teamProject"},
-    { text: "Build Definition", width: 200, index: "definitionName" },
-    { text: "Build #", width: 350, index: "buildNumber"},
-    { text: "RequestedFor", width: 200, index: "requestedFor" },
-    { text: "Queue Time (minutes)", width: 250, index: "queueTime"},
-    { text: "result", width: 200, index: "result" },
-    { text: "Status", width: 200, index: "status" },
-  ]
+  columns: getColumns()
 }
 var grid = Controls.create(Grids.Grid, buildContainer, buildGridOptions);
 getLastBuilds(buildSource, grid);
