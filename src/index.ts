@@ -11,7 +11,6 @@ export function show(divName: string, func: (target: HTMLElement) => void){
     let result = func(elt);
 }
 
-//import { Artifact } from "ReleaseManagement/Core/Contracts";
 import BuildRestClient = require("TFS/Build/RestClient");
 import ReleaseRestClient = require("ReleaseManagement/Core/RestClient");
 import Controls = require("VSS/Controls");
