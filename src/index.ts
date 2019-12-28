@@ -16,14 +16,15 @@ import Controls = require("VSS/Controls");
 import Grids = require("VSS/Controls/Grids");
 import { BuildResult, BuildStatus } from "TFS/Build/Contracts";
 
-class buildGrid {
+
+class buildGrid implements Grids.IGridHierarchyItem {
   id: number;
   teamProject: string;
   definitionName: string;
   buildNumber: string;
   requestedFor: string;
-  releases: any[];
   queueTime: number;
+  children: Grids.IGridHierarchyItem[];
   result: BuildResult;
   status: BuildStatus;
 }
@@ -35,7 +36,7 @@ function getColumns() {
     { text: "Build Definition", width: 200, index: "definitionName" },
     { text: "Build #", width: 350, index: "buildNumber"},
     { text: "RequestedFor", width: 200, index: "requestedFor" },
-    { text: "Queue Time (minutes)", width: 250, index: "queueTime"},
+    { text: "Queue Time (min)", width: 250, index: "queueTime"},
     { text: "result", width: 200, index: "result",
       getCellContents: function (
         rowInfo, 
@@ -110,7 +111,7 @@ export function getLastBuilds(source: Array<buildGrid>, target: Grids.Grid): voi
         definitionName: b.definition.name,
         buildNumber: b.buildNumber,
         requestedFor: b.requestedFor.displayName,
-        releases: [{ id: 0, releaseName: "invalid", status: "Pending"}],
+        children: [{ id: 0, releaseName: "invalid", status: "Pending"}],
         queueTime: b.queueTime.getMinutes(),
         result: b.result,
         status: b.status,
