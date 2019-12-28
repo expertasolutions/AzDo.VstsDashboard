@@ -17,14 +17,14 @@ import Grids = require("VSS/Controls/Grids");
 import { BuildResult, BuildStatus } from "TFS/Build/Contracts";
 
 
-class buildGrid implements Grids.IGridHierarchyItem {
+class buildGrid {
   id: number;
   teamProject: string;
   definitionName: string;
   buildNumber: string;
   requestedFor: string;
   queueTime: number;
-  children: Grids.IGridHierarchyItem[];
+  releases: any[];
   result: BuildResult;
   status: BuildStatus;
 }
@@ -111,23 +111,26 @@ export function getLastBuilds(source: Array<buildGrid>, target: Grids.Grid): voi
         definitionName: b.definition.name,
         buildNumber: b.buildNumber,
         requestedFor: b.requestedFor.displayName,
-        children: [{ id: 0, releaseName: "invalid", status: "Pending", }],
+        releases: [{ id: 0, releaseName: "invalid", status: "Pending", }],
         queueTime: b.queueTime.getMinutes(),
         result: b.result,
         status: b.status,
       });
     });
-    var gridSource = new Grids.GridHierarchySource(source);
-    target.setDataSource(gridSource);
+    target.setDataSource(source);
   });
 }
 
 var buildContainer = $("#gridLastBuilds");
 var buildSource = new Array<buildGrid>();
 var buildGridOptions: Grids.IGridOptions = {
-  width: "100%",
+  width: "99%",
   height: "100%",
-  columns: getColumns()
+  columns: getColumns(),
+  openRowDetail: (index: number) => {
+    var buildInstance = grid.getRowData(index);
+    $(".item-details").text(JSON.stringify(buildInstance));
+  }
 }
 var grid = Controls.create(Grids.Grid, buildContainer, buildGridOptions);
 getLastBuilds(buildSource, grid);
