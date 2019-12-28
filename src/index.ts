@@ -11,10 +11,13 @@ export function show(divName: string, func: (target: HTMLElement) => void){
     let result = func(elt);
 }
 
+import TfsCore = require("ReleaseManagement/Core/Contracts");
 import BuildRestClient = require("TFS/Build/RestClient");
+import ReleaseRestClient = require("ReleaseManagement/Core/RestClient");
 import Controls = require("VSS/Controls");
 import Grids = require("VSS/Controls/Grids");
 import { BuildResult, BuildStatus } from "TFS/Build/Contracts";
+import { Artifact } from "VSS/Artifacts/Services";
 
 
 class buildGrid {
@@ -24,7 +27,6 @@ class buildGrid {
   buildNumber: string;
   requestedFor: string;
   queueTime: number;
-  releases: any[];
   result: BuildResult;
   status: BuildStatus;
 }
@@ -111,8 +113,7 @@ export function getLastBuilds(source: Array<buildGrid>, target: Grids.Grid): voi
         definitionName: b.definition.name,
         buildNumber: b.buildNumber,
         requestedFor: b.requestedFor.displayName,
-        releases: [{ id: 0, releaseName: "invalid", status: "Pending", }],
-        queueTime: b.queueTime.getMinutes(),
+        queueTime: 0,
         result: b.result,
         status: b.status,
       });
@@ -121,59 +122,37 @@ export function getLastBuilds(source: Array<buildGrid>, target: Grids.Grid): voi
   });
 }
 
+class releaseGrid {
+    name: string;
+    id: number;
+    artifacts: TfsCore.Artifact[]
+}
+  
+export function getRelease(source: Array<releaseGrid>): void {    
+  let client = ReleaseRestClient.getClient();
+  client.getDeployments(getTeamContext().projectname).then(definitions => {
+      definitions.forEach(d => {
+          source.push({ name: d.release.name, id: d.id, artifacts: d.release.artifacts });
+      });
+  });
+}
+
 var buildContainer = $("#gridLastBuilds");
 var buildSource = new Array<buildGrid>();
+var releaseSource = new Array<releaseGrid>();
+
 var buildGridOptions: Grids.IGridOptions = {
   width: "99%",
   height: "50%",
   columns: getColumns(),
   openRowDetail: (index: number) => {
     var buildInstance = grid.getRowData(index);
-    $("#buildDetails").text(JSON.stringify(buildInstance));
+
+    var releases = releaseSource.filter(x=> x.artifacts.filter(a=> a.definitionReference.version.id === buildInstance.Id));
+
+    $("#buildDetails").text(JSON.stringify(releases));
   }
 }
 var grid = Controls.create(Grids.Grid, buildContainer, buildGridOptions);
+getRelease(releaseSource);
 getLastBuilds(buildSource, grid);
-
-//import RestClient = require("ReleaseManagement/Core/RestClient");
-//import Controls = require("VSS/Controls");
-//import Grids = require("VSS/Controls/Grids");
-
-//little holder class for my grid datasource
-/*
-class releaseGrid {
-    name: string;
-    id: number;
-}
-  
-export function getAvailableReleaseDefinitions(source: Array<releaseGrid>, target: Grids.Grid): void {    
-  // Get an instance of the client
-  let client = RestClient.getClient();
-  client.getReleaseDefinitions(getTeamContext().projectname).then(definitions => {
-      definitions.forEach(d => {
-          source.push({ name: d.name, id: d.id });
-      });
-      //data is retrieved via a IPromise so update the datasource when you have gotten it
-      target.setDataSource(source);
-  });
-} 
-
-//get the div to show your grid
-var container = $("#grid-container");
-var source = new Array<releaseGrid>();
-
-//define your grid
-var gridOptions: Grids.IGridOptions = {
-    height: "300px",
-    width: "500px",
-    source: source,
-    columns: [
-      { text: "ReleaseName", width: 200, index: "name" },
-      { text: "ReleaseIdentifier", width: 200, index: "id" }
-    ]
-};
-
-var grid = Controls.create(Grids.Grid, container, gridOptions);
-
-getAvailableReleaseDefinitions(source, grid);
-*/
