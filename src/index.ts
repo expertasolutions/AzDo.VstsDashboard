@@ -65,7 +65,37 @@ function getColumns() {
         return $("<div class='grid-cell'/>").width("200").text(resultText);
       }
     },
-    { text: "Status", width: 200, index: "status" },
+    { text: "Status", width: 200, index: "status", 
+      getCellContents: function (
+        rowInfo, 
+        dataIndex, 
+        expandedState, 
+        level, 
+        column, 
+        indentIndex, 
+        columnOrder)
+      {
+        var statusValue = this.getColumnValue(dataIndex, column.index);
+        var statusText = "NA";
+        switch(statusValue){
+          case BuildStatus.NotStarted: 
+            statusText = "Not Started";
+            break;
+          case BuildStatus.Cancelling:
+            statusText = "Cancelling";
+            break;
+          case BuildStatus.Completed:
+            statusText = "Completed";
+            break;
+          case BuildStatus.InProgress:
+            statusText = "InProgress";
+            break;
+          case BuildStatus.Postponed:
+            statusText = "Postponed";
+            break;
+        }
+        return $("<div class='grid-cell'/>").width("200").text(statusText);
+    },
   ]
 }
 
