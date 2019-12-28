@@ -14,6 +14,7 @@ export function show(divName: string, func: (target: HTMLElement) => void){
 import BuildRestClient = require("TFS/Build/RestClient");
 import Controls = require("VSS/Controls");
 import Grids = require("VSS/Controls/Grids");
+import { BuildResult, BuildStatus } from "TFS/Build/Contracts";
 
 class buildGrid {
   id: number;
@@ -22,8 +23,8 @@ class buildGrid {
   buildNumber: string;
   requestedFor: string;
   releases: any[];
-  result: string;
-  status: string;
+  result: BuildResult;
+  status: BuildStatus;
 }
 
 export function getLastBuilds(source: Array<buildGrid>, target: Grids.Grid): void {
@@ -37,8 +38,8 @@ export function getLastBuilds(source: Array<buildGrid>, target: Grids.Grid): voi
         buildNumber: b.buildNumber,
         requestedFor: b.requestedFor.displayName,
         releases: [{ id: 0, releaseName: "invalid", status: "Pending"}],
-        result: b.result.toString(),
-        status: b.status.toString(),
+        result: b.result,
+        status: b.status,
       });
     });
     var gridSource = new Grids.GridHierarchySource(source);
