@@ -23,6 +23,7 @@ class buildGrid {
   buildNumber: string;
   requestedFor: string;
   releases: any[];
+  queueTime: number;
   result: BuildResult;
   status: BuildStatus;
 }
@@ -38,6 +39,7 @@ export function getLastBuilds(source: Array<buildGrid>, target: Grids.Grid): voi
         buildNumber: b.buildNumber,
         requestedFor: b.requestedFor.displayName,
         releases: [{ id: 0, releaseName: "invalid", status: "Pending"}],
+        queueTime: b.queueTime.getMinutes(),
         result: b.result,
         status: b.status,
       });
@@ -57,6 +59,7 @@ var buildGridOptions: Grids.IGridOptions = {
     { text: "Build Definition", width: 200, index: "definitionName" },
     { text: "Build #", width: 350, index: "buildNumber"},
     { text: "RequestedFor", width: 200, index: "requestedFor" },
+    { text: "Queue Time (minutes)", width: 250, index: "queueTime"},
     { text: "result", width: 200, index: "result" },
     { text: "Status", width: 200, index: "status" },
   ]
