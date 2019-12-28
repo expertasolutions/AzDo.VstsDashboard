@@ -6,11 +6,6 @@ export function getTeamContext(){
   };
 }
 
-export function show(divName: string, func: (target: HTMLElement) => void){
-    const elt = document.getElementById(divName)!;
-    let result = func(elt);
-}
-
 //import { Artifact } from "ReleaseManagement/Core/Contracts";
 import BuildRestClient = require("TFS/Build/RestClient");
 //import ReleaseRestClient = require("ReleaseManagement/Core/RestClient");
