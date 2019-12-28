@@ -11,8 +11,9 @@ export function show(divName: string, func: (target: HTMLElement) => void){
     let result = func(elt);
 }
 
+//import { Artifact } from "ReleaseManagement/Core/Contracts";
 import BuildRestClient = require("TFS/Build/RestClient");
-import ReleaseRestClient = require("ReleaseManagement/Core/RestClient");
+//import ReleaseRestClient = require("ReleaseManagement/Core/RestClient");
 import Controls = require("VSS/Controls");
 import Grids = require("VSS/Controls/Grids");
 import { BuildResult, BuildStatus } from "TFS/Build/Contracts";
@@ -125,7 +126,8 @@ class releaseGrid {
     id: number;
     //artifacts: Artifact[];
 }
-  
+ 
+/*
 export function getRelease(source: Array<releaseGrid>): void {    
   let client = ReleaseRestClient.getClient();
   client.getDeployments(getTeamContext().projectname).then(definitions => {
@@ -136,6 +138,7 @@ export function getRelease(source: Array<releaseGrid>): void {
       });
   });
 }
+*/
 
 var buildContainer = $("#gridLastBuilds");
 var buildSource = new Array<buildGrid>();
@@ -145,6 +148,7 @@ var buildGridOptions: Grids.IGridOptions = {
   width: "99%",
   height: "50%",
   columns: getColumns(),
+  /*
   openRowDetail: (index: number) => {
     var buildInstance = grid.getRowData(index);
 
@@ -154,6 +158,7 @@ var buildGridOptions: Grids.IGridOptions = {
     });
     $("#buildDetails").text(JSON.stringify(releases));
   }
+  */
 }
 var grid = Controls.create(Grids.Grid, buildContainer, buildGridOptions);
 //getRelease(releaseSource);
