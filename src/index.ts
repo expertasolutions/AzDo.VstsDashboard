@@ -125,12 +125,11 @@ var buildContainer = $("#gridLastBuilds");
 var buildSource = new Array<buildGrid>();
 var buildGridOptions: Grids.IGridOptions = {
   width: "99%",
-  height: "100%",
+  height: "50%",
   columns: getColumns(),
   openRowDetail: (index: number) => {
     var buildInstance = grid.getRowData(index);
-    //$(".item-details").text(JSON.stringify(buildInstance));
-    alert(JSON.stringify(buildInstance));
+    $("#buildDetails").text(JSON.stringify(buildInstance));
   }
 }
 var grid = Controls.create(Grids.Grid, buildContainer, buildGridOptions);
