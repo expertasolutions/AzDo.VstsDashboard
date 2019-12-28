@@ -11,7 +11,7 @@ export function show(divName: string, func: (target: HTMLElement) => void){
     let result = func(elt);
 }
 
-import { Artifact } from "ReleaseManagement/Core/Contracts";
+//import { Artifact } from "ReleaseManagement/Core/Contracts";
 import BuildRestClient = require("TFS/Build/RestClient");
 import ReleaseRestClient = require("ReleaseManagement/Core/RestClient");
 import Controls = require("VSS/Controls");
@@ -124,14 +124,16 @@ export function getLastBuilds(source: Array<buildGrid>, target: Grids.Grid): voi
 class releaseGrid {
     name: string;
     id: number;
-    artifacts: Artifact[];
+    //artifacts: Artifact[];
 }
   
 export function getRelease(source: Array<releaseGrid>): void {    
   let client = ReleaseRestClient.getClient();
   client.getDeployments(getTeamContext().projectname).then(definitions => {
       definitions.forEach(d => {
-          source.push({ name: d.release.name, id: d.id, artifacts: d.release.artifacts });
+          source.push({ name: d.release.name, id: d.id
+                    //  , artifacts: d.release.artifacts 
+                    });
       });
   });
 }
@@ -148,7 +150,8 @@ var buildGridOptions: Grids.IGridOptions = {
     var buildInstance = grid.getRowData(index);
 
     var releases = releaseSource.find(function(elm:releaseGrid) {
-      return elm.artifacts.filter(a=> a.definitionReference.version.id === buildInstance.Id) != null;
+      return true;
+    //  return elm.artifacts.filter(a=> a.definitionReference.version.id === buildInstance.Id) != null;
     });
     $("#buildDetails").text(JSON.stringify(releases));
   }
