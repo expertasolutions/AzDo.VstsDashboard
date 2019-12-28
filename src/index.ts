@@ -129,12 +129,16 @@ class releaseGrid {
 }
   
 export function getRelease(source: Array<releaseGrid>): void {    
-  let client = ReleaseRestClient.getClient();
-  client.getDeployments(getTeamContext().projectname).then(definitions => {
-      definitions.forEach(d => {
-          source.push({ name: d.release.name, id: d.id, artifacts: d.release.artifacts });
-      });
-  });
+  try {
+    let client = ReleaseRestClient.getClient();
+    client.getDeployments(getTeamContext().projectname).then(definitions => {
+        definitions.forEach(d => {
+            source.push({ name: d.release.name, id: d.id, artifacts: d.release.artifacts });
+        });
+    });
+  } catch {
+    alert('error with getRelease');
+  }
 }
 
 var buildContainer = $("#gridLastBuilds");
