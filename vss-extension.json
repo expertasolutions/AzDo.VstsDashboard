@@ -61,7 +61,6 @@
       ],
       "properties": {
         "name":"CI/CD Dashboard",
-        "iconAsset": "small-icon.png" ,
         "order":100,
         "uri":"static/index.html"
       }
