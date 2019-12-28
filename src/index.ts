@@ -127,6 +127,7 @@ class releaseGrid {
     //artifacts: Artifact[];
 }
  
+/*
 export function getRelease(source: Array<releaseGrid>): void {    
   let client = ReleaseRestClient.getClient();
   client.getDeployments(getTeamContext().projectname).then(definitions => {
@@ -135,6 +136,7 @@ export function getRelease(source: Array<releaseGrid>): void {
       });
   });
 }
+*/
 
 var buildContainer = $("#gridLastBuilds");
 var buildSource = new Array<buildGrid>();
