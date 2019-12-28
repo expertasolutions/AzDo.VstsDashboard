@@ -51,7 +51,7 @@ var buildGridOptions: Grids.IGridOptions = {
     { text: "Id", width: 75, index: "id"},
     { text: "Team Project", width: 150, index: "teamProject"},
     { text: "Build Definition", width: 200, index: "definitionName" },
-    { text: "Build #", width: 250, index: "buildNumber"},
+    { text: "Build #", width: 350, index: "buildNumber"},
     { text: "RequestedFor", width: 200, index: "requestedFor" }
   ]
 }
