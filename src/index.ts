@@ -95,7 +95,8 @@ function getColumns() {
             break;
         }
         return $("<div class='grid-cell'/>").width("200").text(statusText);
-    },
+      }
+    }
   ]
 }
 
