@@ -23,7 +23,7 @@ class build {
   queueTime: number;
   result: BuildResult;
   status: BuildStatus;
-  deleted?: boolean;
+  deleted: boolean;
 }
 
 class release {
@@ -118,11 +118,11 @@ export function getLastBuilds(source: Array<build>, target: Grids.Grid): void {
         queueTime: 0,
         result: b.result,
         status: b.status,
-        deleted: b.deleted
+        deleted: b.deleted === undefined ? false : b.deleted
       };
 
       var buildInstance = source.find(x=> x.id === newBuild.id);
-      if(buildInstance === undefined && newBuild.deleted === undefined) {
+      if(buildInstance === undefined && newBuild.deleted === false) {
         // Add the build in the current list
         source.push(newBuild);
       } else if (buildInstance != undefined && newBuild.deleted === true) {
@@ -178,6 +178,6 @@ function refreshData() {
   getLastBuilds(buildSource, grid);
 }
 
-//refreshData();
+refreshData();
 
 setInterval(refreshData, 5000);
