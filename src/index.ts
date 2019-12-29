@@ -164,6 +164,9 @@ var buildGridOptions: Grids.IGridOptions = {
   width: "100%",
   height: "50%",
   columns: getColumns(),
+  sortOrder: [
+    { index: "id", order: "desc" }
+  ],
   openRowDetail: (index: number) => {
     var buildInstance = grid.getRowData(index);
     
