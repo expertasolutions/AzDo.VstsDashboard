@@ -157,7 +157,10 @@ var buildGridOptions: Grids.IGridOptions = {
 var grid = Controls.create(Grids.Grid, buildContainer, buildGridOptions);
 //getRelease(releaseSource);
 
-setTimeout(()=> alert('Hello louis'), 5000);
+function refreshData() {
+  getLastBuilds(buildSource, grid);
+}
 
+setTimeout(()=> console.log("hello louis"), 5000);
 
-getLastBuilds(buildSource, grid);
+refreshData();
