@@ -25,7 +25,7 @@ class build {
   status: BuildStatus;
 }
 
-class release {}
+class release {
   id: number;
   name: string;
 }
