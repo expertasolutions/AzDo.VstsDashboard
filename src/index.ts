@@ -101,7 +101,6 @@ function getColumns() {
         return $("<div class='grid-cell'/>").width("200").text(resultText);
       }
     }, 
-    { text: "deleted", width:100, index: "deleted"},
   ]
 }
 
