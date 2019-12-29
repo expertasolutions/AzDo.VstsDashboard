@@ -128,7 +128,8 @@ export function getLastBuilds(source: Array<build>, target: Grids.Grid): void {
       } else {
         console.log(newBuild.id + " updated");
         // update the build with new infos
-        buildInstance = newBuild;
+        var buildIndex = source.indexOf(buildInstance);
+        source[buildIndex] = newBuild;
       }
     });
     target.setDataSource(source);
