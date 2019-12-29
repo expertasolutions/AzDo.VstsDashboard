@@ -27,13 +27,13 @@ class buildGrid {
 
 function getColumns() {
   return [
-    { text: "Id", width: 100, index: "id" },
+    { text: "Id", width: 75, index: "id" },
     { text: "Team Project", width: 150, index: "teamProject"},
-    { text: "Build Definition", width: 200, index: "definitionName" },
+    { text: "Build Definition", width: 250, index: "definitionName" },
     { text: "Build #", width: 350, index: "buildNumber"},
     { text: "RequestedFor", width: 200, index: "requestedFor" },
-    { text: "Queue Time (min)", width: 250, index: "queueTime"},
-    { text: "Result", width: 200, index: "result",
+    { text: "Queue Time (min)", width: 100, index: "queueTime"},
+    { text: "Result", width: 150, index: "result",
       getCellContents: function (
         rowInfo, 
         dataIndex, 
@@ -62,7 +62,7 @@ function getColumns() {
         return $("<div class='grid-cell'/>").width("200").text(resultText);
       }
     },
-    { text: "Status", width: 200, index: "status", 
+    { text: "Status", width: 150, index: "status", 
       getCellContents: function (
         rowInfo, 
         dataIndex, 
