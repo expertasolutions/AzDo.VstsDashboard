@@ -24,7 +24,7 @@ class build {
   result: BuildResult;
   status: BuildStatus;
   deleted: boolean;
-  releaseStatus: string;
+  release: string;
 }
 
 class release {
@@ -101,7 +101,7 @@ function getColumns() {
         return $("<div class='grid-cell'/>").width("200").text(resultText);
       }
     }, 
-    { text: "Release", width:150, index: "releaseStatus" },
+    { text: "Release", width:150, index: "release" },
     { text: "deleted", width:100, index: "deleted"}
   ]
 }
