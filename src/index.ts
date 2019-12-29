@@ -39,35 +39,6 @@ function getColumns() {
     { text: "Build #", width: 350, index: "buildNumber"},
     { text: "RequestedFor", width: 200, index: "requestedFor" },
     { text: "Exec (min)", width: 100, index: "queueTime"},
-    { text: "Result", width: 150, index: "result",
-      getCellContents: function (
-        rowInfo, 
-        dataIndex, 
-        expandedState, 
-        level, 
-        column, 
-        indentIndex, 
-        columnOrder)
-      {
-        var resultValue = this.getColumnValue(dataIndex, column.index);
-        var resultText = "NA";
-        switch(resultValue){
-          case BuildResult.Canceled: 
-            resultText = "Canceled";
-            break;
-          case BuildResult.Failed:
-            resultText = "Failed";
-            break;
-          case BuildResult.PartiallySucceeded:
-            resultText = "Partially Succeeded";
-            break;
-          case BuildResult.Succeeded:
-            resultText = "Succeeded";
-            break;
-        }
-        return $("<div class='grid-cell'/>").width("200").text(resultText);
-      }
-    },
     { text: "Status", width: 150, index: "status", 
       getCellContents: function (
         rowInfo, 
@@ -98,6 +69,35 @@ function getColumns() {
             break;
         }
         return $("<div class='grid-cell'/>").width("200").text(statusText);
+      }
+    },
+    { text: "Result", width: 150, index: "result",
+      getCellContents: function (
+        rowInfo, 
+        dataIndex, 
+        expandedState, 
+        level, 
+        column, 
+        indentIndex, 
+        columnOrder)
+      {
+        var resultValue = this.getColumnValue(dataIndex, column.index);
+        var resultText = "NA";
+        switch(resultValue){
+          case BuildResult.Canceled: 
+            resultText = "Canceled";
+            break;
+          case BuildResult.Failed:
+            resultText = "Failed";
+            break;
+          case BuildResult.PartiallySucceeded:
+            resultText = "Partially Succeeded";
+            break;
+          case BuildResult.Succeeded:
+            resultText = "Succeeded";
+            break;
+        }
+        return $("<div class='grid-cell'/>").width("200").text(resultText);
       }
     }
   ]
