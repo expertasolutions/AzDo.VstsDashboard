@@ -105,7 +105,9 @@ function getColumns() {
 export function getLastBuilds(source: Array<build>, target: Grids.Grid): void {
   let client = BuildRestClient.getClient();
   client.getBuilds(getTeamContext().projectname).then(builds => {
-    builds.forEach(b=> {
+    // Add only build instance not present in the list
+    builds.filter(b=> source.find(x=> x.id == b.id) == null)
+          .forEach(b=> {
       source.push({ 
         id: b.id, 
         teamProject: b.project.name,
