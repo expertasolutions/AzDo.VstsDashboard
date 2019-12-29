@@ -158,6 +158,7 @@ var grid = Controls.create(Grids.Grid, buildContainer, buildGridOptions);
 //getRelease(releaseSource);
 
 function refreshData() {
+  console.log("refreshData called: " + new Date().getTime());
   getLastBuilds(buildSource, grid);
 }
 
