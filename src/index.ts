@@ -161,6 +161,6 @@ function refreshData() {
   getLastBuilds(buildSource, grid);
 }
 
-setTimeout(()=> console.log("hello louis"), 5000);
+setInterval(()=> console.log("hello louis"), 5000);
 
 refreshData();
