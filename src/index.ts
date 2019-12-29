@@ -121,7 +121,7 @@ export function getLastBuilds(source: Array<build>, target: Grids.Grid): void {
 
       var buildInstance = source.find(x=> x.id === newBuild.id);
       console.log(newBuild.id + " = " + buildInstance);
-      if(buildInstance === null) {
+      if(buildInstance === undefined) {
         console.log("Build " + newBuild.id + " will be add");
         // Add the build in the current list
         source.push(newBuild);
