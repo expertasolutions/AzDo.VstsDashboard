@@ -97,6 +97,7 @@ function getColumns() {
           case BuildResult.Succeeded:
             resultText = "Succeeded";
             break;
+            
         }
         return $("<div class='grid-cell'/>").width("200").text(resultText);
       }
