@@ -39,7 +39,7 @@ function getColumns() {
     { text: "Build #", width: 350, index: "buildNumber"},
     { text: "RequestedFor", width: 200, index: "requestedFor" },
     { text: "Exec (min)", width: 100, index: "queueTime"},
-    { text: "Status", width: 150, index: "status", 
+    { text: "Status", width: 100, index: "status", 
       getCellContents: function (
         rowInfo, 
         dataIndex, 
@@ -71,7 +71,7 @@ function getColumns() {
         return $("<div class='grid-cell'/>").width("200").text(statusText);
       }
     },
-    { text: "Result", width: 150, index: "result",
+    { text: "Result", width: 100, index: "result",
       getCellContents: function (
         rowInfo, 
         dataIndex, 
