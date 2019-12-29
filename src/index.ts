@@ -155,5 +155,9 @@ var buildGridOptions: Grids.IGridOptions = {
   
 }
 var grid = Controls.create(Grids.Grid, buildContainer, buildGridOptions);
-getRelease(releaseSource);
+//getRelease(releaseSource);
+
+setTimeout(()=> alert('Hello louis'), 5000);
+
+
 getLastBuilds(buildSource, grid);
