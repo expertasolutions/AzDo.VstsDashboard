@@ -14,7 +14,7 @@ import Grids = require("VSS/Controls/Grids");
 import { BuildResult, BuildStatus } from "TFS/Build/Contracts";
 
 
-class buildGrid {
+class build {
   id: number;
   teamProject: string;
   definitionName: string;
@@ -25,6 +25,11 @@ class buildGrid {
   status: BuildStatus;
 }
 
+class release {}
+  id: number;
+  name: string;
+}
+
 function getColumns() {
   return [
     { text: "Id", width: 75, index: "id" },
@@ -32,7 +37,7 @@ function getColumns() {
     { text: "Build Definition", width: 250, index: "definitionName" },
     { text: "Build #", width: 350, index: "buildNumber"},
     { text: "RequestedFor", width: 200, index: "requestedFor" },
-    { text: "Queue Time (min)", width: 100, index: "queueTime"},
+    { text: "Exec (min)", width: 100, index: "queueTime"},
     { text: "Result", width: 150, index: "result",
       getCellContents: function (
         rowInfo, 
@@ -97,7 +102,7 @@ function getColumns() {
   ]
 }
 
-export function getLastBuilds(source: Array<buildGrid>, target: Grids.Grid): void {
+export function getLastBuilds(source: Array<build>, target: Grids.Grid): void {
   let client = BuildRestClient.getClient();
   client.getBuilds(getTeamContext().projectname).then(builds => {
     builds.forEach(b=> {
@@ -115,13 +120,8 @@ export function getLastBuilds(source: Array<buildGrid>, target: Grids.Grid): voi
     target.setDataSource(source);
   });
 }
-
-class releaseGrid {
-    id: number;
-    name: string;
-}
  
-export function getRelease(source: Array<releaseGrid>): void {    
+export function getRelease(source: Array<release>): void {    
   //let client = ReleaseRestClient.getClient();
   /*
   client.getDeployments(getTeamContext().projectname).then(definitions => {
@@ -133,8 +133,8 @@ export function getRelease(source: Array<releaseGrid>): void {
 }
 
 var buildContainer = $("#gridLastBuilds");
-var buildSource = new Array<buildGrid>();
-var releaseSource = new Array<releaseGrid>();
+var buildSource = new Array<build>();
+var releaseSource = new Array<release>();
 
 var buildGridOptions: Grids.IGridOptions = {
   width: "100%",
