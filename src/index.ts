@@ -101,7 +101,8 @@ function getColumns() {
         return $("<div class='grid-cell'/>").width("200").text(resultText);
       }
     }, 
-    { text: "Release", width:150, index: "releaseStatus" }
+    { text: "Release", width:150, index: "releaseStatus" },
+    { text: "deleted", width:100, index: "deleted"}
   ]
 }
 
@@ -132,7 +133,7 @@ export function getLastBuilds(source: Array<build>, target: Grids.Grid): void {
         console.log("delete a build");
         var indexToRemove = source.indexOf(buildInstance);
         source = source.slice(indexToRemove, 1);
-      } else  {
+      } else {
         // update the build with new infos
         source[source.indexOf(buildInstance)] = newBuild;
       }
