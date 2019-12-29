@@ -24,6 +24,7 @@ class build {
   result: BuildResult;
   status: BuildStatus;
   deleted: boolean;
+  releaseStatus: string;
 }
 
 class release {
@@ -99,7 +100,8 @@ function getColumns() {
         }
         return $("<div class='grid-cell'/>").width("200").text(resultText);
       }
-    }
+    }, 
+    { text: "Release", width:150, index: "releaseStatus" }
   ]
 }
 
@@ -118,7 +120,8 @@ export function getLastBuilds(source: Array<build>, target: Grids.Grid): void {
         queueTime: 0,
         result: b.result,
         status: b.status,
-        deleted: b.deleted === undefined ? false : b.deleted
+        deleted: b.deleted === undefined ? false : b.deleted,
+        releaseStatus: 'NA'
       };
 
       var buildInstance = source.find(x=> x.id === newBuild.id);
