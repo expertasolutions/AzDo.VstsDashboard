@@ -108,9 +108,10 @@ function getColumns() {
 
 export function getLastBuilds(source: Array<build>, target: Grids.Grid): void {
   let client = BuildRestClient.getClient();
-  client.getBuilds(getTeamContext().projectname, null, null, null, null, null,null, null,
-                    null, null, null, null, null, null, null, QueryDeletedOption.IncludeDeleted)
-    .then(builds => {
+  client.getBuilds(getTeamContext().projectname, null, null, null, null, null,
+                    null, null, null, null, null, null, null, 
+                    null, null, QueryDeletedOption.IncludeDeleted
+    ).then(builds => {
     
     builds.forEach(b=> {
     
@@ -124,7 +125,7 @@ export function getLastBuilds(source: Array<build>, target: Grids.Grid): void {
         result: b.result,
         status: b.status,
         deleted: b.deleted === undefined ? false : b.deleted,
-        releaseStatus: 'NA'
+        release: 'NA'
       };
 
       var buildInstance = source.find(x=> x.id === newBuild.id);
