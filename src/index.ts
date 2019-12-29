@@ -162,6 +162,6 @@ function refreshData() {
   getLastBuilds(buildSource, grid);
 }
 
-refreshData();
+//refreshData();
 
-setInterval(()=> refreshData, 5000);
+setInterval(refreshData, 5000);
