@@ -23,6 +23,7 @@ class build {
   queueTime: number;
   result: BuildResult;
   status: BuildStatus;
+  deleted?: boolean;
 }
 
 class release {
@@ -32,7 +33,7 @@ class release {
 
 function getColumns() {
   return [
-    { text: "Id", width: 75, index: "id" },
+    { text: "Id", width: 75, index: "id", columnOrder: "desc" },
     { text: "Team Project", width: 150, index: "teamProject"},
     { text: "Build Definition", width: 250, index: "definitionName" },
     { text: "Build #", width: 350, index: "buildNumber"},
@@ -117,19 +118,19 @@ export function getLastBuilds(source: Array<build>, target: Grids.Grid): void {
         queueTime: 0,
         result: b.result,
         status: b.status,
+        deleted: b.deleted
       };
 
       var buildInstance = source.find(x=> x.id === newBuild.id);
-      console.log(newBuild.id + " = " + buildInstance);
-      if(buildInstance === undefined) {
-        console.log("Build " + newBuild.id + " will be add");
+      if(buildInstance === undefined && newBuild.deleted === undefined) {
         // Add the build in the current list
         source.push(newBuild);
-      } else {
-        console.log(newBuild.id + " updated");
+      } else if (buildInstance != undefined && newBuild.deleted === true) {
+        var indexToRemove = source.indexOf(buildInstance);
+        source = source.slice(indexToRemove, 1);
+      } else  {
         // update the build with new infos
-        var buildIndex = source.indexOf(buildInstance);
-        source[buildIndex] = newBuild;
+        source[source.indexOf(buildInstance)] = newBuild;
       }
     });
     target.setDataSource(source);
