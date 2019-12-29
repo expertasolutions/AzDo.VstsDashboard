@@ -106,9 +106,8 @@ export function getLastBuilds(source: Array<build>, target: Grids.Grid): void {
   let client = BuildRestClient.getClient();
   client.getBuilds(getTeamContext().projectname).then(builds => {
     // Add only build instance not present in the list
-    builds.filter(b=> source.find(x=> x.id == b.id) == null)
-          .forEach(b=> {
-      source.push({ 
+    builds.forEach(b=> {
+      var newBuild = { 
         id: b.id, 
         teamProject: b.project.name,
         definitionName: b.definition.name,
@@ -117,7 +116,16 @@ export function getLastBuilds(source: Array<build>, target: Grids.Grid): void {
         queueTime: 0,
         result: b.result,
         status: b.status,
-      });
+      };
+
+      var buildInstance = source.find(x=> x.id === b.id);
+      if(buildInstance === null) {
+        // Add the build in the current list
+        source.push(newBuild);
+      } else {
+        // update the build with new infos
+        buildInstance = newBuild;
+      }
     });
     target.setDataSource(source);
   });
