@@ -180,4 +180,4 @@ function refreshData() {
 
 refreshData();
 
-setInterval(refreshData, 5000);
+setInterval(refreshData, 2000);
