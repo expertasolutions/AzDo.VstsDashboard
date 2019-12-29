@@ -11,7 +11,7 @@ import BuildRestClient = require("TFS/Build/RestClient");
 //import ReleaseRestClient = require("ReleaseManagement/Core/RestClient");
 import Controls = require("VSS/Controls");
 import Grids = require("VSS/Controls/Grids");
-import { BuildResult, BuildStatus } from "TFS/Build/Contracts";
+import { BuildResult, BuildStatus, QueryDeletedOption } from "TFS/Build/Contracts";
 
 
 class build {
@@ -108,7 +108,9 @@ function getColumns() {
 
 export function getLastBuilds(source: Array<build>, target: Grids.Grid): void {
   let client = BuildRestClient.getClient();
-  client.getBuilds(getTeamContext().projectname).then(builds => {
+  client.getBuilds(getTeamContext().projectname, null, null, null, null, null,null, null,
+                    null, null, null, null, null, null, null, QueryDeletedOption.IncludeDeleted)
+    .then(builds => {
     
     builds.forEach(b=> {
     
