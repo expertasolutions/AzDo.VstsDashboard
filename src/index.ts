@@ -69,7 +69,7 @@ function getColumns() {
             statusText = "Postponed";
             break;
         }
-        return $("<div class='grid-cell'/>").width("200").text(statusText);
+        return $("<div class='grid-cell'/>").width("100").text(statusText);
       }
     },
     { text: "Result", width: 100, index: "result",
@@ -98,7 +98,7 @@ function getColumns() {
             resultText = "Succeeded";
             break;
         }
-        return $("<div class='grid-cell'/>").width("200").text(resultText);
+        return $("<div class='grid-cell'/>").width("100").text(resultText);
       }
     }, 
   ]
