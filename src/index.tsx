@@ -1,11 +1,13 @@
 import * as React from "react";
+import * as ReactDOM from "react-dom";
 import * as SDK from "azure-devops-extension-sdk";
 
 //import { Header } from "azure-devops-ui/Header";
 //import { Page } from "azure-devops-ui/Page";
 
+import { showRootComponent } from "./Common/Common";
 
-class cicdDashboard extends React.Component<{}, {}> {
+class CICDDashboard extends React.Component<{}, {}> {
   public componentDidMount() {
     SDK.init();
   }
@@ -22,6 +24,8 @@ class cicdDashboard extends React.Component<{}, {}> {
     */
   }
 }
+
+showRootComponent(<CICDDashboard />);
 
 /*
 export function getTeamContext(){
