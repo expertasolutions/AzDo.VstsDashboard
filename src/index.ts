@@ -1,3 +1,29 @@
+import * as React from "react";
+import * as SDK from "azure-devops-extension-sdk";
+
+import { Header } from "azure-devops-ui/Header";
+import { Page } from "azure-devops-ui/Page";
+
+
+class cicdDashboard extends React.Component<{}, {}> {
+  public componentDidMount() {
+    SDK.init();
+  }
+
+  public render() : JSX.Element {
+    return React.createElement("div", "Hello world");
+    /*
+    return (
+        <Page>
+          <Header> title="Test"/>
+          <div>hello world</div>  
+        </Page>
+      );
+    */
+  }
+}
+
+/*
 export function getTeamContext(){
   var webcontext = VSS.getWebContext();
   return {
@@ -6,7 +32,6 @@ export function getTeamContext(){
   };
 }
 
-//import { Artifact } from "ReleaseManagement/Core/Contracts";
 import BuildRestClient = require("TFS/Build/RestClient");
 import { BuildResult, BuildStatus, QueryDeletedOption } from "TFS/Build/Contracts";
 import Controls = require("VSS/Controls");
@@ -139,12 +164,9 @@ export function getLastBuilds(source: Array<build>, target: Grids.Grid): void {
     target.setDataSource(source);
   });
 }
- 
-import RmContractDefinitions = require("ReleaseManagement/Core/Contracts");
-import RmClientDefinitions = require('ReleaseManagement/Core/RestClient');
 
 export function getRelease(source: Array<release>): void {    
-    let client = RmClientDefinitions.getClient();
+  let client = ReleaseRestClient.getClient()
     client.getDeployments(getTeamContext().projectname).then(definitions => {
         definitions.forEach(d => {
             source.push({ name: d.release.name, id: d.id });
@@ -168,12 +190,10 @@ var buildGridOptions: Grids.IGridOptions = {
     var buildInstance = grid.getRowData(index);
     
     var releases = "test";
-    /*
     var releases = releaseSource.find(function(elm:releaseGrid) {
       return true;
     //  return elm.artifacts.filter(a=> a.definitionReference.version.id === buildInstance.Id) != null;
     });
-    */
     $("#buildDetails").text(JSON.stringify(releases));
   }
   
@@ -188,3 +208,4 @@ function refreshData() {
 refreshData();
 
 setInterval(refreshData, 5000);
+*/

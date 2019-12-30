@@ -2,13 +2,24 @@
   "compilerOptions": {
     "skipLibCheck": true,
     "strict": false,
+    "charset": "utf8",
+    "experimentalDecorators": true,
     "module": "amd",
     "moduleResolution": "node",
-    "target": "es6",
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "target": "es5",
+    "jsx": "react",
+    "lib": [
+      "es5",
+      "es6",
+      "dom",
+      "es2015.promise"
+    ],
     "rootDir": "src/",
     "outDir": "dist/",
     "types": [
-        "vss-web-extension-sdk"
-    ]	
+      "react"
+    ]
   }
 }
