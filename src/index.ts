@@ -141,7 +141,7 @@ export function getLastBuilds(source: Array<build>, target: Grids.Grid): void {
 }
  
 import RmContractDefinitions = require("ReleaseManagement/Core/Contracts");
-//import RmClientDefinitions = require('ReleaseManagement/Core/RestClient');
+import RmClientDefinitions = require('ReleaseManagement/Core/RestClient');
 
 export function getRelease(source: Array<release>): void {    
   /*
