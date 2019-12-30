@@ -144,18 +144,13 @@ import RmContractDefinitions = require("ReleaseManagement/Core/Contracts");
 import RmClientDefinitions = require('ReleaseManagement/Core/RestClient');
 
 export function getRelease(source: Array<release>): void {    
-  /*
-  VSS.require(['ReleaseManagement/Core/RestClient'], (RmClientService) => {
-    let client = <RmClientDefinitions.ReleaseHttpClient4>RmClientService.getClient();
-    
+    let client = RmClientDefinitions.getClient();
     client.getDeployments(getTeamContext().projectname).then(definitions => {
         definitions.forEach(d => {
             source.push({ name: d.release.name, id: d.id });
         });
     });
-  });
-  */
-   $("#buildDetails").text("release is finish");
+   $("#buildDetails").text(JSON.stringify(source));
 }
 
 var buildContainer = $("#gridLastBuilds");
