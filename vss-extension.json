@@ -60,7 +60,7 @@
         "ms.vss-releaseManagement-web.release-service-data-external"
       ],
       "targets":[
-        "ms.vss-build-web.build-release-hub-group",
+        "ms.vss-build-web.build-release-hub-group"
       ],
       "properties": {
         "name":"CI/CD Dashboard",
