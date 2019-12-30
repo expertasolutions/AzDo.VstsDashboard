@@ -133,7 +133,7 @@ export function getLastBuilds(source: Array<build>, target: Grids.Grid): void {
       } else if (buildInstance != undefined && newBuild.deleted === true) {
         console.log("delete a build");
         var indexToRemove = source.indexOf(buildInstance);
-        source = source.slice(indexToRemove, indexToRemove-1);
+        source = source.slice(indexToRemove,indexToRemove+1);
       } else {
         // update the build with new infos
         source[source.indexOf(buildInstance)] = newBuild;
