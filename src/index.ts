@@ -8,11 +8,9 @@ export function getTeamContext(){
 
 //import { Artifact } from "ReleaseManagement/Core/Contracts";
 import BuildRestClient = require("TFS/Build/RestClient");
-
 import Controls = require("VSS/Controls");
 import Grids = require("VSS/Controls/Grids");
 import { BuildResult, BuildStatus, QueryDeletedOption } from "TFS/Build/Contracts";
-
 
 class build {
   id: number;
@@ -143,10 +141,10 @@ export function getLastBuilds(source: Array<build>, target: Grids.Grid): void {
   });
 }
  
-import * as ReleaseRestClient from "ReleaseManagement/Core/RestClient";
+import RestClient = require("ReleaseManagement/Core/RestClient");
 
 export function getRelease(source: Array<release>): void {    
-  let client = ReleaseRestClient.getClient();
+  let client = RestClient.getClient();
   
   client.getDeployments(getTeamContext().projectname).then(definitions => {
       definitions.forEach(d => {
