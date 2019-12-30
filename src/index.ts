@@ -141,9 +141,10 @@ export function getLastBuilds(source: Array<build>, target: Grids.Grid): void {
 }
  
 import RmContractDefinitions = require("ReleaseManagement/Core/Contracts");
-import RmClientDefinitions = require('ReleaseManagement/Core/RestClient');
+//import RmClientDefinitions = require('ReleaseManagement/Core/RestClient');
 
 export function getRelease(source: Array<release>): void {    
+  /*
   VSS.require(['ReleaseManagement/Core/RestClient'], (RmClientService) => {
     let client = <RmClientDefinitions.ReleaseHttpClient4>RmClientService.getClient();
     
@@ -152,8 +153,9 @@ export function getRelease(source: Array<release>): void {
             source.push({ name: d.release.name, id: d.id });
         });
     });
-    $("#buildDetails").text(JSON.stringify(source));
   });
+  */
+   $("#buildDetails").text("release is finish");
 }
 
 var buildContainer = $("#gridLastBuilds");
