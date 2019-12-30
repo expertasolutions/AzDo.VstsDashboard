@@ -40,10 +40,6 @@
     {
       "path":"dist",
       "addressable": true
-    },
-    {
-      "path":"static",
-      "addressable": true
     }
   ],
   "contributions": [
