@@ -38,11 +38,11 @@
   },
   "files": [
     {
-      "path":"dist",
+      "path": "static",
       "addressable": true
     },
     {
-      "path": "static",
+      "path":"dist",
       "addressable": true
     }
   ],
