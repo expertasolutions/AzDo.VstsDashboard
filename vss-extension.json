@@ -57,7 +57,7 @@
       "properties": {
         "name":"CI/CD Dashboard",
         "order":100,
-        "uri":"dist/index.html"
+        "uri":"static/index.html"
       }
     }
   ]
