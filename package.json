@@ -16,7 +16,7 @@
     "vss-web-extension-sdk": "^4.126.2"
   },
   "devDependencies": {
-    "tfx-cli": "^0.4.16",
+    "tfx-cli": "^0.7.11",
     "typescript": "^2.9.2"
   },
   "repository": {

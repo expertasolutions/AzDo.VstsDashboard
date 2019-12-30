@@ -123,7 +123,6 @@ export function getLastBuilds(source: Array<build>, target: Grids.Grid): void {
         deleted: b.deleted === undefined ? false : b.deleted,
         release: 'NA'
       };
-      /*
       var buildInstance = source.find(x=> x.id === newBuild.id);
       if(buildInstance === undefined && newBuild.deleted === false) {
         // Add the build in the current list
@@ -136,7 +135,6 @@ export function getLastBuilds(source: Array<build>, target: Grids.Grid): void {
         // update the build with new infos
         source[source.indexOf(buildInstance)] = newBuild;
       }
-      */
     });
     target.setDataSource(source);
   });
@@ -147,14 +145,14 @@ import RmClientDefinitions = require('ReleaseManagement/Core/RestClient');
 
 export function getRelease(source: Array<release>): void {    
   VSS.require(['ReleaseManagement/Core/RestClient'], (RmClientService) => {
-    //let client = <RmClientDefinitions.ReleaseHttpClient4>RmClientService.getClient();
-    /*
+    let client = <RmClientDefinitions.ReleaseHttpClient4>RmClientService.getClient();
+    
     client.getDeployments(getTeamContext().projectname).then(definitions => {
         definitions.forEach(d => {
             source.push({ name: d.release.name, id: d.id });
         });
     });
-    */
+    $("#buildDetails").text(JSON.stringify(JSON.stringify(source)));
   });
 }
 
@@ -164,7 +162,7 @@ var releaseSource = new Array<release>();
 
 var buildGridOptions: Grids.IGridOptions = {
   width: "100%",
-  height: "100%",
+  height: "50%",
   columns: getColumns(),
   sortOrder: [
     { index: "id", order: "desc" }
