@@ -67,7 +67,6 @@ function getColumns() {
             break;
           case BuildStatus.Postponed:
             statusText = "Postponed";
-            
             break;
         }
         return $("<div class='grid-cell'/>").width("100").text(statusText);
