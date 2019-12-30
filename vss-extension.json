@@ -40,6 +40,10 @@
     {
       "path":"dist",
       "addressable": true
+    },
+    {
+      "path": "static",
+      "addressable": true
     }
   ],
   "contributions": [
@@ -57,7 +61,7 @@
         "name":"CI/CD Dashboard",
         "icon":"asset://small-icon.png",
         "order":100,
-        "uri":"dist/index.html"
+        "uri":"static/index.html"
       }
     }
   ]
