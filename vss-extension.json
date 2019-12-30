@@ -51,16 +51,13 @@
       "id":"cicdpipelines",
       "type":"ms.vss-web.hub",
       "description": "CI/CD Pipelines in the Work Hub group",
-      "includes": [
-        "ms.vss-releaseManagement-web.release-service-data-external"
-      ],
       "targets":[
         "ms.vss-build-web.build-release-hub-group"
       ],
       "properties": {
         "name":"CI/CD Dashboard",
         "order":100,
-        "uri":"static/index.html"
+        "uri":"static/static.html"
       }
     }
   ]
