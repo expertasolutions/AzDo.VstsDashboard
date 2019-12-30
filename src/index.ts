@@ -152,7 +152,7 @@ export function getRelease(source: Array<release>): void {
             source.push({ name: d.release.name, id: d.id });
         });
     });
-    $("#buildDetails").text(JSON.stringify(JSON.stringify(source)));
+    $("#buildDetails").text(JSON.stringify(source));
   });
 }
 
