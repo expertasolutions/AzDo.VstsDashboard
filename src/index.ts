@@ -123,7 +123,7 @@ export function getLastBuilds(source: Array<build>, target: Grids.Grid): void {
         deleted: b.deleted === undefined ? false : b.deleted,
         release: 'NA'
       };
-
+      /*
       var buildInstance = source.find(x=> x.id === newBuild.id);
       if(buildInstance === undefined && newBuild.deleted === false) {
         // Add the build in the current list
@@ -136,6 +136,7 @@ export function getLastBuilds(source: Array<build>, target: Grids.Grid): void {
         // update the build with new infos
         source[source.indexOf(buildInstance)] = newBuild;
       }
+      */
     });
     target.setDataSource(source);
   });
