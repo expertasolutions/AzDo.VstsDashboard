@@ -57,7 +57,8 @@
       "type":"ms.vss-web.hub",
       "description": "CI/CD Pipelines in the Work Hub group",
       "targets":[
-        "ms.vss-build-web.build-release-hub-group"
+        "ms.vss-build-web.build-release-hub-group",
+        "ms.vss-releaseManagement-web.release-service-data-external"
       ],
       "properties": {
         "name":"CI/CD Dashboard",
