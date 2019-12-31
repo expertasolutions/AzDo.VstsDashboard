@@ -151,7 +151,7 @@ interface IStatusIndicatorData {
 export function getPipelineIndicator(result: BuildResult, status:BuildStatus) : IStatusIndicatorData {
   const indicatorData: IStatusIndicatorData = {
     label: "NA",
-    statusProps: { ...Statuses.Skipped, ariaLabel: "None" }
+    statusProps: { ...Statuses.Queued, ariaLabel: "None" }
   };
 
   if(result === undefined){
