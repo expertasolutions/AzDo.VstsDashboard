@@ -14,7 +14,7 @@ import {
 } from "azure-devops-ui/Table";
 import { css } from "azure-devops-ui/Util";
 import { ArrayItemProvider } from "azure-devops-ui/Utilities/Provider";
-import { BuildResult } from "azure-devops-extension-api/Build";
+import { BuildResult, BuildStatus } from "azure-devops-extension-api/Build";
 
 export interface BuildRowItem extends ISimpleTableCell {
   id: number;
@@ -22,9 +22,20 @@ export interface BuildRowItem extends ISimpleTableCell {
   definitionName: string;
   buildNumber: string;
   requestedFor: string;
-  result: string;
+  result: ISimpleListCell;
   status: string;
 }
+
+export const renderStatus = (className?: string) => {
+  return (
+      <Status
+          {...Statuses.Success}
+          ariaLabel="Success"
+          className={css(className, "bolt-table-status-icon")}
+          size={StatusSize.s}
+      />
+  );
+};
 
 export const dashboardColumns = [
   {
@@ -48,7 +59,7 @@ export const dashboardColumns = [
       name: "buildNumber",
       readonly: true,
       renderCell: renderSimpleCell,
-      width: new ObservableValue(250)
+      width: new ObservableValue(350)
   },
     {
       columnLayout: TableColumnLayout.none,
@@ -56,9 +67,9 @@ export const dashboardColumns = [
       name: "requestedFor",
       readonly: true,
       renderCell: renderSimpleCell,
-      width: new ObservableValue(250)
+      width: new ObservableValue(200)
   },
-    {
+  {
       columnLayout: TableColumnLayout.none,
       id: "result",
       name: "result",
@@ -72,22 +83,38 @@ export const dashboardColumns = [
       name: "status",
       readonly: true,
       renderCell: renderSimpleCell,
-      width: new ObservableValue(250)
+      width: new ObservableValue(100)
   },
   ColumnFill
 ];
 
+interface IStatusIndicatorData {
+  statusProps: IStatusProps;
+  label:string;
+}
 
-export const renderStatus = (className?: string) => {
-  return (
-      <Status
-          {...Statuses.Success}
-          ariaLabel="Success"
-          className={css(className, "bolt-table-status-icon")}
-          size={StatusSize.s}
-      />
-  );
-};
+export function getBuildResultIndicator(status: BuildResult) : IStatusIndicatorData {
+  const indicatorData: IStatusIndicatorData = {
+    label: "NA",
+    statusProps: { ...Statuses.Skipped, ariaLabel: "None" }
+  };
+
+  switch(status){
+    case BuildResult.Canceled:
+      indicatorData.statusProps = { ...Statuses.Canceled, ariaLabel: "Canceled"};
+      indicatorData.label = "Canceled";
+      break;
+    case BuildResult.Succeeded:
+      indicatorData.statusProps = { ...Statuses.Success, ariaLabel: "Success"};
+      indicatorData.label = "Success";
+      break;
+    case BuildResult.Failed:
+      indicatorData.statusProps = { ...Statuses.Failed, ariaLabel: "Fail"};
+      indicatorData.label = "Fail";
+      break;
+  }
+  return indicatorData;
+}
 
 /*
 export const rawTableItems: ITableItem[] = [

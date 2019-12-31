@@ -2,7 +2,7 @@ import * as React from "react";
 import * as SDK from "azure-devops-extension-sdk";
 import * as Api from "azure-devops-extension-api";
 
-import { dashboardColumns, BuildRowItem }  from "./tableData";
+import { dashboardColumns, BuildRowItem, getBuildResultIndicator, renderStatus }  from "./tableData";
 
 import { Card } from "azure-devops-ui/Card";
 import { Table } from "azure-devops-ui/Table";
@@ -48,7 +48,7 @@ class CICDDashboard extends React.Component<{}, {}> {
         definitionName: currentBuild.definition.name,
         buildNumber: currentBuild.buildNumber,
         requestedFor: currentBuild.requestedFor.displayName,
-        result: currentBuild.result.toString(),
+        result: { iconProps: { render: renderStatus }, text: currentBuild.result.toString() },
         status: currentBuild.status.toString()
       });
     }
