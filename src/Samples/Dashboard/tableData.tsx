@@ -27,6 +27,9 @@ function renderBuildDefCell (
           tableColumn={tableColumn}
           key={"col-" + columnIndex}
           contentClassName="fontWeightSemiBold font-weight-semibold fontSizeM font-size-m scroll-hidden">
+            <Status {...getBuildDefinitionStatus(tableItem).statusProps}
+                    className="icon-large-margin"
+                    size={StatusSize.l}/>
           <div>{tableItem.name}</div>
       </SimpleTableCell>
   );
@@ -183,7 +186,20 @@ interface IStatusIndicatorData {
   label:string;
 }
 
-export function getPipelineIndicator(result: BuildResult, status:BuildStatus) : IStatusIndicatorData {
+function getBuildDefinitionStatus(buildDefItem: IBuildDef) : IStatusIndicatorData {
+  const indicatorData: IStatusIndicatorData = {
+    label: "NA",
+    statusProps: { ...Statuses.Queued, ariaLabel: "None" }
+  };
+  
+  let lastBuild = buildDefItem.Pipelines[buildDefItem.Pipelines.length-1];
+  if(lastBuild != undefined) {
+    return getPipelineIndicator(lastBuild.result, lastBuild.status);
+  } 
+  return indicatorData;
+}
+
+function getPipelineIndicator(result: BuildResult, status:BuildStatus) : IStatusIndicatorData {
   const indicatorData: IStatusIndicatorData = {
     label: "NA",
     statusProps: { ...Statuses.Queued, ariaLabel: "None" }
@@ -221,7 +237,7 @@ export function getPipelineIndicator(result: BuildResult, status:BuildStatus) : 
           indicatorData.label = "Completed";
           break;
         case BuildStatus.NotStarted:
-          indicatorData.statusProps = { ...Statuses.Queued, ariaLabel: "Not Started"};
+          indicatorData.statusProps = { ...Statuses.Waiting, ariaLabel: "Not Started"};
           indicatorData.label = "NotStarted";
           break;
         case BuildStatus.InProgress:

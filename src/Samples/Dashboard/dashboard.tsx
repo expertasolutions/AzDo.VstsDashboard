@@ -1,8 +1,7 @@
 import * as React from "react";
 import * as SDK from "azure-devops-extension-sdk";
-import * as Api from "azure-devops-extension-api";
 
-import { getBuilds, getBuildDefinitions , IBuildDef, IPipelineItem } from "./PipelineServices";
+import { getBuilds, getBuildDefinitions , IBuildDef } from "./PipelineServices";
 import { dashboardColumns }  from "./tableData";
 
 import { Card } from "azure-devops-ui/Card";
@@ -91,7 +90,8 @@ class CICDDashboard extends React.Component<{}, {}> {
       <Card className="flex-grow bolt-table-card" 
             titleProps={{ text: "All pipelines" }} 
             contentProps={{ contentPadding: false }}>
-        <Table<IBuildDef> columns={dashboardColumns} itemProvider={tableItems} role="table"/>
+        <Table<IBuildDef> columns={dashboardColumns} itemProvider={tableItems} role="table">
+        </Table>
       </Card>
     );
   }
