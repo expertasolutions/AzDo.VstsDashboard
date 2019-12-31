@@ -133,7 +133,7 @@ export const dashboardColumns : ITableColumn<IBuildRowItem>[] = [
   {
     id:"Info",
     renderCell: renderLastColumn,
-    width:250;
+    width:250
   },
   {
       id: "Duration",
