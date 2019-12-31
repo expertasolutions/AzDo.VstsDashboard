@@ -2,7 +2,7 @@ import * as React from "react";
 import * as SDK from "azure-devops-extension-sdk";
 import * as Api from "azure-devops-extension-api";
 
-import { dashboardColumns, tableItemsNoIcons }  from "./tableData";
+import { dashboardColumns, ITableItem }  from "./tableData";
 
 import { Card } from "azure-devops-ui/Card";
 import { Table } from "azure-devops-ui/Table";
@@ -12,6 +12,7 @@ import { Table } from "azure-devops-ui/Table";
 
 import { showRootComponent } from "../../Common";
 import { BuildRestClient, Build, BuildAgent } from "azure-devops-extension-api/Build";
+import { ArrayItemProvider } from "azure-devops-ui/Utilities/Provider";
 
 const getBuildsData = async() => {
   let buildClient = Api.getClient(BuildRestClient);
@@ -36,14 +37,28 @@ class CICDDashboard extends React.Component<{}, {}> {
 
     let buildsList = this.state.builds;
 
+    let buildRows: ITableItem[];
+    buildRows = [];
+
     for(let i=0;i<buildsList.length;i++){
       let currentBuild = buildsList[i];
-      console.log(currentBuild.id + " - " + currentBuild.definition.name + " - " + currentBuild.buildNumber);
+      buildRows.push({
+        id: currentBuild.id,
+        name: currentBuild.definition.name,
+        buildNumber: currentBuild.buildNumber
+      });
     }
+
+    const tableItems = new ArrayItemProvider<ITableItem>(
+      buildRows.map((item: ITableItem) => {
+        const newItem = Object.assign({}, item);
+        return newItem;
+      })
+    );
 
     return (
       <Card className="flex-grow bolt-table-card" contentProps={{ contentPadding: false }}>
-        <Table columns={dashboardColumns} itemProvider={tableItemsNoIcons} role="table">
+        <Table columns={dashboardColumns} itemProvider={tableItems} role="table">
 
         </Table>
       </Card>

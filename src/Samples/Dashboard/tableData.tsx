@@ -16,31 +16,31 @@ import { css } from "azure-devops-ui/Util";
 import { ArrayItemProvider } from "azure-devops-ui/Utilities/Provider";
 
 export interface ITableItem extends ISimpleTableCell {
-  name: ISimpleListCell;
-  age: number;
-  gender: string;
+  id: number;
+  name: string;
+  buildNumber: string;
 }
 
 export const dashboardColumns = [
   {
     columnLayout: TableColumnLayout.singleLinePrefix,
-    id: "name",
-    name: "Name",
+    id: "id",
+    name: "id",
     readonly: true,
     renderCell: renderSimpleCell,
     width: new ObservableValue(200)
   },
   {
-      id: "age",
-      name: "Age",
+      id: "name",
+      name: "name",
       readonly: true,
       renderCell: renderSimpleCell,
       width: new ObservableValue(100)
   },
   {
       columnLayout: TableColumnLayout.none,
-      id: "gender",
-      name: "Gender",
+      id: "buildNumber",
+      name: "buildNumber",
       readonly: true,
       renderCell: renderSimpleCell,
       width: new ObservableValue(100)
@@ -60,6 +60,7 @@ export const renderStatus = (className?: string) => {
   );
 };
 
+/*
 export const rawTableItems: ITableItem[] = [
   {
       age: 50,
@@ -77,7 +78,8 @@ export const rawTableItems: ITableItem[] = [
       name: { iconProps: { iconName: "Home", ariaLabel: "Home" }, text: "Lucy Booth" }
   }
 ];
-
+*/
+/*
 export const tableItemsNoIcons = new ArrayItemProvider<ITableItem>(
   rawTableItems.map((item: ITableItem) => {
       const newItem = Object.assign({}, item);
@@ -85,3 +87,4 @@ export const tableItemsNoIcons = new ArrayItemProvider<ITableItem>(
       return newItem;
   })
 );
+*/
