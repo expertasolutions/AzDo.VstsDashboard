@@ -107,7 +107,7 @@ function renderDateColumn(
               className: "fontSize font-size bolt-table-two-line-cell-item",
               iconProps: { iconName: "Clock" },
               children: (
-                  <div>{lastBuildRun.startTime} - {lastBuildRun.endTime}</div>
+                  <div>datetime here</div>
               )
           })}
       />
