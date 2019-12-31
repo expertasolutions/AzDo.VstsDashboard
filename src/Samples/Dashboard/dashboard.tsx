@@ -2,6 +2,11 @@ import * as React from "react";
 import * as SDK from "azure-devops-extension-sdk";
 import * as Api from "azure-devops-extension-api";
 
+import { dashboardColumns, tableItemsNoIcons }  from "./tableData";
+
+import { Card } from "azure-devops-ui/Card";
+import { Table } from "azure-devops-ui/Table";
+
 //import { Header } from "azure-devops-ui/Header";
 //import { Page } from "azure-devops-ui/Page";
 
@@ -36,15 +41,13 @@ class CICDDashboard extends React.Component<{}, {}> {
       console.log(currentBuild.id + " - " + currentBuild.definition.name + " - " + currentBuild.buildNumber);
     }
 
-    return (<div>test</div>);
-    /*
     return (
-        <Page>
-          <Header> title="Test"/>
-          <div>hello world</div>  
-        </Page>
-      );
-    */
+      <Card className="flex-grow bolt-table-card" contentProps={{ contentPadding: false }}>
+        <Table columns={dashboardColumns} itemProvider={tableItemsNoIcons} role="table">
+
+        </Table>
+      </Card>
+    );
   }
 }
 
