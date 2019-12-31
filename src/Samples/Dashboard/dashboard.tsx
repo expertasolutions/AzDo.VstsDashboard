@@ -2,7 +2,7 @@ import * as React from "react";
 import * as SDK from "azure-devops-extension-sdk";
 import * as Api from "azure-devops-extension-api";
 
-import { dashboardColumns, BuildRowItem, getBuildResultIndicator, renderStatus }  from "./tableData";
+import { dashboardColumns, IBuildRowItem, getBuildResultIndicator }  from "./tableData";
 
 import { Card } from "azure-devops-ui/Card";
 import { Table } from "azure-devops-ui/Table";
@@ -37,7 +37,7 @@ class CICDDashboard extends React.Component<{}, {}> {
 
     let buildsList = this.state.builds;
 
-    let buildRows: BuildRowItem[];
+    let buildRows: IBuildRowItem[];
     buildRows = [];
 
     for(let i=0;i<buildsList.length;i++){
@@ -48,13 +48,13 @@ class CICDDashboard extends React.Component<{}, {}> {
         definitionName: currentBuild.definition.name,
         buildNumber: currentBuild.buildNumber,
         requestedFor: currentBuild.requestedFor.displayName,
-        result: { iconProps: { render: renderStatus }, text: currentBuild.result.toString() },
+        result: currentBuild.result,
         status: currentBuild.status.toString()
       });
     }
 
-    const tableItems = new ArrayItemProvider<BuildRowItem>(
-      buildRows.map((item: BuildRowItem) => {
+    const tableItems = new ArrayItemProvider<IBuildRowItem>(
+      buildRows.map((item: IBuildRowItem) => {
         const newItem = Object.assign({}, item);
         return newItem;
       })

@@ -8,6 +8,8 @@ import {
     ColumnFill,
     ColumnMore,
     ColumnSelect,
+    ITableColumn,
+    SimpleTableCell,
     ISimpleTableCell,
     renderSimpleCell,
     TableColumnLayout
@@ -16,82 +18,98 @@ import { css } from "azure-devops-ui/Util";
 import { ArrayItemProvider } from "azure-devops-ui/Utilities/Provider";
 import { BuildResult, BuildStatus } from "azure-devops-extension-api/Build";
 
-export interface BuildRowItem extends ISimpleTableCell {
+export interface IBuildRowItem {
   id: number;
   teamProject: string;
   definitionName: string;
   buildNumber: string;
   requestedFor: string;
-  result: ISimpleListCell;
+  result: BuildResult;
   status: string;
 }
 
-export const renderStatus = (className?: string) => {
+function renderNormalCell (
+  rowIndex: number,
+  columnIndex: number,
+  tableColumn: ITableColumn<IBuildRowItem>,
+  tableItem: IBuildRowItem
+): JSX.Element {
   return (
-      <Status
-          {...Statuses.Success}
-          ariaLabel="Success"
-          className={css(className, "bolt-table-status-icon")}
-          size={StatusSize.s}
-      />
+      <SimpleTableCell
+          columnIndex={columnIndex}
+          tableColumn={tableColumn}
+          key={"col-" + columnIndex}
+          contentClassName="fontWeightSemiBold font-weight-semibold fontSizeM font-size-m scroll-hidden">
+          <div>columnIndex</div>
+      </SimpleTableCell>
   );
-};
+}
 
-export const dashboardColumns = [
+function renderResultColumn(
+  rowIndex: number,
+  columnIndex: number,
+  tableColumn: ITableColumn<IBuildRowItem>,
+  tableItem: IBuildRowItem
+): JSX.Element {
+  return (
+      <SimpleTableCell
+          columnIndex={columnIndex}
+          tableColumn={tableColumn}
+          key={"col-" + columnIndex}
+          contentClassName="fontWeightSemiBold font-weight-semibold fontSizeM font-size-m scroll-hidden">
+          <Status
+              {...getBuildResultIndicator(tableItem.result).statusProps}
+              className="icon-large-margin"
+              size={StatusSize.l}
+          />
+      </SimpleTableCell>
+  );
+}
+
+export const dashboardColumns : ITableColumn<IBuildRowItem>[] = [
   {
-    columnLayout: TableColumnLayout.singleLinePrefix,
     id: "id",
     name: "id",
-    readonly: true,
-    renderCell: renderSimpleCell,
-    width: new ObservableValue(75)
+    renderCell: renderNormalCell,
+    width: 50
   },
   {
       id: "definitionName",
       name: "definitionName",
-      readonly: true,
-      renderCell: renderSimpleCell,
-      width: new ObservableValue(200)
+      renderCell: renderNormalCell,
+      width: 250
   },
   {
-      columnLayout: TableColumnLayout.none,
       id: "buildNumber",
       name: "buildNumber",
-      readonly: true,
-      renderCell: renderSimpleCell,
-      width: new ObservableValue(350)
+      renderCell: renderNormalCell,
+      width: 350
   },
-    {
-      columnLayout: TableColumnLayout.none,
+  {
       id: "requestedFor",
       name: "requestedFor",
-      readonly: true,
-      renderCell: renderSimpleCell,
-      width: new ObservableValue(200)
+      renderCell: renderNormalCell,
+      width: 150
   },
   {
-      columnLayout: TableColumnLayout.none,
       id: "result",
       name: "result",
-      readonly: true,
-      renderCell: renderSimpleCell,
-      width: new ObservableValue(100)
+      renderCell: renderResultColumn,
+      width: 50
   },
   {
-      columnLayout: TableColumnLayout.none,
       id: "status",
       name: "status",
-      readonly: true,
-      renderCell: renderSimpleCell,
-      width: new ObservableValue(100)
+      renderCell: renderNormalCell,
+      width: 50
   },
-  ColumnFill
 ];
 
 interface IStatusIndicatorData {
   statusProps: IStatusProps;
   label:string;
 }
+
 
 export function getBuildResultIndicator(status: BuildResult) : IStatusIndicatorData {
   const indicatorData: IStatusIndicatorData = {
