@@ -3,7 +3,15 @@ const fs = require("fs");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 // Webpack entry points. Mapping from resulting bundle name to the source file entry.
-const entries = [ __dirname + "/src" ];
+const entries = {};
+
+// Loop through subfolders in the "Samples" folder and add an entry for each one
+const samplesDir = path.join(__dirname, "src/Samples");
+fs.readdirSync(samplesDir).filter(dir => {
+    if (fs.statSync(path.join(samplesDir, dir)).isDirectory()) {
+        entries[dir] = "./" + path.relative(process.cwd(), path.join(samplesDir, dir, dir));
+    }
+});
 
 module.exports = {
     entry: entries,
@@ -46,6 +54,6 @@ module.exports = {
         ]
     },
     plugins: [
-        new CopyWebpackPlugin([ { from: "**/*.html", context: "src/" }])
+        new CopyWebpackPlugin([ { from: "**/*.html", context: "src/Samples" }])
     ]
 };

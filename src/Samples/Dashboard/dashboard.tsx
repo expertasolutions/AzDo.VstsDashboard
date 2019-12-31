@@ -4,7 +4,7 @@ import * as SDK from "azure-devops-extension-sdk";
 //import { Header } from "azure-devops-ui/Header";
 //import { Page } from "azure-devops-ui/Page";
 
-import { showRootComponent } from "./Common/Common";
+import { showRootComponent } from "../../Common";
 
 class CICDDashboard extends React.Component<{}, {}> {
   public componentDidMount() {

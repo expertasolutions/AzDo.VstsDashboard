@@ -34,11 +34,11 @@ steps:
     customCommand: 'install -g typescript'
 
 - task: Npm@1
-  displayName: 'Build and Publish CICDDashboard'
+  displayName: 'Compile extension'
   inputs:
     command: custom
     verbose: false
-    customCommand: 'run publishExt'
+    customCommand: 'run compile'
 
 - task: PackageAzureDevOpsExtension@2
   displayName: 'Package Extension: '

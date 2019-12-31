@@ -1,0 +1,18 @@
+{
+  "contributions": [
+    {
+      "id":"cicdpipelines",
+      "type":"ms.vss-web.hub",
+      "description": "CI/CD Pipelines in the Work Hub group",
+      "targets":[
+        "ms.vss-build-web.build-release-hub-group"
+      ],
+      "properties": {
+        "name":"CI/CD Dashboard",
+        "order":100,
+        "uri":"dist/dashboard/dashboard.html",
+        "icon": "asset://static/small-icon.png"
+      }
+    }
+  ]
+}
