@@ -22,7 +22,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     SDK.init();
     getBuildDefinitions("Community").then(result => {
       let currentBuildState = this.state.buildDefs;
-      for(let i=0;i<result.length;i++){
+      for(let i=0;i<result.length;i++) {
         let resultBuildDef = result[i];
         let currentBuildDef = currentBuildState.find(x=> x.id === resultBuildDef.id);
         if(currentBuildDef != undefined){
@@ -42,7 +42,7 @@ class CICDDashboard extends React.Component<{}, {}> {
         }
       }
       // Update the currentBuilds Definition
-      //this.setState({ buildDefs: currentBuildState });
+      this.setState({ buildDefs: currentBuildState });
     });
 
     // Get the All build instance
@@ -54,23 +54,12 @@ class CICDDashboard extends React.Component<{}, {}> {
   }
 
   public render() : JSX.Element {
-
-    let buildsList = this.state.buildDefs;
-
-    let buildRows: IBuildDef[];
-    buildRows = [];
-
-    for(let i=0;i<buildsList.length;i++){
-      let currentBuild = buildsList[i];
-      buildRows.push(currentBuild);
-    }
     const tableItems = new ArrayItemProvider<IBuildDef>(
-      buildRows.map((item: IBuildDef) => {
+      this.state.buildDefs.map((item: IBuildDef) => {
         const newItem = Object.assign({}, item);
         return newItem;
       })
     );
-
 
     return (
       <Card className="flex-grow bolt-table-card" 
