@@ -9,37 +9,22 @@ import {
 } from "azure-devops-ui/Table";
 import { Icon, IIconProps } from "azure-devops-ui/Icon";
 import { Ago } from "azure-devops-ui/Ago";
+import { Persona } from "azure-devops-ui/Persona";
 import { Duration } from "azure-devops-ui/Duration";
 import { css } from "azure-devops-ui/Util";
 import { BuildResult, BuildStatus } from "azure-devops-extension-api/Build";
+import { IdentityRef } from "azure-devops-extension-api/WebApi/WebApi";
 
 export interface IBuildRowItem {
   id: number;
   teamProject: string;
   definitionName: string;
   buildNumber: string;
-  requestedFor: string;
+  requestedFor: IdentityRef;
   result: BuildResult;
   status: BuildStatus;
   startTime?: Date;
   endTime?: Date;
-}
-
-function renderNormalCell (
-  rowIndex: number,
-  columnIndex: number,
-  tableColumn: ITableColumn<IBuildRowItem>,
-  tableItem: IBuildRowItem
-): JSX.Element {
-  return (
-      <SimpleTableCell
-          columnIndex={columnIndex}
-          tableColumn={tableColumn}
-          key={"col-" + columnIndex}
-          contentClassName="fontWeightSemiBold font-weight-semibold fontSizeM font-size-m scroll-hidden">
-          <div>{tableColumn.name}</div>
-      </SimpleTableCell>
-  );
 }
 
 function renderPipelineCell (
@@ -74,6 +59,35 @@ function WithIcon(props: {
           {Icon({ ...props.iconProps, className: "icon-margin" })}
           {props.children}
       </div>
+  );
+}
+
+function renderLastColumn(
+  rowIndex: number,
+  columnIndex: number,
+  tableColumn: ITableColumn<IBuildRowItem>,
+  tableItem: IBuildRowItem
+): JSX.Element {
+  return (
+      <TwoLineTableCell
+          key={"col-" + columnIndex}
+          columnIndex={columnIndex}
+          tableColumn={tableColumn}
+          line1={WithIcon({
+              className: "fontSize font-size",
+              iconProps: { iconName: "Build" },
+              children: (
+                  <div>{tableItem.buildNumber}</div>
+              )
+          })}
+          line2={WithIcon({
+              className: "fontSize font-size bolt-table-two-line-cell-item",
+              iconProps: { iconName: "People" },
+              children: (
+                <div>{tableItem.requestedFor.displayName}</div>
+              )
+          })}
+      />
   );
 }
 
@@ -117,8 +131,12 @@ export const dashboardColumns : ITableColumn<IBuildRowItem>[] = [
     width: 350
   },
   {
+    id:"Info",
+    renderCell: renderLastColumn,
+    width:250;
+  },
+  {
       id: "Duration",
-      name: "lastDuration",
       renderCell: renderDateColumn,
       width: 250
   },

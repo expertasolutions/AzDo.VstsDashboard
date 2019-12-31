@@ -44,7 +44,7 @@ class CICDDashboard extends React.Component<{}, {}> {
         teamProject: currentBuild.project.name,
         definitionName: currentBuild.definition.name,
         buildNumber: currentBuild.buildNumber,
-        requestedFor: currentBuild.requestedFor.displayName,
+        requestedFor: currentBuild.requestedFor,
         result: currentBuild.result,
         status: currentBuild.status,
         startTime: currentBuild.startTime,
