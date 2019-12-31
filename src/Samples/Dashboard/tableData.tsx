@@ -163,6 +163,7 @@ export const dashboardColumns : ITableColumn<IBuildDef>[] = [
   },
   {
     id:"Info",
+    name: "Last run",
     renderCell: renderBuildDefLastCell,
     width: 350
   },
