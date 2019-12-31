@@ -2,32 +2,60 @@ import * as React from "react";
 import * as SDK from "azure-devops-extension-sdk";
 import * as Api from "azure-devops-extension-api";
 
-import { IPipelineItem, loadPipelines, IBuildDef } from "./PipelineServices";
+import { getBuilds, getBuildDefinitions , IBuildDef, IPipelineItem } from "./PipelineServices";
 import { dashboardColumns }  from "./tableData";
 
 import { Card } from "azure-devops-ui/Card";
 import { Table } from "azure-devops-ui/Table";
 
 import { showRootComponent } from "../../Common";
-import { BuildRestClient, Build } from "azure-devops-extension-api/Build";
 import { ArrayItemProvider } from "azure-devops-ui/Utilities/Provider";
 
 class CICDDashboard extends React.Component<{}, {}> {
 
   state = {
-    pipelines: Array<IBuildDef>()
+    buildDefs: Array<IBuildDef>(),
+    pipelines: Array<IPipelineItem>()
   };
   
   public componentDidMount() {
     SDK.init();
-    loadPipelines("Community").then(result=> {
+    getBuildDefinitions("Community").then(result => {
+      let currentBuildState = this.state.buildDefs;
+      for(let i=0;i<result.length;i++){
+        let resultBuildDef = result[i];
+        let currentBuildDef = currentBuildState.find(x=> x.id === resultBuildDef.id);
+        if(currentBuildDef != undefined){
+          currentBuildDef = {
+            id: resultBuildDef.id,
+            name: resultBuildDef.name,
+            ProjectName: resultBuildDef.project.name,
+            Pipelines: []
+          };
+        } else {
+          currentBuildState.push({
+            id: resultBuildDef.id,
+            name: resultBuildDef.name,
+            ProjectName: resultBuildDef.project.name,
+            Pipelines: []
+          });
+        }
+      }
+      // Update the currentBuilds Definition
+      //this.setState({ buildDefs: currentBuildState });
+    });
+
+    // Get the All build instance
+    /*
+    getBuilds("Community").then(result=> {
       this.setState({ pipelines: result });
     })
+    */
   }
 
   public render() : JSX.Element {
 
-    let buildsList = this.state.pipelines;
+    let buildsList = this.state.buildDefs;
 
     let buildRows: IBuildDef[];
     buildRows = [];
