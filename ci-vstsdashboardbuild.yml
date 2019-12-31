@@ -49,6 +49,10 @@ steps:
 - task: PackageAzureDevOpsExtension@2
   displayName: 'Package Extension: '
   inputs:
+    rootFolder: 
+    patternManifest: |
+      vss-extension.json
+      src/samples/**/*.json
     extensionVersion: '$(build.fullVersion)'
     updateTasksVersion: true
 
