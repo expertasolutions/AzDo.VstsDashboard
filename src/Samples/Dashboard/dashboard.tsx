@@ -18,6 +18,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   
   public componentDidMount() {
     SDK.init();
+    // TODO: If build def not been runs since x days... not list it !!
     getBuildDefinitions("Community").then(result => {
       let currentBuildState = this.state.buildDefs;
       for(let i=0;i<result.length;i++) {

@@ -105,6 +105,7 @@ function renderBuildDefLastCell(
   tableColumn: ITableColumn<IBuildDef>,
   tableItem: IBuildDef
 ): JSX.Element {
+  let lastBuild = getLastBuild(tableItem);
   return (
       <TwoLineTableCell
           key={"col-" + columnIndex}
@@ -114,14 +115,14 @@ function renderBuildDefLastCell(
               className: "fontSize font-size",
               iconProps: { iconName: "Build" },
               children: (
-                  <div>tdb</div>
+                  <div>{lastBuild.buildNumber}</div>
               )
           })}
           line2={WithIcon({
               className: "fontSize font-size bolt-table-two-line-cell-item",
               iconProps: { iconName: "People" },
               children: (
-                <div>tdb</div>
+                <div>{lastBuild.requestedFor.displayName}</div>
               )
           })}
       />
@@ -131,9 +132,10 @@ function renderBuildDefLastCell(
 function renderDateColumn(
   rowIndex: number,
   columnIndex: number,
-  tableColumn: ITableColumn<IPipelineItem>,
-  tableItem: IPipelineItem
+  tableColumn: ITableColumn<IBuildDef>,
+  tableItem: IBuildDef
 ): JSX.Element {
+  let lastBuildRun = getLastBuild(tableItem);
   return (
       <TwoLineTableCell
           key={"col-" + columnIndex}
@@ -143,14 +145,14 @@ function renderDateColumn(
               className: "fontSize font-size",
               iconProps: { iconName: "Calendar" },
               children: (
-                  <Ago date={tableItem.startTime!} />
+                  <Ago date={lastBuildRun.startTime!} />
               )
           })}
           line2={WithIcon({
               className: "fontSize font-size bolt-table-two-line-cell-item",
               iconProps: { iconName: "Clock" },
               children: (
-                  <div>{tableItem.startTime} - {tableItem.endTime}</div>
+                  <div>{lastBuildRun.startTime} - {lastBuildRun.endTime}</div>
               )
           })}
       />
@@ -168,6 +170,11 @@ export const dashboardColumns : ITableColumn<IBuildDef>[] = [
     id:"Info",
     name: "Last run",
     renderCell: renderBuildDefLastCell,
+    width: 350
+  },
+  {
+    id:"Info2",
+    renderCell: renderDateColumn,
     width: 350
   },
   new ColumnMore(() => {
