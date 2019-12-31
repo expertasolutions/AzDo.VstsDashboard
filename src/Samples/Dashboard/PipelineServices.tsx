@@ -25,7 +25,7 @@ export interface IPipelineItem {
   endTime?: Date;
 }
 
-const getBuilds = async(projectName: string) => {
+export async function getBuilds(projectName: string)  {
   let buildClient = API.getClient(BuildRestClient);
   const response = buildClient.getBuilds(projectName);
   return await response;

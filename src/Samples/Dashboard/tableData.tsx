@@ -113,7 +113,7 @@ function renderDateColumn(
 export const dashboardColumns : ITableColumn<IPipelineItem>[] = [
   {
     id: "pipeline",
-    name: "pipeline",
+    name: "Pipeline",
     renderCell: renderPipelineCell,
     width: 350
   },

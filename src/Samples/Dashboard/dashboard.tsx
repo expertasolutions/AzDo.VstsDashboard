@@ -2,8 +2,8 @@ import * as React from "react";
 import * as SDK from "azure-devops-extension-sdk";
 import * as Api from "azure-devops-extension-api";
 
-import { IPipelineItem } from "./PipelineServices";
-import { dashboardColumns}  from "./tableData";
+import { IPipelineItem, getBuilds } from "./PipelineServices";
+import { dashboardColumns }  from "./tableData";
 
 import { Card } from "azure-devops-ui/Card";
 import { Table } from "azure-devops-ui/Table";
@@ -11,12 +11,6 @@ import { Table } from "azure-devops-ui/Table";
 import { showRootComponent } from "../../Common";
 import { BuildRestClient, Build } from "azure-devops-extension-api/Build";
 import { ArrayItemProvider } from "azure-devops-ui/Utilities/Provider";
-
-const getBuildsData = async() => {
-  let buildClient = Api.getClient(BuildRestClient);
-  const response = buildClient.getBuilds("Community");
-  return await response;
-}
 
 class CICDDashboard extends React.Component<{}, {}> {
 
@@ -26,7 +20,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   
   public componentDidMount() {
     SDK.init();
-    getBuildsData().then(result=> {
+    getBuilds("Community").then(result=> {
       this.setState({ builds: result });
     })
   }
