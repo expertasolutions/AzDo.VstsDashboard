@@ -45,6 +45,7 @@ function renderPipelineCell (
               size={StatusSize.l}
           />
           <div>{tableItem.definitionName}</div>
+          <div>{tableItem.status}</div>
       </SimpleTableCell>
   );
 }
@@ -106,7 +107,7 @@ function renderDateColumn(
               className: "fontSize font-size",
               iconProps: { iconName: "Calendar" },
               children: (
-                  <Ago date={tableItem.startTime!} /*format={AgoFormat.Extended}*/ />
+                  <Ago date={tableItem.startTime!} />
               )
           })}
           line2={WithIcon({
@@ -133,7 +134,7 @@ export const dashboardColumns : ITableColumn<IBuildRowItem>[] = [
   {
     id:"Info",
     renderCell: renderLastColumn,
-    width:250
+    width: 350
   },
   {
       id: "Duration",
