@@ -9,13 +9,28 @@ import {
 } from "azure-devops-ui/Table";
 import { Icon, IIconProps } from "azure-devops-ui/Icon";
 import { Ago } from "azure-devops-ui/Ago";
-import { Persona } from "azure-devops-ui/Persona";
 import { Duration } from "azure-devops-ui/Duration";
 import { css } from "azure-devops-ui/Util";
 import { BuildResult, BuildStatus } from "azure-devops-extension-api/Build";
-import { IdentityRef } from "azure-devops-extension-api/WebApi/WebApi";
 
 import {IBuildDef, IPipelineItem } from "./PipelineServices";
+
+function renderBuildDefCell (
+  rowIndex: number,
+  columnIndex: number,
+  tableColumn: ITableColumn<IBuildDef>,
+  tableItem: IBuildDef
+): JSX.Element {
+  return (
+      <SimpleTableCell
+          columnIndex={columnIndex}
+          tableColumn={tableColumn}
+          key={"col-" + columnIndex}
+          contentClassName="fontWeightSemiBold font-weight-semibold fontSizeM font-size-m scroll-hidden">
+          <div>{tableItem.name}</div>
+      </SimpleTableCell>
+  );
+}
 
 function renderPipelineCell (
   rowIndex: number,
@@ -81,6 +96,35 @@ function renderLastColumn(
   );
 }
 
+function renderBuildDefLastCell(
+  rowIndex: number,
+  columnIndex: number,
+  tableColumn: ITableColumn<IBuildDef>,
+  tableItem: IBuildDef
+): JSX.Element {
+  return (
+      <TwoLineTableCell
+          key={"col-" + columnIndex}
+          columnIndex={columnIndex}
+          tableColumn={tableColumn}
+          line1={WithIcon({
+              className: "fontSize font-size",
+              iconProps: { iconName: "Build" },
+              children: (
+                  <div>tdb</div>
+              )
+          })}
+          line2={WithIcon({
+              className: "fontSize font-size bolt-table-two-line-cell-item",
+              iconProps: { iconName: "People" },
+              children: (
+                <div>tdb</div>
+              )
+          })}
+      />
+  );
+}
+
 function renderDateColumn(
   rowIndex: number,
   columnIndex: number,
@@ -110,16 +154,16 @@ function renderDateColumn(
   );
 }
 
-export const dashboardColumns : ITableColumn<IPipelineItem>[] = [
+export const dashboardColumns : ITableColumn<IBuildDef>[] = [
   {
     id: "pipeline",
     name: "Pipeline",
-    renderCell: renderPipelineCell,
+    renderCell: renderBuildDefCell,
     width: 350
   },
   {
     id:"Info",
-    renderCell: renderLastColumn,
+    renderCell: renderBuildDefLastCell,
     width: 350
   },
   new ColumnMore(() => {

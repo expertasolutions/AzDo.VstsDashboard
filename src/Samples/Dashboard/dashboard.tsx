@@ -2,7 +2,7 @@ import * as React from "react";
 import * as SDK from "azure-devops-extension-sdk";
 import * as Api from "azure-devops-extension-api";
 
-import { IPipelineItem, getBuilds } from "./PipelineServices";
+import { IPipelineItem, loadPipelines, IBuildDef } from "./PipelineServices";
 import { dashboardColumns }  from "./tableData";
 
 import { Card } from "azure-devops-ui/Card";
@@ -15,50 +15,40 @@ import { ArrayItemProvider } from "azure-devops-ui/Utilities/Provider";
 class CICDDashboard extends React.Component<{}, {}> {
 
   state = {
-    builds: Array<Build>()
+    pipelines: Array<IBuildDef>()
   };
   
   public componentDidMount() {
     SDK.init();
-    getBuilds("Community").then(result=> {
-      this.setState({ builds: result });
+    loadPipelines("Community").then(result=> {
+      this.setState({ pipelines: result });
     })
   }
 
   public render() : JSX.Element {
 
-    let buildsList = this.state.builds;
+    let buildsList = this.state.pipelines;
 
-    let buildRows: IPipelineItem[];
+    let buildRows: IBuildDef[];
     buildRows = [];
 
     for(let i=0;i<buildsList.length;i++){
       let currentBuild = buildsList[i];
-      buildRows.push({
-        id: currentBuild.id,
-        teamProject: currentBuild.project.name,
-        definitionName: currentBuild.definition.name,
-        buildNumber: currentBuild.buildNumber,
-        requestedFor: currentBuild.requestedFor,
-        result: currentBuild.result,
-        status: currentBuild.status,
-        startTime: currentBuild.startTime,
-        endTime: currentBuild.finishTime
-      });
+      buildRows.push(currentBuild);
     }
-
-    const tableItems = new ArrayItemProvider<IPipelineItem>(
-      buildRows.map((item: IPipelineItem) => {
+    const tableItems = new ArrayItemProvider<IBuildDef>(
+      buildRows.map((item: IBuildDef) => {
         const newItem = Object.assign({}, item);
         return newItem;
       })
     );
 
+
     return (
       <Card className="flex-grow bolt-table-card" 
             titleProps={{ text: "All pipelines" }} 
             contentProps={{ contentPadding: false }}>
-        <Table<IPipelineItem> columns={dashboardColumns} itemProvider={tableItems} role="table"/>
+        <Table<IBuildDef> columns={dashboardColumns} itemProvider={tableItems} role="table"/>
       </Card>
     );
   }
