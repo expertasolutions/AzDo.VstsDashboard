@@ -49,7 +49,7 @@ class CICDDashboard extends React.Component<{}, {}> {
         buildNumber: currentBuild.buildNumber,
         requestedFor: currentBuild.requestedFor.displayName,
         result: currentBuild.result,
-        status: currentBuild.status.toString()
+        status: currentBuild.status
       });
     }
 
