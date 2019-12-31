@@ -114,10 +114,7 @@ function renderDateColumn(
               className: "fontSize font-size bolt-table-two-line-cell-item",
               iconProps: { iconName: "Clock" },
               children: (
-                  <Duration
-                      startDate={tableItem.startTime!}
-                      endDate={tableItem.endTime}
-                  />
+                  <div>{tableItem.startTime} - {tableItem.endTime}</div>
               )
           })}
       />
@@ -162,6 +159,10 @@ export function getPipelineIndicator(result: BuildResult, status:BuildStatus) : 
     label: "NA",
     statusProps: { ...Statuses.Skipped, ariaLabel: "None" }
   };
+
+  if(result === undefined){
+    result = BuildResult.None;
+  }
 
   switch(result){
     case BuildResult.Canceled:
