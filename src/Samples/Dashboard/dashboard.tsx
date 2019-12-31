@@ -48,6 +48,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     // Get the All build instance
     getBuilds("Community").then(result=> {
       let currentBuildState = this.state.buildDefs;
+      console.log("Def Count: " + result.length);
       for(let i=0;i<result.length;i++){
         let updatedPipeline = result[i];
         let currentBuildDef = currentBuildState.find(x=> x.id === updatedPipeline.definition.id);
@@ -87,14 +88,10 @@ class CICDDashboard extends React.Component<{}, {}> {
         return newItem;
       })
     );
-
+    alert("TableItem lenght: " + tableItems.length);
     return (
-      <Card className="flex-grow bolt-table-card" 
-            titleProps={{ text: "All pipelines" }} 
-            contentProps={{ contentPadding: false }}>
-        <Table<IBuildDef> columns={dashboardColumns} itemProvider={tableItems} role="table">
-        </Table>
-      </Card>
+      
+        <Table<IBuildDef> columns={dashboardColumns} itemProvider={tableItems} role="table"/>
     );
   }
 }
