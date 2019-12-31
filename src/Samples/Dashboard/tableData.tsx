@@ -114,17 +114,17 @@ export const dashboardColumns : ITableColumn<IBuildRowItem>[] = [
       width: 150
   },
   {
+    id: "status",
+    name: "status",
+    renderCell: renderStatusColumn,
+    width: 50
+  },
+  {
       id: "result",
       name: "result",
       renderCell: renderResultColumn,
       width: 50
-  },
-  {
-      id: "status",
-      name: "status",
-      renderCell: renderStatusColumn,
-      width: 50
-  },
+  }
 ];
 
 interface IStatusIndicatorData {
