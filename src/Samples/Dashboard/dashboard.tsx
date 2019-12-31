@@ -88,7 +88,7 @@ class CICDDashboard extends React.Component<{}, {}> {
         return newItem;
       })
     );
-    alert("TableItem lenght: " + tableItems.length);
+    console.log("TableItem lenght: " + tableItems.length);
     return (
         <Table<IBuildDef> columns={dashboardColumns} itemProvider={tableItems} role="table"/>
     );
