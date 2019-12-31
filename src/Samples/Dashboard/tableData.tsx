@@ -45,7 +45,6 @@ function renderPipelineCell (
               size={StatusSize.l}
           />
           <div>{tableItem.definitionName}</div>
-          <div>{tableItem.status} - {tableItem.result}</div>
       </SimpleTableCell>
   );
 }
