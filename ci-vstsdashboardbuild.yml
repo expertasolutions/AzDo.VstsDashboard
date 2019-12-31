@@ -26,12 +26,18 @@ steps:
 - task: TfxInstaller@2
   displayName: 'Use Node CLI for Azure DevOps (tfx-cli): v0.6.x'
 
+#- task: Npm@1
+#  displayName: 'Install TypeScript'
+#  inputs:
+#    command: custom
+#    verbose: false
+#    customCommand: 'install -g typescript'
+
 - task: Npm@1
-  displayName: 'Install TypeScript'
+  displayName: 'Install Dependencies'
   inputs:
-    command: custom
+    command: ci
     verbose: false
-    customCommand: 'install -g typescript'
 
 - task: Npm@1
   displayName: 'Compile extension'
