@@ -20,8 +20,8 @@ class CICDDashboard extends React.Component<{}, {}> {
     SDK.init();
     // TODO: If build def not been runs since x days... not list it !!
     getBuildDefinitions("Community").then(result => {
-      let currentBuildState = this.state.buildDefs;
       console.log("Def Count: " + result.length);
+      let currentBuildState = this.state.buildDefs;
       for(let i=0;i<result.length;i++) {
         console.log(result[i].name);
         let resultBuildDef = result[i];
@@ -88,9 +88,12 @@ class CICDDashboard extends React.Component<{}, {}> {
         return newItem;
       })
     );
-    console.log("TableItem lenght: " + tableItems.length);
     return (
+      <Card className="flex-grow bolt-table-card" 
+            titleProps={{ text: "All pipelines" }} 
+            contentProps={{ contentPadding: false }}>
         <Table<IBuildDef> columns={dashboardColumns} itemProvider={tableItems} role="table"/>
+      </Card>
     );
   }
 }
