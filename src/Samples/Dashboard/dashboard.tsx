@@ -2,13 +2,10 @@ import * as React from "react";
 import * as SDK from "azure-devops-extension-sdk";
 import * as Api from "azure-devops-extension-api";
 
-import { dashboardColumns, IBuildRowItem, getBuildResultIndicator }  from "./tableData";
+import { dashboardColumns, IBuildRowItem }  from "./tableData";
 
 import { Card } from "azure-devops-ui/Card";
 import { Table } from "azure-devops-ui/Table";
-
-//import { Header } from "azure-devops-ui/Header";
-//import { Page } from "azure-devops-ui/Page";
 
 import { showRootComponent } from "../../Common";
 import { BuildRestClient, Build, BuildAgent } from "azure-devops-extension-api/Build";
@@ -49,7 +46,9 @@ class CICDDashboard extends React.Component<{}, {}> {
         buildNumber: currentBuild.buildNumber,
         requestedFor: currentBuild.requestedFor.displayName,
         result: currentBuild.result,
-        status: currentBuild.status
+        status: currentBuild.status,
+        startTime: currentBuild.startTime,
+        endTime: currentBuild.finishTime
       });
     }
 
@@ -61,7 +60,9 @@ class CICDDashboard extends React.Component<{}, {}> {
     );
 
     return (
-      <Card className="flex-grow bolt-table-card" contentProps={{ contentPadding: false }}>
+      <Card className="flex-grow bolt-table-card" 
+            titleProps={{ text: "All pipelines" }} 
+            contentProps={{ contentPadding: false }}>
         <Table<IBuildRowItem> columns={dashboardColumns} itemProvider={tableItems} role="table"/>
       </Card>
     );

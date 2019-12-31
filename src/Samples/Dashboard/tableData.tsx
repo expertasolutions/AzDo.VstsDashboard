@@ -1,21 +1,16 @@
 import * as React from "react";
 
-import { ObservableValue } from "azure-devops-ui/Core/Observable";
-import { ISimpleListCell } from "azure-devops-ui/List";
-import { MenuItemType } from "azure-devops-ui/Menu";
 import { IStatusProps, Status, Statuses, StatusSize } from "azure-devops-ui/Status";
 import {
-    ColumnFill,
     ColumnMore,
-    ColumnSelect,
     ITableColumn,
+    TwoLineTableCell,
     SimpleTableCell,
-    ISimpleTableCell,
-    renderSimpleCell,
-    TableColumnLayout
 } from "azure-devops-ui/Table";
+import { Icon, IIconProps } from "azure-devops-ui/Icon";
+import { Ago } from "azure-devops-ui/Ago";
+import { Duration } from "azure-devops-ui/Duration";
 import { css } from "azure-devops-ui/Util";
-import { ArrayItemProvider } from "azure-devops-ui/Utilities/Provider";
 import { BuildResult, BuildStatus } from "azure-devops-extension-api/Build";
 
 export interface IBuildRowItem {
@@ -26,6 +21,8 @@ export interface IBuildRowItem {
   requestedFor: string;
   result: BuildResult;
   status: BuildStatus;
+  startTime?: Date;
+  endTime?: Date;
 }
 
 function renderNormalCell (
@@ -45,50 +42,6 @@ function renderNormalCell (
   );
 }
 
-function renderResultColumn(
-  rowIndex: number,
-  columnIndex: number,
-  tableColumn: ITableColumn<IBuildRowItem>,
-  tableItem: IBuildRowItem
-): JSX.Element {
-  return (
-      <SimpleTableCell
-          columnIndex={columnIndex}
-          tableColumn={tableColumn}
-          key={"col-" + columnIndex}
-          contentClassName="fontWeightSemiBold font-weight-semibold fontSizeM font-size-m scroll-hidden">
-          <Status
-              {...getBuildResultIndicator(tableItem.result).statusProps}
-              className="icon-large-margin"
-              size={StatusSize.l}
-          />
-      </SimpleTableCell>
-  );
-}
-
-
-function renderStatusColumn(
-  rowIndex: number,
-  columnIndex: number,
-  tableColumn: ITableColumn<IBuildRowItem>,
-  tableItem: IBuildRowItem
-): JSX.Element {
-  return (
-      <SimpleTableCell
-          columnIndex={columnIndex}
-          tableColumn={tableColumn}
-          key={"col-" + columnIndex}
-          contentClassName="fontWeightSemiBold font-weight-semibold fontSizeM font-size-m scroll-hidden">
-          <Status
-              {...getBuildStatusIndicator(tableItem.status).statusProps}
-              className="icon-large-margin"
-              size={StatusSize.l}
-          />
-      </SimpleTableCell>
-  );
-}
-
-
 function renderPipelineCell (
   rowIndex: number,
   columnIndex: number,
@@ -102,7 +55,7 @@ function renderPipelineCell (
           key={"col-" + columnIndex}
           contentClassName="fontWeightSemiBold font-weight-semibold fontSizeM font-size-m scroll-hidden">
           <Status
-              {...getBuildStatusIndicator(tableItem.status).statusProps}
+              {...getPipelineIndicator(tableItem.result, tableItem.status).statusProps}
               className="icon-large-margin"
               size={StatusSize.l}
           />
@@ -111,30 +64,63 @@ function renderPipelineCell (
   );
 }
 
+function WithIcon(props: {
+  className?: string;
+  iconProps: IIconProps;
+  children?: React.ReactNode;
+}) {
+  return (
+      <div className={css(props.className, "flex-row flex-center")}>
+          {Icon({ ...props.iconProps, className: "icon-margin" })}
+          {props.children}
+      </div>
+  );
+}
+
+function renderDateColumn(
+  rowIndex: number,
+  columnIndex: number,
+  tableColumn: ITableColumn<IBuildRowItem>,
+  tableItem: IBuildRowItem
+): JSX.Element {
+  return (
+      <TwoLineTableCell
+          key={"col-" + columnIndex}
+          columnIndex={columnIndex}
+          tableColumn={tableColumn}
+          line1={WithIcon({
+              className: "fontSize font-size",
+              iconProps: { iconName: "Calendar" },
+              children: (
+                  <Ago date={tableItem.startTime!} /*format={AgoFormat.Extended}*/ />
+              )
+          })}
+          line2={WithIcon({
+              className: "fontSize font-size bolt-table-two-line-cell-item",
+              iconProps: { iconName: "Clock" },
+              children: (
+                  <Duration
+                      startDate={tableItem.startTime!}
+                      endDate={tableItem.endTime}
+                  />
+              )
+          })}
+      />
+  );
+}
+
 export const dashboardColumns : ITableColumn<IBuildRowItem>[] = [
   {
     id: "pipeline",
     name: "pipeline",
     renderCell: renderPipelineCell,
-    width: 250
+    width: 350
   },
   {
-      id: "requestedFor",
-      name: "requestedFor",
-      renderCell: renderNormalCell,
-      width: 150
-  },
-  {
-    id: "status",
-    name: "status",
-    renderCell: renderStatusColumn,
-    width: 50
-  },
-  {
-      id: "result",
-      name: "result",
-      renderCell: renderResultColumn,
-      width: 50
+      id: "Duration",
+      name: "lastDuration",
+      renderCell: renderDateColumn,
+      width: 250
   },
   new ColumnMore(() => {
     return {
@@ -152,14 +138,13 @@ interface IStatusIndicatorData {
   label:string;
 }
 
-
-export function getBuildResultIndicator(status: BuildResult) : IStatusIndicatorData {
+export function getPipelineIndicator(result: BuildResult, status:BuildStatus) : IStatusIndicatorData {
   const indicatorData: IStatusIndicatorData = {
     label: "NA",
     statusProps: { ...Statuses.Skipped, ariaLabel: "None" }
   };
 
-  switch(status){
+  switch(result){
     case BuildResult.Canceled:
       indicatorData.statusProps = { ...Statuses.Canceled, ariaLabel: "Canceled"};
       indicatorData.label = "Canceled";
@@ -176,37 +161,29 @@ export function getBuildResultIndicator(status: BuildResult) : IStatusIndicatorD
       indicatorData.statusProps = { ...Statuses.Warning, ariaLabel: "PartiallySucceeded"};
       indicatorData.label = "PartiallySucceeded";
       break;
-  }
-  return indicatorData;
-}
-
-
-export function getBuildStatusIndicator(status: BuildStatus) : IStatusIndicatorData {
-  const indicatorData: IStatusIndicatorData = {
-    label: "NA",
-    statusProps: { ...Statuses.Skipped, ariaLabel: "None" }
-  };
-
-  switch(status){
-    case BuildStatus.Cancelling:
-      indicatorData.statusProps = { ...Statuses.Canceled, ariaLabel: "Cancelling"};
-      indicatorData.label = "Cancelling";
-      break;
-    case BuildStatus.Completed:
-      indicatorData.statusProps = { ...Statuses.Success, ariaLabel: "Completed"};
-      indicatorData.label = "Completed";
-      break;
-    case BuildStatus.NotStarted:
-      indicatorData.statusProps = { ...Statuses.Queued, ariaLabel: "Not Started"};
-      indicatorData.label = "NotStarted";
-      break;
-    case BuildStatus.InProgress:
-      indicatorData.statusProps = { ...Statuses.Running, ariaLabel: "InProgress"};
-      indicatorData.label = "InProgress";
-      break;
-    case BuildStatus.Postponed:
-      indicatorData.statusProps = { ...Statuses.Queued, ariaLabel: "Postponed"};
-      indicatorData.label = "Postponed";
+    case BuildResult.None:
+      switch(status){
+        case BuildStatus.Cancelling:
+          indicatorData.statusProps = { ...Statuses.Canceled, ariaLabel: "Cancelling"};
+          indicatorData.label = "Cancelling";
+          break;
+        case BuildStatus.Completed:
+          indicatorData.statusProps = { ...Statuses.Success, ariaLabel: "Completed"};
+          indicatorData.label = "Completed";
+          break;
+        case BuildStatus.NotStarted:
+          indicatorData.statusProps = { ...Statuses.Queued, ariaLabel: "Not Started"};
+          indicatorData.label = "NotStarted";
+          break;
+        case BuildStatus.InProgress:
+          indicatorData.statusProps = { ...Statuses.Running, ariaLabel: "InProgress"};
+          indicatorData.label = "InProgress";
+          break;
+        case BuildStatus.Postponed:
+          indicatorData.statusProps = { ...Statuses.Queued, ariaLabel: "Postponed"};
+          indicatorData.label = "Postponed";
+          break;
+      }
       break;
   }
   return indicatorData;
