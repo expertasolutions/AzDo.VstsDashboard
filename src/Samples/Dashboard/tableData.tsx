@@ -119,7 +119,7 @@ export const dashboardColumns : ITableColumn<IBuildDef>[] = [
     id: "pipeline",
     name: "Pipeline",
     renderCell: renderBuildDefCell,
-    width: 350
+    width: 450
   },
   {
     id:"Info",
