@@ -11,7 +11,6 @@ export interface IBuildDef {
   id:number;
   name: string;
   ProjectName: string;
-  Pipelines:[]
 }
 
 export interface IPipelineItem {

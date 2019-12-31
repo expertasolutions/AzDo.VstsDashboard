@@ -2,13 +2,14 @@ import * as React from "react";
 import * as SDK from "azure-devops-extension-sdk";
 import * as Api from "azure-devops-extension-api";
 
-import { dashboardColumns, IBuildRowItem }  from "./tableData";
+import { IPipelineItem } from "./PipelineServices";
+import { dashboardColumns}  from "./tableData";
 
 import { Card } from "azure-devops-ui/Card";
 import { Table } from "azure-devops-ui/Table";
 
 import { showRootComponent } from "../../Common";
-import { BuildRestClient, Build, BuildAgent } from "azure-devops-extension-api/Build";
+import { BuildRestClient, Build } from "azure-devops-extension-api/Build";
 import { ArrayItemProvider } from "azure-devops-ui/Utilities/Provider";
 
 const getBuildsData = async() => {
@@ -34,7 +35,7 @@ class CICDDashboard extends React.Component<{}, {}> {
 
     let buildsList = this.state.builds;
 
-    let buildRows: IBuildRowItem[];
+    let buildRows: IPipelineItem[];
     buildRows = [];
 
     for(let i=0;i<buildsList.length;i++){
@@ -52,8 +53,8 @@ class CICDDashboard extends React.Component<{}, {}> {
       });
     }
 
-    const tableItems = new ArrayItemProvider<IBuildRowItem>(
-      buildRows.map((item: IBuildRowItem) => {
+    const tableItems = new ArrayItemProvider<IPipelineItem>(
+      buildRows.map((item: IPipelineItem) => {
         const newItem = Object.assign({}, item);
         return newItem;
       })
@@ -63,7 +64,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       <Card className="flex-grow bolt-table-card" 
             titleProps={{ text: "All pipelines" }} 
             contentProps={{ contentPadding: false }}>
-        <Table<IBuildRowItem> columns={dashboardColumns} itemProvider={tableItems} role="table"/>
+        <Table<IPipelineItem> columns={dashboardColumns} itemProvider={tableItems} role="table"/>
       </Card>
     );
   }

@@ -15,23 +15,13 @@ import { css } from "azure-devops-ui/Util";
 import { BuildResult, BuildStatus } from "azure-devops-extension-api/Build";
 import { IdentityRef } from "azure-devops-extension-api/WebApi/WebApi";
 
-export interface IBuildRowItem {
-  id: number;
-  teamProject: string;
-  definitionName: string;
-  buildNumber: string;
-  requestedFor: IdentityRef;
-  result: BuildResult;
-  status: BuildStatus;
-  startTime?: Date;
-  endTime?: Date;
-}
+import {IBuildDef, IPipelineItem } from "./PipelineServices";
 
 function renderPipelineCell (
   rowIndex: number,
   columnIndex: number,
-  tableColumn: ITableColumn<IBuildRowItem>,
-  tableItem: IBuildRowItem
+  tableColumn: ITableColumn<IPipelineItem>,
+  tableItem: IPipelineItem
 ): JSX.Element {
   return (
       <SimpleTableCell
@@ -65,8 +55,8 @@ function WithIcon(props: {
 function renderLastColumn(
   rowIndex: number,
   columnIndex: number,
-  tableColumn: ITableColumn<IBuildRowItem>,
-  tableItem: IBuildRowItem
+  tableColumn: ITableColumn<IPipelineItem>,
+  tableItem: IPipelineItem
 ): JSX.Element {
   return (
       <TwoLineTableCell
@@ -94,8 +84,8 @@ function renderLastColumn(
 function renderDateColumn(
   rowIndex: number,
   columnIndex: number,
-  tableColumn: ITableColumn<IBuildRowItem>,
-  tableItem: IBuildRowItem
+  tableColumn: ITableColumn<IPipelineItem>,
+  tableItem: IPipelineItem
 ): JSX.Element {
   return (
       <TwoLineTableCell
@@ -120,7 +110,7 @@ function renderDateColumn(
   );
 }
 
-export const dashboardColumns : ITableColumn<IBuildRowItem>[] = [
+export const dashboardColumns : ITableColumn<IPipelineItem>[] = [
   {
     id: "pipeline",
     name: "pipeline",
