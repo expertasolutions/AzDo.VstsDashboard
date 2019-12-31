@@ -26,7 +26,7 @@ export interface IPipelineItem {
   endTime?: Date;
 }
 
-declare var allPipeline : Array<IBuildDef>;
+declare const allPipeline : Array<IBuildDef>;
 
 async function getBuilds(projectName: string)  {
   let buildClient = API.getClient(BuildRestClient);
@@ -61,7 +61,12 @@ export async function loadPipelines(projectName: string) {
     let currentBuild = builds[i];
     let currentDef = allPipeline.find(x=> x.id === currentBuild.definition.id);
     if(currentDef != undefined){
-      
+      let currentPipeline = currentDef.Pipelines.find(x=> x.id === currentBuild.id);
+      if(currentPipeline != undefined){
+        // Add it
+      } else {
+        // Update it
+      }
     }
   }
 
