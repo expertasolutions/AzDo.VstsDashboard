@@ -40,7 +40,7 @@ function renderNormalCell (
           tableColumn={tableColumn}
           key={"col-" + columnIndex}
           contentClassName="fontWeightSemiBold font-weight-semibold fontSizeM font-size-m scroll-hidden">
-          <div>{columnIndex}</div>
+          <div>{tableColumn.name}</div>
       </SimpleTableCell>
   );
 }
@@ -88,24 +88,35 @@ function renderStatusColumn(
   );
 }
 
+
+function renderPipelineCell (
+  rowIndex: number,
+  columnIndex: number,
+  tableColumn: ITableColumn<IBuildRowItem>,
+  tableItem: IBuildRowItem
+): JSX.Element {
+  return (
+      <SimpleTableCell
+          columnIndex={columnIndex}
+          tableColumn={tableColumn}
+          key={"col-" + columnIndex}
+          contentClassName="fontWeightSemiBold font-weight-semibold fontSizeM font-size-m scroll-hidden">
+          <Status
+              {...getBuildStatusIndicator(tableItem.status).statusProps}
+              className="icon-large-margin"
+              size={StatusSize.l}
+          />
+          <div>{tableItem.definitionName}</div>
+      </SimpleTableCell>
+  );
+}
+
 export const dashboardColumns : ITableColumn<IBuildRowItem>[] = [
   {
-    id: "id",
-    name: "id",
-    renderCell: renderNormalCell,
-    width: 50
-  },
-  {
-      id: "definitionName",
-      name: "definitionName",
-      renderCell: renderNormalCell,
-      width: 250
-  },
-  {
-      id: "buildNumber",
-      name: "buildNumber",
-      renderCell: renderNormalCell,
-      width: 350
+    id: "pipeline",
+    name: "pipeline",
+    renderCell: renderPipelineCell,
+    width: 250
   },
   {
       id: "requestedFor",
@@ -124,7 +135,16 @@ export const dashboardColumns : ITableColumn<IBuildRowItem>[] = [
       name: "result",
       renderCell: renderResultColumn,
       width: 50
-  }
+  },
+  new ColumnMore(() => {
+    return {
+      id: "sub-menu",
+      items: [
+        { id: "submenu-two", text: "Edit Pipeline" },
+        { id: "submenu-one", text: "View Releases" }
+      ]
+    }
+  })
 ];
 
 interface IStatusIndicatorData {

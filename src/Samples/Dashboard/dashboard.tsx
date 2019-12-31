@@ -62,9 +62,7 @@ class CICDDashboard extends React.Component<{}, {}> {
 
     return (
       <Card className="flex-grow bolt-table-card" contentProps={{ contentPadding: false }}>
-        <Table columns={dashboardColumns} itemProvider={tableItems} role="table">
-
-        </Table>
+        <Table<IBuildRowItem> columns={dashboardColumns} itemProvider={tableItems} role="table"/>
       </Card>
     );
   }
