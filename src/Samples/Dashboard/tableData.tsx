@@ -14,11 +14,16 @@ import {
 } from "azure-devops-ui/Table";
 import { css } from "azure-devops-ui/Util";
 import { ArrayItemProvider } from "azure-devops-ui/Utilities/Provider";
+import { BuildResult } from "azure-devops-extension-api/Build";
 
-export interface ITableItem extends ISimpleTableCell {
+export interface BuildRowItem extends ISimpleTableCell {
   id: number;
-  name: string;
+  teamProject: string;
+  definitionName: string;
   buildNumber: string;
+  requestedFor: string;
+  result: string;
+  status: string;
 }
 
 export const dashboardColumns = [
@@ -28,14 +33,14 @@ export const dashboardColumns = [
     name: "id",
     readonly: true,
     renderCell: renderSimpleCell,
-    width: new ObservableValue(200)
+    width: new ObservableValue(75)
   },
   {
-      id: "name",
-      name: "name",
+      id: "definitionName",
+      name: "definitionName",
       readonly: true,
       renderCell: renderSimpleCell,
-      width: new ObservableValue(100)
+      width: new ObservableValue(200)
   },
   {
       columnLayout: TableColumnLayout.none,
@@ -43,7 +48,31 @@ export const dashboardColumns = [
       name: "buildNumber",
       readonly: true,
       renderCell: renderSimpleCell,
+      width: new ObservableValue(250)
+  },
+    {
+      columnLayout: TableColumnLayout.none,
+      id: "requestedFor",
+      name: "requestedFor",
+      readonly: true,
+      renderCell: renderSimpleCell,
+      width: new ObservableValue(250)
+  },
+    {
+      columnLayout: TableColumnLayout.none,
+      id: "result",
+      name: "result",
+      readonly: true,
+      renderCell: renderSimpleCell,
       width: new ObservableValue(100)
+  },
+  {
+      columnLayout: TableColumnLayout.none,
+      id: "status",
+      name: "status",
+      readonly: true,
+      renderCell: renderSimpleCell,
+      width: new ObservableValue(250)
   },
   ColumnFill
 ];

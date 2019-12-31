@@ -44,8 +44,12 @@ class CICDDashboard extends React.Component<{}, {}> {
       let currentBuild = buildsList[i];
       buildRows.push({
         id: currentBuild.id,
-        name: currentBuild.definition.name,
-        buildNumber: currentBuild.buildNumber
+        teamProject: currentBuild.project.name,
+        definitionName: currentBuild.definition.name,
+        buildNumber: currentBuild.buildNumber,
+        requestedFor: currentBuild.requestedFor,
+        result: currentBuild.result,
+        status: currentBuild.status
       });
     }
 
