@@ -21,6 +21,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     // TODO: If build def not been runs since x days... not list it !!
     getBuildDefinitions("Community").then(result => {
       let currentBuildState = this.state.buildDefs;
+      console.log("Def Count: " + result.length);
       for(let i=0;i<result.length;i++) {
         console.log(result[i].name);
         let resultBuildDef = result[i];
@@ -48,7 +49,6 @@ class CICDDashboard extends React.Component<{}, {}> {
     // Get the All build instance
     getBuilds("Community").then(result=> {
       let currentBuildState = this.state.buildDefs;
-      console.log("Def Count: " + result.length);
       for(let i=0;i<result.length;i++){
         let updatedPipeline = result[i];
         let currentBuildDef = currentBuildState.find(x=> x.id === updatedPipeline.definition.id);
@@ -90,7 +90,6 @@ class CICDDashboard extends React.Component<{}, {}> {
     );
     alert("TableItem lenght: " + tableItems.length);
     return (
-      
         <Table<IBuildDef> columns={dashboardColumns} itemProvider={tableItems} role="table"/>
     );
   }
