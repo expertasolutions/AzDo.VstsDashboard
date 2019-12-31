@@ -11,7 +11,7 @@
         "name":"CI/CD Dashboard",
         "order":100,
         "uri":"dist/dashboard/dashboard.html",
-        "icon": "asset://static/small-icon.png"
+        "icon": "asset://static/icon-gray.png"
       }
     }
   ]
