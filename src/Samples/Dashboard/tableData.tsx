@@ -35,28 +35,6 @@ function renderBuildDefCell (
   );
 }
 
-function renderPipelineCell (
-  rowIndex: number,
-  columnIndex: number,
-  tableColumn: ITableColumn<IPipelineItem>,
-  tableItem: IPipelineItem
-): JSX.Element {
-  return (
-      <SimpleTableCell
-          columnIndex={columnIndex}
-          tableColumn={tableColumn}
-          key={"col-" + columnIndex}
-          contentClassName="fontWeightSemiBold font-weight-semibold fontSizeM font-size-m scroll-hidden">
-          <Status
-              {...getPipelineIndicator(tableItem.result, tableItem.status).statusProps}
-              className="icon-large-margin"
-              size={StatusSize.l}
-          />
-          <div>{tableItem.id}</div>
-      </SimpleTableCell>
-  );
-}
-
 function WithIcon(props: {
   className?: string;
   iconProps: IIconProps;
@@ -70,35 +48,6 @@ function WithIcon(props: {
   );
 }
 
-function renderLastColumn(
-  rowIndex: number,
-  columnIndex: number,
-  tableColumn: ITableColumn<IPipelineItem>,
-  tableItem: IPipelineItem
-): JSX.Element {
-  return (
-      <TwoLineTableCell
-          key={"col-" + columnIndex}
-          columnIndex={columnIndex}
-          tableColumn={tableColumn}
-          line1={WithIcon({
-              className: "fontSize font-size",
-              iconProps: { iconName: "Build" },
-              children: (
-                  <div>{tableItem.buildNumber}</div>
-              )
-          })}
-          line2={WithIcon({
-              className: "fontSize font-size bolt-table-two-line-cell-item",
-              iconProps: { iconName: "People" },
-              children: (
-                <div>{tableItem.requestedFor.displayName}</div>
-              )
-          })}
-      />
-  );
-}
-
 function renderBuildDefLastCell(
   rowIndex: number,
   columnIndex: number,
@@ -106,6 +55,9 @@ function renderBuildDefLastCell(
   tableItem: IBuildDef
 ): JSX.Element {
   let lastBuild = getLastBuild(tableItem);
+  if(lastBuild === undefined){
+    return (<div>not found</div>);
+  }
   return (
       <TwoLineTableCell
           key={"col-" + columnIndex}
@@ -136,6 +88,9 @@ function renderDateColumn(
   tableItem: IBuildDef
 ): JSX.Element {
   let lastBuildRun = getLastBuild(tableItem);
+  if(lastBuildRun === undefined) {
+    return (<div>not found</div>);
+  }
   return (
       <TwoLineTableCell
           key={"col-" + columnIndex}
