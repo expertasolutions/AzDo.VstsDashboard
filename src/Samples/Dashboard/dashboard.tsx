@@ -1,18 +1,42 @@
 import * as React from "react";
 import * as SDK from "azure-devops-extension-sdk";
+import * as Api from "azure-devops-extension-api";
 
 //import { Header } from "azure-devops-ui/Header";
 //import { Page } from "azure-devops-ui/Page";
 
 import { showRootComponent } from "../../Common";
+import { BuildRestClient, Build, BuildAgent } from "azure-devops-extension-api/Build";
+
+const getBuildsData = async() => {
+  let buildClient = Api.getClient(BuildRestClient);
+  const response = buildClient.getBuilds("Community");
+  return await response;
+}
 
 class CICDDashboard extends React.Component<{}, {}> {
+
+  state = {
+    builds: Array<Build>()
+  };
+  
   public componentDidMount() {
     SDK.init();
+    getBuildsData().then(result=> {
+      this.setState({ builds: result });
+    })
   }
 
   public render() : JSX.Element {
-    return (<div>hello world from dashboard.tsx</div>);
+
+    let buildsList = this.state.builds;
+
+    for(let i=0;i<buildsList.length;i++){
+      let currentBuild = buildsList[i];
+      console.log(currentBuild.id + " - " + currentBuild.definition.name + " - " + currentBuild.buildNumber);
+    }
+
+    return (<div>test</div>);
     /*
     return (
         <Page>
