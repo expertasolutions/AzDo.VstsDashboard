@@ -49,7 +49,7 @@ function renderPipelineCell (
               className="icon-large-margin"
               size={StatusSize.l}
           />
-          <div>{tableItem.definitionName}</div>
+          <div>{tableItem.id}</div>
       </SimpleTableCell>
   );
 }

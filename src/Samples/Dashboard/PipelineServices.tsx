@@ -1,9 +1,9 @@
 
-import * as SDK from "azure-devops-extension-sdk";
 import * as API from "azure-devops-extension-api";
 import { 
-  BuildRestClient, Build,
-  BuildResult, BuildStatus
+  BuildRestClient,
+  BuildResult, 
+  BuildStatus
 } from "azure-devops-extension-api/Build";
 import { IdentityRef } from "azure-devops-extension-api/WebApi/WebApi";
 
@@ -16,8 +16,6 @@ export interface IBuildDef {
 
 export interface IPipelineItem {
   id: number;
-  teamProject: string;
-  definitionName: string;
   buildNumber: string;
   requestedFor: IdentityRef;
   result: BuildResult;

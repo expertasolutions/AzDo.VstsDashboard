@@ -14,8 +14,7 @@ import { ArrayItemProvider } from "azure-devops-ui/Utilities/Provider";
 class CICDDashboard extends React.Component<{}, {}> {
 
   state = {
-    buildDefs: Array<IBuildDef>(),
-    pipelines: Array<IPipelineItem>()
+    buildDefs: Array<IBuildDef>()
   };
   
   public componentDidMount() {
@@ -46,11 +45,38 @@ class CICDDashboard extends React.Component<{}, {}> {
     });
 
     // Get the All build instance
-    /*
     getBuilds("Community").then(result=> {
-      this.setState({ pipelines: result });
-    })
-    */
+      let currentBuildState = this.state.buildDefs;
+      for(let i=0;i<result.length;i++){
+        let updatedPipeline = result[i];
+        let currentBuildDef = currentBuildState.find(x=> x.id === updatedPipeline.definition.id);
+        if(currentBuildDef != undefined) {
+          let pipeline = currentBuildDef.Pipelines.find(x=> x.id === updatedPipeline.id);
+          if(pipeline === undefined){
+            currentBuildDef.Pipelines.push({
+              id: updatedPipeline.id,
+              buildNumber: updatedPipeline.buildNumber,
+              requestedFor: updatedPipeline.requestedFor,
+              result: updatedPipeline.result,
+              status: updatedPipeline.status,
+              startTime: updatedPipeline.startTime,
+              endTime: updatedPipeline.finishTime
+            });
+          } else {
+            pipeline = {
+              id: updatedPipeline.id,
+              buildNumber: updatedPipeline.buildNumber,
+              requestedFor: updatedPipeline.requestedFor,
+              result: updatedPipeline.result,
+              status: updatedPipeline.status,
+              startTime: updatedPipeline.startTime,
+              endTime: updatedPipeline.finishTime
+            };
+          }
+        }        
+      }
+      this.setState({ buildDefs: currentBuildState });
+    });
   }
 
   public render() : JSX.Element {
