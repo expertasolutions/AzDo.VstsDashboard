@@ -22,6 +22,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     getBuildDefinitions("Community").then(result => {
       let currentBuildState = this.state.buildDefs;
       for(let i=0;i<result.length;i++) {
+        console.log(result[i].name);
         let resultBuildDef = result[i];
         let currentBuildDef = currentBuildState.find(x=> x.id === resultBuildDef.id);
         if(currentBuildDef != undefined){
