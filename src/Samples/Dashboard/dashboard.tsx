@@ -12,7 +12,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   }
 
   public render() : JSX.Element {
-    return (<div>hello world</div>);
+    return (<div>hello world from dashboard.tsx</div>);
     /*
     return (
         <Page>
