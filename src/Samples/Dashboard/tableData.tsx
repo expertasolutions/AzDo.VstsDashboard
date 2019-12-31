@@ -186,13 +186,18 @@ interface IStatusIndicatorData {
   label:string;
 }
 
+function getLastBuild(buildDefItem: IBuildDef) : IPipelineItem {
+  let lastBuild = buildDefItem.Pipelines[buildDefItem.Pipelines.length-1];
+  return lastBuild;
+}
+
 function getBuildDefinitionStatus(buildDefItem: IBuildDef) : IStatusIndicatorData {
   const indicatorData: IStatusIndicatorData = {
     label: "NA",
     statusProps: { ...Statuses.Queued, ariaLabel: "None" }
   };
   
-  let lastBuild = buildDefItem.Pipelines[buildDefItem.Pipelines.length-1];
+  let lastBuild = getLastBuild(buildDefItem);
   if(lastBuild != undefined) {
     return getPipelineIndicator(lastBuild.result, lastBuild.status);
   } 
