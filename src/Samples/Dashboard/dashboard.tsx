@@ -114,13 +114,12 @@ class CICDDashboard extends React.Component<{}, {}> {
                               height: "500px",
                               width: "500px",
                               maxHeight: "32px" }}>
-                          Cumulative Flow
+                          Build details
                       </div>
                     </div>
                   </HeaderTitleArea>
                 </CustomHeader>
                 <PanelContent>
-                  <div>{this.currentSelectedBuildReferenceId.value}</div>
                   <Observer itemProvider={this.buildItemProvider}>
                     {(observableProps: {itemProvider: ArrayItemProvider<Build> }) => (
                       <Table<Build> columns={buildColumns}
