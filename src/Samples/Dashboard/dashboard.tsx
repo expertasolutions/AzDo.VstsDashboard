@@ -42,7 +42,7 @@ class CICDDashboard extends React.Component<{}, {}> {
           lastBuild = {
             id: resultBuildDef.latestBuild.id,
             buildNumber: resultBuildDef.latestBuild.buildNumber,
-            requestedFor: resultBuildDef.latestBuild.requestedFor,
+            requestedFor: resultBuildDef.latestBuild!.requestedFor!,
             result: resultBuildDef.latestBuild.result,
             status: resultBuildDef.latestBuild.status,
             startTime: resultBuildDef.latestBuild.startTime,
