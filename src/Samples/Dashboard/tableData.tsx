@@ -150,6 +150,39 @@ function renderDateColumn(
   );
 }
 
+function renderLastRelease01 (
+  rowIndex: number,
+  columnIndex: number,
+  tableColumn: ITableColumn<BuildDefinitionReference>,
+  tableItem: BuildDefinitionReference
+) : JSX.Element {
+  let lastBuild = tableItem.latestBuild;
+  if(lastBuild === undefined) {
+    return (<div>not found</div>)
+  }
+  return (
+    <TwoLineTableCell
+          key={"col-" + columnIndex}
+          columnIndex={columnIndex}
+          tableColumn={tableColumn}
+          line1={WithIcon({
+              className: "fontSize font-size",
+              iconProps: { iconName: "Build" },
+              children: (
+                  <div>{lastBuild.buildNumber}</div>
+              )
+          })}
+          line2={WithIcon({
+              className: "fontSize font-size bolt-table-two-line-cell-item",
+              iconProps: { iconName: "People" },
+              children: (
+                <div>{lastBuild.requestedFor!.displayName}</div>
+              )
+          })}
+      />
+  )
+}
+
 export const dashboardColumns : ITableColumn<BuildDefinitionReference>[] = [
   {
     id: "pipeline",
@@ -158,16 +191,22 @@ export const dashboardColumns : ITableColumn<BuildDefinitionReference>[] = [
     width: 450
   },
   {
-    id:"Info",
+    id:"LastBuildInfo01",
     name: "Last run",
     renderCell: renderBuildDefLastCell,
-    width: 350
+    width: 400
   },
   {
-    id:"Info2",
+    id:"LastBuildInfo02",
     renderCell: renderDateColumn,
-    width: 350
+    width: 200
   },
+  {
+    id: "ReleaseInfo01",
+    name: "Last Release",
+    renderCell: renderLastRelease01,
+    width: 350
+  }
   new ColumnMore(() => {
     return {
       id: "sub-menu",
