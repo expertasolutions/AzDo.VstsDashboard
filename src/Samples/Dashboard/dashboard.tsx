@@ -93,7 +93,6 @@ class CICDDashboard extends React.Component<{}, {}> {
       <Card className="flex-grow bolt-table-card" 
             titleProps={{ text: "All pipelines" }} 
             contentProps={{ contentPadding: false }}>
-        <div><Button text="Open Dialog" onClick={()=> { this.isDialogOpen.value = true }}/></div>
         <Observer isDialogOpen={this.isDialogOpen}>
           {(props: { isDialogOpen: boolean }) => {
             return props.isDialogOpen ? (
@@ -111,7 +110,10 @@ class CICDDashboard extends React.Component<{}, {}> {
             <Table<BuildDefinitionReference> columns={dashboardColumns} 
                 itemProvider={observableProps.itemProvider}
                 showLines={true}
-                onSelect={(event, data) => console.log("Selected Row - " + data.index)}
+                onSelect={(event, data) => {
+                  this.isDialogOpen.value = true;
+                  console.log("Selected Row - " + data.index)
+                }}
                 onActivate={(event, row) => console.log("Activated Row - " + row.index)}
                 role="table"/>
           )}
