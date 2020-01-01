@@ -82,12 +82,15 @@ class CICDDashboard extends React.Component<{}, {}> {
   }
 
   public render() : JSX.Element {
+    const tableItems = new ArrayItemProvider<IBuildDef>(this.state.buildDefs);
+    /*
     const tableItems = new ArrayItemProvider<IBuildDef>(
       this.state.buildDefs.map((item: IBuildDef) => {
         const newItem = Object.assign({}, item);
         return newItem;
       })
     );
+    */
     return (
       <Card className="flex-grow bolt-table-card" 
             titleProps={{ text: "All pipelines" }} 
