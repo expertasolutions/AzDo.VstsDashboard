@@ -27,9 +27,7 @@ function renderBuildDefCell (
           tableColumn={tableColumn}
           key={"col-" + columnIndex}
           contentClassName="fontWeightSemiBold font-weight-semibold fontSizeM font-size-m scroll-hidden">
-            <Status {...getBuildDefinitionStatus(tableItem).statusProps}
-                    className="icon-large-margin"
-                    size={StatusSize.l}/>
+
           <div>{tableItem.name}</div>
       </SimpleTableCell>
   );
