@@ -144,7 +144,9 @@ class CICDDashboard extends React.Component<{}, {}> {
                 onSelect={(event, data) => {
                   this.currentSelectedBuildReferenceId.value = data.data.id;
                   this.isDialogOpen.value = true;
-                  this.buildItemProvider = new ObservableValue<ArrayItemProvider<Build>>(new ArrayItemProvider(this.state.builds.filter(x=> x.definition.id === this.currentSelectedBuildReferenceId.value)));
+                  this.buildItemProvider = new ObservableValue<ArrayItemProvider<Build>>(
+                    new ArrayItemProvider(this.state.builds.filter(x=> x.definition.id === this.currentSelectedBuildReferenceId.value))
+                  );
                   console.log("Selected Row - " + data.index)
                 }}
                 onActivate={(event, row) => console.log("Activated Row - " + row.index)}
