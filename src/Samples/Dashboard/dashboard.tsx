@@ -26,11 +26,23 @@ class CICDDashboard extends React.Component<{}, {}> {
         console.log(result[i].name);
         let resultBuildDef = result[i];
         let currentBuildDef = currentBuildState.find(x=> x.id === resultBuildDef.id);
+
+        let lastBuild = {
+          id: resultBuildDef.latestBuild.id,
+          buildNumber: resultBuildDef.latestBuild.buildNumber,
+          requestedFor: resultBuildDef.latestBuild.requestedFor,
+          result: resultBuildDef.latestBuild.result,
+          status: resultBuildDef.latestBuild.status,
+          startTime: resultBuildDef.latestBuild.startTime,
+          endTime: resultBuildDef.latestBuild.finishTime
+        };
+
         if(currentBuildDef != undefined){
           currentBuildDef = {
             id: resultBuildDef.id,
             name: resultBuildDef.name,
             ProjectName: resultBuildDef.project.name,
+            latestBuild: lastBuild,
             Pipelines: []
           };
         } else {
@@ -38,6 +50,7 @@ class CICDDashboard extends React.Component<{}, {}> {
             id: resultBuildDef.id,
             name: resultBuildDef.name,
             ProjectName: resultBuildDef.project.name,
+            latestBuild: lastBuild,
             Pipelines: []
           });
         }
@@ -47,6 +60,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     });
 
     // Get the All build instance
+/*
     getBuilds("Community").then(result=> {
       let currentBuildState = this.state.buildDefs;
       for(let i=0;i<result.length;i++){
@@ -79,6 +93,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       }
       this.setState({ buildDefs: currentBuildState });
     });
+    */
   }
 
   public render() : JSX.Element {

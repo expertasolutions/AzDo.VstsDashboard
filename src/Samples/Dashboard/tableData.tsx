@@ -27,7 +27,9 @@ function renderBuildDefCell (
           tableColumn={tableColumn}
           key={"col-" + columnIndex}
           contentClassName="fontWeightSemiBold font-weight-semibold fontSizeM font-size-m scroll-hidden">
-
+            <Status {...getBuildDefinitionStatus(tableItem).statusProps}
+                    className="icon-large-margin"
+                    size={StatusSize.l}/>
           <div>{tableItem.name}</div>
       </SimpleTableCell>
   );
@@ -52,7 +54,7 @@ function renderBuildDefLastCell(
   tableColumn: ITableColumn<IBuildDef>,
   tableItem: IBuildDef
 ): JSX.Element {
-  let lastBuild = getLastBuild(tableItem);
+  let lastBuild = tableItem.latestBuild;
   if(lastBuild === undefined){
     return (<div>not found</div>);
   }
@@ -85,7 +87,7 @@ function renderDateColumn(
   tableColumn: ITableColumn<IBuildDef>,
   tableItem: IBuildDef
 ): JSX.Element {
-  let lastBuildRun = getLastBuild(tableItem);
+  let lastBuildRun = tableItem.latestBuild;
   if(lastBuildRun === undefined) {
     return (<div>not found</div>);
   }
@@ -146,18 +148,13 @@ interface IStatusIndicatorData {
   label:string;
 }
 
-function getLastBuild(buildDefItem: IBuildDef) : IPipelineItem {
-  let lastBuild = buildDefItem.Pipelines[buildDefItem.Pipelines.length-1];
-  return lastBuild;
-}
-
 function getBuildDefinitionStatus(buildDefItem: IBuildDef) : IStatusIndicatorData {
   const indicatorData: IStatusIndicatorData = {
     label: "NA",
     statusProps: { ...Statuses.Queued, ariaLabel: "None" }
   };
   
-  let lastBuild = getLastBuild(buildDefItem);
+  let lastBuild = buildDefItem.latestBuild;
   if(lastBuild != undefined) {
     return getPipelineIndicator(lastBuild.result, lastBuild.status);
   } 
