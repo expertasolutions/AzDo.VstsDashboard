@@ -7,9 +7,13 @@ import { dashboardColumns }  from "./tableData";
 import { Card } from "azure-devops-ui/Card";
 import { Table } from "azure-devops-ui/Table";
 
+import { BuildDefinitionReference, Build } from "azure-devops-extension-api/Build";
+
 import { showRootComponent } from "../../Common";
 import { ArrayItemProvider } from "azure-devops-ui/Utilities/Provider";
-import { BuildResult, BuildStatus, BuildDefinitionReference, Build } from "azure-devops-extension-api/Build";
+import { ObservableValue } from "azure-devops-ui/Core/Observable";
+import { Observer } from "azure-devops-ui/Observer";
+import { rowFromElement } from "azure-devops-ui/Components/List/FixedHeightList";
 
 class CICDDashboard extends React.Component<{}, {}> {
 
@@ -78,13 +82,25 @@ class CICDDashboard extends React.Component<{}, {}> {
     */
   }
 
+  private itemProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(
+    new ArrayItemProvider(this.state.buildDefs)
+  );
+
   public render() : JSX.Element {
-    const tableItems = new ArrayItemProvider<BuildDefinitionReference>(this.state.buildDefs);
     return (
       <Card className="flex-grow bolt-table-card" 
             titleProps={{ text: "All pipelines" }} 
             contentProps={{ contentPadding: false }}>
-        <Table<BuildDefinitionReference> columns={dashboardColumns} itemProvider={tableItems} role="table"/>
+        <Observer itemProvider={this.itemProvider}>
+          {(observableProps: {itemProvider: ArrayItemProvider<BuildDefinitionReference> }) => (
+            <Table<BuildDefinitionReference> columns={dashboardColumns} 
+                itemProvider={observableProps.itemProvider}
+                showLines={true}
+                onSelect={(event, data) => console.log("Selected Row - " + data.index)}
+                onActivate={(event, row) => console.log("Activated Row - " + row.index)}
+                role="table"/>
+          )}
+        </Observer>
       </Card>
     );
   }
