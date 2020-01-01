@@ -26,6 +26,9 @@ export async function getBuilds(projectName: string)  {
 
 export async function getBuildDefinitions(projectName: string) {
   let buildClient = API.getClient(BuildRestClient);
-  const response = buildClient.getDefinitions(projectName);
+  const response = buildClient.getDefinitions(projectName, undefined, undefined, undefined,
+                                              undefined, undefined, undefined,undefined, undefined,
+                                              undefined,undefined,undefined,undefined, true, undefined, 
+                                              undefined, undefined);
   return await response;
 }
