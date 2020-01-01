@@ -130,9 +130,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                   </Observer>
                 </PanelContent>
                 <PanelFooter showSeparator className="body-m">
-                  The Cumulative Flow chart shows the count of work items (over
-                                    time) for each column of a Kanban board.
-
+                  Footer here !!
                 </PanelFooter>
               </CustomDialog>
             ) : null;
