@@ -206,7 +206,7 @@ export const dashboardColumns : ITableColumn<BuildDefinitionReference>[] = [
     name: "Last Release",
     renderCell: renderLastRelease01,
     width: 350
-  }
+  },
   new ColumnMore(() => {
     return {
       id: "sub-menu",
