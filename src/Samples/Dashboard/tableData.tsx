@@ -11,7 +11,26 @@ import { Icon, IIconProps } from "azure-devops-ui/Icon";
 import { Ago } from "azure-devops-ui/Ago";
 import { Duration } from "azure-devops-ui/Duration";
 import { css } from "azure-devops-ui/Util";
-import { BuildResult, BuildStatus, BuildDefinitionReference } from "azure-devops-extension-api/Build";
+import { Build, BuildResult, BuildStatus, BuildDefinitionReference } from "azure-devops-extension-api/Build";
+
+function renderBuildStatus (
+  rowIndex: number,
+  columnIndex: number,
+  tableColumn: ITableColumn<Build>,
+  tableItem: Build
+): JSX.Element {
+  return (
+      <SimpleTableCell
+          columnIndex={columnIndex}
+          tableColumn={tableColumn}
+          key={"col-" + columnIndex}
+          contentClassName="fontWeightSemiBold font-weight-semibold fontSizeM font-size-m scroll-hidden">
+            <Status {...getBuildStatus(tableItem).statusProps}
+                    className="icon-large-margin"
+                    size={StatusSize.l}/>
+      </SimpleTableCell>
+  );
+}
 
 function renderBuildDefCell (
   rowIndex: number,
@@ -44,6 +63,35 @@ function WithIcon(props: {
           {props.children}
       </div>
   );
+}
+
+function renderBuildCell(
+  rowIndex: number,
+  columnIndex: number,
+  tableColumn: ITableColumn<Build>,
+  tableItem: Build
+) : JSX.Element {
+  return (
+    <TwoLineTableCell
+          key={"col-" + columnIndex}
+          columnIndex={columnIndex}
+          tableColumn={tableColumn}
+          line1={WithIcon({
+              className: "fontSize font-size",
+              iconProps: { iconName: "Build" },
+              children: (
+                  <div>{tableItem.buildNumber}</div>
+              )
+          })}
+          line2={WithIcon({
+              className: "fontSize font-size bolt-table-two-line-cell-item",
+              iconProps: { iconName: "People" },
+              children: (
+                <div>{tableItem.requestedFor!.displayName}</div>
+              )
+          })}
+      />
+  )
 }
 
 function renderBuildDefLastCell(
@@ -183,6 +231,20 @@ function renderLastRelease01 (
   )
 }
 
+export const buildColumns : ITableColumn<Build>[] = [
+  {
+    id: "Status",
+    renderCell: renderBuildStatus,
+    width:75
+  },
+  {
+    id: "Build",
+    name: "Build #", 
+    renderCell: renderBuildCell,
+    width: 75,
+  }
+]
+
 export const dashboardColumns : ITableColumn<BuildDefinitionReference>[] = [
   {
     id: "pipeline",
@@ -221,6 +283,15 @@ export const dashboardColumns : ITableColumn<BuildDefinitionReference>[] = [
 interface IStatusIndicatorData {
   statusProps: IStatusProps;
   label:string;
+}
+
+function getBuildStatus(build: Build) : IStatusIndicatorData {
+  const indicatorData: IStatusIndicatorData = {
+    label: "NA",
+    statusProps: { ...Statuses.Queued, ariaLabel: "None" }
+  };
+  
+  return getPipelineIndicator(build.result, build.status);
 }
 
 function getBuildDefinitionStatus(buildDefItem: BuildDefinitionReference) : IStatusIndicatorData {

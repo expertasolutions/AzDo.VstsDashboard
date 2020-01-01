@@ -2,7 +2,7 @@ import * as React from "react";
 import * as SDK from "azure-devops-extension-sdk";
 
 import { getBuilds, getBuildDefinitions, getReleases } from "./PipelineServices";
-import { dashboardColumns }  from "./tableData";
+import { dashboardColumns, buildColumns }  from "./tableData";
 
 import { Card } from "azure-devops-ui/Card";
 import { Table } from "azure-devops-ui/Table";
@@ -21,7 +21,7 @@ import { PanelContent, PanelFooter } from "azure-devops-ui/Panel";
 
 class CICDDashboard extends React.Component<{}, {}> {
   private isDialogOpen = new ObservableValue<boolean>(false);
-  private currentSelectedBuildReference: any;
+  private currentSelectedBuildReferenceId = new ObservableValue<Number>(-1);
 
   state = {
     buildDefs: Array<BuildDefinitionReference>(),
@@ -87,10 +87,14 @@ class CICDDashboard extends React.Component<{}, {}> {
     new ArrayItemProvider(this.state.buildDefs)
   );
 
+  private buildItemProvider = new ObservableValue<ArrayItemProvider<Build>>(
+    new ArrayItemProvider(this.state.builds.filter(x=> x.id === this.currentSelectedBuildReferenceId.value))
+  );
+
   public render() : JSX.Element {
     const onDismiss = () => {
       this.isDialogOpen.value = false;
-      this.currentSelectedBuildReference = undefined;
+      this.currentSelectedBuildReferenceId.value = -1;
     };
 
     return (
@@ -116,9 +120,15 @@ class CICDDashboard extends React.Component<{}, {}> {
                   </HeaderTitleArea>
                 </CustomHeader>
                 <PanelContent>
-                  <Card className="flex-grow bolt-table-card"
-                        titleProps={{ text: this.currentSelectedBuildReference.name }}>
-                  </Card>
+                  <div>{this.currentSelectedBuildReferenceId.value}</div>
+                  <Observer itemProvider={this.buildItemProvider}>
+                    {(observableProps: {itemProvider: ArrayItemProvider<Build> }) => (
+                      <Table<Build> columns={buildColumns}
+                                    itemProvider={observableProps.itemProvider}
+                                    showLines={true}
+                                    role="table"/>
+                    )}
+                  </Observer>
                 </PanelContent>
                 <PanelFooter showSeparator className="body-m">
 
@@ -133,7 +143,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                 itemProvider={observableProps.itemProvider}
                 showLines={true}
                 onSelect={(event, data) => {
-                  this.currentSelectedBuildReference = data.data;
+                  this.currentSelectedBuildReferenceId.value = data.data.id;
                   this.isDialogOpen.value = true;
                   console.log("Selected Row - " + data.index)
                 }}
