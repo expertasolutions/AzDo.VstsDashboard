@@ -8,14 +8,6 @@ import {
 } from "azure-devops-extension-api/Build";
 import { IdentityRef } from "azure-devops-extension-api/WebApi/WebApi";
 
-export interface IBuildDef {
-  id:number;
-  name: string;
-  ProjectName: string;
-  latestBuild: IPipelineItem; 
-  Pipelines: Array<IPipelineItem>;
-}
-
 export interface IPipelineItem {
   id: number;
   buildNumber: string;

@@ -11,15 +11,13 @@ import { Icon, IIconProps } from "azure-devops-ui/Icon";
 import { Ago } from "azure-devops-ui/Ago";
 import { Duration } from "azure-devops-ui/Duration";
 import { css } from "azure-devops-ui/Util";
-import { BuildResult, BuildStatus } from "azure-devops-extension-api/Build";
-
-import {IBuildDef, IPipelineItem } from "./PipelineServices";
+import { BuildResult, BuildStatus, BuildDefinitionReference } from "azure-devops-extension-api/Build";
 
 function renderBuildDefCell (
   rowIndex: number,
   columnIndex: number,
-  tableColumn: ITableColumn<IBuildDef>,
-  tableItem: IBuildDef
+  tableColumn: ITableColumn<BuildDefinitionReference>,
+  tableItem: BuildDefinitionReference
 ): JSX.Element {
   return (
       <SimpleTableCell
@@ -51,8 +49,8 @@ function WithIcon(props: {
 function renderBuildDefLastCell(
   rowIndex: number,
   columnIndex: number,
-  tableColumn: ITableColumn<IBuildDef>,
-  tableItem: IBuildDef
+  tableColumn: ITableColumn<BuildDefinitionReference>,
+  tableItem: BuildDefinitionReference
 ): JSX.Element {
   let lastBuild = tableItem.latestBuild;
   if(lastBuild === undefined){
@@ -84,8 +82,8 @@ function renderBuildDefLastCell(
 function renderDateColumn(
   rowIndex: number,
   columnIndex: number,
-  tableColumn: ITableColumn<IBuildDef>,
-  tableItem: IBuildDef
+  tableColumn: ITableColumn<BuildDefinitionReference>,
+  tableItem: BuildDefinitionReference
 ): JSX.Element {
   let lastBuildRun = tableItem.latestBuild;
   if(lastBuildRun === undefined) {
@@ -114,7 +112,7 @@ function renderDateColumn(
   );
 }
 
-export const dashboardColumns : ITableColumn<IBuildDef>[] = [
+export const dashboardColumns : ITableColumn<BuildDefinitionReference>[] = [
   {
     id: "pipeline",
     name: "Pipeline",
@@ -148,7 +146,7 @@ interface IStatusIndicatorData {
   label:string;
 }
 
-function getBuildDefinitionStatus(buildDefItem: IBuildDef) : IStatusIndicatorData {
+function getBuildDefinitionStatus(buildDefItem: BuildDefinitionReference) : IStatusIndicatorData {
   const indicatorData: IStatusIndicatorData = {
     label: "NA",
     statusProps: { ...Statuses.Queued, ariaLabel: "None" }

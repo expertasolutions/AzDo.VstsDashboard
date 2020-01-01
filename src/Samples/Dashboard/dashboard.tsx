@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as SDK from "azure-devops-extension-sdk";
 
-import { getBuilds, getBuildDefinitions , IBuildDef, IPipelineItem } from "./PipelineServices";
+import { getBuilds, getBuildDefinitions , IPipelineItem } from "./PipelineServices";
 import { dashboardColumns }  from "./tableData";
 
 import { Card } from "azure-devops-ui/Card";
@@ -9,12 +9,13 @@ import { Table } from "azure-devops-ui/Table";
 
 import { showRootComponent } from "../../Common";
 import { ArrayItemProvider } from "azure-devops-ui/Utilities/Provider";
-import { BuildResult, BuildStatus } from "azure-devops-extension-api/Build";
+import { BuildResult, BuildStatus, BuildDefinitionReference, Build } from "azure-devops-extension-api/Build";
 
 class CICDDashboard extends React.Component<{}, {}> {
 
   state = {
-    buildDefs: Array<IBuildDef>()
+    buildDefs: Array<BuildDefinitionReference>(),
+    builds: Array<Build>()
   };
   
   public componentDidMount() {
@@ -28,44 +29,10 @@ class CICDDashboard extends React.Component<{}, {}> {
         let resultBuildDef = result[i];
         let currentBuildDef = currentBuildState.find(x=> x.id === resultBuildDef.id);
 
-        let lastBuild: IPipelineItem = {
-          id: 0,
-          buildNumber: "NA",
-          requestedFor: undefined,
-          result: BuildResult.None,
-          status: BuildStatus.None,
-          startTime: undefined,
-          endTime: undefined
-        };
-
-        if(resultBuildDef.latestBuild != undefined) {
-          lastBuild = {
-            id: resultBuildDef.latestBuild.id,
-            buildNumber: resultBuildDef.latestBuild.buildNumber,
-            requestedFor: resultBuildDef.latestBuild!.requestedFor!,
-            result: resultBuildDef.latestBuild.result,
-            status: resultBuildDef.latestBuild.status,
-            startTime: resultBuildDef.latestBuild.startTime,
-            endTime: resultBuildDef.latestBuild.finishTime
-          };
-        }
-
         if(currentBuildDef != undefined){
-          currentBuildDef = {
-            id: resultBuildDef.id,
-            name: resultBuildDef.name,
-            ProjectName: resultBuildDef.project.name,
-            latestBuild: lastBuild,
-            Pipelines: []
-          };
+          currentBuildDef = resultBuildDef;
         } else {
-          currentBuildState.push({
-            id: resultBuildDef.id,
-            name: resultBuildDef.name,
-            ProjectName: resultBuildDef.project.name,
-            latestBuild: lastBuild,
-            Pipelines: []
-          });
+          currentBuildState.push(resultBuildDef);
         }
       }
       // Update the currentBuilds Definition
@@ -110,20 +77,12 @@ class CICDDashboard extends React.Component<{}, {}> {
   }
 
   public render() : JSX.Element {
-    const tableItems = new ArrayItemProvider<IBuildDef>(this.state.buildDefs);
-    /*
-    const tableItems = new ArrayItemProvider<IBuildDef>(
-      this.state.buildDefs.map((item: IBuildDef) => {
-        const newItem = Object.assign({}, item);
-        return newItem;
-      })
-    );
-    */
+    const tableItems = new ArrayItemProvider<BuildDefinitionReference>(this.state.buildDefs);
     return (
       <Card className="flex-grow bolt-table-card" 
             titleProps={{ text: "All pipelines" }} 
             contentProps={{ contentPadding: false }}>
-        <Table<IBuildDef> columns={dashboardColumns} itemProvider={tableItems} role="table"/>
+        <Table<BuildDefinitionReference> columns={dashboardColumns} itemProvider={tableItems} role="table"/>
       </Card>
     );
   }
