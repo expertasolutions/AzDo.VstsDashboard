@@ -7,7 +7,7 @@ import { dashboardColumns }  from "./tableData";
 import { Card } from "azure-devops-ui/Card";
 import { Table } from "azure-devops-ui/Table";
 import { Button } from "azure-devops-ui/Button";
-import { Dialog } from "azure-devops-ui/Dialog";
+import { CustomDialog } from "azure-devops-ui/Dialog";
 
 import { BuildDefinitionReference, Build } from "azure-devops-extension-api/Build";
 
@@ -16,9 +16,12 @@ import { ArrayItemProvider } from "azure-devops-ui/Utilities/Provider";
 import { ObservableValue } from "azure-devops-ui/Core/Observable";
 import { Observer } from "azure-devops-ui/Observer";
 import { Release } from "azure-devops-extension-api/Release";
+import { HeaderTitleArea, CustomHeader } from "azure-devops-ui/Header";
+import { PanelContent, PanelFooter } from "azure-devops-ui/Panel";
 
 class CICDDashboard extends React.Component<{}, {}> {
   private isDialogOpen = new ObservableValue<boolean>(false);
+  private currentSelectedBuildReference: any;
 
   state = {
     buildDefs: Array<BuildDefinitionReference>(),
@@ -87,6 +90,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   public render() : JSX.Element {
     const onDismiss = () => {
       this.isDialogOpen.value = false;
+      this.currentSelectedBuildReference = undefined;
     };
 
     return (
@@ -96,12 +100,30 @@ class CICDDashboard extends React.Component<{}, {}> {
         <Observer isDialogOpen={this.isDialogOpen}>
           {(props: { isDialogOpen: boolean }) => {
             return props.isDialogOpen ? (
-              <Dialog
-                titleProps={{text: "Hello world"}}
-                footerButtonProps={[
-                  { text: "Ok", onClick: onDismiss}
-                ]} onDismiss={onDismiss}>
-              </Dialog>
+              <CustomDialog onDismiss={onDismiss} modal={true}>
+                <CustomHeader className="bolt-header-with-commandbar" separator>
+                  <HeaderTitleArea>
+                    <div className="flex-grow scroll-hidden"
+                        style={{ marginRight: "16px" }}>
+                      <div className="title-m"
+                          style={{
+                              height: "500px",
+                              width: "500px",
+                              maxHeight: "32px" }}>
+                          Cumulative Flow
+                      </div>
+                    </div>
+                  </HeaderTitleArea>
+                </CustomHeader>
+                <PanelContent>
+                  <Card className="flex-grow bolt-table-card"
+                        titleProps={{ text: this.currentSelectedBuildReference.name }}>
+                  </Card>
+                </PanelContent>
+                <PanelFooter showSeparator className="body-m">
+
+                </PanelFooter>
+              </CustomDialog>
             ) : null;
           }}
         </Observer>
@@ -111,6 +133,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                 itemProvider={observableProps.itemProvider}
                 showLines={true}
                 onSelect={(event, data) => {
+                  this.currentSelectedBuildReference = data.data;
                   this.isDialogOpen.value = true;
                   console.log("Selected Row - " + data.index)
                 }}

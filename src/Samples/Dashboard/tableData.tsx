@@ -203,7 +203,7 @@ export const dashboardColumns : ITableColumn<BuildDefinitionReference>[] = [
   },
   {
     id: "ReleaseInfo01",
-    name: "Last Release",
+    name: "Latest release",
     renderCell: renderLastRelease01,
     width: 350
   },
