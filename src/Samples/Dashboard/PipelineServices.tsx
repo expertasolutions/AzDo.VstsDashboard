@@ -1,34 +1,27 @@
 
 import * as API from "azure-devops-extension-api";
 import { 
-  BuildRestClient,
-  BuildResult, 
-  BuildStatus,
-  Build
+  BuildRestClient
 } from "azure-devops-extension-api/Build";
-import { IdentityRef } from "azure-devops-extension-api/WebApi/WebApi";
 
-export interface IPipelineItem {
-  id: number;
-  buildNumber: string;
-  requestedFor?: IdentityRef;
-  result: BuildResult;
-  status: BuildStatus;
-  startTime?: Date;
-  endTime?: Date;
+import {
+  ReleaseRestClient
+} from "azure-devops-extension-api/Release";
+
+export async function getReleases(projectName: string) {
+  let releaseClient = API.getClient(ReleaseRestClient);
+  return await releaseClient.getReleases(projectName);
 }
 
 export async function getBuilds(projectName: string)  {
   let buildClient = API.getClient(BuildRestClient);
-  const response = buildClient.getBuilds(projectName);
-  return await response;
+  return await buildClient.getBuilds(projectName);
 }
 
 export async function getBuildDefinitions(projectName: string) {
   let buildClient = API.getClient(BuildRestClient);
-  const response = buildClient.getDefinitions(projectName, undefined, undefined, undefined,
+  return await buildClient.getDefinitions(projectName, undefined, undefined, undefined,
                                               undefined, undefined, undefined,undefined, undefined,
                                               undefined,undefined,undefined,undefined, true, undefined, 
                                               undefined, undefined);
-  return await response;
 }
