@@ -6,6 +6,8 @@ import { dashboardColumns }  from "./tableData";
 
 import { Card } from "azure-devops-ui/Card";
 import { Table } from "azure-devops-ui/Table";
+import { Button } from "azure-devops-ui/Button";
+import { Dialog } from "azure-devops-ui/Dialog";
 
 import { BuildDefinitionReference, Build } from "azure-devops-extension-api/Build";
 
@@ -16,6 +18,7 @@ import { Observer } from "azure-devops-ui/Observer";
 import { Release } from "azure-devops-extension-api/Release";
 
 class CICDDashboard extends React.Component<{}, {}> {
+  private isDialogOpen = new ObservableValue<boolean>(false);
 
   state = {
     buildDefs: Array<BuildDefinitionReference>(),
@@ -82,10 +85,27 @@ class CICDDashboard extends React.Component<{}, {}> {
   );
 
   public render() : JSX.Element {
+    const onDismiss = () => {
+      this.isDialogOpen.value = false;
+    };
+
     return (
       <Card className="flex-grow bolt-table-card" 
             titleProps={{ text: "All pipelines" }} 
             contentProps={{ contentPadding: false }}>
+        <div><Button text="Open Dialog" onClick={()=> { this.isDialogOpen.value = true }}/></div>
+        <Observer isDialogOpen={this.isDialogOpen}>
+          {(props: { isDialogOpen: boolean }) => {
+            return props.isDialogOpen ? (
+              <Dialog
+                titleProps={{text: "Hello world"}}
+                footerButtonProps={[
+                  { text: "Ok", onClick: onDismiss}
+                ]} onDismiss={onDismiss}>
+              </Dialog>
+            ) : null;
+          }}
+        </Observer>
         <Observer itemProvider={this.itemProvider}>
           {(observableProps: {itemProvider: ArrayItemProvider<BuildDefinitionReference> }) => (
             <Table<BuildDefinitionReference> columns={dashboardColumns} 
