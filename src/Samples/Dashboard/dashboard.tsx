@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as SDK from "azure-devops-extension-sdk";
 
-import { getBuilds, getBuildDefinitions , IBuildDef } from "./PipelineServices";
+import { getBuilds, getBuildDefinitions , IBuildDef, IPipelineItem } from "./PipelineServices";
 import { dashboardColumns }  from "./tableData";
 
 import { Card } from "azure-devops-ui/Card";
@@ -9,6 +9,7 @@ import { Table } from "azure-devops-ui/Table";
 
 import { showRootComponent } from "../../Common";
 import { ArrayItemProvider } from "azure-devops-ui/Utilities/Provider";
+import { BuildResult, BuildStatus } from "azure-devops-extension-api/Build";
 
 class CICDDashboard extends React.Component<{}, {}> {
 
@@ -27,15 +28,27 @@ class CICDDashboard extends React.Component<{}, {}> {
         let resultBuildDef = result[i];
         let currentBuildDef = currentBuildState.find(x=> x.id === resultBuildDef.id);
 
-        let lastBuild = {
-          id: resultBuildDef.latestBuild.id,
-          buildNumber: resultBuildDef.latestBuild.buildNumber,
-          requestedFor: resultBuildDef.latestBuild.requestedFor,
-          result: resultBuildDef.latestBuild.result,
-          status: resultBuildDef.latestBuild.status,
-          startTime: resultBuildDef.latestBuild.startTime,
-          endTime: resultBuildDef.latestBuild.finishTime
+        let lastBuild: IPipelineItem = {
+          id: 0,
+          buildNumber: "NA",
+          requestedFor: undefined,
+          result: BuildResult.None,
+          status: BuildStatus.None,
+          startTime: undefined,
+          endTime: undefined
         };
+
+        if(resultBuildDef.latestBuild != undefined) {
+          lastBuild = {
+            id: resultBuildDef.latestBuild.id,
+            buildNumber: resultBuildDef.latestBuild.buildNumber,
+            requestedFor: resultBuildDef.latestBuild.requestedFor,
+            result: resultBuildDef.latestBuild.result,
+            status: resultBuildDef.latestBuild.status,
+            startTime: resultBuildDef.latestBuild.startTime,
+            endTime: resultBuildDef.latestBuild.finishTime
+          };
+        }
 
         if(currentBuildDef != undefined){
           currentBuildDef = {

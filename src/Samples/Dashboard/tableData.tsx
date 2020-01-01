@@ -74,7 +74,7 @@ function renderBuildDefLastCell(
               className: "fontSize font-size bolt-table-two-line-cell-item",
               iconProps: { iconName: "People" },
               children: (
-                <div>{lastBuild.requestedFor.displayName}</div>
+                <div>{lastBuild.requestedFor!.displayName}</div>
               )
           })}
       />

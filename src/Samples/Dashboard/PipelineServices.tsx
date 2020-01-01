@@ -19,7 +19,7 @@ export interface IBuildDef {
 export interface IPipelineItem {
   id: number;
   buildNumber: string;
-  requestedFor: IdentityRef;
+  requestedFor?: IdentityRef;
   result: BuildResult;
   status: BuildStatus;
   startTime?: Date;
