@@ -87,9 +87,45 @@ function renderDateColumn(
 ): JSX.Element {
   let lastBuildRun = tableItem.latestBuild;
   if(lastBuildRun === undefined) {
-    return (<div>not found</div>);
+    return <TwoLineTableCell
+          key={"col-" + columnIndex}
+          columnIndex={columnIndex}
+          tableColumn={tableColumn}
+          line1={WithIcon({
+              className: "fontSize font-size",
+              iconProps: { iconName: "Calendar" },
+              children: (
+                  <div>NA</div>
+              )
+          })}
+          line2={WithIcon({
+              className: "fontSize font-size bolt-table-two-line-cell-item",
+              iconProps: { iconName: "Clock" },
+              children: (
+                  <div>NA</div>
+              )
+          })}
+      />
   } else if(lastBuildRun.startTime === undefined) {
-    return <div>not started</div>
+    return <TwoLineTableCell
+          key={"col-" + columnIndex}
+          columnIndex={columnIndex}
+          tableColumn={tableColumn}
+          line1={WithIcon({
+              className: "fontSize font-size",
+              iconProps: { iconName: "Calendar" },
+              children: (
+                  <div>Not Started</div>
+              )
+          })}
+          line2={WithIcon({
+              className: "fontSize font-size bolt-table-two-line-cell-item",
+              iconProps: { iconName: "Clock" },
+              children: (
+                  <div>NA</div>
+              )
+          })}
+      />
   }
   return (
       <TwoLineTableCell
@@ -107,7 +143,7 @@ function renderDateColumn(
               className: "fontSize font-size bolt-table-two-line-cell-item",
               iconProps: { iconName: "Clock" },
               children: (
-                  <div>datetime here</div>
+                  <Duration startDate={lastBuildRun.startTime} endDate={lastBuildRun.finishTime} />
               )
           })}
       />

@@ -27,12 +27,13 @@ class CICDDashboard extends React.Component<{}, {}> {
       for(let i=0;i<result.length;i++) {
         console.log(result[i].name);
         let resultBuildDef = result[i];
-        let currentBuildDef = currentBuildState.find(x=> x.id === resultBuildDef.id);
-
-        if(currentBuildDef != undefined){
-          currentBuildDef = resultBuildDef;
-        } else {
-          currentBuildState.push(resultBuildDef);
+        if(resultBuildDef.latestBuild != undefined) {
+          let currentBuildDef = currentBuildState.find(x=> x.id === resultBuildDef.id);
+          if(currentBuildDef != undefined){
+            currentBuildDef = resultBuildDef;
+          } else {
+            currentBuildState.push(resultBuildDef);
+          }
         }
       }
       console.log("Result Table: " + currentBuildState.length);
