@@ -88,7 +88,8 @@ class CICDDashboard extends React.Component<{}, {}> {
   );
 
   private buildItemProvider = new ObservableValue<ArrayItemProvider<Build>>(
-    new ArrayItemProvider(this.state.builds.filter(x=> x.id === this.currentSelectedBuildReferenceId.value))
+    //new ArrayItemProvider(this.state.builds.filter(x=> x.id === this.currentSelectedBuildReferenceId.value))
+    new ArrayItemProvider(this.state.builds)
   );
 
   public render() : JSX.Element {
@@ -130,6 +131,8 @@ class CICDDashboard extends React.Component<{}, {}> {
                   </Observer>
                 </PanelContent>
                 <PanelFooter showSeparator className="body-m">
+                  The Cumulative Flow chart shows the count of work items (over
+                                    time) for each column of a Kanban board.
 
                 </PanelFooter>
               </CustomDialog>
