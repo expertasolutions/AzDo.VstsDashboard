@@ -235,13 +235,13 @@ export const buildColumns : ITableColumn<Build>[] = [
   {
     id: "Status",
     renderCell: renderBuildStatus,
-    width:75
+    width:50
   },
   {
     id: "Build",
     name: "Build #", 
     renderCell: renderBuildCell,
-    width: 75,
+    width: 250,
   }
 ]
 
