@@ -241,7 +241,7 @@ export const buildColumns : ITableColumn<Build>[] = [
     id: "Build",
     name: "Build #", 
     renderCell: renderBuildCell,
-    width: 250,
+    width: 350,
   }
 ]
 
