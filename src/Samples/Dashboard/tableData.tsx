@@ -88,6 +88,8 @@ function renderDateColumn(
   let lastBuildRun = tableItem.latestBuild;
   if(lastBuildRun === undefined) {
     return (<div>not found</div>);
+  } else if(lastBuildRun.startTime === undefined) {
+    return <div>not started</div>
   }
   return (
       <TwoLineTableCell
