@@ -88,8 +88,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   );
 
   private buildItemProvider = new ObservableValue<ArrayItemProvider<Build>>(
-    //new ArrayItemProvider(this.state.builds.filter(x=> x.id === this.currentSelectedBuildReferenceId.value))
-    new ArrayItemProvider(this.state.builds)
+    new ArrayItemProvider(this.state.builds.filter(x=> x.definition.id === this.currentSelectedBuildReferenceId.value))
   );
 
   public render() : JSX.Element {
