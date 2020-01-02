@@ -29,6 +29,10 @@ class CICDDashboard extends React.Component<{}, {}> {
     releases: Array<Release>()
   };
   
+  refreshData() {
+    
+  }
+
   public componentDidMount() {
     SDK.init();
     let projectName = "Community";
