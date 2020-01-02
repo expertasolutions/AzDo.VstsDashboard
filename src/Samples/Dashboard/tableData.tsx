@@ -13,6 +13,8 @@ import { Duration } from "azure-devops-ui/Duration";
 import { css } from "azure-devops-ui/Util";
 import { Build, BuildResult, BuildStatus, BuildDefinitionReference } from "azure-devops-extension-api/Build";
 
+import { DataConsumer } from './dataContext';
+
 function renderBuildStatus (
   rowIndex: number,
   columnIndex: number,
@@ -237,6 +239,7 @@ function renderLastRelease01 (
   if(lastBuild === undefined) {
     return (<div>not found</div>)
   }
+  
   return (
     <TwoLineTableCell
           key={"col-" + columnIndex}

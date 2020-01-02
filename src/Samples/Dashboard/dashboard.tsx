@@ -147,9 +147,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                   this.buildItemProvider = new ObservableValue<ArrayItemProvider<Build>>(
                     new ArrayItemProvider(this.state.builds.filter(x=> x.definition.id === this.currentSelectedBuildReferenceId.value))
                   );
-                  console.log("Selected Row - " + data.index)
                 }}
-                onActivate={(event, row) => console.log("Activated Row - " + row.index)}
                 role="table"/>
           )}
         </Observer>
