@@ -22,22 +22,46 @@ import { PanelContent, PanelFooter } from "azure-devops-ui/Panel";
 class CICDDashboard extends React.Component<{}, {}> {
   private isDialogOpen = new ObservableValue<boolean>(false);
   private currentSelectedBuildReferenceId = new ObservableValue<Number>(-1);
+  private projectName = "Community";
 
   state = {
     buildDefs: Array<BuildDefinitionReference>(),
     builds: Array<Build>(),
-    releases: Array<Release>()
+    releases: Array<Release>(),
+    intervalId: Number,
   };
-  
+
   refreshData() {
-    
+    getBuildDefinitions(this.projectName).then(result => {
+      console.log("Def Count: " + result.length);
+      let currentBuildState = this.state.buildDefs;
+      for(let i=0;i<result.length;i++) {
+        console.log(result[i].name);
+        let resultBuildDef = result[i];
+        if(resultBuildDef.latestBuild != undefined) {
+          let currentBuildDef = currentBuildState.find(x=> x.id === resultBuildDef.id);
+          if(currentBuildDef != undefined){
+            currentBuildDef = resultBuildDef;
+          } else {
+            currentBuildState.push(resultBuildDef);
+          }
+        }
+      }
+      console.log("Result Table: " + currentBuildState.length);
+      // Update the currentBuilds Definition
+      this.setState({ buildDefs: currentBuildState });
+    });
   }
 
   public componentDidMount() {
     SDK.init();
-    let projectName = "Community";
+
+    var intervalId = setInterval(this.refreshData, 5000);
+    this.setState( { intervalId: intervalId});
+
+    /*
     // TODO: If build def not been runs since x days... not list it !!
-    getBuildDefinitions(projectName).then(result => {
+    getBuildDefinitions(this.projectName).then(result => {
       console.log("Def Count: " + result.length);
       let currentBuildState = this.state.buildDefs;
       for(let i=0;i<result.length;i++) {
@@ -58,7 +82,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     });
 
     // Get the All build instance
-    getBuilds(projectName).then(result=> {
+    getBuilds(this.projectName).then(result=> {
       let buildsList = this.state.builds;
       for(let i=0;i<result.length;i++){
         let newBuild = result[i];
@@ -72,7 +96,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       this.setState({ builds: buildsList });
     });
 
-    getReleases(projectName).then(result => {
+    getReleases(this.projectName).then(result => {
       let releaseList = this.state.releases;
       for(let i=0;i<result.length;i++){
         let newRelease = result[i];
@@ -85,6 +109,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       }
       this.setState({releases: releaseList });
     });
+    */
   }
 
   private itemProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(
