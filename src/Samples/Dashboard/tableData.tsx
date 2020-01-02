@@ -65,7 +65,7 @@ function WithIcon(props: {
   );
 }
 
-function renderBuildCell(
+function renderBuildInfo01Cell(
   rowIndex: number,
   columnIndex: number,
   tableColumn: ITableColumn<Build>,
@@ -92,6 +92,35 @@ function renderBuildCell(
           })}
       />
   )
+}
+
+function renderBuildInfo02Cell(
+  rowIndex: number,
+  columnIndex: number,
+  tableColumn: ITableColumn<Build>,
+  tableItem: Build
+) : JSX.Element {
+  return (
+    <TwoLineTableCell
+        key={"col-" + columnIndex}
+        columnIndex={columnIndex}
+        tableColumn={tableColumn}
+        line1={WithIcon({
+            className: "fontSize font-size",
+            iconProps: { iconName: "Calendar" },
+            children: (
+                <Ago date={tableItem.startTime!} />
+            )
+        })}
+        line2={WithIcon({
+            className: "fontSize font-size bolt-table-two-line-cell-item",
+            iconProps: { iconName: "Clock" },
+            children: (
+                <Duration startDate={tableItem.startTime} endDate={tableItem.finishTime} />
+            )
+        })}
+    />
+);
 }
 
 function renderBuildDefLastCell(
@@ -234,14 +263,20 @@ function renderLastRelease01 (
 export const buildColumns : ITableColumn<Build>[] = [
   {
     id: "Status",
+    name: "Status",
     renderCell: renderBuildStatus,
     width:50
   },
   {
-    id: "Build",
+    id: "BuildInfo01",
     name: "Build #", 
-    renderCell: renderBuildCell,
+    renderCell: renderBuildInfo01Cell,
     width: 350,
+  },
+  {
+    id: "BuildInfo02",
+    renderCell: renderBuildInfo02Cell,
+    width: 250,
   }
 ]
 
