@@ -50,6 +50,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       console.log("Result Table: " + currentBuildState.length);
       // Update the currentBuilds Definition
       this.setState({ buildDefs: currentBuildState });
+      this.render();
     });
   }
 
