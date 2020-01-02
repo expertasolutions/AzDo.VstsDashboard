@@ -56,9 +56,9 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   public componentDidMount() {
     SDK.init();
-
-    var intervalId = setInterval(this.refreshData, 5000);
-    this.setState( { intervalId: intervalId});
+    this.refreshData();
+    //var intervalId = setInterval(this.refreshData, 5000);
+    //this.setState( { intervalId: intervalId});
 
     /*
     // TODO: If build def not been runs since x days... not list it !!
