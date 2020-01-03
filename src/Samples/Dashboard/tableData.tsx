@@ -59,13 +59,13 @@ export const dashboardColumns : ITableColumn<BuildDefinitionReference>[] = [
   {
     id:"LastBuildInfo02",
     renderCell: renderLastBuild02,
-    width: 200
+    width: 175
   },
   {
     id: "ReleaseInfo01",
     name: "Latest release",
     renderCell: renderReleaseInfo01,
-    width: 550
+    width: 600
   },
   new ColumnMore(() => {
     return {
