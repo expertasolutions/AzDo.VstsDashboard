@@ -18,7 +18,6 @@ import { Release } from "azure-devops-extension-api/Release";
 
 class CICDDashboard extends React.Component<{}, {}> {
   private projectName = "Community";
-  private intervalId = -1;
 
   state = {
     buildDefs: Array<BuildDefinitionReference>(),
@@ -47,18 +46,12 @@ class CICDDashboard extends React.Component<{}, {}> {
     });
   }
 
-  public componentWillUnmount() {
-    clearInterval(this.intervalId);
-  }
-
   public componentDidMount() {
     SDK.init();
     console.log("first call");
     this.refreshData();
     console.log("end call");
 
-    //this.intervalId = setInterval(this.refreshData, 10000);
-    
     /*
     // TODO: If build def not been runs since x days... not list it !!
     getBuildDefinitions(this.projectName).then(result => {
