@@ -24,6 +24,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     buildDefs: Array<BuildDefinitionReference>(),
     builds: Array<Build>(),
     releases: Array<Release>(),
+    patate: "frite",
   };
 
   refreshData() {
@@ -116,7 +117,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   public render() : JSX.Element {
     return (
       <div>
-        <Button text="Refresh" onClick={()=> this.refreshData} />
+        <Button text="Refresh" onClick={()=> this.refreshData() } />
         <Card className="flex-grow bolt-table-card" 
               titleProps={{ text: "All pipelines" }} 
               contentProps={{ contentPadding: false }}>
