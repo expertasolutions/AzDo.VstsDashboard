@@ -1,12 +1,11 @@
 import * as React from "react";
 import * as SDK from "azure-devops-extension-sdk";
 
-import { getBuilds, getBuildDefinitions, getReleases } from "./PipelineServices";
+import { getBuildDefinitions } from "./PipelineServices";
 import { dashboardColumns, buildColumns }  from "./tableData";
 
 import { Card } from "azure-devops-ui/Card";
 import { Table } from "azure-devops-ui/Table";
-import { Button } from "azure-devops-ui/Button";
 import { CustomDialog } from "azure-devops-ui/Dialog";
 
 import { BuildDefinitionReference, Build } from "azure-devops-extension-api/Build";
@@ -32,6 +31,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   };
 
   refreshData() {
+    SDK.init();
     getBuildDefinitions(this.projectName).then(result => {
       let currentBuildState = this.state.buildDefs;
       for(let i=0;i<result.length;i++) {
