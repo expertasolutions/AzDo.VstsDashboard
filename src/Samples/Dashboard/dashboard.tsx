@@ -20,6 +20,7 @@ import { DataContext }  from "./dataContext";
 
 class CICDDashboard extends React.Component<{}, {}> {
   private projectName = "Community";
+  private selectedTabId = new ObservableValue("summary");
 
   state = {
     buildDefs: Array<BuildDefinitionReference>(),
@@ -91,6 +92,10 @@ class CICDDashboard extends React.Component<{}, {}> {
     new ArrayItemProvider(this.state.buildDefs)
   );
 
+  private onSelectedTabChanged = (newTabId: string) => {
+    this.selectedTabId.value = newTabId;
+  }
+
   public render() : JSX.Element {
     return (
       <div>
@@ -104,10 +109,15 @@ class CICDDashboard extends React.Component<{}, {}> {
           <DataContext.Provider value={{ state: this.state }}>
 
             <TabBar
-              onSelectedTabChanged={() => console.log("tab changed") }
+              onSelectedTabChanged={this.onSelectedTabChanged}
+              selectedTabId={this.selectedTabId}
               tabSize={TabSize.Tall}>
-              <Tab name="Summary" id="summary"/>
-              <Tab name="All" id="all"/>
+              <Tab name="Summary" id="summary">
+                <div>inside summary</div>
+              </Tab>
+              <Tab name="All" id="all">
+                <div>inside all</div>
+              </Tab>
             </TabBar>
 
             <Observer itemProvider={this.buildReferenceProvider}>
