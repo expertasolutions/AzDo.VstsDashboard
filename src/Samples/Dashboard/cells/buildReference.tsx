@@ -202,13 +202,14 @@ function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>) {
     ) != null
   );
 
-  let pillGroup = [];
   let children = [];
-  deploys.forEach(d=> children.push(<Pill>{d.releaseEnvironment.name}</Pill>));
-  pillGroup.push(<PillGroup>children</PillGroup>);
+  for(let i=0;i<deploys.length;i++){
+    let dep = deploys[i];
+    children.push(<Pill>{dep.releaseEnvironment.name}</Pill>)
+  }
 
   if(deploys.length > 0) {
-    return (<PillGroup>{pillGroup}</PillGroup>);
+    return (<PillGroup>{children}</PillGroup>);
   }
   return <div>Not found</div>
 }
