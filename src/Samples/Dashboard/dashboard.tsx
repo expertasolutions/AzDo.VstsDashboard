@@ -15,6 +15,7 @@ import { ArrayItemProvider } from "azure-devops-ui/Utilities/Provider";
 import { ObservableValue } from "azure-devops-ui/Core/Observable";
 import { Observer } from "azure-devops-ui/Observer";
 import { Release } from "azure-devops-extension-api/Release";
+import { DataContext }  from "./dataContext";
 
 class CICDDashboard extends React.Component<{}, {}> {
   private projectName = "Community";
@@ -28,6 +29,7 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   public refreshData() {
     getBuildDefinitions(this.projectName).then(result => {
+      // CODE_REVIEW: temp fix ... dump shit !!
       this.setState( { buildDefs: Array<BuildDefinitionReference>()});
       console.log(this.state.buildDefs.length);
       let currentBuildState = this.state.buildDefs;
@@ -35,6 +37,7 @@ class CICDDashboard extends React.Component<{}, {}> {
         let resultBuildDef = result[i];
         if(resultBuildDef.latestBuild != undefined) {
           let currentBuildDef = currentBuildState.find(x=> x.id === resultBuildDef.id);
+          // CODE_REVIEW: this code not work !!! 
           if(currentBuildDef != undefined) {
             currentBuildDef = resultBuildDef;
           } else {
@@ -50,9 +53,7 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   public componentDidMount() {
     SDK.init();
-    console.log("first call");
     this.refreshData();
-    console.log("end call");
 
     /*
     // TODO: If build def not been runs since x days... not list it !!
@@ -121,14 +122,16 @@ class CICDDashboard extends React.Component<{}, {}> {
         <Card className="flex-grow bolt-table-card" 
               titleProps={{ text: "All pipelines" }} 
               contentProps={{ contentPadding: false }}>
-          <Observer itemProvider={this.buildReferenceProvider}>
-            {(observableProps: {itemProvider: ArrayItemProvider<BuildDefinitionReference> }) => (
-              <Table<BuildDefinitionReference> columns={dashboardColumns} 
-                  itemProvider={observableProps.itemProvider}
-                  showLines={true}
-                  role="table"/>
-            )}
-          </Observer>
+          <DataContext.Provider value={{ state: this.state }}>
+            <Observer itemProvider={this.buildReferenceProvider}>
+              {(observableProps: {itemProvider: ArrayItemProvider<BuildDefinitionReference> }) => (
+                <Table<BuildDefinitionReference> columns={dashboardColumns} 
+                    itemProvider={observableProps.itemProvider}
+                    showLines={true}
+                    role="table"/>
+              )}
+            </Observer>
+          </DataContext.Provider>
         </Card>
       </div>
     );

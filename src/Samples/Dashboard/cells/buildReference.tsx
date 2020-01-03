@@ -18,6 +18,7 @@ import { Duration } from "azure-devops-ui/Duration";
 
 import { Build, BuildResult, BuildStatus, BuildDefinitionReference } from "azure-devops-extension-api/Build";
 import { IStatusProps, Status, Statuses, StatusSize } from "azure-devops-ui/Status";
+import { DataContext } from "../dataContext";
 
 export function renderBuildRef01 (
   rowIndex: number,
@@ -155,25 +156,29 @@ export function renderReleaseInfo01 (
   }
   
   return (
-    <TwoLineTableCell
-          key={"col-" + columnIndex}
-          columnIndex={columnIndex}
-          tableColumn={tableColumn}
-          line1={WithIcon({
-              className: "fontSize font-size",
-              iconProps: { iconName: "Build" },
-              children: (
+    <DataContext.Consumer>
+      {(context) => (
+      <TwoLineTableCell
+            key={"col-" + columnIndex}
+            columnIndex={columnIndex}
+            tableColumn={tableColumn}
+            line1={WithIcon({
+                className: "fontSize font-size",
+                iconProps: { iconName: "Build" },
+                children: (
                   <div>{lastBuild.buildNumber}</div>
-              )
-          })}
-          line2={WithIcon({
-              className: "fontSize font-size bolt-table-two-line-cell-item",
-              iconProps: { iconName: "People" },
-              children: (
-                <div>{lastBuild.requestedFor!.displayName}</div>
-              )
-          })}
-      />
+                )
+            })}
+            line2={WithIcon({
+                className: "fontSize font-size bolt-table-two-line-cell-item",
+                iconProps: { iconName: "People" },
+                children: (
+                  <div>{context.state.patate}</div>
+                )
+            })}
+        />
+      )}
+    </DataContext.Consumer>
   )
 }
 
