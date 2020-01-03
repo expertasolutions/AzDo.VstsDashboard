@@ -42,6 +42,7 @@ class CICDDashboard extends React.Component<{}, {}> {
         }
       }
       this.setState({ buildDefs: currentBuildState });
+      this.buildReferenceProvider.value = new ArrayItemProvider(this.state.buildDefs);
       console.log("setState is called");
     });
   }
@@ -121,7 +122,7 @@ class CICDDashboard extends React.Component<{}, {}> {
         <Button text="Refresh" onClick={()=> {
           console.log("refreshData is clicked");
           this.refreshData();
-        }} />
+          }} />
         <Card className="flex-grow bolt-table-card" 
               titleProps={{ text: "All pipelines" }} 
               contentProps={{ contentPadding: false }}>
