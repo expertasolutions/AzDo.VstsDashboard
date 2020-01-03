@@ -193,7 +193,8 @@ function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>) {
   let release = releases.find(
     x=> x.release.artifacts.find(
       a=> {
-        console.log(JSON.stringify(a));
+        console.log("releseInfo: " + JSON.stringify(a.definitionReference));
+        console.log("VersionInfo: " + a.definitionReference["version"]);
         return a.definitionReference["version"].id === x.id.toString()
       }
     ) != null
