@@ -3,7 +3,8 @@ import * as React from "react";
 import { 
   WithIcon,
   IStatusIndicatorData,
-  getPipelineIndicator
+  getPipelineIndicator,
+  getReleaseStatus
 } from "./common";
 
 import {
@@ -23,6 +24,7 @@ import { Deployment } from "azure-devops-extension-api/Release";
 import { Release } from "azure-devops-extension-api/Release";
 import { IStatusProps, Status, Statuses, StatusSize } from "azure-devops-ui/Status";
 import { DataContext } from "../dataContext";
+import { getBuildStatus } from "./build";
 
 export function renderBuildRef01 (
   rowIndex: number,
@@ -205,7 +207,12 @@ function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>) {
   let children = [];
   for(let i=0;i<deploys.length;i++){
     let dep = deploys[i];
-    children.push(<Pill>{dep.releaseEnvironment.name}</Pill>)
+    children.push(<Pill>
+      <Status {...getReleaseStatus(dep).statusProps} 
+              className="icon-small-margin"
+              size={StatusSize.s}/>
+      {dep.releaseEnvironment.name}
+    </Pill>)
   }
 
   if(deploys.length > 0) {

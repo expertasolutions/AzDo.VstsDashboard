@@ -3,6 +3,7 @@ import { css } from "azure-devops-ui/Util";
 import { Icon, IIconProps } from "azure-devops-ui/Icon";
 import { IStatusProps, Status, Statuses, StatusSize } from "azure-devops-ui/Status";
 import { Build, BuildResult, BuildStatus, BuildDefinitionReference } from "azure-devops-extension-api/Build";
+import { Deployment, DeploymentStatus } from "azure-devops-extension-api/Release";
 
 export interface IStatusIndicatorData {
   statusProps: IStatusProps;
@@ -20,6 +21,50 @@ export function WithIcon(props: {
           {props.children}
       </div>
   );
+}
+
+export function getReleaseStatus(depl: Deployment) : IStatusIndicatorData {
+  const indicatorData: IStatusIndicatorData = {
+    label: "NA",
+    statusProps: { ...Statuses.Queued, ariaLabel: "None" }
+  };
+  
+  return getReleaseIndicator(depl.deploymentStatus);
+}
+
+export function getReleaseIndicator(status: DeploymentStatus) : IStatusIndicatorData {
+  const indicatorData: IStatusIndicatorData = {
+    label: "NA",
+    statusProps: { ...Statuses.Queued, ariaLabel: "None" }
+  };
+
+  if(status === undefined){
+    status = DeploymentStatus.Undefined;
+  }
+
+  switch(status){
+    case DeploymentStatus.NotDeployed:
+      indicatorData.statusProps = { ...Statuses.Queued, ariaLabel: "Canceled"};
+      indicatorData.label = "Not Deployed";
+      break;
+    case DeploymentStatus.Succeeded:
+      indicatorData.statusProps = { ...Statuses.Success, ariaLabel: "Success"};
+      indicatorData.label = "Success";
+      break;
+    case DeploymentStatus.Failed:
+      indicatorData.statusProps = { ...Statuses.Failed, ariaLabel: "Fail"};
+      indicatorData.label = "Fail";
+      break;
+    case DeploymentStatus.PartiallySucceeded:
+      indicatorData.statusProps = { ...Statuses.Warning, ariaLabel: "PartiallySucceeded"};
+      indicatorData.label = "PartiallySucceeded";
+      break;
+    case DeploymentStatus.InProgress:
+      indicatorData.statusProps = { ...Statuses.Running, ariaLabel: "InProgress"};
+      indicatorData.label = "In Progress";
+      break;
+  }
+  return indicatorData;
 }
 
 export function getPipelineIndicator(result: BuildResult, status:BuildStatus) : IStatusIndicatorData {
