@@ -205,12 +205,12 @@ function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>) {
   );
 
   let children = [];
-  for(let i=0;i<deploys.length;i++){
+  for(let i=0;i<deploys.sort(x=> x.id).length;i++){
     let dep = deploys[i];
     children.push(<Pill>
       <Status {...getReleaseStatus(dep).statusProps} 
               className="icon-small-margin"
-              size={StatusSize.s}/>
+              size={StatusSize.s}/>&nbps;
       {dep.releaseEnvironment.name}
     </Pill>)
   }

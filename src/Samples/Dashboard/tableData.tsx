@@ -65,7 +65,7 @@ export const dashboardColumns : ITableColumn<BuildDefinitionReference>[] = [
     id: "ReleaseInfo01",
     name: "Latest release",
     renderCell: renderReleaseInfo01,
-    width: 350
+    width: 550
   },
   new ColumnMore(() => {
     return {
