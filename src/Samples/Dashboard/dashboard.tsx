@@ -7,6 +7,7 @@ import { dashboardColumns }  from "./tableData";
 import { Button } from "azure-devops-ui/Button";
 import { Card } from "azure-devops-ui/Card";
 import { Table } from "azure-devops-ui/Table";
+import { Tab, TabBar, TabSize } from "azure-devops-ui/Tabs";
 
 import { BuildDefinitionReference, Build } from "azure-devops-extension-api/Build";
 import { Deployment } from "azure-devops-extension-api/Release";
@@ -101,6 +102,14 @@ class CICDDashboard extends React.Component<{}, {}> {
               titleProps={{ text: "All pipelines" }} 
               contentProps={{ contentPadding: false }}>
           <DataContext.Provider value={{ state: this.state }}>
+
+            <TabBar
+              onSelectedTabChanged={() => console.log("tab changed") }
+              tabSize={TabSize.Tall}>
+              <Tab name="Summary" id="summary"/>
+              <Tab name="All" id="all"/>
+            </TabBar>
+
             <Observer itemProvider={this.buildReferenceProvider}>
               {(observableProps: {itemProvider: ArrayItemProvider<BuildDefinitionReference> }) => (
                 <Table<BuildDefinitionReference> columns={dashboardColumns} 
