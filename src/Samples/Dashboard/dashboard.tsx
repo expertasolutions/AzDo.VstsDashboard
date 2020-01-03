@@ -2,11 +2,10 @@ import * as React from "react";
 import * as SDK from "azure-devops-extension-sdk";
 
 import { getBuildDefinitions } from "./PipelineServices";
-import { dashboardColumns, buildColumns }  from "./tableData";
+import { dashboardColumns }  from "./tableData";
 
 import { Card } from "azure-devops-ui/Card";
 import { Table } from "azure-devops-ui/Table";
-import { CustomDialog } from "azure-devops-ui/Dialog";
 
 import { BuildDefinitionReference, Build } from "azure-devops-extension-api/Build";
 
@@ -15,12 +14,8 @@ import { ArrayItemProvider } from "azure-devops-ui/Utilities/Provider";
 import { ObservableValue } from "azure-devops-ui/Core/Observable";
 import { Observer } from "azure-devops-ui/Observer";
 import { Release } from "azure-devops-extension-api/Release";
-import { HeaderTitleArea, CustomHeader } from "azure-devops-ui/Header";
-import { PanelContent, PanelFooter } from "azure-devops-ui/Panel";
 
 class CICDDashboard extends React.Component<{}, {}> {
-  private isDialogOpen = new ObservableValue<boolean>(false);
-  private currentSelectedBuildReferenceId = new ObservableValue<Number>(-1);
   private projectName = "Community";
   private intervalId = -1;
 
@@ -116,67 +111,16 @@ class CICDDashboard extends React.Component<{}, {}> {
     new ArrayItemProvider(this.state.buildDefs)
   );
 
-  private buildItemProvider = new ObservableValue<ArrayItemProvider<Build>>(
-    new ArrayItemProvider(this.state.builds.filter(x=> x.definition.id === this.currentSelectedBuildReferenceId.value))
-  );
-
   public render() : JSX.Element {
-    const onDismiss = () => {
-      this.isDialogOpen.value = false;
-      this.currentSelectedBuildReferenceId.value = -1;
-    };
-
     return (
       <Card className="flex-grow bolt-table-card" 
             titleProps={{ text: "All pipelines" }} 
             contentProps={{ contentPadding: false }}>
-        <Observer isDialogOpen={this.isDialogOpen}>
-          {(props: { isDialogOpen: boolean }) => {
-            return props.isDialogOpen ? (
-              <CustomDialog onDismiss={onDismiss} modal={true}>
-                <CustomHeader className="bolt-header-with-commandbar" separator>
-                  <HeaderTitleArea>
-                    <div className="flex-grow scroll-hidden"
-                        style={{ marginRight: "16px" }}>
-                      <div className="title-m"
-                          style={{
-                              height: "500px",
-                              width: "500px",
-                              maxHeight: "32px" }}>
-                          Build details
-                      </div>
-                    </div>
-                  </HeaderTitleArea>
-                </CustomHeader>
-                <PanelContent>
-                  <Observer itemProvider={this.buildItemProvider}>
-                    {(observableProps: {itemProvider: ArrayItemProvider<Build> }) => (
-                      <Table<Build> columns={buildColumns}
-                                    itemProvider={observableProps.itemProvider}
-                                    showLines={true}
-                                    role="table"/>
-                    )}
-                  </Observer>
-                </PanelContent>
-                <PanelFooter showSeparator className="body-m">
-                  Footer here !!
-                </PanelFooter>
-              </CustomDialog>
-            ) : null;
-          }}
-        </Observer>
         <Observer itemProvider={this.itemProvider}>
           {(observableProps: {itemProvider: ArrayItemProvider<BuildDefinitionReference> }) => (
             <Table<BuildDefinitionReference> columns={dashboardColumns} 
                 itemProvider={observableProps.itemProvider}
                 showLines={true}
-                onSelect={(event, data) => {
-                  this.currentSelectedBuildReferenceId.value = data.data.id;
-                  this.isDialogOpen.value = true;
-                  this.buildItemProvider = new ObservableValue<ArrayItemProvider<Build>>(
-                    new ArrayItemProvider(this.state.builds.filter(x=> x.definition.id === this.currentSelectedBuildReferenceId.value))
-                  );
-                }}
                 role="table"/>
           )}
         </Observer>
