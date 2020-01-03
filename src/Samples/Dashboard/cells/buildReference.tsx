@@ -189,13 +189,12 @@ export function renderReleaseInfo01 (
 }
 
 function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>) {
-  console.log("find build: " + JSON.stringify(build));
   let release = releases.find(
     x=> x.release.artifacts.find(
       a=> {
         console.log("releseInfo: " + JSON.stringify(a.definitionReference));
-        console.log("VersionInfo: " + a.definitionReference["version"]);
-        return a.definitionReference["version"].id === x.id.toString()
+        console.log("VersionInfo: " + JSON.stringify(a.definitionReference["version"]));
+        return a.definitionReference["version"].id === x.id.toString();
       }
     ) != null
   );
