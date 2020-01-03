@@ -210,7 +210,7 @@ function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>) {
     children.push(<Pill>
       <Status {...getReleaseStatus(dep).statusProps} 
               className="icon-small-margin"
-              size={StatusSize.s}/>&nbps;
+              size={StatusSize.s}/>
       {dep.releaseEnvironment.name}
     </Pill>)
   }
