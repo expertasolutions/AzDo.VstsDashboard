@@ -4,6 +4,7 @@ import * as SDK from "azure-devops-extension-sdk";
 import { getBuildDefinitions } from "./PipelineServices";
 import { dashboardColumns }  from "./tableData";
 
+import { Button } from "azure-devops-ui/Button";
 import { Card } from "azure-devops-ui/Card";
 import { Table } from "azure-devops-ui/Table";
 
@@ -53,7 +54,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     this.refreshData();
     console.log("end call");
 
-    this.intervalId = setInterval(this.refreshData, 10000);
+    //this.intervalId = setInterval(this.refreshData, 10000);
     
     /*
     // TODO: If build def not been runs since x days... not list it !!
@@ -114,18 +115,21 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   public render() : JSX.Element {
     return (
-      <Card className="flex-grow bolt-table-card" 
-            titleProps={{ text: "All pipelines" }} 
-            contentProps={{ contentPadding: false }}>
-        <Observer itemProvider={this.itemProvider}>
-          {(observableProps: {itemProvider: ArrayItemProvider<BuildDefinitionReference> }) => (
-            <Table<BuildDefinitionReference> columns={dashboardColumns} 
-                itemProvider={observableProps.itemProvider}
-                showLines={true}
-                role="table"/>
-          )}
-        </Observer>
-      </Card>
+      <div>
+        <Button text="Refresh" onClick={()=> this.refreshData} />
+        <Card className="flex-grow bolt-table-card" 
+              titleProps={{ text: "All pipelines" }} 
+              contentProps={{ contentPadding: false }}>
+          <Observer itemProvider={this.itemProvider}>
+            {(observableProps: {itemProvider: ArrayItemProvider<BuildDefinitionReference> }) => (
+              <Table<BuildDefinitionReference> columns={dashboardColumns} 
+                  itemProvider={observableProps.itemProvider}
+                  showLines={true}
+                  role="table"/>
+            )}
+          </Observer>
+        </Card>
+      </div>
     );
   }
 }
