@@ -190,7 +190,7 @@ export function renderReleaseInfo01 (
 
 function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>) {
   console.log("BuildId: " + build.id);
-  let release = releases.find(
+  let deploys = releases.filter(
     x=> x.release.artifacts.find(
       a=> {
         let version = a.definitionReference["version"];
@@ -201,10 +201,17 @@ function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>) {
       }
     ) != null
   );
-  if(release === undefined){
-    return <div>Not found</div>
+
+  if(deploys.length > 0) {
+      return (
+        <PillGroup className="flex-row">
+          deploys.array.forEach(d => {
+            <Pill size={PillSize.compact}>test</Pill>
+          });
+        </PillGroup>
+      )
   }
-  return <div>found</div>
+  return <div>Not found</div>
 }
 
 function getBuildDefinitionStatus(buildDefItem: BuildDefinitionReference) : IStatusIndicatorData {
