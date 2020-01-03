@@ -110,7 +110,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     */
   }
 
-  private itemProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(
+  private buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(
     new ArrayItemProvider(this.state.buildDefs)
   );
 
@@ -121,7 +121,7 @@ class CICDDashboard extends React.Component<{}, {}> {
         <Card className="flex-grow bolt-table-card" 
               titleProps={{ text: "All pipelines" }} 
               contentProps={{ contentPadding: false }}>
-          <Observer itemProvider={this.itemProvider}>
+          <Observer itemProvider={this.buildReferenceProvider}>
             {(observableProps: {itemProvider: ArrayItemProvider<BuildDefinitionReference> }) => (
               <Table<BuildDefinitionReference> columns={dashboardColumns} 
                   itemProvider={observableProps.itemProvider}
