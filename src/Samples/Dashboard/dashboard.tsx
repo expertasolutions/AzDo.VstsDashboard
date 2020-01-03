@@ -26,7 +26,6 @@ class CICDDashboard extends React.Component<{}, {}> {
   };
 
   refreshData() {
-    SDK.init();
     getBuildDefinitions(this.projectName).then(result => {
       let currentBuildState = this.state.buildDefs;
       for(let i=0;i<result.length;i++) {
@@ -50,9 +49,11 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   public componentDidMount() {
     SDK.init();
+    console.log("first call");
     this.refreshData();
+    console.log("end call");
 
-    this.intervalId = setInterval(this.refreshData, 5000);
+    this.intervalId = setInterval(this.refreshData, 10000);
     
     /*
     // TODO: If build def not been runs since x days... not list it !!
