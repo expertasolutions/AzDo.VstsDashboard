@@ -24,13 +24,14 @@ class CICDDashboard extends React.Component<{}, {}> {
     buildDefs: Array<BuildDefinitionReference>(),
     builds: Array<Build>(),
     releases: Array<Release>(),
-    patate: "frite",
+    patate: String,
   };
 
   public refreshData() {
     getBuildDefinitions(this.projectName).then(result => {
       // CODE_REVIEW: temp fix ... dump shit !!
       this.setState( { buildDefs: Array<BuildDefinitionReference>()});
+      this.setState( { patate: "frite" });
       console.log(this.state.buildDefs.length);
       let currentBuildState = this.state.buildDefs;
       for(let i=0;i<result.length;i++) {
