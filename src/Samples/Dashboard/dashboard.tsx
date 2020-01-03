@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as SDK from "azure-devops-extension-sdk";
 
-import { getBuildDefinitions } from "./PipelineServices";
+import { getBuildDefinitions, getReleases } from "./PipelineServices";
 import { dashboardColumns }  from "./tableData";
 
 import { Button } from "azure-devops-ui/Button";
@@ -9,12 +9,12 @@ import { Card } from "azure-devops-ui/Card";
 import { Table } from "azure-devops-ui/Table";
 
 import { BuildDefinitionReference, Build } from "azure-devops-extension-api/Build";
+import { Deployment } from "azure-devops-extension-api/Release";
 
 import { showRootComponent } from "../../Common";
 import { ArrayItemProvider } from "azure-devops-ui/Utilities/Provider";
 import { ObservableValue } from "azure-devops-ui/Core/Observable";
 import { Observer } from "azure-devops-ui/Observer";
-import { Release } from "azure-devops-extension-api/Release";
 import { DataContext }  from "./dataContext";
 
 class CICDDashboard extends React.Component<{}, {}> {
@@ -23,7 +23,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   state = {
     buildDefs: Array<BuildDefinitionReference>(),
     builds: Array<Build>(),
-    releases: Array<Release>(),
+    releases: Array<Deployment>(),
     patate: String,
   };
 
@@ -55,29 +55,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   public componentDidMount() {
     SDK.init();
     this.refreshData();
-
     /*
-    // TODO: If build def not been runs since x days... not list it !!
-    getBuildDefinitions(this.projectName).then(result => {
-      console.log("Def Count: " + result.length);
-      let currentBuildState = this.state.buildDefs;
-      for(let i=0;i<result.length;i++) {
-        console.log(result[i].name);
-        let resultBuildDef = result[i];
-        if(resultBuildDef.latestBuild != undefined) {
-          let currentBuildDef = currentBuildState.find(x=> x.id === resultBuildDef.id);
-          if(currentBuildDef != undefined){
-            currentBuildDef = resultBuildDef;
-          } else {
-            currentBuildState.push(resultBuildDef);
-          }
-        }
-      }
-      console.log("Result Table: " + currentBuildState.length);
-      // Update the currentBuilds Definition
-      this.setState({ buildDefs: currentBuildState });
-    });
-
     // Get the All build instance
     getBuilds(this.projectName).then(result=> {
       let buildsList = this.state.builds;
@@ -92,7 +70,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       }
       this.setState({ builds: buildsList });
     });
-
+    */
     getReleases(this.projectName).then(result => {
       let releaseList = this.state.releases;
       for(let i=0;i<result.length;i++){
@@ -106,7 +84,6 @@ class CICDDashboard extends React.Component<{}, {}> {
       }
       this.setState({releases: releaseList });
     });
-    */
   }
 
   private buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(
@@ -119,7 +96,7 @@ class CICDDashboard extends React.Component<{}, {}> {
         <Button text="Refresh" onClick={()=> {
           console.log("refreshData is clicked");
           this.refreshData();
-          }} />
+        }} />
         <Card className="flex-grow bolt-table-card" 
               titleProps={{ text: "All pipelines" }} 
               contentProps={{ contentPadding: false }}>

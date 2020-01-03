@@ -15,8 +15,12 @@ import {
 
 import { Ago } from "azure-devops-ui/Ago";
 import { Duration } from "azure-devops-ui/Duration";
+import { Pill, PillSize, PillVariant } from "azure-devops-ui/Pill";
+import { PillGroup } from "azure-devops-ui/PillGroup";
 
 import { Build, BuildResult, BuildStatus, BuildDefinitionReference } from "azure-devops-extension-api/Build";
+import { Deployment } from "azure-devops-extension-api/Release";
+import { Release } from "azure-devops-extension-api/Release";
 import { IStatusProps, Status, Statuses, StatusSize } from "azure-devops-ui/Status";
 import { DataContext } from "../dataContext";
 
@@ -166,7 +170,9 @@ export function renderReleaseInfo01 (
                 className: "fontSize font-size",
                 iconProps: { iconName: "Build" },
                 children: (
-                  <div>{lastBuild.buildNumber}</div>
+                  <div>
+                    {getReleaseTagFromBuild(lastBuild, context.state.releases) }
+                  </div>
                 )
             })}
             line2={WithIcon({
@@ -180,6 +186,18 @@ export function renderReleaseInfo01 (
       )}
     </DataContext.Consumer>
   )
+}
+
+function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>) {
+  let release = releases.find(
+    x=> x.release.artifacts.find(
+      a=> a.definitionReference["definition"].id === x.id.toString()
+    ) != null
+  );
+  if(release === undefined){
+    return <div>Not found</div>
+  }
+  return <div>found</div>
 }
 
 function getBuildDefinitionStatus(buildDefItem: BuildDefinitionReference) : IStatusIndicatorData {

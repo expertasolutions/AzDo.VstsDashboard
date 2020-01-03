@@ -10,7 +10,7 @@ import {
 
 export async function getReleases(projectName: string) {
   let releaseClient = API.getClient(ReleaseRestClient);
-  return await releaseClient.getReleases(projectName);
+  return await releaseClient.getDeployments(projectName);
 }
 
 export async function getBuilds(projectName: string)  {
