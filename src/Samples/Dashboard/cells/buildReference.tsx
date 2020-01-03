@@ -156,7 +156,7 @@ export function renderReleaseInfo01 (
   tableColumn: ITableColumn<BuildDefinitionReference>,
   tableItem: BuildDefinitionReference
 ) : JSX.Element {
-  let lastBuild = tableItem.latestBuild;
+  let lastBuild = tableItem.latestCompletedBuild;
   if(lastBuild === undefined) {
     return (<div>not found</div>)
   }
