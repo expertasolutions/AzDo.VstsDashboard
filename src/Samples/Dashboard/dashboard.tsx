@@ -27,7 +27,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     patate: "frite",
   };
 
-  refreshData() {
+  public refreshData() {
     getBuildDefinitions(this.projectName).then(result => {
       let currentBuildState = this.state.buildDefs;
       for(let i=0;i<result.length;i++) {
@@ -42,6 +42,7 @@ class CICDDashboard extends React.Component<{}, {}> {
         }
       }
       this.setState({ buildDefs: currentBuildState });
+      console.log("setState is called");
     });
   }
 
@@ -117,7 +118,10 @@ class CICDDashboard extends React.Component<{}, {}> {
   public render() : JSX.Element {
     return (
       <div>
-        <Button text="Refresh" onClick={()=> this.refreshData() } />
+        <Button text="Refresh" onClick={()=> {
+          console.log("refreshData is clicked");
+          this.refreshData();
+        }} />
         <Card className="flex-grow bolt-table-card" 
               titleProps={{ text: "All pipelines" }} 
               contentProps={{ contentPadding: false }}>
