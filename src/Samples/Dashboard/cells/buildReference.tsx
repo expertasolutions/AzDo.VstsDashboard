@@ -168,7 +168,7 @@ export function renderReleaseInfo01 (
             tableColumn={tableColumn}
             line1={WithIcon({
                 className: "fontSize font-size",
-                iconProps: { iconName: "Release" },
+                iconProps: { iconName: "Deployment" },
                 children: (
                   <div>
                     {getReleaseTagFromBuild(lastBuild, context.state.releases) }
@@ -194,7 +194,7 @@ function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>) {
     x=> x.release.artifacts.find(
       a=> {
         console.log(JSON.stringify(a));
-        return a.definitionReference["definition"].id === x.id.toString()
+        return a.definitionReference["version"].id === x.id.toString()
       }
     ) != null
   );
