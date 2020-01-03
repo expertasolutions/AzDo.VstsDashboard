@@ -23,20 +23,18 @@ class CICDDashboard extends React.Component<{}, {}> {
   private isDialogOpen = new ObservableValue<boolean>(false);
   private currentSelectedBuildReferenceId = new ObservableValue<Number>(-1);
   private projectName = "Community";
+  private intervalId = -1;
 
   state = {
     buildDefs: Array<BuildDefinitionReference>(),
     builds: Array<Build>(),
     releases: Array<Release>(),
-    intervalId: Number,
   };
 
   refreshData() {
     getBuildDefinitions(this.projectName).then(result => {
-      console.log("Def Count: " + result.length);
       let currentBuildState = this.state.buildDefs;
       for(let i=0;i<result.length;i++) {
-        console.log(result[i].name);
         let resultBuildDef = result[i];
         if(resultBuildDef.latestBuild != undefined) {
           let currentBuildDef = currentBuildState.find(x=> x.id === resultBuildDef.id);
@@ -47,19 +45,20 @@ class CICDDashboard extends React.Component<{}, {}> {
           }
         }
       }
-      console.log("Result Table: " + currentBuildState.length);
-      // Update the currentBuilds Definition
       this.setState({ buildDefs: currentBuildState });
-      this.itemProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(this.state.buildDefs));
     });
+  }
+
+  public componentWillUnmount() {
+    clearInterval(this.intervalId);
   }
 
   public componentDidMount() {
     SDK.init();
     this.refreshData();
-    //var intervalId = setInterval(this.refreshData, 5000);
-    //this.setState( { intervalId: intervalId});
 
+    this.intervalId = setInterval(this.refreshData, 5000);
+    
     /*
     // TODO: If build def not been runs since x days... not list it !!
     getBuildDefinitions(this.projectName).then(result => {
