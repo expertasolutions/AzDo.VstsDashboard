@@ -17,7 +17,7 @@ import {
 import { Ago } from "azure-devops-ui/Ago";
 import { Duration } from "azure-devops-ui/Duration";
 import { Pill, PillSize, PillVariant } from "azure-devops-ui/Pill";
-import { PillGroup } from "azure-devops-ui/PillGroup";
+import { PillGroup, PillGroupOverflow } from "azure-devops-ui/PillGroup";
 
 import { Build, BuildResult, BuildStatus, BuildDefinitionReference } from "azure-devops-extension-api/Build";
 import { Deployment } from "azure-devops-extension-api/Release";
@@ -216,7 +216,7 @@ function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>) {
   }
 
   if(deploys.length > 0) {
-    return (<PillGroup>{children}</PillGroup>);
+    return (<PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{children}</PillGroup>);
   }
   return <div>Not found</div>
 }
