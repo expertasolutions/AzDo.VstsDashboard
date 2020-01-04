@@ -48,13 +48,13 @@ export const dashboardColumns : ITableColumn<BuildDefinitionReference>[] = [
     id: "pipeline",
     name: "Pipeline",
     renderCell: renderBuildRef01,
-    width: 450
+    width: 250
   },
   {
     id:"LastBuildInfo01",
     name: "Last run",
     renderCell: renderLastBuild01,
-    width: 400
+    width: 200
   },
   {
     id:"LastBuildInfo02",
@@ -65,7 +65,7 @@ export const dashboardColumns : ITableColumn<BuildDefinitionReference>[] = [
     id: "ReleaseInfo01",
     name: "Latest release",
     renderCell: renderReleaseInfo01,
-    width: 600
+    width: 400
   },
   new ColumnMore(() => {
     return {
