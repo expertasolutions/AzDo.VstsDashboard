@@ -8,6 +8,8 @@ import { Button } from "azure-devops-ui/Button";
 import { Card } from "azure-devops-ui/Card";
 import { Table } from "azure-devops-ui/Table";
 import { Tab, TabBar, TabSize } from "azure-devops-ui/Tabs";
+import { Surface, SurfaceBackground } from "azure-devops-ui/Surface";
+import { Page } from "azure-devops-ui/Page";
 
 import { BuildDefinitionReference, Build } from "azure-devops-extension-api/Build";
 import { Deployment } from "azure-devops-extension-api/Release";
@@ -17,6 +19,7 @@ import { ArrayItemProvider } from "azure-devops-ui/Utilities/Provider";
 import { ObservableValue } from "azure-devops-ui/Core/Observable";
 import { Observer } from "azure-devops-ui/Observer";
 import { DataContext }  from "./dataContext";
+import { Header, TitleSize } from "azure-devops-ui/Header";
 
 class CICDDashboard extends React.Component<{}, {}> {
   private projectName = "Community";
@@ -98,40 +101,40 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   public render() : JSX.Element {
     return (
-      <div>
-        <Button text="Refresh" onClick={()=> {
-          console.log("refreshData is clicked");
-          this.refreshData();
-        }} />
-        <TabBar
-          onSelectedTabChanged={this.onSelectedTabChanged}
-          selectedTabId={this.selectedTabId}
-          tabSize={TabSize.Tall}>
-          <Tab name="Summary" id="summary">
-            <div>inside summary</div>
-          </Tab>
-          <Tab name="All" id="all">
-            <div>inside all</div>
-          </Tab>
-        </TabBar>
-            
-        <Card className="flex-grow bolt-table-card" 
-              titleProps={{ text: "All pipelines" }} 
-              contentProps={{ contentPadding: false }}>
-          <DataContext.Provider value={{ state: this.state }}>
+      <Surface background={SurfaceBackground.neutral}>
+        <Page className="pipelines-page flex-grow">
+          <Header title="Pipelines" titleSize={TitleSize.Large} />
+          <TabBar
+            onSelectedTabChanged={this.onSelectedTabChanged}
+            selectedTabId={this.selectedTabId}
+            tabSize={TabSize.Tall}>
+            <Tab name="Summary" id="summary"/>
+            <Tab name="All" id="all"/>
+          </TabBar>
+          <div>
+              <Button text="Refresh" onClick={()=> {
+                console.log("refreshData is clicked");
+                this.refreshData();
+              }} />
+              <Card className="flex-grow bolt-table-card" 
+                    titleProps={{ text: "All pipelines" }} 
+                    contentProps={{ contentPadding: false }}>
+                <DataContext.Provider value={{ state: this.state }}>
 
-            
-            <Observer itemProvider={this.buildReferenceProvider}>
-              {(observableProps: {itemProvider: ArrayItemProvider<BuildDefinitionReference> }) => (
-                <Table<BuildDefinitionReference> columns={dashboardColumns} 
-                    itemProvider={observableProps.itemProvider}
-                    showLines={true}
-                    role="table"/>
-              )}
-            </Observer>
-          </DataContext.Provider>
-        </Card>
-      </div>
+                  
+                  <Observer itemProvider={this.buildReferenceProvider}>
+                    {(observableProps: {itemProvider: ArrayItemProvider<BuildDefinitionReference> }) => (
+                      <Table<BuildDefinitionReference> columns={dashboardColumns} 
+                          itemProvider={observableProps.itemProvider}
+                          showLines={true}
+                          role="table"/>
+                    )}
+                  </Observer>
+                </DataContext.Provider>
+              </Card>
+            </div>
+        </Page>
+      </Surface>
     );
   }
 }
