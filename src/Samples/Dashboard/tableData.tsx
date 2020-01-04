@@ -50,13 +50,13 @@ export const dashboardColumns : ITableColumn<BuildDefinitionReference>[] = [
     id: "pipeline",
     name: "Pipeline",
     renderCell: renderBuildRef01,
-    width: new ObservableValue(-33)
+    width: new ObservableValue(-20)
   },
   {
     id:"LastBuildInfo01",
     name: "Last run",
     renderCell: renderLastBuild01,
-    width: new ObservableValue(-33)
+    width: new ObservableValue(-20)
   },
   {
     id:"LastBuildInfo02",
@@ -67,7 +67,7 @@ export const dashboardColumns : ITableColumn<BuildDefinitionReference>[] = [
     id: "ReleaseInfo01",
     name: "Latest release",
     renderCell: renderReleaseInfo01,
-    width: new ObservableValue(-33)
+    width: new ObservableValue(-50)
   },
   new ColumnMore(() => {
     return {
