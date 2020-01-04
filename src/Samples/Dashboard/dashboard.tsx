@@ -111,7 +111,7 @@ class CICDDashboard extends React.Component<{}, {}> {
             <Tab name="Summary" id="summary"/>
             <Tab name="All" id="all"/>
           </TabBar>
-          <div>
+          <div className="page-content page-content-top">
               <Button text="Refresh" onClick={()=> {
                 console.log("refreshData is clicked");
                 this.refreshData();
