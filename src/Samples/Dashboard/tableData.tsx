@@ -1,3 +1,5 @@
+import { ObservableValue } from "azure-devops-ui/Core/Observable";
+
 import { 
   renderBuildStatus,
   renderBuildInfo01Cell, 
@@ -48,24 +50,24 @@ export const dashboardColumns : ITableColumn<BuildDefinitionReference>[] = [
     id: "pipeline",
     name: "Pipeline",
     renderCell: renderBuildRef01,
-    width: 250
+    width: new ObservableValue(350)
   },
   {
     id:"LastBuildInfo01",
     name: "Last run",
     renderCell: renderLastBuild01,
-    width: 200
+    width: new ObservableValue(400)
   },
   {
     id:"LastBuildInfo02",
     renderCell: renderLastBuild02,
-    width: 175
+    width: 100
   },
   {
     id: "ReleaseInfo01",
     name: "Latest release",
     renderCell: renderReleaseInfo01,
-    width: 400
+    width: new ObservableValue(600)
   },
   new ColumnMore(() => {
     return {
