@@ -120,8 +120,6 @@ class CICDDashboard extends React.Component<{}, {}> {
                     titleProps={{ text: "All pipelines" }} 
                     contentProps={{ contentPadding: false }}>
                 <DataContext.Provider value={{ state: this.state }}>
-
-                  
                   <Observer itemProvider={this.buildReferenceProvider}>
                     {(observableProps: {itemProvider: ArrayItemProvider<BuildDefinitionReference> }) => (
                       <Table<BuildDefinitionReference> columns={dashboardColumns} 
