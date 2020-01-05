@@ -22,6 +22,7 @@ import { ObservableValue } from "azure-devops-ui/Core/Observable";
 import { Observer } from "azure-devops-ui/Observer";
 import { DataContext }  from "./dataContext";
 import { Header, TitleSize } from "azure-devops-ui/Header";
+import { IListBoxItem } from "azure-devops-ui/ListBox";
 
 class CICDDashboard extends React.Component<{}, {}> {
   private projectName = "Community";
@@ -38,7 +39,14 @@ class CICDDashboard extends React.Component<{}, {}> {
   public refreshData() {
 
     getProjects().then(result => {
-      this.setState( { projects: result });
+      let newProjectsList = new Array<IListBoxItem>();
+      for(let i=0;result.length;i++){
+        let pr = result[i];
+        newProjectsList.push({
+          id: pr.id, text: pr.name
+        });
+      }
+      this.setState( { projects: newProjectsList });
     });
 
     // Update Build References list...
@@ -136,6 +144,15 @@ class CICDDashboard extends React.Component<{}, {}> {
     }
   }
 
+  private renderProjectDropDown(projects: Array<ProjectInfo>) {
+    let proj : Array<IListBoxItem> = [];
+    for(let i=0;i<projects.length;i++){
+      let p = projects[i];
+      proj.push({ id: p.id, text: p.name });
+    }
+    return proj;
+  }
+
   public render() : JSX.Element {
     return (
       <Surface background={SurfaceBackground.neutral}>
@@ -159,7 +176,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                 {(props: { itemProvider: ArrayItemProvider<ProjectInfo> }) => (
                   <Dropdown
                     placeholder="Select a Project"
-                    items={props.itemProvider}
+                    items={this.renderProjectDropDown(props.itemProvider.value)}
                   />
                 )}
               </Observer>
