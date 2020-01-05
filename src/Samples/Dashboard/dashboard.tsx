@@ -99,6 +99,20 @@ class CICDDashboard extends React.Component<{}, {}> {
     this.selectedTabId.value = newTabId;
   }
 
+
+  private renderTab(tabId: string) : JSX.Element {
+    return (
+      <Observer itemProvider={this.buildReferenceProvider}>
+        {(observableProps: {itemProvider: ArrayItemProvider<BuildDefinitionReference> }) => (
+          <Table<BuildDefinitionReference> columns={dashboardColumns} 
+              itemProvider={observableProps.itemProvider}
+              showLines={true}
+              role="table"/>
+        )}
+      </Observer>
+    )
+  }
+
   public render() : JSX.Element {
     return (
       <Surface background={SurfaceBackground.neutral}>
@@ -122,16 +136,16 @@ class CICDDashboard extends React.Component<{}, {}> {
                     contentProps={{ contentPadding: false }}>
                 <DataContext.Provider value={{ state: this.state }}>
                   <Observer selectedTabId={this.selectedTabId}>
-                    return (<div>{this.selectedTabId}</div>)
+                    {(props: { selectedTabId: string }) => {
+                      return (
+                        <div>
+                            {props.selectedTabId}
+                            {this.renderTab(props.selectedTabId)}
+                        </div>
+                      )
+                    }}
                   </Observer>
-                  <Observer itemProvider={this.buildReferenceProvider}>
-                    {(observableProps: {itemProvider: ArrayItemProvider<BuildDefinitionReference> }) => (
-                      <Table<BuildDefinitionReference> columns={dashboardColumns} 
-                          itemProvider={observableProps.itemProvider}
-                          showLines={true}
-                          role="table"/>
-                    )}
-                  </Observer>
+                  
                 </DataContext.Provider>
               </Card>
             </div>
@@ -140,5 +154,6 @@ class CICDDashboard extends React.Component<{}, {}> {
     );
   }
 }
+
 
 showRootComponent(<CICDDashboard />);
