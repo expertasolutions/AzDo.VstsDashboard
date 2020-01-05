@@ -9,10 +9,10 @@ import {
 
 import { Ago } from "azure-devops-ui/Ago";
 import { Duration } from "azure-devops-ui/Duration";
-import { IStatusProps, Status, Statuses, StatusSize } from "azure-devops-ui/Status";
+import { Status, Statuses, StatusSize } from "azure-devops-ui/Status";
+import { DataContext } from "../dataContext";
 
 import {
-  ColumnMore,
   ITableColumn,
   TwoLineTableCell,
   SimpleTableCell,
@@ -76,6 +76,40 @@ export function renderBuildInfo01Cell(
           })}
       />
   )
+}
+
+export function renderDeploymentInfo01(
+  rowIndex: number,
+  columnIndex: number,
+  tableColumn: ITableColumn<Build>,
+  tableItem: Build
+) : JSX.Element {
+  return (
+    <DataContext.Consumer>
+      {(context) => (
+      <TwoLineTableCell
+            key={"col-" + columnIndex}
+            columnIndex={columnIndex}
+            tableColumn={tableColumn}
+            line1={WithIcon({
+                className: "fontSize font-size",
+                iconProps: { iconName: "Deployment" },
+                children: (
+                  <div>
+                    - tag here -
+                  </div>
+                )
+            })}
+            line2={WithIcon({
+                className: "fontSize font-size bolt-table-two-line-cell-item",
+                iconProps: { iconName: "Tag" },
+                children: (
+                  <div>{context.state.patate}</div>
+                )
+            })}
+        />
+      )}
+    </DataContext.Consumer>
 }
 
 export function renderBuildInfo02Cell(

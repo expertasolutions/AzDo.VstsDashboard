@@ -20,8 +20,6 @@ import {
 
 import { 
   Build, 
-  BuildResult, 
-  BuildStatus, 
   BuildDefinitionReference 
 } from "azure-devops-extension-api/Build";
 
@@ -30,18 +28,24 @@ export const buildColumns : ITableColumn<Build>[] = [
     id: "Status",
     name: "Status",
     renderCell: renderBuildStatus,
-    width:50
+    width: 50
   },
   {
     id: "BuildInfo01",
     name: "Build #", 
     renderCell: renderBuildInfo01Cell,
-    width: 350,
+    width: new ObservableValue(-30),
   },
   {
     id: "BuildInfo02",
     renderCell: renderBuildInfo02Cell,
-    width: 250,
+    width: new ObservableValue(-20),
+  },
+  {
+    id: "ReleaseInfo01",
+    name: "Releases Status",
+    renderCell: renderDeploymentInfo01,
+    width: new ObservableValue(-50)
   }
 ]
 

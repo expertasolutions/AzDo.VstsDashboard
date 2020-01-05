@@ -9,7 +9,6 @@ import {
 } from "./common";
 
 import {
-  ColumnMore,
   ITableColumn,
   TwoLineTableCell,
   SimpleTableCell,
@@ -17,15 +16,13 @@ import {
 
 import { Ago } from "azure-devops-ui/Ago";
 import { Duration } from "azure-devops-ui/Duration";
-import { Pill, PillSize, PillVariant } from "azure-devops-ui/Pill";
+import { Pill, PillVariant } from "azure-devops-ui/Pill";
 import { PillGroup, PillGroupOverflow } from "azure-devops-ui/PillGroup";
 
-import { Build, BuildResult, BuildStatus, BuildDefinitionReference } from "azure-devops-extension-api/Build";
+import { Build, BuildDefinitionReference } from "azure-devops-extension-api/Build";
 import { Deployment } from "azure-devops-extension-api/Release";
-import { Release } from "azure-devops-extension-api/Release";
-import { IStatusProps, Status, Statuses, StatusSize } from "azure-devops-ui/Status";
+import { Status, Statuses, StatusSize } from "azure-devops-ui/Status";
 import { DataContext } from "../dataContext";
-import { getBuildStatus } from "./build";
 
 export function renderBuildRef01 (
   rowIndex: number,
