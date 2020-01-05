@@ -138,7 +138,7 @@ class CICDDashboard extends React.Component<{}, {}> {
             selectedTabId={this.selectedTabId}
             tabSize={TabSize.Tall}>
             <Tab name="Summary" id="summary"/>
-            <Tab name="Builds" id="builds"/>
+            <Tab name="Runs" id="builds"/>
             <Tab name="Statistics" id="stats"/>
             <Tab name="Agent Health" id="agentsHeatlh"/>
           </TabBar>
