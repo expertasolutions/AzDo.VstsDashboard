@@ -101,16 +101,20 @@ class CICDDashboard extends React.Component<{}, {}> {
 
 
   private renderTab(tabId: string) : JSX.Element {
-    return (
-      <Observer itemProvider={this.buildReferenceProvider}>
-        {(observableProps: {itemProvider: ArrayItemProvider<BuildDefinitionReference> }) => (
-          <Table<BuildDefinitionReference> columns={dashboardColumns} 
-              itemProvider={observableProps.itemProvider}
-              showLines={true}
-              role="table"/>
-        )}
-      </Observer>
-    )
+    if(tabId === "summary") {
+      return (
+        <Observer itemProvider={this.buildReferenceProvider}>
+          {(observableProps: {itemProvider: ArrayItemProvider<BuildDefinitionReference> }) => (
+            <Table<BuildDefinitionReference> columns={dashboardColumns} 
+                itemProvider={observableProps.itemProvider}
+                showLines={true}
+                role="table"/>
+          )}
+        </Observer>
+      )
+    } else {
+      return (<div>{tabId}</div>)
+    }
   }
 
   public render() : JSX.Element {
@@ -139,13 +143,11 @@ class CICDDashboard extends React.Component<{}, {}> {
                     {(props: { selectedTabId: string }) => {
                       return (
                         <div>
-                            {props.selectedTabId}
                             {this.renderTab(props.selectedTabId)}
                         </div>
                       )
                     }}
                   </Observer>
-                  
                 </DataContext.Provider>
               </Card>
             </div>
