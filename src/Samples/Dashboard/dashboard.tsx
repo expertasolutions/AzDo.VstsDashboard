@@ -109,13 +109,15 @@ class CICDDashboard extends React.Component<{}, {}> {
             selectedTabId={this.selectedTabId}
             tabSize={TabSize.Tall}>
             <Tab name="Summary" id="summary"/>
-            <Tab name="All" id="all"/>
+            <Tab name="Builds" id="builds"/>
+            <Tab name="Statistics" id="stats"/>
           </TabBar>
           <div className="page-content page-content-top">
               <Button text="Refresh" onClick={()=> {
                 console.log("refreshData is clicked");
                 this.refreshData();
               }} />
+              <div>{this.selectedTabId}</div>
               <Card className="flex-grow bolt-table-card" 
                     titleProps={{ text: "All pipelines" }} 
                     contentProps={{ contentPadding: false }}>
