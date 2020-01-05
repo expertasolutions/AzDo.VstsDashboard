@@ -1,8 +1,8 @@
 import * as React from "react";
 import * as SDK from "azure-devops-extension-sdk";
 
-import { getBuildDefinitions, getReleases } from "./PipelineServices";
-import { dashboardColumns }  from "./tableData";
+import { getBuildDefinitions, getBuilds , getReleases } from "./PipelineServices";
+import { dashboardColumns, buildColumns }  from "./tableData";
 
 import { Button } from "azure-devops-ui/Button";
 import { Card } from "azure-devops-ui/Card";
@@ -33,6 +33,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   };
 
   public refreshData() {
+    // Update Build References list...
     getBuildDefinitions(this.projectName).then(result => {
       // CODE_REVIEW: temp fix ... dump shit !!
       this.setState( { buildDefs: Array<BuildDefinitionReference>()});
@@ -55,13 +56,8 @@ class CICDDashboard extends React.Component<{}, {}> {
       this.buildReferenceProvider.value = new ArrayItemProvider(this.state.buildDefs);
       console.log("setState is called");
     });
-  }
 
-  public componentDidMount() {
-    SDK.init();
-    this.refreshData();
-    /*
-    // Get the All build instance
+    // Update Builds Runs list...
     getBuilds(this.projectName).then(result=> {
       let buildsList = this.state.builds;
       for(let i=0;i<result.length;i++){
@@ -75,7 +71,12 @@ class CICDDashboard extends React.Component<{}, {}> {
       }
       this.setState({ builds: buildsList });
     });
-    */
+  }
+
+  public componentDidMount() {
+    SDK.init();
+    this.refreshData();
+    
     getReleases(this.projectName).then(result => {
       let releaseList = this.state.releases;
       for(let i=0;i<result.length;i++){
@@ -91,9 +92,8 @@ class CICDDashboard extends React.Component<{}, {}> {
     });
   }
 
-  private buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(
-    new ArrayItemProvider(this.state.buildDefs)
-  );
+  private buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(this.state.buildDefs));
+  private buildProvider = new ObservableValue<ArrayItemProvider<Build>>(new ArrayItemProvider(this.state.builds));
 
   private onSelectedTabChanged = (newTabId: string) => {
     this.selectedTabId.value = newTabId;
@@ -106,6 +106,17 @@ class CICDDashboard extends React.Component<{}, {}> {
         <Observer itemProvider={this.buildReferenceProvider}>
           {(observableProps: {itemProvider: ArrayItemProvider<BuildDefinitionReference> }) => (
             <Table<BuildDefinitionReference> columns={dashboardColumns} 
+                itemProvider={observableProps.itemProvider}
+                showLines={true}
+                role="table"/>
+          )}
+        </Observer>
+      )
+    } else if(tabId === "builds") {
+      return (
+        <Observer itemProvider={ this.buildProvider }>
+          {(observableProps: {itemProvider: ArrayItemProvider<Build> }) => (
+            <Table<Build> columns={buildColumns} 
                 itemProvider={observableProps.itemProvider}
                 showLines={true}
                 role="table"/>
@@ -129,6 +140,7 @@ class CICDDashboard extends React.Component<{}, {}> {
             <Tab name="Summary" id="summary"/>
             <Tab name="Builds" id="builds"/>
             <Tab name="Statistics" id="stats"/>
+            <Tab name="Agent Health" id="agentsHeatlh"/>
           </TabBar>
           <div className="page-content page-content-top">
               <Button text="Refresh" onClick={()=> {
