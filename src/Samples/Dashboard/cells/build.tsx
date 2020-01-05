@@ -3,12 +3,13 @@ import * as React from "react";
 import { 
   WithIcon,
   IStatusIndicatorData,
+  getReleaseTagFromBuild,
   getPipelineIndicator,
 } from "./common";
 
 import { Ago } from "azure-devops-ui/Ago";
 import { Duration } from "azure-devops-ui/Duration";
-import { Status, Statuses, StatusSize } from "azure-devops-ui/Status";
+import { Status, StatusSize } from "azure-devops-ui/Status";
 import { DataContext } from "../dataContext";
 
 import {
@@ -89,7 +90,7 @@ export function renderDeploymentInfo01(
                 iconProps: { iconName: "Deployment" },
                 children: (
                   <div>
-                    - tag here -
+                    {getReleaseTagFromBuild(tableItem, context.state.releases) }
                   </div>
                 )
             })}
@@ -128,7 +129,7 @@ export function renderBuildInfo02Cell(
               className: "fontSize font-size bolt-table-two-line-cell-item",
               iconProps: { iconName: "Clock" },
               children: (
-                  <Duration startDate={tableItem.startTime} endDate={tableItem.finishTime} />
+                  <Duration startDate={tableItem.startTime!} endDate={tableItem.finishTime!} />
               )
           })}
       />
