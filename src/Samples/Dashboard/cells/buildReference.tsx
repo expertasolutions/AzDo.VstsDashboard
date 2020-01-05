@@ -4,7 +4,7 @@ import {
   WithIcon,
   IStatusIndicatorData,
   getPipelineIndicator,
-  getReleaseStatus,
+  getReleaseTagFromBuild,
   lightGray
 } from "./common";
 
@@ -16,11 +16,8 @@ import {
 
 import { Ago } from "azure-devops-ui/Ago";
 import { Duration } from "azure-devops-ui/Duration";
-import { Pill, PillVariant } from "azure-devops-ui/Pill";
-import { PillGroup, PillGroupOverflow } from "azure-devops-ui/PillGroup";
 
-import { Build, BuildDefinitionReference } from "azure-devops-extension-api/Build";
-import { Deployment } from "azure-devops-extension-api/Release";
+import { BuildDefinitionReference } from "azure-devops-extension-api/Build";
 import { Status, Statuses, StatusSize } from "azure-devops-ui/Status";
 import { DataContext } from "../dataContext";
 
@@ -186,38 +183,6 @@ export function renderReleaseInfo01 (
       )}
     </DataContext.Consumer>
   )
-}
-
-function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>) {
-  console.log("BuildId: " + build.id);
-  let deploys = releases.filter(
-    x=> x.release.artifacts.find(
-      a=> {
-        let version = a.definitionReference["version"];
-        if(version.id == build.id.toString()) {
-          console.log("VersionInfo: " + JSON.stringify(version));
-        }
-        return version.id === build.id.toString();
-      }
-    ) != null
-  );
-
-  let children = [];
-  for(let i=0;i<deploys.sort(x=> x.id).length;i++){
-    let dep = deploys[i];
-    let relStatusInfo = getReleaseStatus(dep);
-    children.push(<Pill color={relStatusInfo.color} variant={PillVariant.colored}>
-      <Status {...relStatusInfo.statusProps} 
-              className="icon-small-margin"
-              size={StatusSize.s}/>&nbsp;
-      {dep.releaseEnvironment.name}
-    </Pill>)
-  }
-
-  if(deploys.length > 0) {
-    return (<PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{children}</PillGroup>);
-  }
-  return <div>Not found</div>
 }
 
 function getBuildDefinitionStatus(buildDefItem: BuildDefinitionReference) : IStatusIndicatorData {

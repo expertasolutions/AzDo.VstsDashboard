@@ -1,10 +1,14 @@
 import * as React from "react";
 import { css } from "azure-devops-ui/Util";
 import { Icon, IIconProps } from "azure-devops-ui/Icon";
-import { IStatusProps, Statuses } from "azure-devops-ui/Status";
+import { Status, IStatusProps, Statuses, StatusSize } from "azure-devops-ui/Status";
 import { IColor } from "azure-devops-ui/Utilities/Color";
 import { BuildResult, BuildStatus } from "azure-devops-extension-api/Build";
 import { Deployment, DeploymentStatus } from "azure-devops-extension-api/Release";
+import { Pill, PillVariant } from "azure-devops-ui/Pill";
+import { PillGroup, PillGroupOverflow } from "azure-devops-ui/PillGroup";
+import { Build } from "azure-devops-extension-api/Build";
+
 
 const lightGreen: IColor = {
   red: 204,
@@ -160,4 +164,36 @@ export function getPipelineIndicator(result: BuildResult, status:BuildStatus) : 
       break;
   }
   return indicatorData;
+}
+
+export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>) {
+  console.log("BuildId: " + build.id);
+  let deploys = releases.filter(
+    x=> x.release.artifacts.find(
+      a=> {
+        let version = a.definitionReference["version"];
+        if(version.id == build.id.toString()) {
+          console.log("VersionInfo: " + JSON.stringify(version));
+        }
+        return version.id === build.id.toString();
+      }
+    ) != null
+  );
+
+  let children = [];
+  for(let i=0;i<deploys.sort(x=> x.id).length;i++){
+    let dep = deploys[i];
+    let relStatusInfo = getReleaseStatus(dep);
+    children.push(<Pill color={relStatusInfo.color} variant={PillVariant.colored}>
+      <Status {...relStatusInfo.statusProps} 
+              className="icon-small-margin"
+              size={StatusSize.s}/>&nbsp;
+      {dep.releaseEnvironment.name}
+    </Pill>)
+  }
+
+  if(deploys.length > 0) {
+    return (<PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{children}</PillGroup>);
+  }
+  return <div>Not found</div>
 }

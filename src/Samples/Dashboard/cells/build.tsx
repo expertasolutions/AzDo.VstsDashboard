@@ -4,7 +4,6 @@ import {
   WithIcon,
   IStatusIndicatorData,
   getPipelineIndicator,
-  lightGray
 } from "./common";
 
 import { Ago } from "azure-devops-ui/Ago";
@@ -21,12 +20,6 @@ import {
 import { Build, BuildResult, BuildStatus, BuildDefinitionReference } from "azure-devops-extension-api/Build";
 
 export function getBuildStatus(build: Build) : IStatusIndicatorData {
-  const indicatorData: IStatusIndicatorData = {
-    label: "NA",
-    statusProps: { ...Statuses.Queued, ariaLabel: "None" },
-    color: lightGray,
-  };
-  
   return getPipelineIndicator(build.result, build.status);
 }
 
