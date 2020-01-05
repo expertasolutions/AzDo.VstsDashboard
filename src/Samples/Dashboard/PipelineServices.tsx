@@ -8,6 +8,15 @@ import {
   ReleaseRestClient
 } from "azure-devops-extension-api/Release";
 
+import {
+  CoreRestClient
+} from "azure-devops-extension-api/core"
+
+export async function getProjects() {
+  let coreClient = API.getClient(CoreRestClient);
+  return await coreClient.getProjects();
+}
+
 export async function getReleases(projectName: string) {
   let releaseClient = API.getClient(ReleaseRestClient);
   return await releaseClient.getDeployments(projectName, undefined, undefined, undefined,undefined, undefined,

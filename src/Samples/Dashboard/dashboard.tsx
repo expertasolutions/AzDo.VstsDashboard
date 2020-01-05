@@ -1,16 +1,18 @@
 import * as React from "react";
 import * as SDK from "azure-devops-extension-sdk";
 
-import { getBuildDefinitions, getBuilds , getReleases } from "./PipelineServices";
+import { getBuildDefinitions, getBuilds , getReleases, getProjects } from "./PipelineServices";
 import { dashboardColumns, buildColumns }  from "./tableData";
 
 import { Button } from "azure-devops-ui/Button";
+import { Dropdown } from "azure-devops-ui/Dropdown";
 import { Card } from "azure-devops-ui/Card";
 import { Table } from "azure-devops-ui/Table";
 import { Tab, TabBar, TabSize } from "azure-devops-ui/Tabs";
 import { Surface, SurfaceBackground } from "azure-devops-ui/Surface";
 import { Page } from "azure-devops-ui/Page";
 
+import { ProjectInfo } from "azure-devops-extension-api/Core";
 import { BuildDefinitionReference, Build } from "azure-devops-extension-api/Build";
 import { Deployment } from "azure-devops-extension-api/Release";
 
@@ -29,10 +31,16 @@ class CICDDashboard extends React.Component<{}, {}> {
     buildDefs: Array<BuildDefinitionReference>(),
     builds: Array<Build>(),
     releases: Array<Deployment>(),
+    projects: Array<ProjectInfo>(),
     patate: String,
   };
 
   public refreshData() {
+
+    getProjects().then(result => {
+      this.setState( { projects: result });
+    });
+
     // Update Build References list...
     getBuildDefinitions(this.projectName).then(result => {
       // CODE_REVIEW: temp fix ... dump shit !!
@@ -94,11 +102,11 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   private buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(this.state.buildDefs));
   private buildProvider = new ObservableValue<ArrayItemProvider<Build>>(new ArrayItemProvider(this.state.builds));
+  private projectProvider = new ObservableValue<ArrayItemProvider<ProjectInfo>>(new ArrayItemProvider(this.state.projects));
 
   private onSelectedTabChanged = (newTabId: string) => {
     this.selectedTabId.value = newTabId;
   }
-
 
   private renderTab(tabId: string) : JSX.Element {
     if(tabId === "summary") {
@@ -147,6 +155,14 @@ class CICDDashboard extends React.Component<{}, {}> {
                 console.log("refreshData is clicked");
                 this.refreshData();
               }} />
+              <Observer itemProvider={this.projectProvider}>
+                {(props: { itemProvider: ArrayItemProvider<ProjectInfo> }) => (
+                  <Dropdown
+                    placeholder="Select a Project"
+                    items={props.itemProvider}
+                  />
+                )}
+              </Observer>
               <Card className="flex-grow bolt-table-card" 
                     titleProps={{ text: "All pipelines" }} 
                     contentProps={{ contentPadding: false }}>

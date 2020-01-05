@@ -1,4 +1,5 @@
 import * as React from "react";
+import { ProjectInfo } from "azure-devops-extension-api/Core";
 import { BuildDefinitionReference, Build } from "azure-devops-extension-api/Build";
 import { Deployment } from "azure-devops-extension-api/Release";
 
@@ -8,7 +9,8 @@ export const DataContext = React.createContext(
       buildDefs: Array<BuildDefinitionReference>(),
       builds: Array<Build>(),
       releases: Array<Deployment>(),
-      patate: String
+      patate: String,
+      projects: Array<ProjectInfo>(),
     }
   }
 );
