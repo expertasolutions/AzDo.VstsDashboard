@@ -7,27 +7,27 @@ import { BuildResult, BuildStatus } from "azure-devops-extension-api/Build";
 import { Deployment, DeploymentStatus } from "azure-devops-extension-api/Release";
 
 const lightGreen: IColor = {
-  red: 153,
+  red: 204,
   green: 255,
-  blue: 153,
+  blue: 204,
 };
 
 const lightRed: IColor = {
   red: 255,
-  green: 153,
-  blue: 153,
+  green: 204,
+  blue: 204,
 };
 
 const lightBlue: IColor = {
-  red: 153,
-  green: 153,
+  red: 204,
+  green: 229,
   blue: 255,
 };
 
 const lightOrange : IColor = {
   red: 255,
-  green: 204, 
-  blue: 153,
+  green: 229, 
+  blue: 204,
 }
 
 export const lightGray : IColor = {
