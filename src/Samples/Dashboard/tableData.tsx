@@ -35,18 +35,18 @@ export const buildColumns : ITableColumn<Build>[] = [
     id: "BuildInfo01",
     name: "Build #", 
     renderCell: renderBuildInfo01Cell,
-    width: new ObservableValue(-30),
+    width: new ObservableValue(-20),
   },
   {
     id: "BuildInfo02",
     renderCell: renderBuildInfo02Cell,
-    width: 100,
+    width: 125,
   },
   {
     id: "ReleaseInfo01",
     name: "Releases Status",
     renderCell: renderDeploymentInfo01,
-    width: new ObservableValue(-70)
+    width: new ObservableValue(-80)
   }
 ]
 
