@@ -4,6 +4,7 @@ import {
   renderBuildStatus,
   renderBuildInfo01Cell, 
   renderBuildInfo02Cell,
+  renderDeploymentInfo01
 } from "./cells/build";
 
 import {
