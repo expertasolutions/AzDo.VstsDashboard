@@ -117,11 +117,13 @@ class CICDDashboard extends React.Component<{}, {}> {
                 console.log("refreshData is clicked");
                 this.refreshData();
               }} />
-              <div>{this.selectedTabId}</div>
               <Card className="flex-grow bolt-table-card" 
                     titleProps={{ text: "All pipelines" }} 
                     contentProps={{ contentPadding: false }}>
                 <DataContext.Provider value={{ state: this.state }}>
+                  <Observer selectedTabId={this.selectedTabId}>
+                    return (<div>{this.selectedTabId}</div>)
+                  </Observer>
                   <Observer itemProvider={this.buildReferenceProvider}>
                     {(observableProps: {itemProvider: ArrayItemProvider<BuildDefinitionReference> }) => (
                       <Table<BuildDefinitionReference> columns={dashboardColumns} 
