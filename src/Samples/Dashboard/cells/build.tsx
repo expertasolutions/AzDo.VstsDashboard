@@ -110,6 +110,7 @@ export function renderDeploymentInfo01(
         />
       )}
     </DataContext.Consumer>
+  )
 }
 
 export function renderBuildInfo02Cell(
