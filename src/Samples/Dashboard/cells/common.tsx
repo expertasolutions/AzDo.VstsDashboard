@@ -1,13 +1,45 @@
 import * as React from "react";
 import { css } from "azure-devops-ui/Util";
 import { Icon, IIconProps } from "azure-devops-ui/Icon";
-import { IStatusProps, Status, Statuses, StatusSize } from "azure-devops-ui/Status";
-import { Build, BuildResult, BuildStatus, BuildDefinitionReference } from "azure-devops-extension-api/Build";
+import { IStatusProps, Statuses } from "azure-devops-ui/Status";
+import { IColor } from "azure-devops-ui/Utilities/Color";
+import { BuildResult, BuildStatus } from "azure-devops-extension-api/Build";
 import { Deployment, DeploymentStatus } from "azure-devops-extension-api/Release";
+
+const lightGreen: IColor = {
+  red: 153,
+  green: 255,
+  blue: 153,
+};
+
+const lightRed: IColor = {
+  red: 255,
+  green: 153,
+  blue: 153,
+};
+
+const lightBlue: IColor = {
+  red: 153,
+  green: 153,
+  blue: 255,
+};
+
+const lightOrange : IColor = {
+  red: 255,
+  green: 204, 
+  blue: 153,
+}
+
+export const lightGray : IColor = {
+  red: 224,
+  green: 224,
+  blue: 224,
+}
 
 export interface IStatusIndicatorData {
   statusProps: IStatusProps;
-  label:string;
+  label: string;
+  color: IColor;
 }
 
 export function WithIcon(props: {
@@ -26,7 +58,8 @@ export function WithIcon(props: {
 export function getReleaseStatus(depl: Deployment) : IStatusIndicatorData {
   const indicatorData: IStatusIndicatorData = {
     label: "NA",
-    statusProps: { ...Statuses.Queued, ariaLabel: "None" }
+    statusProps: { ...Statuses.Queued, ariaLabel: "None" },
+    color: lightGray,
   };
   
   return getReleaseIndicator(depl.deploymentStatus);
@@ -35,7 +68,8 @@ export function getReleaseStatus(depl: Deployment) : IStatusIndicatorData {
 export function getReleaseIndicator(status: DeploymentStatus) : IStatusIndicatorData {
   const indicatorData: IStatusIndicatorData = {
     label: "NA",
-    statusProps: { ...Statuses.Queued, ariaLabel: "None" }
+    statusProps: { ...Statuses.Queued, ariaLabel: "None" },
+    color: lightGreen
   };
 
   if(status === undefined){
@@ -46,22 +80,27 @@ export function getReleaseIndicator(status: DeploymentStatus) : IStatusIndicator
     case DeploymentStatus.NotDeployed:
       indicatorData.statusProps = { ...Statuses.Queued, ariaLabel: "Canceled"};
       indicatorData.label = "Not Deployed";
+      indicatorData.color = lightGray;
       break;
     case DeploymentStatus.Succeeded:
       indicatorData.statusProps = { ...Statuses.Success, ariaLabel: "Success"};
       indicatorData.label = "Success";
+      indicatorData.color = lightGreen;
       break;
     case DeploymentStatus.Failed:
       indicatorData.statusProps = { ...Statuses.Failed, ariaLabel: "Fail"};
       indicatorData.label = "Fail";
+      indicatorData.color = lightRed;
       break;
     case DeploymentStatus.PartiallySucceeded:
       indicatorData.statusProps = { ...Statuses.Warning, ariaLabel: "PartiallySucceeded"};
       indicatorData.label = "PartiallySucceeded";
+      indicatorData.color = lightOrange;
       break;
     case DeploymentStatus.InProgress:
       indicatorData.statusProps = { ...Statuses.Running, ariaLabel: "InProgress"};
       indicatorData.label = "In Progress";
+      indicatorData.color = lightBlue;
       break;
   }
   return indicatorData;
@@ -70,7 +109,8 @@ export function getReleaseIndicator(status: DeploymentStatus) : IStatusIndicator
 export function getPipelineIndicator(result: BuildResult, status:BuildStatus) : IStatusIndicatorData {
   const indicatorData: IStatusIndicatorData = {
     label: "NA",
-    statusProps: { ...Statuses.Queued, ariaLabel: "None" }
+    statusProps: { ...Statuses.Queued, ariaLabel: "None" },
+    color: lightGray,
   };
 
   if(result === undefined){

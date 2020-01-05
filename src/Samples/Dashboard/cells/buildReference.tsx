@@ -4,7 +4,8 @@ import {
   WithIcon,
   IStatusIndicatorData,
   getPipelineIndicator,
-  getReleaseStatus
+  getReleaseStatus,
+  lightGray
 } from "./common";
 
 import {
@@ -207,8 +208,9 @@ function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>) {
   let children = [];
   for(let i=0;i<deploys.sort(x=> x.id).length;i++){
     let dep = deploys[i];
-    children.push(<Pill>
-      <Status {...getReleaseStatus(dep).statusProps} 
+    let relStatusInfo = getReleaseStatus(dep);
+    children.push(<Pill color={relStatusInfo.color}>
+      <Status {...relStatusInfo.statusProps} 
               className="icon-small-margin"
               size={StatusSize.s}/>&nbsp;
       {dep.releaseEnvironment.name}
@@ -224,7 +226,8 @@ function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>) {
 function getBuildDefinitionStatus(buildDefItem: BuildDefinitionReference) : IStatusIndicatorData {
   const indicatorData: IStatusIndicatorData = {
     label: "NA",
-    statusProps: { ...Statuses.Queued, ariaLabel: "None" }
+    statusProps: { ...Statuses.Queued, ariaLabel: "None" },
+    color: lightGray
   };
   
   let lastBuild = buildDefItem.latestBuild;
