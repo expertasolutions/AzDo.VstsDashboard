@@ -19,7 +19,9 @@ export async function getProjects() {
 
 export async function getReleases(projectName: string) {
   let releaseClient = API.getClient(ReleaseRestClient);
-  return await releaseClient.getDeployments(projectName);
+  return await releaseClient.getDeployments(projectName, undefined, undefined, undefined,undefined, undefined,
+    undefined, undefined,undefined,undefined, undefined, undefined,
+    undefined, undefined, undefined, undefined);
 }
 
 export async function getBuilds(projectName: string)  {
