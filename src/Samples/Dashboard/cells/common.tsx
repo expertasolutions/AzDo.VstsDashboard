@@ -177,7 +177,7 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
   );
 
   let children = [];
-  for(let i=0;i<deploys.sort(x=> x.id).length;i++){
+  for(let i=0;i<deploys.sort(x=> x.releaseEnvironment.id).length;i++){
     let dep = deploys[i];
     let relStatusInfo = getReleaseStatus(dep);
     children.push(<Pill color={relStatusInfo.color} variant={PillVariant.colored}>
