@@ -161,8 +161,6 @@ class CICDDashboard extends React.Component<{}, {}> {
             tabSize={TabSize.Tall}>
             <Tab name="Summary" id="summary"/>
             <Tab name="Runs" id="builds"/>
-            <Tab name="Statistics" id="stats"/>
-            <Tab name="Agents Health" id="agentsHeatlh"/>
           </TabBar>
           <div className="page-content page-content-top">
               <Button text="Refresh" onClick={()=> {
