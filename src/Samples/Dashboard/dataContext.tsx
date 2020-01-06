@@ -9,7 +9,6 @@ export const DataContext = React.createContext(
       buildDefs: Array<BuildDefinitionReference>(),
       builds: Array<Build>(),
       releases: Array<Deployment>(),
-      patate: String,
       projects: Array<TeamProjectReference>(),
     }
   }

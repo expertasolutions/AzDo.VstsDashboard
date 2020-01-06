@@ -34,17 +34,18 @@ class CICDDashboard extends React.Component<{}, {}> {
     builds: Array<Build>(),
     releases: Array<Deployment>(),
     projects: Array<TeamProjectReference>(),
-    patate: String,
   };
 
   public refreshData() {
 
     getProjects().then(result => {
       let newProjectsList = Array<TeamProjectReference>();
+      /*
       for(let i=0;result.length;i++){
         let pr = result[i];
         newProjectsList.push(pr);
       }
+      */
       //this.setState( { projects: newProjectsList });
     });
 
@@ -52,7 +53,6 @@ class CICDDashboard extends React.Component<{}, {}> {
     getBuildDefinitions(this.projectName).then(result => {
       // CODE_REVIEW: temp fix ... dump shit !!
       this.setState( { buildDefs: Array<BuildDefinitionReference>()});
-      this.setState( { patate: "frite" });
       let currentBuildState = this.state.buildDefs;
       for(let i=0;i<result.length;i++) {
         let resultBuildDef = result[i];
