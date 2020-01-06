@@ -195,5 +195,5 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
   if(deploys.length > 0) {
     return (<PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{children}</PillGroup>);
   }
-  return <div>Not found</div>
+  return <div>Not deploy yet</div>
 }
