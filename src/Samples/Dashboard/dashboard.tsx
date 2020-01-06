@@ -41,10 +41,12 @@ class CICDDashboard extends React.Component<{}, {}> {
 
     getProjects().then(result => {
       let newProjectsList = Array<TeamProjectReference>();
+      /*
       for(let i=0;result.length;i++){
         let pr = result[i];
         newProjectsList.push(pr);
       }
+      */
       this.setState( { projects: newProjectsList });
     });
 
@@ -143,12 +145,10 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   private renderProjectDropDown(projects: Array<TeamProjectReference>) : Array<IListBoxItem> {
     let proj : Array<IListBoxItem> = [];
-    /*
     for(let i=0;i<projects.length;i++){
       let p = projects[i];
       proj.push({ id: p.id, text: p.name });
     }
-    */
     return proj;
   }
 
@@ -171,7 +171,16 @@ class CICDDashboard extends React.Component<{}, {}> {
                 console.log("refreshData is clicked");
                 this.refreshData();
               }} />
-             
+              <div className="flex-row" style={{ margin: "8px", alignItems: "center"}}>
+                <Observer itemProvider={this.projectProvider}>
+                  {(props: { itemProvider: ArrayItemProvider<TeamProjectReference> }) => (
+                    <Dropdown
+                      placeholder="Select a Project"
+                      items={this.renderProjectDropDown(props.itemProvider.value)}
+                    />
+                  )}
+                </Observer>
+              </div>
               <Card className="flex-grow bolt-table-card" 
                     titleProps={{ text: "All pipelines" }} 
                     contentProps={{ contentPadding: false }}>
