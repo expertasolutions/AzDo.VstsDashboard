@@ -143,10 +143,12 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   private renderProjectDropDown(projects: Array<TeamProjectReference>) : Array<IListBoxItem> {
     let proj : Array<IListBoxItem> = [];
+    /*
     for(let i=0;i<projects.length;i++){
       let p = projects[i];
       proj.push({ id: p.id, text: p.name });
     }
+    */
     return proj;
   }
 
@@ -200,6 +202,5 @@ class CICDDashboard extends React.Component<{}, {}> {
     );
   }
 }
-
 
 showRootComponent(<CICDDashboard />);
