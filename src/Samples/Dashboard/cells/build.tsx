@@ -18,7 +18,7 @@ import {
   SimpleTableCell,
 } from "azure-devops-ui/Table";
 
-import { Build, BuildResult, BuildStatus, BuildDefinitionReference } from "azure-devops-extension-api/Build";
+import { Build } from "azure-devops-extension-api/Build";
 
 export function getBuildStatus(build: Build) : IStatusIndicatorData {
   return getPipelineIndicator(build.result, build.status);
@@ -81,27 +81,14 @@ export function renderDeploymentInfo01(
   return (
     <DataContext.Consumer>
       {(context) => (
-      <TwoLineTableCell
+      <SimpleTableCell
             key={"col-" + columnIndex}
             columnIndex={columnIndex}
-            tableColumn={tableColumn}
-            line1={WithIcon({
-                className: "fontSize font-size",
-                iconProps: { iconName: "Deployment" },
-                children: (
-                  <div>
-                    {getReleaseTagFromBuild(tableItem, context.state.releases) }
-                  </div>
-                )
-            })}
-            line2={WithIcon({
-                className: "fontSize font-size bolt-table-two-line-cell-item",
-                iconProps: { iconName: "Tag" },
-                children: (
-                  <div>{context.state.patate}</div>
-                )
-            })}
-        />
+            tableColumn={tableColumn}>
+          <div>
+            {getReleaseTagFromBuild(tableItem, context.state.releases) }
+          </div>
+        </SimpleTableCell>
       )}
     </DataContext.Consumer>
   )
