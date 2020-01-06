@@ -12,7 +12,7 @@ import { Tab, TabBar, TabSize } from "azure-devops-ui/Tabs";
 import { Surface, SurfaceBackground } from "azure-devops-ui/Surface";
 import { Page } from "azure-devops-ui/Page";
 
-import { ProjectInfo } from "azure-devops-extension-api/Core";
+import { TeamProjectReference } from "azure-devops-extension-api/Core";
 import { BuildDefinitionReference, Build } from "azure-devops-extension-api/Build";
 import { Deployment } from "azure-devops-extension-api/Release";
 
@@ -33,19 +33,17 @@ class CICDDashboard extends React.Component<{}, {}> {
     buildDefs: Array<BuildDefinitionReference>(),
     builds: Array<Build>(),
     releases: Array<Deployment>(),
-    projects: Array<ProjectInfo>(),
+    projects: Array<TeamProjectReference>(),
     patate: String,
   };
 
   public refreshData() {
 
     getProjects().then(result => {
-      let newProjectsList = [];
+      let newProjectsList = Array<TeamProjectReference>();
       for(let i=0;result.length;i++){
         let pr = result[i];
-        newProjectsList.push({
-          id: pr.id, text: pr.name
-        });
+        newProjectsList.push(pr);
       }
       this.setState( { projects: newProjectsList });
     });
@@ -109,7 +107,7 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   private buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(this.state.buildDefs));
   private buildProvider = new ObservableValue<ArrayItemProvider<Build>>(new ArrayItemProvider(this.state.builds));
-  private projectProvider = new ObservableValue<ArrayItemProvider<ProjectInfo>>(new ArrayItemProvider(this.state.projects));
+  private projectProvider = new ObservableValue<ArrayItemProvider<TeamProjectReference>>(new ArrayItemProvider(this.state.projects));
 
   private onSelectedTabChanged = (newTabId: string) => {
     this.selectedTabId.value = newTabId;
@@ -143,7 +141,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     }
   }
 
-  private renderProjectDropDown(projects: Array<ProjectInfo>) : Array<IListBoxItem> {
+  private renderProjectDropDown(projects: Array<TeamProjectReference>) : Array<IListBoxItem> {
     let proj : Array<IListBoxItem> = [];
     for(let i=0;i<projects.length;i++){
       let p = projects[i];
@@ -173,7 +171,7 @@ class CICDDashboard extends React.Component<{}, {}> {
               }} />
               <div className="flex-row" style={{ margin: "8px", alignItems: "center"}}>
                 <Observer itemProvider={this.projectProvider}>
-                  {(props: { itemProvider: ArrayItemProvider<ProjectInfo> }) => (
+                  {(props: { itemProvider: ArrayItemProvider<TeamProjectReference> }) => (
                     <Dropdown
                       placeholder="Select a Project"
                       items={this.renderProjectDropDown(props.itemProvider.value)}
