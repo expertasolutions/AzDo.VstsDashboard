@@ -41,12 +41,10 @@ class CICDDashboard extends React.Component<{}, {}> {
 
     getProjects().then(result => {
       let newProjectsList = Array<TeamProjectReference>();
-      /*
       for(let i=0;result.length;i++){
         let pr = result[i];
         newProjectsList.push(pr);
       }
-      */
       this.setState( { projects: newProjectsList });
     });
 
