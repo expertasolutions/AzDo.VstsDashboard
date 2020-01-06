@@ -39,6 +39,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   public refreshData() {
 
     getProjects().then(result => {
+      console.log("project: " + JSON.stringify(result));
       let newProjectsList = new Array<IListBoxItem>();
       for(let i=0;result.length;i++){
         let pr = result[i];
