@@ -18,10 +18,12 @@ export async function getProjects() {
 }
 
 export async function getReleases(projectName: string) {
+  let minDate = new Date();
+  minDate.setDate(minDate.getDate() - 6);
   let releaseClient = API.getClient(ReleaseRestClient);
   return await releaseClient.getDeployments(projectName, undefined, undefined, undefined,undefined, undefined,
     undefined, undefined,undefined,undefined, undefined, undefined,
-    undefined, undefined, undefined, undefined);
+    undefined, minDate, undefined, undefined);
 }
 
 export async function getBuilds(projectName: string)  {
