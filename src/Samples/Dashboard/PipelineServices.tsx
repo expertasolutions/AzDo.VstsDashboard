@@ -22,7 +22,7 @@ export async function getReleases(projectName: string) {
   minDate.setDate(minDate.getDate() - 60);
   let releaseClient = API.getClient(ReleaseRestClient);
   return await releaseClient.getDeployments(projectName, undefined, undefined, undefined,undefined, undefined,
-    undefined, undefined,undefined,undefined, undefined, undefined,
+    undefined, undefined, true,undefined, undefined, undefined,
     undefined, minDate, undefined, undefined);
 }
 
