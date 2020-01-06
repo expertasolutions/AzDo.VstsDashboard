@@ -171,16 +171,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                 console.log("refreshData is clicked");
                 this.refreshData();
               }} />
-              <div className="flex-row" style={{ margin: "8px", alignItems: "center"}}>
-                <Observer itemProvider={this.projectProvider}>
-                  {(props: { itemProvider: ArrayItemProvider<TeamProjectReference> }) => (
-                    <Dropdown
-                      placeholder="Select a Project"
-                      items={this.renderProjectDropDown(props.itemProvider.value)}
-                    />
-                  )}
-                </Observer>
-              </div>
+             
               <Card className="flex-grow bolt-table-card" 
                     titleProps={{ text: "All pipelines" }} 
                     contentProps={{ contentPadding: false }}>
