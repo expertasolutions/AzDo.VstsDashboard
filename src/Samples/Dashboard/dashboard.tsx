@@ -27,6 +27,7 @@ import { IListBoxItem } from "azure-devops-ui/ListBox";
 class CICDDashboard extends React.Component<{}, {}> {
   private projectName = "Community";
   private selectedTabId = new ObservableValue("summary");
+  private selectedProject = new ObservableValue<string>("");
 
   state = {
     buildDefs: Array<BuildDefinitionReference>(),
@@ -39,8 +40,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   public refreshData() {
 
     getProjects().then(result => {
-      console.log("project: " + JSON.stringify(result));
-      let newProjectsList = new Array<IListBoxItem>();
+      let newProjectsList = [];
       for(let i=0;result.length;i++){
         let pr = result[i];
         newProjectsList.push({
@@ -55,7 +55,6 @@ class CICDDashboard extends React.Component<{}, {}> {
       // CODE_REVIEW: temp fix ... dump shit !!
       this.setState( { buildDefs: Array<BuildDefinitionReference>()});
       this.setState( { patate: "frite" });
-      console.log(this.state.buildDefs.length);
       let currentBuildState = this.state.buildDefs;
       for(let i=0;i<result.length;i++) {
         let resultBuildDef = result[i];
@@ -71,7 +70,6 @@ class CICDDashboard extends React.Component<{}, {}> {
       }
       this.setState({ buildDefs: currentBuildState });
       this.buildReferenceProvider.value = new ArrayItemProvider(this.state.buildDefs);
-      console.log("setState is called");
     });
 
     // Update Builds Runs list...
@@ -145,7 +143,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     }
   }
 
-  private renderProjectDropDown(projects: Array<ProjectInfo>) {
+  private renderProjectDropDown(projects: Array<ProjectInfo>) : Array<IListBoxItem> {
     let proj : Array<IListBoxItem> = [];
     for(let i=0;i<projects.length;i++){
       let p = projects[i];
@@ -173,14 +171,16 @@ class CICDDashboard extends React.Component<{}, {}> {
                 console.log("refreshData is clicked");
                 this.refreshData();
               }} />
-              <Observer itemProvider={this.projectProvider}>
-                {(props: { itemProvider: ArrayItemProvider<ProjectInfo> }) => (
-                  <Dropdown
-                    placeholder="Select a Project"
-                    items={this.renderProjectDropDown(props.itemProvider.value)}
-                  />
-                )}
-              </Observer>
+              <div className="flex-row" style={{ margin: "8px", alignItems: "center"}}>
+                <Observer itemProvider={this.projectProvider}>
+                  {(props: { itemProvider: ArrayItemProvider<ProjectInfo> }) => (
+                    <Dropdown
+                      placeholder="Select a Project"
+                      items={this.renderProjectDropDown(props.itemProvider.value)}
+                    />
+                  )}
+                </Observer>
+              </div>
               <Card className="flex-grow bolt-table-card" 
                     titleProps={{ text: "All pipelines" }} 
                     contentProps={{ contentPadding: false }}>

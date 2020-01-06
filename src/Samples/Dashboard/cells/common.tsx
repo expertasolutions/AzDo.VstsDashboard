@@ -167,14 +167,10 @@ export function getPipelineIndicator(result: BuildResult, status:BuildStatus) : 
 }
 
 export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>) {
-  console.log("BuildId: " + build.id);
   let deploys = releases.filter(
     x=> x.release.artifacts.find(
       a=> {
         let version = a.definitionReference["version"];
-        if(version.id == build.id.toString()) {
-          console.log("VersionInfo: " + JSON.stringify(version));
-        }
         return version.id === build.id.toString();
       }
     ) != null
