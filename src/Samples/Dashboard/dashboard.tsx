@@ -45,7 +45,7 @@ class CICDDashboard extends React.Component<{}, {}> {
         let pr = result[i];
         newProjectsList.push(pr);
       }
-      this.setState( { projects: newProjectsList });
+      //this.setState( { projects: newProjectsList });
     });
 
     // Update Build References list...
