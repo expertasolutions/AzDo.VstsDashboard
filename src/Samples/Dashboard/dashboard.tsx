@@ -136,9 +136,33 @@ class CICDDashboard extends React.Component<{}, {}> {
           )}
         </Observer>
       )
+    } else if(tabId === "data"){
+      return this.renderData();
     } else {
       return (<div>{tabId}</div>)
     }
+  }
+
+  private renderData() {
+    let projectDataJson = JSON.stringify(this.state.projects);
+    let releaseDataJson = JSON.stringify(this.state.releases);
+    let buildDataJson = JSON.stringify(this.state.builds);
+    return (
+      <div>
+        <div>
+          <h2>Project</h2>
+          <p>{projectDataJson}</p>
+        </div>
+        <div>
+          <h2>Builds</h2>
+          <p>{buildDataJson}</p>
+        </div>
+        <div>
+          <h2>Release Data</h2>
+          <p>{releaseDataJson}></p>
+        </div>
+      </div>
+    )
   }
 
   private renderProjectDropDown(projects: Array<TeamProjectReference>) : Array<IListBoxItem> {
@@ -161,6 +185,7 @@ class CICDDashboard extends React.Component<{}, {}> {
             tabSize={TabSize.Tall}>
             <Tab name="Summary" id="summary"/>
             <Tab name="Runs" id="builds"/>
+            <Tab name="Raw Data" id="data"/>
           </TabBar>
           <div className="page-content page-content-top">
               <Button text="Refresh" onClick={()=> {
