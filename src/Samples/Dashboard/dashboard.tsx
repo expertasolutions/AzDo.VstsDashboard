@@ -28,6 +28,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   private projectName = "Community";
   private selectedTabId = new ObservableValue("summary");
   private selectedProject = new ObservableValue<string>("");
+  private projectDropDownList : Array<IListBoxItem> = [];
 
   state = {
     buildDefs: Array<BuildDefinitionReference>(),
@@ -39,11 +40,15 @@ class CICDDashboard extends React.Component<{}, {}> {
   public refreshData() {
 
     getProjects().then(result => {
+      for(let i=0;i<result.length;i++){
+        let p = result[i];
+        this.projectDropDownList.push({ id: p.id, text: p.name});
+      }
       this.setState( { projects: result });
     });
 
     /*
-    
+
     // Update Build References list...
     getBuildDefinitions(this.projectName).then(result => {
       // CODE_REVIEW: temp fix ... dump shit !!
@@ -187,7 +192,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                   {(props: { itemProvider: ArrayItemProvider<TeamProjectReference> }) => (
                     <Dropdown
                       placeholder="Select a Project"
-                      items={this.renderProjectDropDown(props.itemProvider.value)}
+                      items={this.projectDropDownList}
                     />
                   )}
                 </Observer>
