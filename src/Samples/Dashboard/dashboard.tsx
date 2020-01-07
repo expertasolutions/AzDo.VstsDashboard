@@ -42,6 +42,8 @@ class CICDDashboard extends React.Component<{}, {}> {
       this.setState( { projects: result });
     });
 
+    /*
+    
     // Update Build References list...
     getBuildDefinitions(this.projectName).then(result => {
       // CODE_REVIEW: temp fix ... dump shit !!
@@ -63,6 +65,10 @@ class CICDDashboard extends React.Component<{}, {}> {
       this.buildReferenceProvider.value = new ArrayItemProvider(this.state.buildDefs);
     });
 
+    */
+
+    /*
+
     // Update Builds Runs list...
     getBuilds(this.projectName).then(result=> {
       let buildsList = this.state.builds;
@@ -77,6 +83,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       }
       this.setState({ builds: buildsList });
     });
+    */
   }
 
   public componentDidMount() {
@@ -148,7 +155,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     )
   }
 
-  private renderProjectDropDown(projects: Array<TeamProjectReference>) : Array<IListBoxItem> {
+  private renderProjectDropDown(projects: TeamProjectReference[]) : Array<IListBoxItem> {
     let proj : Array<IListBoxItem> = [];
     for(let i=0;i<projects.length;i++){
       let p = projects[i];
@@ -180,7 +187,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                   {(props: { itemProvider: ArrayItemProvider<TeamProjectReference> }) => (
                     <Dropdown
                       placeholder="Select a Project"
-                      items={props.itemProvider.value}
+                      items={this.renderProjectDropDown(props.itemProvider.value)}
                     />
                   )}
                 </Observer>
