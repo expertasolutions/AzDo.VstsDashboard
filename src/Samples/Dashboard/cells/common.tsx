@@ -180,11 +180,7 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
   for(let i=0;i<deploys.sort(x=> x.id).length;i++){
     let dep = deploys[i];
     let relStatusInfo = getReleaseStatus(dep);
-    children.push(<Pill color={relStatusInfo.color} variant={PillVariant.colored}>
-                    <Status {...relStatusInfo.statusProps} 
-                            className="icon-small-margin"
-                            size={StatusSize.s} />&nbsp;{dep.releaseEnvironment.name}
-                  </Pill>)
+    children.push(<Pill color={relStatusInfo.color} variant={PillVariant.colored}>{dep.releaseEnvironment.name}</Pill>)
   }
 
   if(deploys.length > 0) {
