@@ -39,13 +39,6 @@ class CICDDashboard extends React.Component<{}, {}> {
   public refreshData() {
 
     getProjects().then(result => {
-      let newProjectsList = Array<TeamProjectReference>();
-      /*
-      for(let i=0;result.length;i++){
-        let pr = result[i];
-        newProjectsList.push(pr);
-      }
-      */
       this.setState( { projects: result });
     });
 
@@ -145,21 +138,11 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   private renderData() {
     let projectDataJson = JSON.stringify(this.state.projects);
-    let releaseDataJson = JSON.stringify(this.state.releases);
-    let buildDataJson = JSON.stringify(this.state.builds);
     return (
       <div>
         <div>
           <h2>Project</h2>
           <p>{projectDataJson}</p>
-        </div>
-        <div>
-          <h2>Builds</h2>
-          <p>{buildDataJson}</p>
-        </div>
-        <div>
-          <h2>Release Data</h2>
-          <p>{releaseDataJson}></p>
         </div>
       </div>
     )
@@ -197,7 +180,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                   {(props: { itemProvider: ArrayItemProvider<TeamProjectReference> }) => (
                     <Dropdown
                       placeholder="Select a Project"
-                      items={this.renderProjectDropDown(props.itemProvider.value)}
+                      items={props.itemProvider.value}
                     />
                   )}
                 </Observer>
