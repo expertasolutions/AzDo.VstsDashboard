@@ -53,6 +53,7 @@ class CICDDashboard extends React.Component<{}, {}> {
         if(prj.text != undefined)
           projectName = prj.text;
         // Update Build References list...
+
         getBuildDefinitions(projectName).then(result => {
           // CODE_REVIEW: This is shit ** temp stuff only !!!
           let currentBuildState = buildsRef;
@@ -69,6 +70,8 @@ class CICDDashboard extends React.Component<{}, {}> {
             }
           }
         });
+
+
       }
     }
     this.setState({ buildDefs: buildsRef });
@@ -172,15 +175,6 @@ class CICDDashboard extends React.Component<{}, {}> {
         </div>
       </div>
     )
-  }
-
-  private renderProjectDropDown(projects: TeamProjectReference[]) : Array<IListBoxItem> {
-    let proj : Array<IListBoxItem> = [];
-    for(let i=0;i<projects.length;i++){
-      let p = projects[i];
-      proj.push({ id: p.id, text: p.name });
-    }
-    return proj;
   }
 
   public render() : JSX.Element {
