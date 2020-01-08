@@ -187,22 +187,8 @@ class CICDDashboard extends React.Component<{}, {}> {
                       width={250}
                       placeholder="Select a Project"
                       items={this.projectDropDownList}
-                      selection={this.projectSelection}
                       showFilterBox={true}
                       onSelect={this.onProjectSelected}
-                      actions={[
-                        {
-                          className: "bolt-dropdown-action-right-button",
-                          disabled: this.projectSelection.selectedCount === 0,
-                          iconProps: { iconName: "Clear" },
-                          text: "Clear", 
-                          onClick: () => {
-                            console.log("before clearing projectSelection");
-                            this.projectSelection.clear();
-                            console.log("after clearing projectSelection");
-                          }
-                        }
-                      ]}
                     />
                   )}
                 </Observer>
