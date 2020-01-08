@@ -197,6 +197,7 @@ class CICDDashboard extends React.Component<{}, {}> {
               }} />
               <div className="flex-row" style={{ margin: "8px", alignItems: "center"}}>
                 <Observer itemProvider={this.projectProvider} selection={this.projectSelection}>
+                  {(props: { itemProvider: ArrayItemProvider<TeamProjectReference> }) => (
                     <Dropdown
                       width={250}
                       placeholder="Select a Project"
@@ -215,6 +216,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                         }
                       ]}
                     />
+                  )}
                 </Observer>
               </div>
               <Card className="flex-grow bolt-table-card" 
