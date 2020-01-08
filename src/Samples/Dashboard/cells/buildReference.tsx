@@ -37,6 +37,7 @@ export function renderBuildRef01 (
                     className="icon-large-margin"
                     size={StatusSize.l}/>
           <div>{tableItem.name}</div>
+          <div>{tableItem.project.name}</div>
       </SimpleTableCell>
   );
 }
