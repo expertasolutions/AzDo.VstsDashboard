@@ -6,6 +6,7 @@ import { dashboardColumns, buildColumns }  from "./tableData";
 
 import { Button } from "azure-devops-ui/Button";
 import { Dropdown } from "azure-devops-ui/Dropdown";
+import { DropdownMultiSelection } from "azure-devops-ui/Utilities/DropdownSelection";
 import { Card } from "azure-devops-ui/Card";
 import { Table } from "azure-devops-ui/Table";
 import { Tab, TabBar, TabSize } from "azure-devops-ui/Tabs";
@@ -29,6 +30,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   private selectedTabId = new ObservableValue("summary");
   private selectedProject = new ObservableValue<string>("");
   private projectDropDownList : Array<IListBoxItem> = [];
+  private projectSelection = new DropdownMultiSelection();
 
   state = {
     buildDefs: Array<BuildDefinitionReference>(),
@@ -195,6 +197,8 @@ class CICDDashboard extends React.Component<{}, {}> {
                       width={200}
                       placeholder="Select a Project"
                       items={this.projectDropDownList}
+                      selection={this.projectSelection}
+                      showFilterBox={true}
                     />
                   )}
                 </Observer>
