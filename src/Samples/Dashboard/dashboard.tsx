@@ -41,6 +41,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   public refreshData() {
 
     getProjects().then(result => {
+      this.projectDropDownList = [];
       for(let i=0;i<result.sort((x1, x2) => x1 > x2 ? 1: 0).length;i++){
         let p = result[i];
         this.projectDropDownList.push({ id: p.id, text: p.name});
