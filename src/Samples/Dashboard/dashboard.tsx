@@ -28,7 +28,6 @@ import { IListBoxItem } from "azure-devops-ui/ListBox";
 class CICDDashboard extends React.Component<{}, {}> {
   private projectName = "Community";
   private selectedTabId = new ObservableValue("summary");
-  private selectedProject = new ObservableValue<string>("");
   private projectDropDownList : Array<IListBoxItem> = [];
   private projectSelection = new DropdownMultiSelection();
 
@@ -194,11 +193,22 @@ class CICDDashboard extends React.Component<{}, {}> {
                 <Observer itemProvider={this.projectProvider}>
                   {(props: { itemProvider: ArrayItemProvider<TeamProjectReference> }) => (
                     <Dropdown
-                      width={200}
+                      width={250}
                       placeholder="Select a Project"
                       items={this.projectDropDownList}
                       selection={this.projectSelection}
                       showFilterBox={true}
+                      actions={[
+                        {
+                          className: "bolt-dropdown-action-right-button",
+                          disabled: this.projectSelection.selectedCount === 0,
+                          iconProps: { iconName: "Clear" },
+                          text: "Clear", 
+                          onClick: () => {
+                            this.projectSelection.clear();
+                          }
+                        }
+                      ]}
                     />
                   )}
                 </Observer>
