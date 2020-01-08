@@ -42,6 +42,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     this.refreshBuildReference();
   }
 
+  // TODO: Not works as expected ... fix this piece of crap !!!
   private refreshBuildReference() {
     let buildsRef = new Array<BuildDefinitionReference>();
     for(let i=0;i<this.projectDropDownList.length;i++) {
