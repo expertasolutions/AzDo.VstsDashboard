@@ -43,19 +43,16 @@ class CICDDashboard extends React.Component<{}, {}> {
   }
 
   private refreshBuildReference() {
+    let buildsRef = new Array<BuildDefinitionReference>();
     for(let i=0;i<this.projectDropDownList.length;i++) {
       if(this.projectSelection.selected(i)) {
         let prj = this.projectDropDownList[i];
         console.log(prj.text + " is selected");
-
-        let buildsRef = new Array<BuildDefinitionReference>();
-
         let projectName = "";
         if(prj.text != undefined)
           projectName = prj.text;
         // Update Build References list...
         getBuildDefinitions(projectName).then(result => {
-          
           // CODE_REVIEW: This is shit ** temp stuff only !!!
           let currentBuildState = buildsRef;
           for(let i=0;i<result.sort(x=> x.latestBuild.id).length;i++) {
@@ -70,14 +67,11 @@ class CICDDashboard extends React.Component<{}, {}> {
               }
             }
           }
-          
         });
-
-        this.setState({ buildDefs: buildsRef });
-        this.buildReferenceProvider.value = new ArrayItemProvider(this.state.buildDefs);
-
       }
     }
+    this.setState({ buildDefs: buildsRef });
+    this.buildReferenceProvider.value = new ArrayItemProvider(this.state.buildDefs);
   }
 
   public refreshData() {
