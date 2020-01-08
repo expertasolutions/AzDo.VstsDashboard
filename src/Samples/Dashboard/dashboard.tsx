@@ -63,7 +63,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       
       
       let currentBuildState = this.state.buildDefs;
-      for(let i=0;i<result.length;i++) {
+      for(let i=0;i<result.sort(x=> x.latestBuild.id).length;i++) {
         let resultBuildDef = result[i];
         if(resultBuildDef.latestBuild != undefined) {
           let currentBuildDef = currentBuildState.find(x=> x.id === resultBuildDef.id);
