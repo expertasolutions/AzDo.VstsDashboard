@@ -40,6 +40,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   public refreshData() {
 
     getProjects().then(result => {
+      result = result.sort((x1, x2) => x1 > x2 ? 1: 0);
       for(let i=0;i<result.length;i++){
         let p = result[i];
         this.projectDropDownList.push({ id: p.id, text: p.name});
@@ -191,6 +192,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                 <Observer itemProvider={this.projectProvider}>
                   {(props: { itemProvider: ArrayItemProvider<TeamProjectReference> }) => (
                     <Dropdown
+                      width={200}
                       placeholder="Select a Project"
                       items={this.projectDropDownList}
                     />
