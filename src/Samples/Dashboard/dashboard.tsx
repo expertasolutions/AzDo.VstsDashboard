@@ -156,12 +156,12 @@ class CICDDashboard extends React.Component<{}, {}> {
   }
 
   private renderData() {
-    let projectDataJson = JSON.stringify(this.state.projects);
+    let releaseDataJson = JSON.stringify(this.state.releases);
     return (
       <div>
         <div>
-          <h2>Project</h2>
-          <p>{projectDataJson}</p>
+          <h2>Release</h2>
+          <p>{releaseDataJson}</p>
         </div>
       </div>
     )
