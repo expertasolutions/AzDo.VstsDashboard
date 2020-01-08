@@ -39,10 +39,43 @@ class CICDDashboard extends React.Component<{}, {}> {
   };
 
   private onProjectSelected = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
+    this.refreshBuildReference();
+  }
+
+  private refreshBuildReference() {
     for(let i=0;i<this.projectDropDownList.length;i++) {
       if(this.projectSelection.selected(i)) {
         let prj = this.projectDropDownList[i];
         console.log(prj.text + " is selected");
+
+        let buildsRef = new Array<BuildDefinitionReference>();
+
+        let projectName = "";
+        if(prj.text != undefined)
+          projectName = prj.text;
+        // Update Build References list...
+        getBuildDefinitions(projectName).then(result => {
+          
+          // CODE_REVIEW: This is shit ** temp stuff only !!!
+          let currentBuildState = buildsRef;
+          for(let i=0;i<result.sort(x=> x.latestBuild.id).length;i++) {
+            let resultBuildDef = result[i];
+            if(resultBuildDef.latestBuild != undefined) {
+              let currentBuildDef = currentBuildState.find(x=> x.id === resultBuildDef.id);
+              // CODE_REVIEW: this code not work !!! 
+              if(currentBuildDef != undefined) {
+                currentBuildDef = resultBuildDef;
+              } else {
+                currentBuildState.push(resultBuildDef);
+              }
+            }
+          }
+          
+        });
+
+        this.setState({ buildDefs: buildsRef });
+        this.buildReferenceProvider.value = new ArrayItemProvider(this.state.buildDefs);
+
       }
     }
   }
@@ -56,30 +89,6 @@ class CICDDashboard extends React.Component<{}, {}> {
         this.projectDropDownList.push({ id: p.id, text: p.name});
       }
       this.setState( { projects: result });
-    });
-
-    // Update Build References list...
-    getBuildDefinitions(this.projectName).then(result => {
-      // CODE_REVIEW: temp fix ... dump shit !!
-      this.setState( { buildDefs: Array<BuildDefinitionReference>()});
-      
-      
-      let currentBuildState = this.state.buildDefs;
-      for(let i=0;i<result.sort(x=> x.latestBuild.id).length;i++) {
-        let resultBuildDef = result[i];
-        if(resultBuildDef.latestBuild != undefined) {
-          let currentBuildDef = currentBuildState.find(x=> x.id === resultBuildDef.id);
-          // CODE_REVIEW: this code not work !!! 
-          if(currentBuildDef != undefined) {
-            currentBuildDef = resultBuildDef;
-          } else {
-            currentBuildState.push(resultBuildDef);
-          }
-        }
-      }
-
-      this.setState({ buildDefs: currentBuildState });
-      this.buildReferenceProvider.value = new ArrayItemProvider(this.state.buildDefs);
     });
 
     /*
