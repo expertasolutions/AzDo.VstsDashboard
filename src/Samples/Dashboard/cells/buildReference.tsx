@@ -36,7 +36,7 @@ export function renderBuildRef01 (
             <Status {...getBuildDefinitionStatus(tableItem).statusProps}
                     className="icon-large-margin"
                     size={StatusSize.l}/>
-          <div>{tableItem.name}</div>
+          <div>{tableItem.name}</div><br></br>
           <div>{tableItem.project.name}</div>
       </SimpleTableCell>
   );
