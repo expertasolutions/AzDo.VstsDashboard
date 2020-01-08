@@ -43,6 +43,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     if(item.text != undefined)
       projectName = item.text;
 
+    this.setState({ buildDefs: Array<BuildDefinitionReference>()});
     let currentBuildState = this.state.buildDefs;
     getBuildDefinitions(projectName).then(result => {
       for(let i=0;i<result.length;i++) {
