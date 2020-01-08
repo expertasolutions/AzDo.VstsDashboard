@@ -49,6 +49,13 @@ class CICDDashboard extends React.Component<{}, {}> {
       this.setState( { projects: result });
     });
 
+    for(let i=0;i<this.projectDropDownList.length;i++) {
+      if(this.projectSelection.selected(i)) {
+        let prj = this.projectDropDownList[i];
+        console.log(prj.text + " is selected");
+      }
+    }
+
     // Update Build References list...
     getBuildDefinitions(this.projectName).then(result => {
       // CODE_REVIEW: temp fix ... dump shit !!
