@@ -82,7 +82,7 @@ class CICDDashboard extends React.Component<{}, {}> {
         let p = result[i];
         this.projectDropDownList.push({ id: p.id, text: p.name});
       }
-      this.setState( { projects: result });
+      this.setState( { projects: result.sort((x1, x2) => x1.name > x2.name ? 1: 0) });
     });
 
     /*
