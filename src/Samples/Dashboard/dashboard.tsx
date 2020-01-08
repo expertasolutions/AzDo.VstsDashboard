@@ -49,12 +49,12 @@ class CICDDashboard extends React.Component<{}, {}> {
       this.setState( { projects: result });
     });
 
-    /*
-
     // Update Build References list...
     getBuildDefinitions(this.projectName).then(result => {
       // CODE_REVIEW: temp fix ... dump shit !!
       this.setState( { buildDefs: Array<BuildDefinitionReference>()});
+      
+      
       let currentBuildState = this.state.buildDefs;
       for(let i=0;i<result.length;i++) {
         let resultBuildDef = result[i];
@@ -68,11 +68,10 @@ class CICDDashboard extends React.Component<{}, {}> {
           }
         }
       }
+
       this.setState({ buildDefs: currentBuildState });
       this.buildReferenceProvider.value = new ArrayItemProvider(this.state.buildDefs);
     });
-
-    */
 
     /*
 
@@ -190,7 +189,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                 this.refreshData();
               }} />
               <div className="flex-row" style={{ margin: "8px", alignItems: "center"}}>
-                <Observer itemProvider={this.projectProvider}>
+                <Observer itemProvider={this.projectProvider} selection={this.projectSelection}>
                   {(props: { itemProvider: ArrayItemProvider<TeamProjectReference> }) => (
                     <Dropdown
                       width={250}
