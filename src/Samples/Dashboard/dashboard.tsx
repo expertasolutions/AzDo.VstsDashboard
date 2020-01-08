@@ -223,7 +223,9 @@ class CICDDashboard extends React.Component<{}, {}> {
                           iconProps: { iconName: "Clear" },
                           text: "Clear", 
                           onClick: () => {
+                            console.log("before clearing projectSelection");
                             this.projectSelection.clear();
+                            console.log("after clearing projectSelection");
                           }
                         }
                       ]}
