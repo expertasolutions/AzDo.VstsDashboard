@@ -38,6 +38,15 @@ class CICDDashboard extends React.Component<{}, {}> {
     projects: Array<TeamProjectReference>(),
   };
 
+  private onProjectSelected = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
+    for(let i=0;i<this.projectDropDownList.length;i++) {
+      if(this.projectSelection.selected(i)) {
+        let prj = this.projectDropDownList[i];
+        console.log(prj.text + " is selected");
+      }
+    }
+  }
+
   public refreshData() {
 
     getProjects().then(result => {
@@ -48,13 +57,6 @@ class CICDDashboard extends React.Component<{}, {}> {
       }
       this.setState( { projects: result });
     });
-
-    for(let i=0;i<this.projectDropDownList.length;i++) {
-      if(this.projectSelection.selected(i)) {
-        let prj = this.projectDropDownList[i];
-        console.log(prj.text + " is selected");
-      }
-    }
 
     // Update Build References list...
     getBuildDefinitions(this.projectName).then(result => {
@@ -204,6 +206,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                       items={this.projectDropDownList}
                       selection={this.projectSelection}
                       showFilterBox={true}
+                      onSelect={this.onProjectSelected}
                       actions={[
                         {
                           className: "bolt-dropdown-action-right-button",
