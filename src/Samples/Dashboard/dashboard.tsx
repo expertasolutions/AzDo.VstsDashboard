@@ -43,6 +43,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     if(item.text != undefined)
       projectName = item.text;
 
+    console.log(projectName);
     let currentBuildState = new Array<BuildDefinitionReference>();
     getBuildDefinitions(projectName).then(result => {
       for(let i=0;i<result.length;i++) {
@@ -58,7 +59,7 @@ class CICDDashboard extends React.Component<{}, {}> {
         }
       }
     });
-
+    console.log("Element Count: " + currentBuildState.length + " (" + projectName + ")");
     this.setState({ buildDefs: currentBuildState });
     this.buildReferenceProvider.value = new ArrayItemProvider(this.state.buildDefs);
   }
