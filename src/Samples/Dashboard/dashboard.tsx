@@ -4,6 +4,7 @@ import * as SDK from "azure-devops-extension-sdk";
 import { getBuildDefinitions, getBuilds , getReleases, getProjects } from "./PipelineServices";
 import { dashboardColumns, buildColumns }  from "./tableData";
 
+import { KeywordFilterBarItem } from "azure-devops-ui/TextFilterBarItem";
 import { Button } from "azure-devops-ui/Button";
 import { Dropdown, DropdownFilterBarItem } from "azure-devops-ui/Dropdown";
 import { DropdownMultiSelection } from "azure-devops-ui/Utilities/DropdownSelection";
@@ -61,7 +62,6 @@ class CICDDashboard extends React.Component<{}, {}> {
     if(item.text != undefined)
       projectName = item.text;
 
-    console.log(projectName);
     let currentBuildState = new Array<BuildDefinitionReference>();
     getBuildDefinitions(projectName).then(result => {
       for(let i=0;i<result.length;i++) {
@@ -76,7 +76,6 @@ class CICDDashboard extends React.Component<{}, {}> {
           }
         }
       }
-      console.log("Element Count: " + currentBuildState.length + " (" + projectName + ")");
       this.setState({ buildDefs: currentBuildState });
       this.buildReferenceProvider.value = new ArrayItemProvider(this.state.buildDefs);
     });
@@ -213,6 +212,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                 </Observer>
               </div>
               <FilterBar filter={this.filter}>
+                <KeywordFilterBarItem filterItemKey="Placeholder" />
                 <DropdownFilterBarItem
                   filterItemKey="listSingle"
                   filter={this.filter}
@@ -225,23 +225,21 @@ class CICDDashboard extends React.Component<{}, {}> {
                   placeholder="Team Project"
                 />
               </FilterBar>
-              <div style={{ marginTop: "16px;"}}>
-                <Card className="flex-grow bolt-table-card" 
-                      titleProps={{ text: "All pipelines" }} 
-                      contentProps={{ contentPadding: false }}>
-                  <DataContext.Provider value={{ state: this.state }}>
-                    <Observer selectedTabId={this.selectedTabId}>
-                      {(props: { selectedTabId: string }) => {
-                        return (
-                          <div>
-                              {this.renderTab(props.selectedTabId)}
-                          </div>
-                        )
-                      }}
-                    </Observer>
-                  </DataContext.Provider>
-                </Card>
-              </div>
+              <Card className="flex-grow bolt-table-card" 
+                    titleProps={{ text: "All pipelines" }} 
+                    contentProps={{ contentPadding: false }}>
+                <DataContext.Provider value={{ state: this.state }}>
+                  <Observer selectedTabId={this.selectedTabId}>
+                    {(props: { selectedTabId: string }) => {
+                      return (
+                        <div style={{ marginTop: "16px;"}}>
+                            {this.renderTab(props.selectedTabId)}
+                        </div>
+                      )
+                    }}
+                  </Observer>
+                </DataContext.Provider>
+              </Card>
             </div>
         </Page>
       </Surface>

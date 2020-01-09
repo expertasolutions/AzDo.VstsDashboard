@@ -21,7 +21,6 @@ export async function getReleases(projectName: string) {
   let minDate = new Date();
   console.log("CurrentDate: " + minDate);
   let newDate = minDate.setDate(minDate.getDate()-60);
-  console.log("NewDate: " + newDate);
   minDate = new Date(newDate);
   console.log("MinDate: " + minDate);
   let releaseClient = API.getClient(ReleaseRestClient);
