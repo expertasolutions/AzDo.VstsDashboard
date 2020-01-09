@@ -137,10 +137,10 @@ class CICDDashboard extends React.Component<{}, {}> {
       return (
         <Observer itemProvider={ this.buildProvider }>
           {(observableProps: {itemProvider: ArrayItemProvider<Build> }) => (
-            <Table<Build> columns={buildColumns} 
-                itemProvider={observableProps.itemProvider}
-                showLines={true}
-                role="table"/>
+              <Table<Build> columns={buildColumns} 
+                  itemProvider={observableProps.itemProvider}
+                  showLines={true}
+                  role="table"/>
           )}
         </Observer>
       )
@@ -194,6 +194,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                   )}
                 </Observer>
               </div>
+              
               <Card className="flex-grow bolt-table-card" 
                     titleProps={{ text: "All pipelines" }} 
                     contentProps={{ contentPadding: false }}>

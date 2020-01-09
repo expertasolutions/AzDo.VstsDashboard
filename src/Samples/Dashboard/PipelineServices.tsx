@@ -22,7 +22,7 @@ export async function getReleases(projectName: string) {
   console.log("CurrentDate: " + minDate);
   let newDate = minDate.getDate()-60;
   console.log("NewDate: " + newDate);
-  minDate.setDate(newDate);
+  console.log(minDate.setDate(newDate));
   let releaseClient = API.getClient(ReleaseRestClient);
   return await releaseClient.getDeployments(projectName, undefined, undefined, undefined,undefined, undefined,
     undefined, undefined, true,undefined, undefined, undefined,
