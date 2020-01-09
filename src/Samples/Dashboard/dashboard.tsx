@@ -51,6 +51,7 @@ class CICDDashboard extends React.Component<{}, {}> {
 
     this.projectSelection.subscribe(() => {
       let selectedValue = this.filter.getFilterItemValue<any>("listSingle");
+      console.log(JSON.stringify(selectedValue));
       console.log("projectSelection changed - " + selectedValue.text);
     });
   }
@@ -215,23 +216,23 @@ class CICDDashboard extends React.Component<{}, {}> {
                     />
                   )}
                 </Observer>
+                <FilterBar filter={this.filter}>
+                  <KeywordFilterBarItem filterItemKey="Placeholder" />
+                  <DropdownFilterBarItem
+                    filterItemKey="listSingle"
+                    filter={this.filter}
+                    items={this.state.projects.map(i => {
+                      return {
+                        id: i.id,
+                        text: i.name
+                      };
+                    })}
+                    placeholder="Team Project"
+                    onSelect={this.onProjectSelected}
+                    selection={this.projectSelection}
+                  />
+                </FilterBar>
               </div>
-              <FilterBar filter={this.filter}>
-                <KeywordFilterBarItem filterItemKey="Placeholder" />
-                <DropdownFilterBarItem
-                  filterItemKey="listSingle"
-                  filter={this.filter}
-                  items={this.state.projects.map(i => {
-                    return {
-                      id: i.id,
-                      text: i.name
-                    };
-                  })}
-                  placeholder="Team Project"
-                  onSelect={this.onProjectSelected}
-                  selection={this.projectSelection}
-                />
-              </FilterBar>
               <Card className="flex-grow bolt-table-card" 
                     titleProps={{ text: "All pipelines" }} 
                     contentProps={{ contentPadding: false }}>
