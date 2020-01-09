@@ -50,7 +50,8 @@ class CICDDashboard extends React.Component<{}, {}> {
     }, FILTER_CHANGE_EVENT);
 
     this.projectSelection.subscribe(() => {
-      console.log("projectSelection changed");
+      let selectedValue = this.filter.getFilterItemValue<any>("listSingle");
+      console.log("projectSelection changed - " + selectedValue.text);
     });
   }
 
@@ -227,6 +228,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                     };
                   })}
                   placeholder="Team Project"
+                  onSelect={this.onProjectSelected}
                   selection={this.projectSelection}
                 />
               </FilterBar>
