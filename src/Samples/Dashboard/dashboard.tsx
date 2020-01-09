@@ -5,7 +5,7 @@ import { getBuildDefinitions, getBuilds , getReleases, getProjects } from "./Pip
 import { dashboardColumns, buildColumns }  from "./tableData";
 
 import { Button } from "azure-devops-ui/Button";
-import { Dropdown } from "azure-devops-ui/Dropdown";
+import { Dropdown, DropdownFilterBarItem } from "azure-devops-ui/Dropdown";
 import { DropdownMultiSelection } from "azure-devops-ui/Utilities/DropdownSelection";
 import { Card } from "azure-devops-ui/Card";
 import { Table } from "azure-devops-ui/Table";
@@ -24,12 +24,30 @@ import { Observer } from "azure-devops-ui/Observer";
 import { DataContext }  from "./dataContext";
 import { Header, TitleSize } from "azure-devops-ui/Header";
 import { IListBoxItem } from "azure-devops-ui/ListBox";
+import { Filter, FilterOperatorType, FILTER_CHANGE_EVENT } from "azure-devops-ui/Utilities/Filter";
+import { FilterBar } from "azure-devops-ui/FilterBar";
 
 class CICDDashboard extends React.Component<{}, {}> {
   private projectName = "Community";
   private selectedTabId = new ObservableValue("summary");
   private projectDropDownList : Array<IListBoxItem> = [];
   private projectSelection = new DropdownMultiSelection();
+  private filter: Filter = new Filter();
+  private currentState = new ObservableValue("");
+
+  constructor(props: {}) {
+    super(props);
+
+    this.filter = new Filter();
+    this.filter.setFilterItemState("listMulti", {
+      value: [],
+      operator: FilterOperatorType.and
+    });
+
+    this.filter.subscribe(() => {
+      this.currentState.value = JSON.stringify(this.filter.getState(), null, 4);
+    }, FILTER_CHANGE_EVENT);
+  }
 
   state = {
     buildDefs: Array<BuildDefinitionReference>(),
@@ -194,7 +212,18 @@ class CICDDashboard extends React.Component<{}, {}> {
                   )}
                 </Observer>
               </div>
-              
+              <FilterBar filter={this.filter}>
+                <DropdownFilterBarItem
+                  filterItemKey="listSingle"
+                  filter={this.filter}
+                  items={this.state.projects.map(i => {
+                    return {
+                      id: i.id,
+                      text: i.name
+                    };
+                  })}
+                />
+              </FilterBar>
               <Card className="flex-grow bolt-table-card" 
                     titleProps={{ text: "All pipelines" }} 
                     contentProps={{ contentPadding: false }}>
