@@ -58,10 +58,10 @@ class CICDDashboard extends React.Component<{}, {}> {
           }
         }
       }
+      console.log("Element Count: " + currentBuildState.length + " (" + projectName + ")");
+      this.setState({ buildDefs: currentBuildState });
+      this.buildReferenceProvider.value = new ArrayItemProvider(this.state.buildDefs);
     });
-    console.log("Element Count: " + currentBuildState.length + " (" + projectName + ")");
-    this.setState({ buildDefs: currentBuildState });
-    this.buildReferenceProvider.value = new ArrayItemProvider(this.state.buildDefs);
   }
 
   public refreshData() {
