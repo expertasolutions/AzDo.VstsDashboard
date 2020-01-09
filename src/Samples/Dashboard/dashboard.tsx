@@ -224,21 +224,23 @@ class CICDDashboard extends React.Component<{}, {}> {
                   })}
                 />
               </FilterBar>
-              <Card className="flex-grow bolt-table-card" 
-                    titleProps={{ text: "All pipelines" }} 
-                    contentProps={{ contentPadding: false }}>
-                <DataContext.Provider value={{ state: this.state }}>
-                  <Observer selectedTabId={this.selectedTabId}>
-                    {(props: { selectedTabId: string }) => {
-                      return (
-                        <div>
-                            {this.renderTab(props.selectedTabId)}
-                        </div>
-                      )
-                    }}
-                  </Observer>
-                </DataContext.Provider>
-              </Card>
+              <div style={{ marginTop: "16px;"}}>
+                <Card className="flex-grow bolt-table-card" 
+                      titleProps={{ text: "All pipelines" }} 
+                      contentProps={{ contentPadding: false }}>
+                  <DataContext.Provider value={{ state: this.state }}>
+                    <Observer selectedTabId={this.selectedTabId}>
+                      {(props: { selectedTabId: string }) => {
+                        return (
+                          <div>
+                              {this.renderTab(props.selectedTabId)}
+                          </div>
+                        )
+                      }}
+                    </Observer>
+                  </DataContext.Provider>
+                </Card>
+              </div>
             </div>
         </Page>
       </Surface>
