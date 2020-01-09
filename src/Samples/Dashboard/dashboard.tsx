@@ -187,46 +187,42 @@ class CICDDashboard extends React.Component<{}, {}> {
             <Tab name="Runs" id="builds"/>
             <Tab name="Raw Data" id="data"/>
           </TabBar>
+          <div className="flex-row">
+            <FilterBar filter={this.filter}>
+              <KeywordFilterBarItem filterItemKey="Placeholder" />
+              <DropdownFilterBarItem
+                filterItemKey="listSingle"
+                filter={this.filter}
+                items={this.state.projects.map(i => {
+                  return {
+                    id: i.id,
+                    text: i.name
+                  };
+                })}
+                placeholder="Team Project"
+                showFilterBox={true}
+                onSelect={this.onProjectSelected}
+                selection={this.projectSelection}
+              />
+            </FilterBar>
+          </div>
           <div className="page-content page-content-top">
-              <Button text="Refresh" onClick={()=> {
-                console.log("refreshData is clicked");
-                this.refreshData();
-              }} />
-              <div className="flex-row">
-                <FilterBar filter={this.filter}>
-                  <KeywordFilterBarItem filterItemKey="Placeholder" />
-                  <DropdownFilterBarItem
-                    filterItemKey="listSingle"
-                    filter={this.filter}
-                    items={this.state.projects.map(i => {
-                      return {
-                        id: i.id,
-                        text: i.name
-                      };
-                    })}
-                    placeholder="Team Project"
-                    showFilterBox={true}
-                    onSelect={this.onProjectSelected}
-                    selection={this.projectSelection}
-                  />
-                </FilterBar>
-              </div>
-              <Card className="flex-grow bolt-table-card" 
-                    titleProps={{ text: "All pipelines" }} 
-                    contentProps={{ contentPadding: false }}>
-                <DataContext.Provider value={{ state: this.state }}>
-                  <Observer selectedTabId={this.selectedTabId}>
-                    {(props: { selectedTabId: string }) => {
-                      return (
-                        <div style={{ marginTop: "16px;"}}>
-                            {this.renderTab(props.selectedTabId)}
-                        </div>
-                      )
-                    }}
-                  </Observer>
-                </DataContext.Provider>
-              </Card>
-            </div>
+            <Card className="flex-grow bolt-table-card" 
+                  titleProps={{ text: "All pipelines" }} 
+                  contentProps={{ contentPadding: false }}>
+              <DataContext.Provider value={{ state: this.state }}>
+                <Observer selectedTabId={this.selectedTabId}>
+                  {(props: { selectedTabId: string }) => {
+                    return (
+                      <div style={{ marginTop: "16px;"}}>
+                          {this.renderTab(props.selectedTabId)}
+                      </div>
+                    )
+                  }}
+                </Observer>
+              </DataContext.Provider>
+            </Card>
+          </div>
         </Page>
       </Surface>
     );
