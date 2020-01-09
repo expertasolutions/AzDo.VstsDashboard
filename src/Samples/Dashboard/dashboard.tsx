@@ -7,7 +7,7 @@ import { dashboardColumns, buildColumns }  from "./tableData";
 import { KeywordFilterBarItem } from "azure-devops-ui/TextFilterBarItem";
 import { Button } from "azure-devops-ui/Button";
 import { Dropdown, DropdownFilterBarItem } from "azure-devops-ui/Dropdown";
-import { DropdownMultiSelection } from "azure-devops-ui/Utilities/DropdownSelection";
+import { DropdownSelection } from "azure-devops-ui/Utilities/DropdownSelection";
 import { Card } from "azure-devops-ui/Card";
 import { Table } from "azure-devops-ui/Table";
 import { Tab, TabBar, TabSize } from "azure-devops-ui/Tabs";
@@ -32,7 +32,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   private projectName = "Community";
   private selectedTabId = new ObservableValue("summary");
   private projectDropDownList : Array<IListBoxItem> = [];
-  private projectSelection = new DropdownMultiSelection();
+  private projectSelection = new DropdownSelection();
   private filter: Filter = new Filter();
   private currentState = new ObservableValue("");
 
@@ -48,6 +48,10 @@ class CICDDashboard extends React.Component<{}, {}> {
     this.filter.subscribe(() => {
       this.currentState.value = JSON.stringify(this.filter.getState(), null, 4);
     }, FILTER_CHANGE_EVENT);
+
+    this.projectSelection.subscribe(() => {
+      console.log("projectSelection changed");
+    });
   }
 
   state = {
@@ -223,6 +227,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                     };
                   })}
                   placeholder="Team Project"
+                  selection={this.projectSelection}
                 />
               </FilterBar>
               <Card className="flex-grow bolt-table-card" 
