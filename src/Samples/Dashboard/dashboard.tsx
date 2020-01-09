@@ -222,6 +222,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                       text: i.name
                     };
                   })}
+                  placeholder="Team Project"
                 />
               </FilterBar>
               <div style={{ marginTop: "16px;"}}>
