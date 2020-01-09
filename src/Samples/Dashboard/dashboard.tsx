@@ -31,7 +31,6 @@ import { FilterBar } from "azure-devops-ui/FilterBar";
 class CICDDashboard extends React.Component<{}, {}> {
   private projectName = "Community";
   private selectedTabId = new ObservableValue("summary");
-  private projectDropDownList : Array<IListBoxItem> = [];
   private projectSelection = new DropdownSelection();
   private filter: Filter = new Filter();
   private currentState = new ObservableValue("");
@@ -48,12 +47,6 @@ class CICDDashboard extends React.Component<{}, {}> {
     this.filter.subscribe(() => {
       this.currentState.value = JSON.stringify(this.filter.getState(), null, 4);
     }, FILTER_CHANGE_EVENT);
-
-    this.projectSelection.subscribe(() => {
-      let selectedValue = this.filter.getFilterItemValue<any>("listSingle");
-      console.log(JSON.stringify(selectedValue));
-      console.log("projectSelection changed - " + selectedValue.text);
-    });
   }
 
   state = {
@@ -90,11 +83,6 @@ class CICDDashboard extends React.Component<{}, {}> {
   public refreshData() {
 
     getProjects().then(result => {
-      this.projectDropDownList = [];
-      for(let i=0;i<result.sort((x1, x2) => x1.name > x2.name ? 1: 0).length;i++){
-        let p = result[i];
-        this.projectDropDownList.push({ id: p.id, text: p.name});
-      }
       this.setState( { projects: result.sort((x1, x2) => x1.name > x2.name ? 1: 0) });
     });
 
@@ -204,18 +192,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                 console.log("refreshData is clicked");
                 this.refreshData();
               }} />
-              <div className="flex-row" style={{ margin: "8px", alignItems: "center"}}>
-                <Observer itemProvider={this.projectProvider} selection={this.projectSelection}>
-                  {(props: { itemProvider: ArrayItemProvider<TeamProjectReference> }) => (
-                    <Dropdown
-                      width={250}
-                      placeholder="Select a Project"
-                      items={this.projectDropDownList}
-                      showFilterBox={true}
-                      onSelect={this.onProjectSelected}
-                    />
-                  )}
-                </Observer>
+              <div className="flex-row">
                 <FilterBar filter={this.filter}>
                   <KeywordFilterBarItem filterItemKey="Placeholder" />
                   <DropdownFilterBarItem
@@ -228,6 +205,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                       };
                     })}
                     placeholder="Team Project"
+                    showFilterBox={true}
                     onSelect={this.onProjectSelected}
                     selection={this.projectSelection}
                   />

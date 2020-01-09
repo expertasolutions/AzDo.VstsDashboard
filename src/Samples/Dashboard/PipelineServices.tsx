@@ -24,9 +24,9 @@ export async function getReleases(projectName: string) {
   minDate = new Date(newDate);
   console.log("MinDate: " + minDate);
   let releaseClient = API.getClient(ReleaseRestClient);
-  return await releaseClient.getDeployments(projectName, undefined, undefined, undefined, minDate, undefined,
+  return await releaseClient.getDeployments(projectName, undefined, undefined, undefined, minDate, new Date(),
     undefined, undefined, true,undefined, undefined, undefined,
-    undefined, minDate, undefined, undefined);
+    undefined, minDate, new Date(), undefined);
 }
 
 export async function getBuilds(projectName: string)  {
