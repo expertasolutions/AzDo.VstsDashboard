@@ -4,7 +4,7 @@ import { Icon, IIconProps } from "azure-devops-ui/Icon";
 import { Status, IStatusProps, Statuses, StatusSize } from "azure-devops-ui/Status";
 import { IColor } from "azure-devops-ui/Utilities/Color";
 import { BuildResult, BuildStatus } from "azure-devops-extension-api/Build";
-import { Deployment, DeploymentStatus } from "azure-devops-extension-api/Release";
+import { Deployment, DeploymentStatus, ReleaseReference } from "azure-devops-extension-api/Release";
 import { Pill, PillVariant } from "azure-devops-ui/Pill";
 import { PillGroup, PillGroupOverflow } from "azure-devops-ui/PillGroup";
 import { Build } from "azure-devops-extension-api/Build";
@@ -177,15 +177,33 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
   );
 
   let children = [];
-  for(let i=0;i<deploys.sort(x=> x.id).length;i++){
+
+  let releaseReferences = Array<ReleaseReference>();
+  for(let i=0;i<deploys.length;i++) {
     let dep = deploys[i];
-    let relStatusInfo = getReleaseStatus(dep);
-    children.push(<Pill color={relStatusInfo.color} variant={PillVariant.colored}>
-                    <Status {...relStatusInfo.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{dep.releaseEnvironment.name}</Pill>)
+    if(releaseReferences.find(x=> x.id === dep.release.id) != undefined){
+      releaseReferences.push(dep.release);
+    }
   }
 
-  if(deploys.length > 0) {
-    return (<PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{children}</PillGroup>);
+  let content = [];
+
+  for(let relRef=0;relRef<releaseReferences.length;relRef++){
+    let relRefInfo = releaseReferences[relRef];
+
+    for(let i=0;i<deploys.filter(x=> x.release.id == relRefInfo.id).length;i++){
+      let dep = deploys[i];
+      let relStatusInfo = getReleaseStatus(dep);
+      children.push(<Pill color={relStatusInfo.color} variant={PillVariant.colored}>
+                      <Status {...relStatusInfo.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{dep.releaseEnvironment.name}</Pill>)
+    }
+    if(deploys.length > 0) {
+      content.push(<div>{relRefInfo.name}<PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{children}</PillGroup></div>);
+    }
+  }
+
+  if(releaseReferences.length > 0){
+    return content;
   }
   return <div>Not deploy yet</div>
 }
