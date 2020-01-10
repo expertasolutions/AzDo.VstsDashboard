@@ -79,6 +79,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     });
 
     getReleases(projectName).then(result => {
+      /*
       let releaseList = Array<Deployment>();
       for(let i=0;i<result.length;i++) {
         let newRelease = result[i];
@@ -89,7 +90,8 @@ class CICDDashboard extends React.Component<{}, {}> {
           currentRelease = newRelease;
         }
       }
-      this.setState({releases: releaseList });
+      */
+      this.setState({releases: result });
     });
   }
 
