@@ -121,7 +121,6 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   public componentDidMount() {
     SDK.init();
-    this.refreshData();
   }
 
   private buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(this.state.buildDefs));
@@ -187,25 +186,23 @@ class CICDDashboard extends React.Component<{}, {}> {
             <Tab name="Runs" id="builds"/>
             <Tab name="Raw Data" id="data"/>
           </TabBar>
-          <div className="flex-row">
-            <FilterBar filter={this.filter}>
-              <KeywordFilterBarItem filterItemKey="Placeholder" />
-              <DropdownFilterBarItem
-                filterItemKey="listSingle"
-                filter={this.filter}
-                items={this.state.projects.map(i => {
-                  return {
-                    id: i.id,
-                    text: i.name
-                  };
-                })}
-                placeholder="Team Project"
-                showFilterBox={true}
-                onSelect={this.onProjectSelected}
-                selection={this.projectSelection}
-              />
-            </FilterBar>
-          </div>
+          <FilterBar filter={this.filter}>
+            <KeywordFilterBarItem filterItemKey="Placeholder" />
+            <DropdownFilterBarItem
+              filterItemKey="listSingle"
+              filter={this.filter}
+              items={this.state.projects.map(i => {
+                return {
+                  id: i.id,
+                  text: i.name
+                };
+              })}
+              placeholder="Team Project"
+              showFilterBox={true}
+              onSelect={this.onProjectSelected}
+              selection={this.projectSelection}
+            />
+          </FilterBar>
           <div className="page-content page-content-top">
             <Card className="flex-grow bolt-table-card" 
                   titleProps={{ text: "All pipelines" }} 
