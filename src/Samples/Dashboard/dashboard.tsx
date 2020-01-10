@@ -167,7 +167,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     return (
       <div>
         <div>
-          <h2>Release</h2>
+          <h2>Release - {this.state.releases.length}</h2>
           <p>{releaseDataJson}</p>
         </div>
       </div>
