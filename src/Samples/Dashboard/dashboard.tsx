@@ -78,6 +78,20 @@ class CICDDashboard extends React.Component<{}, {}> {
       this.setState({ buildDefs: currentBuildState });
       this.buildReferenceProvider.value = new ArrayItemProvider(this.state.buildDefs);
     });
+
+    getReleases(projectName).then(result => {
+      let releaseList = Array<Deployment>();
+      for(let i=0;i<result.length;i++) {
+        let newRelease = result[i];
+        let currentRelease = releaseList.find(x=> x.id === newRelease.id);
+        if(currentRelease === undefined) {
+          releaseList.push(newRelease);
+        } else {
+          currentRelease = newRelease;
+        }
+      }
+      this.setState({releases: releaseList });
+    });
   }
 
   public refreshData() {
@@ -108,20 +122,6 @@ class CICDDashboard extends React.Component<{}, {}> {
   public componentDidMount() {
     SDK.init();
     this.refreshData();
-    
-    getReleases(this.projectName).then(result => {
-      let releaseList = this.state.releases;
-      for(let i=0;i<result.length;i++){
-        let newRelease = result[i];
-        let currentRelease = releaseList.find(x=> x.id === newRelease.id);
-        if(currentRelease === undefined) {
-          releaseList.push(newRelease);
-        } else {
-          currentRelease = newRelease;
-        }
-      }
-      this.setState({releases: releaseList });
-    });
   }
 
   private buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(this.state.buildDefs));
