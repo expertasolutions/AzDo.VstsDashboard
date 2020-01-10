@@ -37,13 +37,8 @@
     "url": "https://github.com/expertasolutions/VstsDashboard"
   },
   "files": [
-    {
-      "path": "static",
-      "addressable": true
-    },
-    {
-      "path":"dist",
-      "addressable": true
-    }
+    { "path": "static", "addressable": true },
+    { "path":"dist", "addressable": true },
+    { "path": "screenshots", "addressable": true }
   ]  
 }
