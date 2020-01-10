@@ -20,7 +20,7 @@ export async function getProjects() {
 export async function getReleases(projectName: string) {
   let minDate = new Date();
   console.log("CurrentDate: " + minDate);
-  let newDate = minDate.setDate(minDate.getDate()-60);
+  let newDate = minDate.setDate(minDate.getDate()-365);
   minDate = new Date(newDate);
   console.log("MinDate: " + minDate);
   let releaseClient = API.getClient(ReleaseRestClient);
