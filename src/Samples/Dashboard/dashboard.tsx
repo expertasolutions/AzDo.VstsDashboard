@@ -29,7 +29,6 @@ import { Filter, FilterOperatorType, FILTER_CHANGE_EVENT } from "azure-devops-ui
 import { FilterBar } from "azure-devops-ui/FilterBar";
 
 class CICDDashboard extends React.Component<{}, {}> {
-  private projectName = "Community";
   private selectedTabId = new ObservableValue("summary");
   private projectSelection = new DropdownSelection();
   private filter: Filter = new Filter();
@@ -94,12 +93,13 @@ class CICDDashboard extends React.Component<{}, {}> {
     });
   }
 
-  public refreshData() {
 
+
+  public loadProjects() {
     getProjects().then(result => {
-      this.setState( { projects: result.sort((x1, x2) => x1.name > x2.name ? 1: 0) });
+      this.setState( { projects: result });
+      //this.setState( { projects: result.sort((x1, x2) => x1.name > x2.name ? 1: 0) });
     });
-
     /*
 
     // Update Builds Runs list...
@@ -121,6 +121,7 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   public componentDidMount() {
     SDK.init();
+    this.loadProjects();
   }
 
   private buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(this.state.buildDefs));
