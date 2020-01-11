@@ -206,7 +206,7 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
       }
 
       let lastDep = lastDeploys[0];
-      if(lastRelease.find(x=> x.id === lastDep.id) === undefined){
+      if(lastRelease.find(x=> x.releaseEnvironment.name === lastDep.releaseEnvironment.name) === undefined){
         lastRelease.push(lastDep);
 
         let relStatusInfo = getReleaseStatus(lastDep);
