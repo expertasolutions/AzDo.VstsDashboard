@@ -198,7 +198,7 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
                       <Status {...relStatusInfo.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{dep.releaseEnvironment.name}</Pill>)
     }
     if(deploys.length > 0) {
-      content.push(<div>{relRefInfo.name}<PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{children}</PillGroup></div>);
+      content.push(<div><b>{relRefInfo.name}</b><p><PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{children}</PillGroup></p></div>);
     }
   }
 
