@@ -195,18 +195,24 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
 
     for(let i=0;i<releaseDeploys.length;i++){
       let dep = releaseDeploys[i];
-      let lastDep = releaseDeploys.filter(x=> x.releaseEnvironment.id === dep.releaseEnvironment.id)
+      let lastDeploys = releaseDeploys.filter(x=> x.releaseEnvironment != undefined && x.releaseEnvironment.id === dep.releaseEnvironment.id)
                                   .sort((x,y) => {
                                     return x.startedOn.getDate() - y.startedOn.getDate();
                                   });
-      for(let y=0;y<lastDep.length;y++){
-        let d = lastDep[i];
+
+      for(let y=0;y<lastDeploys.length;y++){
+        let d = lastDeploys[i];
         console.log(d.releaseEnvironment.name + " - " + d.startedOn);
       }
 
-      let relStatusInfo = getReleaseStatus(dep);
-      children.push(<Pill color={relStatusInfo.color} variant={PillVariant.colored}>
-                      <Status {...relStatusInfo.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{dep.releaseEnvironment.name}</Pill>)
+      let lastDep = lastDeploys[0];
+      if(lastRelease.find(x=> x.id === lastDep.id) === undefined){
+        lastRelease.push(lastDep);
+
+        let relStatusInfo = getReleaseStatus(lastDep);
+        children.push(<Pill color={relStatusInfo.color} variant={PillVariant.colored}>
+                      <Status {...relStatusInfo.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{lastDep.releaseEnvironment.name}</Pill>)
+      }
     }
     if(deploys.length > 0) {
       content.push(<div><b>{relRefInfo.name}</b><p><PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{children}</PillGroup></p></div>);
