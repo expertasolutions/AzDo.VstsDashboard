@@ -195,14 +195,14 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
 
     for(let i=0;i<releaseDeploys.length;i++){
       let dep = releaseDeploys[i];
-      let lastDeploys = releaseDeploys.filter(x=> x.releaseEnvironment != undefined && x.releaseEnvironment.id === dep.releaseEnvironment.id)
+      let lastDeploys = releaseDeploys.filter(x=> x.releaseEnvironment != undefined && dep.releaseEnvironment != undefined && x.releaseEnvironment.id === dep.releaseEnvironment.id)
                                   .sort((x,y) => {
                                     return x.startedOn.getDate() - y.startedOn.getDate();
                                   });
 
       for(let y=0;y<lastDeploys.length;y++){
         let d = lastDeploys[i];
-        console.log(d.releaseEnvironment.name + " - " + d.startedOn);
+        //console.log(d.releaseEnvironment.name + " - " + d.startedOn);
       }
 
       let lastDep = lastDeploys[0];
