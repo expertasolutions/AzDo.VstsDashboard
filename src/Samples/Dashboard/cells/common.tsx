@@ -200,11 +200,6 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
                                     return x.startedOn.getDate() - y.startedOn.getDate();
                                   });
 
-      for(let y=0;y<lastDeploys.length;y++){
-        let d = lastDeploys[i];
-        console.log(d.releaseEnvironment.name + " - " + d.startedOn);
-      }
-
       let lastDep = lastDeploys[0];
       if(lastRelease.find(x=> x.releaseEnvironment.name === lastDep.releaseEnvironment.name) === undefined){
         lastRelease.push(lastDep);
