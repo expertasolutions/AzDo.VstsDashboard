@@ -202,7 +202,9 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
 
       let lastDep = lastDeploys[0];
       if(lastRelease.find(x => x === lastDep.releaseEnvironment.name) === undefined) {
+        console.log('Add it to lastRelease array');
         lastRelease.push(lastDep.releaseEnvironment.name);
+        console.log("lastRelease Array = " + JSON.stringify(lastRelease));
 
         let relStatusInfo = getReleaseStatus(lastDep);
         children.push(<Pill color={relStatusInfo.color} variant={PillVariant.colored}>
