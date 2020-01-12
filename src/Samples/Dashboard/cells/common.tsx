@@ -195,13 +195,13 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
 
     for(let i=0;i<releaseDeploys.length;i++){
       let dep = releaseDeploys[i];
-      let lastDeploys = releaseDeploys.filter(x=> x.releaseEnvironment != undefined && dep.releaseEnvironment != undefined && x.releaseEnvironment.id === dep.releaseEnvironment.id)
-                                  .sort((x,y) => {
-                                    return x.startedOn.getDate() - y.startedOn.getDate();
-                                  });
+      let lastDeploys = releaseDeploys.filter(x=> x.releaseEnvironment.id === dep.releaseEnvironment.id)
+                                      .sort((x,y) => {
+                                        return x.startedOn.getDate() - y.startedOn.getDate();
+                                      });
 
       let lastDep = lastDeploys[0];
-      if(!lastRelease.find(x => x.releaseEnvironment.name === lastDep.releaseEnvironment.name)){
+      if(lastRelease.find(x => x.releaseEnvironment.name === lastDep.releaseEnvironment.name) === undefined){
         lastRelease.push(lastDep);
 
         let relStatusInfo = getReleaseStatus(lastDep);
