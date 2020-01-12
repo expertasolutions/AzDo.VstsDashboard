@@ -212,13 +212,13 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
 
         let relStatusInfo = getReleaseStatus(lastDep);
         children.push(<Pill color={relStatusInfo.color} variant={PillVariant.colored}>
-          <Status {...relStatusInfo.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{lastDep.releaseEnvironment.name}-{lastDep.releaseEnvironment.id}</Pill>)
+          <Status {...relStatusInfo.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{lastDep.releaseEnvironment.name}-{lastDep.releaseEnvironment.id}-{lastDep.release.id}</Pill>)
       } else {
         console.log("FOUND: " + JSON.stringify(lastRelease));
       }
     }
     if(deploys.length > 0) {
-      content.push(<div><b>{relRefInfo.name}</b><p><PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{children}</PillGroup></p></div>);
+      content.push(<div><b>{relRefInfo.name}-{relRefInfo.id}</b><p><PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{children}</PillGroup></p></div>);
     }
   }
 
