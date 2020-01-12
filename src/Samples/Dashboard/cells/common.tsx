@@ -201,7 +201,10 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
                                       });
 
       let lastDep = lastDeploys[0];
-      if(lastRelease.find(x => x === lastDep.releaseEnvironment.name) === undefined) {
+      let envName = lastDep.releaseEnvironment.name;
+      let env = lastRelease.find(x => x === envName);
+      console.log("ENV: " + JSON.stringify(env));
+      if(env === undefined) {
         console.log('Add it to lastRelease array');
         lastRelease.push(lastDep.releaseEnvironment.name);
         console.log("lastRelease Array = " + JSON.stringify(lastRelease));
