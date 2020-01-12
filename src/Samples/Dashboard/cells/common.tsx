@@ -201,12 +201,15 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
                                       });
 
       let lastDep = lastDeploys[0];
-      if(lastRelease.find(x => x.releaseEnvironment.name === lastDep.releaseEnvironment.name) === undefined){
+      if(lastRelease.find(x => x.releaseEnvironment.name === lastDep.releaseEnvironment.name) === undefined) {
+        console.log("NOTFOUND: " + JSON.stringify(lastDep));
         lastRelease.push(lastDep);
 
         let relStatusInfo = getReleaseStatus(lastDep);
         children.push(<Pill color={relStatusInfo.color} variant={PillVariant.colored}>
                       <Status {...relStatusInfo.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{lastDep.releaseEnvironment.name}</Pill>)
+      } else {
+        console.log("IS Found: " + JSON.stringify(lastDep));
       }
     }
     if(deploys.length > 0) {
