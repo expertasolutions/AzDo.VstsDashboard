@@ -190,10 +190,10 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
 
   for(let relRef=0;relRef<releaseReferences.length;relRef++){
     let relRefInfo = releaseReferences[relRef];
-    let lastRelease = Array<Deployment>();
+    let lastRelease = Array<string>();
     let releaseDeploys = deploys.filter(x=> x.release.id == relRefInfo.id);
 
-    for(let i=0;i<releaseDeploys.length;i++){
+    for(let i=0;i<releaseDeploys.length;i++) {
       let dep = releaseDeploys[i];
       let lastDeploys = releaseDeploys.filter(x=> x.releaseEnvironment.name === dep.releaseEnvironment.name)
                                       .sort((x,y) => {
@@ -201,8 +201,8 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
                                       });
 
       let lastDep = lastDeploys[0];
-      if(lastRelease.find(x => x.releaseEnvironment.name === lastDep.releaseEnvironment.name) === undefined) {
-        lastRelease.push(lastDep);
+      if(lastRelease.find(x => x === lastDep.releaseEnvironment.name) === undefined) {
+        lastRelease.push(lastDep.releaseEnvironment.name);
 
         let relStatusInfo = getReleaseStatus(lastDep);
         children.push(<Pill color={relStatusInfo.color} variant={PillVariant.colored}>
