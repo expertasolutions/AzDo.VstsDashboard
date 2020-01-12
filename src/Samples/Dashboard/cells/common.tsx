@@ -176,7 +176,7 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
     ) != null
   );
 
-  let children = [];
+  let children = Array<Pill>();
 
   let releaseReferences = Array<ReleaseReference>();
   for(let i=0;i<deploys.length;i++) {
@@ -193,10 +193,11 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
     let relRefInfo = releaseReferences[relRef];
     lastRelease = Array<string>();
     let releaseDeploys = deploys.filter(x=> x.release.id == relRefInfo.id);
-
+    console.log(relRefInfo.id + " = " + JSON.stringify(releaseDeploys));
+/*
     for(let i=0;i<releaseDeploys.length;i++) {
       let dep = releaseDeploys[i];
-      let lastDeploys = releaseDeploys.filter(x=> x.releaseEnvironment.name === dep.releaseEnvironment.name && x.release.id === relRefInfo.id)
+      let lastDeploys = releaseDeploys.filter(x=> x.releaseEnvironment.name === dep.releaseEnvironment.name)
                                       .sort((x,y) => {
                                         return x.startedOn.getDate() - y.startedOn.getDate();
                                       });
@@ -217,6 +218,7 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
         console.log("FOUND: " + JSON.stringify(lastRelease));
       }
     }
+    */
     if(deploys.length > 0) {
       content.push(<div><b>{relRefInfo.name}-{relRefInfo.id}</b><p><PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{children}</PillGroup></p></div>);
     }
