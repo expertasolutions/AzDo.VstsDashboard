@@ -1,0 +1,1103 @@
+[
+  {
+    "id": 4893,
+    "release": {
+      "id": 3017,
+      "name": "v0.20009.1-1",
+      "url": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/releases/3017",
+      "artifacts": [
+        {
+          "sourceId": "5b43050d-0a01-4269-ace5-9e22c920391c:202",
+          "type": "Build",
+          "alias": "_ExpertaGlobalInfrastructure-CI",
+          "definitionReference": {
+            "artifactSourceDefinitionUrl": {
+              "id": "https://dev.azure.com/experta/_permalink/_build/index?collectionId=5c1ffbb9-5cd9-44cf-9146-adc1f4914a36&projectId=5b43050d-0a01-4269-ace5-9e22c920391c&definitionId=202",
+              "name": ""
+            },
+            "branches": {
+              "id": "master",
+              "name": "master"
+            },
+            "buildUri": {
+              "id": "vstfs:///Build/Build/7824",
+              "name": null
+            },
+            "definition": {
+              "id": "202",
+              "name": "ExpertaGlobalInfrastructure-CI"
+            },
+            "IsMultiDefinitionType": {
+              "id": "False",
+              "name": "False"
+            },
+            "IsTriggeringArtifact": {
+              "id": "True",
+              "name": "True"
+            },
+            "IsXamlBuildArtifactType": {
+              "id": "False",
+              "name": null
+            },
+            "project": {
+              "id": "5b43050d-0a01-4269-ace5-9e22c920391c",
+              "name": "ExpertaSolutions"
+            },
+            "repository.provider": {
+              "id": "TfsGit",
+              "name": null
+            },
+            "repository": {
+              "id": "c5715740-1259-43ab-9da7-d4961f41c77b",
+              "name": "Infrastructure"
+            },
+            "requestedFor": {
+              "id": "Louis Turmel",
+              "name": null
+            },
+            "requestedForId": {
+              "id": "8cd125e5-fc56-4485-ad56-6d1df4e5cf1b",
+              "name": null
+            },
+            "sourceVersion": {
+              "id": "6f86c6abb2fbcc2289676308aed2c29ef390b6f6",
+              "name": null
+            },
+            "version": {
+              "id": "7824",
+              "name": "v0.20009.1"
+            },
+            "artifactSourceVersionUrl": {
+              "id": "https://dev.azure.com/experta/_permalink/_build/index?collectionId=5c1ffbb9-5cd9-44cf-9146-adc1f4914a36&projectId=5b43050d-0a01-4269-ace5-9e22c920391c&buildId=7824",
+              "name": ""
+            },
+            "branch": {
+              "id": "refs/heads/master",
+              "name": "refs/heads/master"
+            }
+          },
+          "isPrimary": true,
+          "isRetained": false
+        }
+      ],
+      "webAccessUri": "https://dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_release?releaseId=3017&_a=release-summary",
+      "_links": {
+        "self": {
+          "href": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/releases/3017"
+        },
+        "web": {
+          "href": "https://dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_release?releaseId=3017&_a=release-summary"
+        }
+      }
+    },
+    "releaseDefinition": {
+      "id": 18,
+      "name": "Experta.Global.Infrastructure-CD",
+      "path": "\\",
+      "projectReference": {
+        "id": "5b43050d-0a01-4269-ace5-9e22c920391c",
+        "name": null
+      },
+      "url": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/definitions/18",
+      "_links": {
+        "self": {
+          "href": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/definitions/18"
+        },
+        "web": {
+          "href": "https://dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_release?definitionId=18"
+        }
+      }
+    },
+    "releaseEnvironment": {
+      "id": 8163,
+      "name": "Remove Development",
+      "url": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/releases/3017/environments/8163",
+      "_links": {
+        "self": {
+          "href": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/releases/3017/environments/8163"
+        },
+        "web": {
+          "href": "https://dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_release?releaseId=3017&_a=release-logs&environmentId=8163&releaseEnvironmentId=8163"
+        }
+      }
+    },
+    "projectReference": null,
+    "definitionEnvironmentId": 117,
+    "attempt": 1,
+    "reason": 1,
+    "deploymentStatus": 4,
+    "operationStatus": 8,
+    "requestedBy": {
+      "displayName": "Louis Turmel",
+      "url": "https://spsprodeus24.vssps.visualstudio.com/A23778808-86dd-40b9-8dde-4d11de479f82/_apis/Identities/8cd125e5-fc56-4485-ad56-6d1df4e5cf1b",
+      "_links": {
+        "avatar": {
+          "href": "https://dev.azure.com/experta/_apis/GraphProfile/MemberAvatars/aad.OTlkMTZlMzItY2FmOS03MGZjLWFhMmQtZmVhNzJmZWVhODg3"
+        }
+      },
+      "id": "8cd125e5-fc56-4485-ad56-6d1df4e5cf1b",
+      "uniqueName": "lturmel@expertasolutions.com",
+      "imageUrl": "https://dev.azure.com/experta/_apis/GraphProfile/MemberAvatars/aad.OTlkMTZlMzItY2FmOS03MGZjLWFhMmQtZmVhNzJmZWVhODg3",
+      "descriptor": "aad.OTlkMTZlMzItY2FmOS03MGZjLWFhMmQtZmVhNzJmZWVhODg3"
+    },
+    "requestedFor": {
+      "displayName": "Louis Turmel",
+      "url": "https://spsprodeus24.vssps.visualstudio.com/A23778808-86dd-40b9-8dde-4d11de479f82/_apis/Identities/8cd125e5-fc56-4485-ad56-6d1df4e5cf1b",
+      "_links": {
+        "avatar": {
+          "href": "https://dev.azure.com/experta/_apis/GraphProfile/MemberAvatars/aad.OTlkMTZlMzItY2FmOS03MGZjLWFhMmQtZmVhNzJmZWVhODg3"
+        }
+      },
+      "id": "8cd125e5-fc56-4485-ad56-6d1df4e5cf1b",
+      "uniqueName": "lturmel@expertasolutions.com",
+      "imageUrl": "https://dev.azure.com/experta/_apis/GraphProfile/MemberAvatars/aad.OTlkMTZlMzItY2FmOS03MGZjLWFhMmQtZmVhNzJmZWVhODg3",
+      "descriptor": "aad.OTlkMTZlMzItY2FmOS03MGZjLWFhMmQtZmVhNzJmZWVhODg3"
+    },
+    "queuedOn": "2020-01-10T01:40:26.870Z",
+    "startedOn": "2020-01-10T01:40:31.933Z",
+    "completedOn": "2020-01-10T02:02:52.167Z",
+    "lastModifiedOn": "2020-01-10T02:02:52.167Z",
+    "lastModifiedBy": {
+      "displayName": "Microsoft.VisualStudio.Services.ReleaseManagement",
+      "id": "0000000d-0000-8888-8000-000000000000",
+      "uniqueName": "0000000d-0000-8888-8000-000000000000@2c895908-04e0-4952-89fd-54b0046d6288",
+      "descriptor": "s2s.MDAwMDAwMGQtMDAwMC04ODg4LTgwMDAtMDAwMDAwMDAwMDAwQDJjODk1OTA4LTA0ZTAtNDk1Mi04OWZkLTU0YjAwNDZkNjI4OA"
+    },
+    "conditions": [
+      {
+        "result": true,
+        "name": "ReleaseStarted",
+        "conditionType": 1,
+        "value": ""
+      }
+    ],
+    "preDeployApprovals": [
+      {
+        "id": 12107,
+        "revision": 1,
+        "approvalType": 1,
+        "createdOn": "2020-01-10T01:40:27.110Z",
+        "modifiedOn": "2020-01-10T01:40:27.127Z",
+        "status": 2,
+        "comments": "",
+        "isAutomated": true,
+        "isNotificationOn": false,
+        "trialNumber": 1,
+        "attempt": 1,
+        "rank": 1,
+        "release": {
+          "id": 3017,
+          "name": "v0.20009.1-1",
+          "url": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/releases/3017",
+          "_links": {
+            "web": {
+              "href": "https://dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_release?releaseId=3017&_a=release-summary"
+            },
+            "self": {
+              "href": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/releases/3017"
+            }
+          }
+        },
+        "releaseDefinition": {
+          "id": 0,
+          "name": "Experta.Global.Infrastructure-CD",
+          "path": "\\",
+          "projectReference": null,
+          "url": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/definitions/0",
+          "_links": {
+            "web": {
+              "href": "https://dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_release?definitionId=0"
+            },
+            "self": {
+              "href": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/definitions/0"
+            }
+          }
+        },
+        "releaseEnvironment": {
+          "id": 8163,
+          "name": "Remove Development",
+          "url": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/releases/3017/environments/8163",
+          "_links": {
+            "self": {
+              "href": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/releases/3017/environments/0"
+            }
+          }
+        },
+        "url": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/approvals/12107"
+      }
+    ],
+    "postDeployApprovals": [
+      {
+        "id": 12109,
+        "revision": 1,
+        "approvalType": 2,
+        "createdOn": "2020-01-10T02:02:52.143Z",
+        "modifiedOn": "2020-01-10T02:02:52.150Z",
+        "status": 2,
+        "comments": "",
+        "isAutomated": true,
+        "isNotificationOn": false,
+        "trialNumber": 1,
+        "attempt": 1,
+        "rank": 3,
+        "release": {
+          "id": 3017,
+          "name": "v0.20009.1-1",
+          "url": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/releases/3017",
+          "_links": {
+            "web": {
+              "href": "https://dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_release?releaseId=3017&_a=release-summary"
+            },
+            "self": {
+              "href": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/releases/3017"
+            }
+          }
+        },
+        "releaseDefinition": {
+          "id": 0,
+          "name": "Experta.Global.Infrastructure-CD",
+          "path": "\\",
+          "projectReference": null,
+          "url": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/definitions/0",
+          "_links": {
+            "web": {
+              "href": "https://dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_release?definitionId=0"
+            },
+            "self": {
+              "href": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/definitions/0"
+            }
+          }
+        },
+        "releaseEnvironment": {
+          "id": 8163,
+          "name": "Remove Development",
+          "url": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/releases/3017/environments/8163",
+          "_links": {
+            "self": {
+              "href": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/releases/3017/environments/0"
+            }
+          }
+        },
+        "url": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/approvals/12109"
+      }
+    ],
+    "_links": {}
+  },
+  {
+    "id": 4892,
+    "release": {
+      "id": 3017,
+      "name": "v0.20009.1-1",
+      "url": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/releases/3017",
+      "artifacts": [
+        {
+          "sourceId": "5b43050d-0a01-4269-ace5-9e22c920391c:202",
+          "type": "Build",
+          "alias": "_ExpertaGlobalInfrastructure-CI",
+          "definitionReference": {
+            "artifactSourceDefinitionUrl": {
+              "id": "https://dev.azure.com/experta/_permalink/_build/index?collectionId=5c1ffbb9-5cd9-44cf-9146-adc1f4914a36&projectId=5b43050d-0a01-4269-ace5-9e22c920391c&definitionId=202",
+              "name": ""
+            },
+            "branches": {
+              "id": "master",
+              "name": "master"
+            },
+            "buildUri": {
+              "id": "vstfs:///Build/Build/7824",
+              "name": null
+            },
+            "definition": {
+              "id": "202",
+              "name": "ExpertaGlobalInfrastructure-CI"
+            },
+            "IsMultiDefinitionType": {
+              "id": "False",
+              "name": "False"
+            },
+            "IsTriggeringArtifact": {
+              "id": "True",
+              "name": "True"
+            },
+            "IsXamlBuildArtifactType": {
+              "id": "False",
+              "name": null
+            },
+            "project": {
+              "id": "5b43050d-0a01-4269-ace5-9e22c920391c",
+              "name": "ExpertaSolutions"
+            },
+            "repository.provider": {
+              "id": "TfsGit",
+              "name": null
+            },
+            "repository": {
+              "id": "c5715740-1259-43ab-9da7-d4961f41c77b",
+              "name": "Infrastructure"
+            },
+            "requestedFor": {
+              "id": "Louis Turmel",
+              "name": null
+            },
+            "requestedForId": {
+              "id": "8cd125e5-fc56-4485-ad56-6d1df4e5cf1b",
+              "name": null
+            },
+            "sourceVersion": {
+              "id": "6f86c6abb2fbcc2289676308aed2c29ef390b6f6",
+              "name": null
+            },
+            "version": {
+              "id": "7824",
+              "name": "v0.20009.1"
+            },
+            "artifactSourceVersionUrl": {
+              "id": "https://dev.azure.com/experta/_permalink/_build/index?collectionId=5c1ffbb9-5cd9-44cf-9146-adc1f4914a36&projectId=5b43050d-0a01-4269-ace5-9e22c920391c&buildId=7824",
+              "name": ""
+            },
+            "branch": {
+              "id": "refs/heads/master",
+              "name": "refs/heads/master"
+            }
+          },
+          "isPrimary": true,
+          "isRetained": false
+        }
+      ],
+      "webAccessUri": "https://dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_release?releaseId=3017&_a=release-summary",
+      "_links": {
+        "self": {
+          "href": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/releases/3017"
+        },
+        "web": {
+          "href": "https://dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_release?releaseId=3017&_a=release-summary"
+        }
+      }
+    },
+    "releaseDefinition": {
+      "id": 18,
+      "name": "Experta.Global.Infrastructure-CD",
+      "path": "\\",
+      "projectReference": {
+        "id": "5b43050d-0a01-4269-ace5-9e22c920391c",
+        "name": null
+      },
+      "url": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/definitions/18",
+      "_links": {
+        "self": {
+          "href": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/definitions/18"
+        },
+        "web": {
+          "href": "https://dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_release?definitionId=18"
+        }
+      }
+    },
+    "releaseEnvironment": {
+      "id": 8162,
+      "name": "Production",
+      "url": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/releases/3017/environments/8162",
+      "_links": {
+        "self": {
+          "href": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/releases/3017/environments/8162"
+        },
+        "web": {
+          "href": "https://dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_release?releaseId=3017&_a=release-logs&environmentId=8162&releaseEnvironmentId=8162"
+        }
+      }
+    },
+    "projectReference": null,
+    "definitionEnvironmentId": 66,
+    "attempt": 2,
+    "reason": 1,
+    "deploymentStatus": 16,
+    "operationStatus": 1024,
+    "requestedBy": {
+      "displayName": "Louis Turmel",
+      "url": "https://spsprodeus24.vssps.visualstudio.com/A23778808-86dd-40b9-8dde-4d11de479f82/_apis/Identities/8cd125e5-fc56-4485-ad56-6d1df4e5cf1b",
+      "_links": {
+        "avatar": {
+          "href": "https://dev.azure.com/experta/_apis/GraphProfile/MemberAvatars/aad.OTlkMTZlMzItY2FmOS03MGZjLWFhMmQtZmVhNzJmZWVhODg3"
+        }
+      },
+      "id": "8cd125e5-fc56-4485-ad56-6d1df4e5cf1b",
+      "uniqueName": "lturmel@expertasolutions.com",
+      "imageUrl": "https://dev.azure.com/experta/_apis/GraphProfile/MemberAvatars/aad.OTlkMTZlMzItY2FmOS03MGZjLWFhMmQtZmVhNzJmZWVhODg3",
+      "descriptor": "aad.OTlkMTZlMzItY2FmOS03MGZjLWFhMmQtZmVhNzJmZWVhODg3"
+    },
+    "requestedFor": {
+      "displayName": "Louis Turmel",
+      "url": "https://spsprodeus24.vssps.visualstudio.com/A23778808-86dd-40b9-8dde-4d11de479f82/_apis/Identities/8cd125e5-fc56-4485-ad56-6d1df4e5cf1b",
+      "_links": {
+        "avatar": {
+          "href": "https://dev.azure.com/experta/_apis/GraphProfile/MemberAvatars/aad.OTlkMTZlMzItY2FmOS03MGZjLWFhMmQtZmVhNzJmZWVhODg3"
+        }
+      },
+      "id": "8cd125e5-fc56-4485-ad56-6d1df4e5cf1b",
+      "uniqueName": "lturmel@expertasolutions.com",
+      "imageUrl": "https://dev.azure.com/experta/_apis/GraphProfile/MemberAvatars/aad.OTlkMTZlMzItY2FmOS03MGZjLWFhMmQtZmVhNzJmZWVhODg3",
+      "descriptor": "aad.OTlkMTZlMzItY2FmOS03MGZjLWFhMmQtZmVhNzJmZWVhODg3"
+    },
+    "queuedOn": "2020-01-10T01:17:48.687Z",
+    "startedOn": "2020-01-10T01:18:16.493Z",
+    "completedOn": "2020-01-10T01:32:05.507Z",
+    "lastModifiedOn": "2020-01-10T01:32:05.507Z",
+    "lastModifiedBy": {
+      "displayName": "Microsoft.VisualStudio.Services.ReleaseManagement",
+      "id": "0000000d-0000-8888-8000-000000000000",
+      "uniqueName": "0000000d-0000-8888-8000-000000000000@2c895908-04e0-4952-89fd-54b0046d6288",
+      "descriptor": "s2s.MDAwMDAwMGQtMDAwMC04ODg4LTgwMDAtMDAwMDAwMDAwMDAwQDJjODk1OTA4LTA0ZTAtNDk1Mi04OWZkLTU0YjAwNDZkNjI4OA"
+    },
+    "conditions": [
+      {
+        "result": true,
+        "name": "Development",
+        "conditionType": 2,
+        "value": "4"
+      }
+    ],
+    "preDeployApprovals": [
+      {
+        "id": 12105,
+        "revision": 1,
+        "approver": {
+          "displayName": "Louis Turmel",
+          "url": "https://spsprodeus24.vssps.visualstudio.com/A23778808-86dd-40b9-8dde-4d11de479f82/_apis/Identities/8cd125e5-fc56-4485-ad56-6d1df4e5cf1b",
+          "_links": {
+            "avatar": {
+              "href": "https://dev.azure.com/experta/_apis/GraphProfile/MemberAvatars/aad.OTlkMTZlMzItY2FmOS03MGZjLWFhMmQtZmVhNzJmZWVhODg3"
+            }
+          },
+          "id": "8cd125e5-fc56-4485-ad56-6d1df4e5cf1b",
+          "uniqueName": "lturmel@expertasolutions.com",
+          "imageUrl": "https://dev.azure.com/experta/_apis/GraphProfile/MemberAvatars/aad.OTlkMTZlMzItY2FmOS03MGZjLWFhMmQtZmVhNzJmZWVhODg3",
+          "descriptor": "aad.OTlkMTZlMzItY2FmOS03MGZjLWFhMmQtZmVhNzJmZWVhODg3"
+        },
+        "approvedBy": {
+          "displayName": "Louis Turmel",
+          "url": "https://spsprodeus24.vssps.visualstudio.com/A23778808-86dd-40b9-8dde-4d11de479f82/_apis/Identities/8cd125e5-fc56-4485-ad56-6d1df4e5cf1b",
+          "_links": {
+            "avatar": {
+              "href": "https://dev.azure.com/experta/_apis/GraphProfile/MemberAvatars/aad.OTlkMTZlMzItY2FmOS03MGZjLWFhMmQtZmVhNzJmZWVhODg3"
+            }
+          },
+          "id": "8cd125e5-fc56-4485-ad56-6d1df4e5cf1b",
+          "uniqueName": "lturmel@expertasolutions.com",
+          "imageUrl": "https://dev.azure.com/experta/_apis/GraphProfile/MemberAvatars/aad.OTlkMTZlMzItY2FmOS03MGZjLWFhMmQtZmVhNzJmZWVhODg3",
+          "descriptor": "aad.OTlkMTZlMzItY2FmOS03MGZjLWFhMmQtZmVhNzJmZWVhODg3"
+        },
+        "approvalType": 1,
+        "createdOn": "2020-01-10T01:17:49.627Z",
+        "modifiedOn": "2020-01-10T01:18:13.757Z",
+        "status": 2,
+        "comments": "",
+        "isAutomated": false,
+        "isNotificationOn": true,
+        "trialNumber": 2,
+        "attempt": 2,
+        "rank": 1,
+        "release": {
+          "id": 3017,
+          "name": "v0.20009.1-1",
+          "url": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/releases/3017",
+          "_links": {
+            "web": {
+              "href": "https://dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_release?releaseId=3017&_a=release-summary"
+            },
+            "self": {
+              "href": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/releases/3017"
+            }
+          }
+        },
+        "releaseDefinition": {
+          "id": 0,
+          "name": "Experta.Global.Infrastructure-CD",
+          "path": "\\",
+          "projectReference": null,
+          "url": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/definitions/0",
+          "_links": {
+            "web": {
+              "href": "https://dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_release?definitionId=0"
+            },
+            "self": {
+              "href": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/definitions/0"
+            }
+          }
+        },
+        "releaseEnvironment": {
+          "id": 8162,
+          "name": "Production",
+          "url": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/releases/3017/environments/8162",
+          "_links": {
+            "self": {
+              "href": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/releases/3017/environments/0"
+            }
+          }
+        },
+        "url": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/approvals/12105"
+      }
+    ],
+    "postDeployApprovals": [],
+    "_links": {}
+  },
+  {
+    "id": 4890,
+    "release": {
+      "id": 3017,
+      "name": "v0.20009.1-1",
+      "url": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/releases/3017",
+      "artifacts": [
+        {
+          "sourceId": "5b43050d-0a01-4269-ace5-9e22c920391c:202",
+          "type": "Build",
+          "alias": "_ExpertaGlobalInfrastructure-CI",
+          "definitionReference": {
+            "artifactSourceDefinitionUrl": {
+              "id": "https://dev.azure.com/experta/_permalink/_build/index?collectionId=5c1ffbb9-5cd9-44cf-9146-adc1f4914a36&projectId=5b43050d-0a01-4269-ace5-9e22c920391c&definitionId=202",
+              "name": ""
+            },
+            "branches": {
+              "id": "master",
+              "name": "master"
+            },
+            "buildUri": {
+              "id": "vstfs:///Build/Build/7824",
+              "name": null
+            },
+            "definition": {
+              "id": "202",
+              "name": "ExpertaGlobalInfrastructure-CI"
+            },
+            "IsMultiDefinitionType": {
+              "id": "False",
+              "name": "False"
+            },
+            "IsTriggeringArtifact": {
+              "id": "True",
+              "name": "True"
+            },
+            "IsXamlBuildArtifactType": {
+              "id": "False",
+              "name": null
+            },
+            "project": {
+              "id": "5b43050d-0a01-4269-ace5-9e22c920391c",
+              "name": "ExpertaSolutions"
+            },
+            "repository.provider": {
+              "id": "TfsGit",
+              "name": null
+            },
+            "repository": {
+              "id": "c5715740-1259-43ab-9da7-d4961f41c77b",
+              "name": "Infrastructure"
+            },
+            "requestedFor": {
+              "id": "Louis Turmel",
+              "name": null
+            },
+            "requestedForId": {
+              "id": "8cd125e5-fc56-4485-ad56-6d1df4e5cf1b",
+              "name": null
+            },
+            "sourceVersion": {
+              "id": "6f86c6abb2fbcc2289676308aed2c29ef390b6f6",
+              "name": null
+            },
+            "version": {
+              "id": "7824",
+              "name": "v0.20009.1"
+            },
+            "artifactSourceVersionUrl": {
+              "id": "https://dev.azure.com/experta/_permalink/_build/index?collectionId=5c1ffbb9-5cd9-44cf-9146-adc1f4914a36&projectId=5b43050d-0a01-4269-ace5-9e22c920391c&buildId=7824",
+              "name": ""
+            },
+            "branch": {
+              "id": "refs/heads/master",
+              "name": "refs/heads/master"
+            }
+          },
+          "isPrimary": true,
+          "isRetained": false
+        }
+      ],
+      "webAccessUri": "https://dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_release?releaseId=3017&_a=release-summary",
+      "_links": {
+        "self": {
+          "href": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/releases/3017"
+        },
+        "web": {
+          "href": "https://dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_release?releaseId=3017&_a=release-summary"
+        }
+      }
+    },
+    "releaseDefinition": {
+      "id": 18,
+      "name": "Experta.Global.Infrastructure-CD",
+      "path": "\\",
+      "projectReference": {
+        "id": "5b43050d-0a01-4269-ace5-9e22c920391c",
+        "name": null
+      },
+      "url": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/definitions/18",
+      "_links": {
+        "self": {
+          "href": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/definitions/18"
+        },
+        "web": {
+          "href": "https://dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_release?definitionId=18"
+        }
+      }
+    },
+    "releaseEnvironment": {
+      "id": 8161,
+      "name": "Development",
+      "url": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/releases/3017/environments/8161",
+      "_links": {
+        "self": {
+          "href": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/releases/3017/environments/8161"
+        },
+        "web": {
+          "href": "https://dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_release?releaseId=3017&_a=release-logs&environmentId=8161&releaseEnvironmentId=8161"
+        }
+      }
+    },
+    "projectReference": null,
+    "definitionEnvironmentId": 61,
+    "attempt": 2,
+    "reason": 1,
+    "deploymentStatus": 4,
+    "operationStatus": 8,
+    "requestedBy": {
+      "displayName": "Louis Turmel",
+      "url": "https://spsprodeus24.vssps.visualstudio.com/A23778808-86dd-40b9-8dde-4d11de479f82/_apis/Identities/8cd125e5-fc56-4485-ad56-6d1df4e5cf1b",
+      "_links": {
+        "avatar": {
+          "href": "https://dev.azure.com/experta/_apis/GraphProfile/MemberAvatars/aad.OTlkMTZlMzItY2FmOS03MGZjLWFhMmQtZmVhNzJmZWVhODg3"
+        }
+      },
+      "id": "8cd125e5-fc56-4485-ad56-6d1df4e5cf1b",
+      "uniqueName": "lturmel@expertasolutions.com",
+      "imageUrl": "https://dev.azure.com/experta/_apis/GraphProfile/MemberAvatars/aad.OTlkMTZlMzItY2FmOS03MGZjLWFhMmQtZmVhNzJmZWVhODg3",
+      "descriptor": "aad.OTlkMTZlMzItY2FmOS03MGZjLWFhMmQtZmVhNzJmZWVhODg3"
+    },
+    "requestedFor": {
+      "displayName": "Louis Turmel",
+      "url": "https://spsprodeus24.vssps.visualstudio.com/A23778808-86dd-40b9-8dde-4d11de479f82/_apis/Identities/8cd125e5-fc56-4485-ad56-6d1df4e5cf1b",
+      "_links": {
+        "avatar": {
+          "href": "https://dev.azure.com/experta/_apis/GraphProfile/MemberAvatars/aad.OTlkMTZlMzItY2FmOS03MGZjLWFhMmQtZmVhNzJmZWVhODg3"
+        }
+      },
+      "id": "8cd125e5-fc56-4485-ad56-6d1df4e5cf1b",
+      "uniqueName": "lturmel@expertasolutions.com",
+      "imageUrl": "https://dev.azure.com/experta/_apis/GraphProfile/MemberAvatars/aad.OTlkMTZlMzItY2FmOS03MGZjLWFhMmQtZmVhNzJmZWVhODg3",
+      "descriptor": "aad.OTlkMTZlMzItY2FmOS03MGZjLWFhMmQtZmVhNzJmZWVhODg3"
+    },
+    "queuedOn": "2020-01-09T22:43:10.917Z",
+    "startedOn": "2020-01-09T22:43:17.287Z",
+    "completedOn": "2020-01-09T23:02:24.780Z",
+    "lastModifiedOn": "2020-01-09T23:02:24.780Z",
+    "lastModifiedBy": {
+      "displayName": "Microsoft.VisualStudio.Services.ReleaseManagement",
+      "id": "0000000d-0000-8888-8000-000000000000",
+      "uniqueName": "0000000d-0000-8888-8000-000000000000@2c895908-04e0-4952-89fd-54b0046d6288",
+      "descriptor": "s2s.MDAwMDAwMGQtMDAwMC04ODg4LTgwMDAtMDAwMDAwMDAwMDAwQDJjODk1OTA4LTA0ZTAtNDk1Mi04OWZkLTU0YjAwNDZkNjI4OA"
+    },
+    "conditions": [
+      {
+        "result": true,
+        "name": "Foundation",
+        "conditionType": 2,
+        "value": "4"
+      }
+    ],
+    "preDeployApprovals": [
+      {
+        "id": 12101,
+        "revision": 1,
+        "approvalType": 1,
+        "createdOn": "2020-01-09T22:43:12.017Z",
+        "modifiedOn": "2020-01-09T22:43:12.023Z",
+        "status": 2,
+        "comments": "",
+        "isAutomated": true,
+        "isNotificationOn": false,
+        "trialNumber": 2,
+        "attempt": 2,
+        "rank": 1,
+        "release": {
+          "id": 3017,
+          "name": "v0.20009.1-1",
+          "url": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/releases/3017",
+          "_links": {
+            "web": {
+              "href": "https://dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_release?releaseId=3017&_a=release-summary"
+            },
+            "self": {
+              "href": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/releases/3017"
+            }
+          }
+        },
+        "releaseDefinition": {
+          "id": 0,
+          "name": "Experta.Global.Infrastructure-CD",
+          "path": "\\",
+          "projectReference": null,
+          "url": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/definitions/0",
+          "_links": {
+            "web": {
+              "href": "https://dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_release?definitionId=0"
+            },
+            "self": {
+              "href": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/definitions/0"
+            }
+          }
+        },
+        "releaseEnvironment": {
+          "id": 8161,
+          "name": "Development",
+          "url": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/releases/3017/environments/8161",
+          "_links": {
+            "self": {
+              "href": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/releases/3017/environments/0"
+            }
+          }
+        },
+        "url": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/approvals/12101"
+      }
+    ],
+    "postDeployApprovals": [
+      {
+        "id": 12103,
+        "revision": 1,
+        "approvalType": 2,
+        "createdOn": "2020-01-09T23:02:24.750Z",
+        "modifiedOn": "2020-01-09T23:02:24.760Z",
+        "status": 2,
+        "comments": "",
+        "isAutomated": true,
+        "isNotificationOn": false,
+        "trialNumber": 2,
+        "attempt": 2,
+        "rank": 3,
+        "release": {
+          "id": 3017,
+          "name": "v0.20009.1-1",
+          "url": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/releases/3017",
+          "_links": {
+            "web": {
+              "href": "https://dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_release?releaseId=3017&_a=release-summary"
+            },
+            "self": {
+              "href": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/releases/3017"
+            }
+          }
+        },
+        "releaseDefinition": {
+          "id": 0,
+          "name": "Experta.Global.Infrastructure-CD",
+          "path": "\\",
+          "projectReference": null,
+          "url": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/definitions/0",
+          "_links": {
+            "web": {
+              "href": "https://dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_release?definitionId=0"
+            },
+            "self": {
+              "href": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/definitions/0"
+            }
+          }
+        },
+        "releaseEnvironment": {
+          "id": 8161,
+          "name": "Development",
+          "url": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/releases/3017/environments/8161",
+          "_links": {
+            "self": {
+              "href": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/releases/3017/environments/0"
+            }
+          }
+        },
+        "url": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/approvals/12103"
+      }
+    ],
+    "_links": {}
+  },
+  {
+    "id": 4888,
+    "release": {
+      "id": 3017,
+      "name": "v0.20009.1-1",
+      "url": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/releases/3017",
+      "artifacts": [
+        {
+          "sourceId": "5b43050d-0a01-4269-ace5-9e22c920391c:202",
+          "type": "Build",
+          "alias": "_ExpertaGlobalInfrastructure-CI",
+          "definitionReference": {
+            "artifactSourceDefinitionUrl": {
+              "id": "https://dev.azure.com/experta/_permalink/_build/index?collectionId=5c1ffbb9-5cd9-44cf-9146-adc1f4914a36&projectId=5b43050d-0a01-4269-ace5-9e22c920391c&definitionId=202",
+              "name": ""
+            },
+            "branches": {
+              "id": "master",
+              "name": "master"
+            },
+            "buildUri": {
+              "id": "vstfs:///Build/Build/7824",
+              "name": null
+            },
+            "definition": {
+              "id": "202",
+              "name": "ExpertaGlobalInfrastructure-CI"
+            },
+            "IsMultiDefinitionType": {
+              "id": "False",
+              "name": "False"
+            },
+            "IsTriggeringArtifact": {
+              "id": "True",
+              "name": "True"
+            },
+            "IsXamlBuildArtifactType": {
+              "id": "False",
+              "name": null
+            },
+            "project": {
+              "id": "5b43050d-0a01-4269-ace5-9e22c920391c",
+              "name": "ExpertaSolutions"
+            },
+            "repository.provider": {
+              "id": "TfsGit",
+              "name": null
+            },
+            "repository": {
+              "id": "c5715740-1259-43ab-9da7-d4961f41c77b",
+              "name": "Infrastructure"
+            },
+            "requestedFor": {
+              "id": "Louis Turmel",
+              "name": null
+            },
+            "requestedForId": {
+              "id": "8cd125e5-fc56-4485-ad56-6d1df4e5cf1b",
+              "name": null
+            },
+            "sourceVersion": {
+              "id": "6f86c6abb2fbcc2289676308aed2c29ef390b6f6",
+              "name": null
+            },
+            "version": {
+              "id": "7824",
+              "name": "v0.20009.1"
+            },
+            "artifactSourceVersionUrl": {
+              "id": "https://dev.azure.com/experta/_permalink/_build/index?collectionId=5c1ffbb9-5cd9-44cf-9146-adc1f4914a36&projectId=5b43050d-0a01-4269-ace5-9e22c920391c&buildId=7824",
+              "name": ""
+            },
+            "branch": {
+              "id": "refs/heads/master",
+              "name": "refs/heads/master"
+            }
+          },
+          "isPrimary": true,
+          "isRetained": false
+        }
+      ],
+      "webAccessUri": "https://dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_release?releaseId=3017&_a=release-summary",
+      "_links": {
+        "self": {
+          "href": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/releases/3017"
+        },
+        "web": {
+          "href": "https://dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_release?releaseId=3017&_a=release-summary"
+        }
+      }
+    },
+    "releaseDefinition": {
+      "id": 18,
+      "name": "Experta.Global.Infrastructure-CD",
+      "path": "\\",
+      "projectReference": {
+        "id": "5b43050d-0a01-4269-ace5-9e22c920391c",
+        "name": null
+      },
+      "url": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/definitions/18",
+      "_links": {
+        "self": {
+          "href": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/definitions/18"
+        },
+        "web": {
+          "href": "https://dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_release?definitionId=18"
+        }
+      }
+    },
+    "releaseEnvironment": {
+      "id": 8160,
+      "name": "Foundation",
+      "url": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/releases/3017/environments/8160",
+      "_links": {
+        "self": {
+          "href": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/releases/3017/environments/8160"
+        },
+        "web": {
+          "href": "https://dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_release?releaseId=3017&_a=release-logs&environmentId=8160&releaseEnvironmentId=8160"
+        }
+      }
+    },
+    "projectReference": null,
+    "definitionEnvironmentId": 67,
+    "attempt": 1,
+    "reason": 2,
+    "deploymentStatus": 4,
+    "operationStatus": 8,
+    "requestedBy": {
+      "displayName": "Microsoft.VisualStudio.Services.ReleaseManagement",
+      "id": "0000000d-0000-8888-8000-000000000000",
+      "uniqueName": "0000000d-0000-8888-8000-000000000000@2c895908-04e0-4952-89fd-54b0046d6288",
+      "descriptor": "s2s.MDAwMDAwMGQtMDAwMC04ODg4LTgwMDAtMDAwMDAwMDAwMDAwQDJjODk1OTA4LTA0ZTAtNDk1Mi04OWZkLTU0YjAwNDZkNjI4OA"
+    },
+    "requestedFor": {
+      "displayName": "Louis Turmel",
+      "url": "https://spsprodeus24.vssps.visualstudio.com/A23778808-86dd-40b9-8dde-4d11de479f82/_apis/Identities/8cd125e5-fc56-4485-ad56-6d1df4e5cf1b",
+      "_links": {
+        "avatar": {
+          "href": "https://dev.azure.com/experta/_apis/GraphProfile/MemberAvatars/aad.OTlkMTZlMzItY2FmOS03MGZjLWFhMmQtZmVhNzJmZWVhODg3"
+        }
+      },
+      "id": "8cd125e5-fc56-4485-ad56-6d1df4e5cf1b",
+      "uniqueName": "lturmel@expertasolutions.com",
+      "imageUrl": "https://dev.azure.com/experta/_apis/GraphProfile/MemberAvatars/aad.OTlkMTZlMzItY2FmOS03MGZjLWFhMmQtZmVhNzJmZWVhODg3",
+      "descriptor": "aad.OTlkMTZlMzItY2FmOS03MGZjLWFhMmQtZmVhNzJmZWVhODg3"
+    },
+    "queuedOn": "2020-01-09T22:28:28.513Z",
+    "startedOn": "2020-01-09T22:28:31.963Z",
+    "completedOn": "2020-01-09T22:29:02.450Z",
+    "lastModifiedOn": "2020-01-09T22:29:02.450Z",
+    "lastModifiedBy": {
+      "displayName": "Microsoft.VisualStudio.Services.ReleaseManagement",
+      "id": "0000000d-0000-8888-8000-000000000000",
+      "uniqueName": "0000000d-0000-8888-8000-000000000000@2c895908-04e0-4952-89fd-54b0046d6288",
+      "descriptor": "s2s.MDAwMDAwMGQtMDAwMC04ODg4LTgwMDAtMDAwMDAwMDAwMDAwQDJjODk1OTA4LTA0ZTAtNDk1Mi04OWZkLTU0YjAwNDZkNjI4OA"
+    },
+    "conditions": [
+      {
+        "result": true,
+        "name": "ReleaseStarted",
+        "conditionType": 1,
+        "value": ""
+      }
+    ],
+    "preDeployApprovals": [
+      {
+        "id": 12096,
+        "revision": 1,
+        "approvalType": 1,
+        "createdOn": "2020-01-09T22:28:29.187Z",
+        "modifiedOn": "2020-01-09T22:28:29.200Z",
+        "status": 2,
+        "comments": "",
+        "isAutomated": true,
+        "isNotificationOn": false,
+        "trialNumber": 1,
+        "attempt": 1,
+        "rank": 1,
+        "release": {
+          "id": 3017,
+          "name": "v0.20009.1-1",
+          "url": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/releases/3017",
+          "_links": {
+            "web": {
+              "href": "https://dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_release?releaseId=3017&_a=release-summary"
+            },
+            "self": {
+              "href": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/releases/3017"
+            }
+          }
+        },
+        "releaseDefinition": {
+          "id": 0,
+          "name": "Experta.Global.Infrastructure-CD",
+          "path": "\\",
+          "projectReference": null,
+          "url": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/definitions/0",
+          "_links": {
+            "web": {
+              "href": "https://dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_release?definitionId=0"
+            },
+            "self": {
+              "href": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/definitions/0"
+            }
+          }
+        },
+        "releaseEnvironment": {
+          "id": 8160,
+          "name": "Foundation",
+          "url": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/releases/3017/environments/8160",
+          "_links": {
+            "self": {
+              "href": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/releases/3017/environments/0"
+            }
+          }
+        },
+        "url": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/approvals/12096"
+      }
+    ],
+    "postDeployApprovals": [
+      {
+        "id": 12098,
+        "revision": 1,
+        "approvalType": 2,
+        "createdOn": "2020-01-09T22:29:02.427Z",
+        "modifiedOn": "2020-01-09T22:29:02.433Z",
+        "status": 2,
+        "comments": "",
+        "isAutomated": true,
+        "isNotificationOn": false,
+        "trialNumber": 1,
+        "attempt": 1,
+        "rank": 3,
+        "release": {
+          "id": 3017,
+          "name": "v0.20009.1-1",
+          "url": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/releases/3017",
+          "_links": {
+            "web": {
+              "href": "https://dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_release?releaseId=3017&_a=release-summary"
+            },
+            "self": {
+              "href": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/releases/3017"
+            }
+          }
+        },
+        "releaseDefinition": {
+          "id": 0,
+          "name": "Experta.Global.Infrastructure-CD",
+          "path": "\\",
+          "projectReference": null,
+          "url": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/definitions/0",
+          "_links": {
+            "web": {
+              "href": "https://dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_release?definitionId=0"
+            },
+            "self": {
+              "href": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/definitions/0"
+            }
+          }
+        },
+        "releaseEnvironment": {
+          "id": 8160,
+          "name": "Foundation",
+          "url": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/releases/3017/environments/8160",
+          "_links": {
+            "self": {
+              "href": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/releases/3017/environments/0"
+            }
+          }
+        },
+        "url": "https://vsrm.dev.azure.com/experta/5b43050d-0a01-4269-ace5-9e22c920391c/_apis/Release/approvals/12098"
+      }
+    ],
+    "_links": {}
+  }
+]
