@@ -176,8 +176,6 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
     ) != null
   );
 
-  let children = [];
-
   let releaseReferences = Array<ReleaseReference>();
   for(let i=0;i<deploys.length;i++) {
     let dep = deploys[i];
@@ -187,7 +185,7 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
   }
 
   let content = [];
-
+  let children = [];
   let lastRelease = Array<string>();
   for(let relRef=0;relRef<releaseReferences.length;relRef++){
     let relRefInfo = releaseReferences[relRef];
@@ -226,6 +224,7 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
     if(deploys.length > 0) {
       content.push(<div><b>{relRefInfo.name}-{relRefInfo.id}</b><p><PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{children}</PillGroup></p></div>);
     }
+    children = [];
   }
 
   if(releaseReferences.length > 0){
