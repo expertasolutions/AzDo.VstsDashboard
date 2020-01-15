@@ -207,13 +207,12 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
       let env = lastRelease.find(x => x === envName);
       console.log("ENV: " + JSON.stringify(env) + " for " + envName);
       if(env === undefined) {
-        console.log('Add it to lastRelease array');
         lastRelease.push(lastDep.releaseEnvironment.name);
-        console.log("lastRelease Array = " + JSON.stringify(lastRelease));
-
         let relStatusInfo = getReleaseStatus(lastDep);
         children.push(<Pill color={relStatusInfo.color} variant={PillVariant.colored}>
           <Status {...relStatusInfo.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{lastDep.releaseEnvironment.name}-{lastDep.releaseEnvironment.id}-{lastDep.release.id}</Pill>)
+      } else {
+        console.log(lastDep.releaseEnvironment.name + " already found for " + lastDep.releaseEnvironment.id);
       }
     }
     
