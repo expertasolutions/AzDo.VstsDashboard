@@ -199,7 +199,7 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
       
       let lastDeploys = releaseDeploys.filter(x=> x.releaseEnvironment.name === dep.releaseEnvironment.name)
                                       .sort((x,y) => {
-                                        return x.releaseEnvironment.id - x.releaseEnvironment.id;  
+                                        return x.releaseEnvironment.id - y.releaseEnvironment.id;  
                                         //return y.startedOn.getDate() - x.startedOn.getDate();
                                       });
 
