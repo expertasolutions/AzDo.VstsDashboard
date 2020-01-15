@@ -187,7 +187,6 @@ class CICDDashboard extends React.Component<{}, {}> {
             tabSize={TabSize.Tall}>
             <Tab name="Summary" id="summary"/>
             <Tab name="Runs" id="builds"/>
-            <Tab name="Raw Data" id="data"/>
           </TabBar>
           <FilterBar filter={this.filter}>
             <KeywordFilterBarItem filterItemKey="Placeholder" />
