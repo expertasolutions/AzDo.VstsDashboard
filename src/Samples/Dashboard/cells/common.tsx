@@ -200,10 +200,10 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
       let lastDeploys = releaseDeploys.filter(x=> x.releaseEnvironment.name === dep.releaseEnvironment.name)
                                       .sort((x,y) => {
                                         if(x.releaseDefinition.id > y.releaseDefinition.id){
-                                          return 1;
+                                          return -1;
                                         }
                                         else if(x.releaseDefinition.id < y.releaseDefinition.id) {
-                                          return -1;
+                                          return 1;
                                         }
                                         return 0;
                                       });
