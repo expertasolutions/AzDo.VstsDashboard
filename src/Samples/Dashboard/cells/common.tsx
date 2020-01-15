@@ -191,12 +191,12 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
     let relRefInfo = releaseReferences[relRef];
     lastRelease = Array<string>();
     let releaseDeploys = deploys.filter(x=> x.release.id == relRefInfo.id);
-    console.log(relRefInfo.id + " = " + JSON.stringify(releaseDeploys));
+    //console.log(relRefInfo.id + " = " + JSON.stringify(releaseDeploys));
 
     for(let i=0;i<releaseDeploys.length;i++) {
       let dep = releaseDeploys[i];
-      children.push(<Pill>{dep.releaseEnvironment.name}-{dep.releaseEnvironment.id}-{dep.release.id}</Pill>);
-      /*
+      //children.push(<Pill>{dep.releaseEnvironment.name}-{dep.releaseEnvironment.id}-{dep.release.id}</Pill>);
+      
       let lastDeploys = releaseDeploys.filter(x=> x.releaseEnvironment.name === dep.releaseEnvironment.name)
                                       .sort((x,y) => {
                                         return x.startedOn.getDate() - y.startedOn.getDate();
@@ -214,11 +214,7 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
         let relStatusInfo = getReleaseStatus(lastDep);
         children.push(<Pill color={relStatusInfo.color} variant={PillVariant.colored}>
           <Status {...relStatusInfo.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{lastDep.releaseEnvironment.name}-{lastDep.releaseEnvironment.id}-{lastDep.release.id}</Pill>)
-       
-      } else {
-        console.log("FOUND: " + JSON.stringify(lastRelease));
       }
-       */
     }
     
     if(deploys.length > 0) {
