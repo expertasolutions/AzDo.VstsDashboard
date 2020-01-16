@@ -166,7 +166,7 @@ export function getPipelineIndicator(result: BuildResult, status:BuildStatus) : 
   return indicatorData;
 }
 
-export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>, all: boolean = false) {
+export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>, all: boolean) {
   let deploys = releases.filter(
     x=> x.release.artifacts.find(
       a=> {
@@ -209,11 +209,11 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
         console.log(lastDep.releaseEnvironment.name + " already found for " + lastDep.releaseEnvironment.id);
       }
     }
-    
+    /*
     if(all === false) {
       relRef = releaseReferences.length;
     }
-
+    */
     if(deploys.length > 0) {
       content.push(<div><b>{relRefInfo.name}-{relRefInfo.id}</b><p><PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{children}</PillGroup></p></div>);
     }
