@@ -99,7 +99,6 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   public loadProjects() {
     getProjects().then(result => {
-      console.log(JSON.stringify(result));
       this.setState( { projects: result });
       //this.setState( { projects: result.sort((x1, x2) => x1.name > x2.name ? 1: 0) });
     });
@@ -141,16 +140,13 @@ class CICDDashboard extends React.Component<{}, {}> {
         <Observer itemProvider={this.buildReferenceProvider}>
           {(observableProps: {itemProvider: ArrayItemProvider<BuildDefinitionReference> }) => {
             if(observableProps.itemProvider.length > 0) {
-              return
-              (
                 <Table<BuildDefinitionReference> columns={dashboardColumns} 
                     itemProvider={observableProps.itemProvider}
                     showLines={true}
                     role="table"/>
-              )
             }
             else {
-              return (<div>no data</div>)
+              (<div>no data</div>)
             }
           }}
         </Observer>
