@@ -166,7 +166,7 @@ export function getPipelineIndicator(result: BuildResult, status:BuildStatus) : 
   return indicatorData;
 }
 
-export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>, all: boolean) {
+export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>) {
   let deploys = releases.filter(
     x=> x.release.artifacts.find(
       a=> {
