@@ -148,23 +148,9 @@ class CICDDashboard extends React.Component<{}, {}> {
           )}
         </Observer>
       )
-    } else if(tabId === "data"){
-      return this.renderData();
     } else {
       return (<div>{tabId}</div>)
     }
-  }
-
-  private renderData() {
-    let releaseDataJson = JSON.stringify(this.state.releases);
-    return (
-      <div>
-        <div>
-          <h2>Release - {this.state.releases.length}</h2>
-          <p>{releaseDataJson}</p>
-        </div>
-      </div>
-    )
   }
 
   public render() : JSX.Element {
@@ -205,7 +191,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                   {(props: { selectedTabId: string }) => {
                     return (
                       <div style={{ marginTop: "16px;"}}>
-                          {this.renderTab(props.selectedTabId)}
+                          
                       </div>
                     )
                   }}
