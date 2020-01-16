@@ -80,29 +80,13 @@ class CICDDashboard extends React.Component<{}, {}> {
     });
 
     getReleases(projectName).then(result => {
-      /*
-      let releaseList = Array<Deployment>();
-      for(let i=0;i<result.length;i++) {
-        let newRelease = result[i];
-        let currentRelease = releaseList.find(x=> x.id === newRelease.id);
-        if(currentRelease === undefined) {
-          releaseList.push(newRelease);
-        } else {
-          currentRelease = newRelease;
-        }
-      }
-      */
       this.setState({releases: result });
     });
   }
 
-
-
   public loadProjects() {
     getProjects().then(result => {
-      //let prjs = result.sort((a,b) => a.name.localeCompare(b.name));
       this.setState( { projects: result });
-      //this.setState( { projects: result.sort((x1, x2) => x1.name > x2.name ? 1: 0) });
     });
     /*
 
@@ -125,7 +109,7 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   public componentDidMount() {
     SDK.init();
-    //this.loadProjects();
+    this.loadProjects();
   }
 
   private buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(this.state.buildDefs));
@@ -140,7 +124,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     if(tabId === "summary") {
       return (
         <Observer itemProvider={this.buildReferenceProvider}>
-          {(observableProps: {itemProvider: ArrayItemProvider<BuildDefinitionReference> }) => {
+          {(observableProps: {itemProvider: ArrayItemProvider<BuildDefinitionReference> }) => 
             //if(observableProps.itemProvider.length > 0) {
                 <Table<BuildDefinitionReference> columns={dashboardColumns} 
                     itemProvider={observableProps.itemProvider}
@@ -150,7 +134,7 @@ class CICDDashboard extends React.Component<{}, {}> {
             //else {
             //  (<div>no data</div>)
             //}
-          }}
+          }
         </Observer>
       )
     } else if(tabId === "builds") {
