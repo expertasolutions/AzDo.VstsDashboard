@@ -27,6 +27,7 @@ import { Header, TitleSize } from "azure-devops-ui/Header";
 import { IListBoxItem } from "azure-devops-ui/ListBox";
 import { Filter, FilterOperatorType, FILTER_CHANGE_EVENT } from "azure-devops-ui/Utilities/Filter";
 import { FilterBar } from "azure-devops-ui/FilterBar";
+import { ZeroData, ZeroDataActionType } from "azure-devops-ui/ZeroData";
 
 class CICDDashboard extends React.Component<{}, {}> {
   private selectedTabId = new ObservableValue("summary");
@@ -99,7 +100,8 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   public loadProjects() {
     getProjects().then(result => {
-      this.setState( { projects: result.sort((a,b) => a.name.localeCompare(b.name)) });
+      let prjs = result.sort((a,b) => a.name.localeCompare(b.name));
+      this.setState( { projects: prjs });
       //this.setState( { projects: result.sort((x1, x2) => x1.name > x2.name ? 1: 0) });
     });
     /*
@@ -146,7 +148,20 @@ class CICDDashboard extends React.Component<{}, {}> {
                     role="table"/>
             }
             else {
-              (<div>no data</div>)
+              (<ZeroData primaryText="Primary Text"
+                        secondaryText={
+                          <span>
+                              This secondary text contains{" "}
+                              <a rel="nofollow noopener" target="_blank" href="https://bing.com">
+                                  a link
+                              </a>{" "}
+                              to somewhere else. Lorem ipsum dolor sit amet, consectetur adipiscing
+                              elit.
+                          </span>
+                        }
+                        imageAltText="Bars"
+                        imagePath="/bars.png"
+                      />)
             }
           }}
         </Observer>
