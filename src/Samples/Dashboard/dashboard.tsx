@@ -139,10 +139,14 @@ class CICDDashboard extends React.Component<{}, {}> {
       return (
         <Observer itemProvider={this.buildReferenceProvider}>
           {(observableProps: {itemProvider: ArrayItemProvider<BuildDefinitionReference> }) => (
-            <Table<BuildDefinitionReference> columns={dashboardColumns} 
-                itemProvider={observableProps.itemProvider}
-                showLines={true}
-                role="table"/>
+            <div>
+              <div>Item Count: {observableProps.itemProvider.length}</div>
+
+              <Table<BuildDefinitionReference> columns={dashboardColumns} 
+                  itemProvider={observableProps.itemProvider}
+                  showLines={true}
+                  role="table"/>
+            </div>
           )}
         </Observer>
       )
