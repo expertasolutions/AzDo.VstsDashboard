@@ -191,7 +191,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                   {(props: { selectedTabId: string }) => {
                     return (
                       <div style={{ marginTop: "16px;"}}>
-                          
+                          { this.renderTab(props.selectedTabId)}
                       </div>
                     )
                   }}
