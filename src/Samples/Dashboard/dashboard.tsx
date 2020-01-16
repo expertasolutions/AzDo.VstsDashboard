@@ -148,20 +148,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                     role="table"/>
             }
             else {
-              (<ZeroData primaryText="Primary Text"
-                        secondaryText={
-                          <span>
-                              This secondary text contains{" "}
-                              <a rel="nofollow noopener" target="_blank" href="https://bing.com">
-                                  a link
-                              </a>{" "}
-                              to somewhere else. Lorem ipsum dolor sit amet, consectetur adipiscing
-                              elit.
-                          </span>
-                        }
-                        imageAltText="Bars"
-                        imagePath="/bars.png"
-                      />)
+              (<div>no data</div>)
             }
           }}
         </Observer>
