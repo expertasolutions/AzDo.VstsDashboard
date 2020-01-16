@@ -122,7 +122,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   }
 
   public componentDidMount() {
-    SDK.init();
+    //SDK.init();
     //this.loadProjects();
   }
 
