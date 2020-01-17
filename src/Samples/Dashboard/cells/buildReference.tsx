@@ -81,7 +81,7 @@ export function renderLastBuild01(
           tableColumn={tableColumn}
           line1={WithIcon({
               className: "fontSize font-size",
-              iconProps: { iconName: "Branch" },
+              iconProps: { iconName: "BranchMerge" },
               children: (
                   <div>{lastBuild.sourceBranch}</div>
               )

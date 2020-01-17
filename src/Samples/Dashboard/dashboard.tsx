@@ -110,7 +110,27 @@ class CICDDashboard extends React.Component<{}, {}> {
                 );
               }
               else {
-                return (<div>no data</div>)
+                return (
+                  <ZeroData
+                    primaryText="This is the primary text"
+                    secondaryText={
+                      <span>
+                        This secondary text contains{" "}
+                        <a
+                          rel="nofollow noopener"
+                          target="_blank"
+                          href="https://bing.com"
+                        >
+                          a link
+                        </a>{" "}
+                        to somewhere else. Lorem ipsum dolor sit amet, consectetur
+                        adipiscing elit.
+                      </span>
+                    }
+                    imageAltText="Bars"
+                    imagePath="./icon.png"
+                  />
+                )
               }
             }
           }
