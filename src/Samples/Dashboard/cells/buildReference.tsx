@@ -58,7 +58,7 @@ export function renderBuildRef02 (
       key={"col-" + columnIndex}
       columnIndex={columnIndex}
       tableColumn={tableColumn}
-      line1={<div><b>tableItem.name</b></div>}
+      line1={<div><b>{tableItem.name}</b></div>}
       line2={content}
     />
   )
