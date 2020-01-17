@@ -86,7 +86,8 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   public loadProjects() {
     getProjects().then(result => {
-      this.setState( { projects: result });
+      let projs = result.sort((a,b) => a.name.localeCompare(b.name) );
+      this.setState( { projects: projs });
     });
     /*
 
