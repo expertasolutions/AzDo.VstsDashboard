@@ -205,7 +205,7 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
         lastRelease.push(lastDep.releaseEnvironment.name);
         let relStatusInfo = getReleaseStatus(lastDep);
         children.push(<Pill color={relStatusInfo.color} variant={PillVariant.colored}>
-          <Status {...relStatusInfo.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{lastDep.releaseEnvironment.name}-{lastDep.releaseEnvironment.id}-{lastDep.release.id}</Pill>)
+          <Status {...relStatusInfo.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{lastDep.releaseEnvironment.name}</Pill>)
       } else {
         console.log(lastDep.releaseEnvironment.name + " already found for " + lastDep.releaseEnvironment.id);
       }
