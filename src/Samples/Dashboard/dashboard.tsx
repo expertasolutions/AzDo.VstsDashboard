@@ -127,10 +127,12 @@ class CICDDashboard extends React.Component<{}, {}> {
           {(observableProps: {itemProvider: ArrayItemProvider<BuildDefinitionReference> }) => 
             {
               if(observableProps.itemProvider.length > 0) {
+                return (
                   <Table<BuildDefinitionReference> columns={dashboardColumns} 
                       itemProvider={observableProps.itemProvider}
                       showLines={true}
                       role="table"/>
+                );
               //}
               //else {
               //  (<div>no data</div>)
