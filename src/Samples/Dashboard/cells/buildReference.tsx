@@ -36,9 +36,32 @@ export function renderBuildRef01 (
             <Status {...getBuildDefinitionStatus(tableItem).statusProps}
                     className="icon-large-margin"
                     size={StatusSize.l}/>
-          <div>{tableItem.name}</div>
       </SimpleTableCell>
   );
+}
+
+export function renderBuildRef02 (
+  rowIndex: number,
+  columnIndex: number,
+  tableColumn: ITableColumn<BuildDefinitionReference>,
+  tableItem: BuildDefinitionReference
+) {
+  let lastBuild = tableItem.latestBuild;
+  let content = (<div>Not found</div>)
+  if(lastBuild === undefined){
+    content = (<div>not found</div>);
+  } else {
+    content = <div>{lastBuild.buildNumber}</div>
+  }
+  return (
+    <TwoLineTableCell
+      key={"col-" + columnIndex}
+      columnIndex={columnIndex}
+      tableColumn={tableColumn}
+      line1={<div><b>tableItem.name</b></div>}
+      line2={content}
+    />
+  )
 }
 
 export function renderLastBuild01(
@@ -58,9 +81,9 @@ export function renderLastBuild01(
           tableColumn={tableColumn}
           line1={WithIcon({
               className: "fontSize font-size",
-              iconProps: { iconName: "Build" },
+              iconProps: { iconName: "Branch" },
               children: (
-                  <div>{lastBuild.buildNumber}</div>
+                  <div>{lastBuild.sourceBranch}</div>
               )
           })}
           line2={WithIcon({
