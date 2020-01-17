@@ -133,9 +133,9 @@ class CICDDashboard extends React.Component<{}, {}> {
                       showLines={true}
                       role="table"/>
                 );
-              //}
-              //else {
-              //  (<div>no data</div>)
+              }
+              else {
+                return (<div>no data</div>)
               }
             }
           }
