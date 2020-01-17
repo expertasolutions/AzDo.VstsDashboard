@@ -82,17 +82,9 @@ class CICDDashboard extends React.Component<{}, {}> {
     getReleases(projectName).then(result => {
       this.setState({releases: result });
     });
-  }
-
-  public loadProjects() {
-    getProjects().then(result => {
-      let projs = result.sort((a,b) => a.name.localeCompare(b.name) );
-      this.setState( { projects: projs });
-    });
-    /*
 
     // Update Builds Runs list...
-    getBuilds(this.projectName).then(result=> {
+    getBuilds(projectName).then(result=> {
       let buildsList = this.state.builds;
       for(let i=0;i<result.length;i++){
         let newBuild = result[i];
@@ -105,7 +97,13 @@ class CICDDashboard extends React.Component<{}, {}> {
       }
       this.setState({ builds: buildsList });
     });
-    */
+  }
+
+  public loadProjects() {
+    getProjects().then(result => {
+      let projs = result.sort((a,b) => a.name.localeCompare(b.name) );
+      this.setState( { projects: projs });
+    });
   }
 
   public componentDidMount() {
