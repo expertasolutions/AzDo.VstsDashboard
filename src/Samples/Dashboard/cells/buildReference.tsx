@@ -56,7 +56,7 @@ export function renderLastBuild01 (
                             className: "fontSize font-size",
                             iconProps: { iconName: "BranchMerge" },
                             children: (
-                                <div>{lastBuild.sourceBranch}</div>
+                                <div>{lastBuild.sourceBranch.replace('refs/heads/','')}</div>
                             )
                           });
   }
@@ -71,39 +71,6 @@ export function renderLastBuild01 (
   )
 }
 
-export function renderLastBuildTDB (
-  rowIndex: number,
-  columnIndex: number,
-  tableColumn: ITableColumn<BuildDefinitionReference>,
-  tableItem: BuildDefinitionReference
-): JSX.Element {
-  let lastBuild = tableItem.latestBuild;
-  if(lastBuild === undefined){
-    return (<div>not found</div>);
-  }
-  return (
-      <TwoLineTableCell
-          key={"col-" + columnIndex}
-          columnIndex={columnIndex}
-          tableColumn={tableColumn}
-          line1={WithIcon({
-              className: "fontSize font-size",
-              iconProps: { iconName: "BranchMerge" },
-              children: (
-                  <div>na</div>
-              )
-          })}
-          line2={WithIcon({
-              className: "fontSize font-size bolt-table-two-line-cell-item",
-              iconProps: { iconName: "People" },
-              children: (
-                <div>{lastBuild.requestedFor!.displayName}</div>
-              )
-          })}
-      />
-  );
-}
-
 export function renderLastBuild02(
   rowIndex: number,
   columnIndex: number,
@@ -111,6 +78,35 @@ export function renderLastBuild02(
   tableItem: BuildDefinitionReference
 ): JSX.Element {
   let lastBuildRun = tableItem.latestBuild;
+
+  let requestByCtrl = (<div></div>);
+  let buildTimeCtrl = (<div></div>);
+  if(lastBuildRun != undefined) {
+    requestByCtrl = WithIcon({
+                        className: "fontSize font-size bolt-table-two-line-cell-item",
+                        iconProps: { iconName: "People" },
+                        children: (
+                          <div>{lastBuildRun.requestedFor!.displayName}</div>
+                        )
+                    });
+    buildTimeCtrl = (<div>{WithIcon({
+                              className: "fontSize font-size",
+                              iconProps: { iconName: "Calendar" },
+                              children: (
+                                  <Ago date={lastBuildRun.startTime!} />
+                              )
+                          })} - {
+                            WithIcon({
+                                className: "fontSize font-size bolt-table-two-line-cell-item",
+                                iconProps: { iconName: "Clock" },
+                                children: (
+                                    <Duration startDate={lastBuildRun.startTime} endDate={lastBuildRun.finishTime} />
+                                )
+                            })
+                          }
+                    </div>)
+  }
+
   if(lastBuildRun === undefined) {
     return <TwoLineTableCell
           key={"col-" + columnIndex}
@@ -157,21 +153,8 @@ export function renderLastBuild02(
           key={"col-" + columnIndex}
           columnIndex={columnIndex}
           tableColumn={tableColumn}
-          line1={WithIcon({
-              className: "fontSize font-size",
-              iconProps: { iconName: "Calendar" },
-              children: (
-                  <Ago date={lastBuildRun.startTime!} />
-              )
-          })}
-          line2={
-            WithIcon({
-              className: "fontSize font-size bolt-table-two-line-cell-item",
-              iconProps: { iconName: "Clock" },
-              children: (
-                  <Duration startDate={lastBuildRun.startTime} endDate={lastBuildRun.finishTime} />
-              )
-          })}
+          line1={requestByCtrl}
+          line2={buildTimeCtrl}
       />
   );
 }
