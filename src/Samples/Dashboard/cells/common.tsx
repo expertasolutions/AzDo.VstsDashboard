@@ -190,7 +190,8 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
   for(let relRef=0;relRef<releaseReferences.length;relRef++){
     let relRefInfo = releaseReferences[relRef];
     lastRelease = Array<string>();
-    let releaseDeploys = deploys.filter(x=> x.release.id == relRefInfo.id);
+    let releaseDeploys = deploys.filter(x=> x.release.id == relRefInfo.id)
+                         .sort((a,b)=> a.releaseEnvironment.id - b.releaseEnvironment.id);
 
     for(let i=0;i<releaseDeploys.length;i++) {
       let dep = releaseDeploys[i];
