@@ -39,5 +39,10 @@ export async function getBuildDefinitions(projectName: string) {
                                               undefined, undefined, undefined,undefined, undefined,
                                               undefined,undefined,undefined,undefined, true, undefined, 
                                               undefined, undefined);
-  return result.sort((a,b) => b.latestBuild?.id - a.latestBuild?.id);
+  return result.sort((a,b) => {
+    if(b.latestBuild != undefined && a.latestBuild != undefined){
+      return b.latestBuild.id - a.latestBuild.id
+    }
+    return 0;
+  });
 }
