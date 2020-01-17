@@ -49,7 +49,7 @@ export function renderBuildRef02 (
   let lastBuild = tableItem.latestBuild;
   let content = (<div>Not found</div>)
   if(lastBuild === undefined){
-    content = (<div>not found</div>);
+    content = (<div>Not found</div>);
   } else {
     content = <div>{lastBuild.buildNumber}</div>
   }
