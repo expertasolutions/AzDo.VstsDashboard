@@ -2,6 +2,7 @@ import * as React from "react";
 
 import { 
   WithIcon,
+  WithIconSpan,
   IStatusIndicatorData,
   getPipelineIndicator,
   getReleaseTagFromBuild,
@@ -56,7 +57,7 @@ export function renderLastBuild01 (
                             className: "fontSize font-size",
                             iconProps: { iconName: "BranchMerge" },
                             children: (
-                                <div>{lastBuild.sourceBranch.replace('refs/heads/','')}</div>
+                                <div>{lastBuild.sourceBranch.replace('refs/heads/','')} - {lastBuild.sourceVersion}</div>
                             )
                           });
   }
@@ -89,14 +90,14 @@ export function renderLastBuild02(
                           <div>{lastBuildRun.requestedFor!.displayName}</div>
                         )
                     });
-    buildTimeCtrl = (<div>{WithIcon({
+    buildTimeCtrl = (<div>{WithIconSpan({
                               className: "fontSize font-size",
                               iconProps: { iconName: "Calendar" },
                               children: (
                                   <Ago date={lastBuildRun.startTime!} />
                               )
                           })} - {
-                            WithIcon({
+                            WithIconSpan({
                                 className: "fontSize font-size bolt-table-two-line-cell-item",
                                 iconProps: { iconName: "Clock" },
                                 children: (

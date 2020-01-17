@@ -59,6 +59,19 @@ export function WithIcon(props: {
   );
 }
 
+export function WithIconSpan(props: {
+  className?: string;
+  iconProps: IIconProps;
+  children?: React.ReactNode;
+}) {
+  return (
+      <span className={css(props.className, "flex-row flex-center")}>
+          {Icon({ ...props.iconProps, className: "icon-margin" })}
+          {props.children}
+      </span>
+  );
+}
+
 export function getReleaseStatus(depl: Deployment) : IStatusIndicatorData {
   const indicatorData: IStatusIndicatorData = {
     label: "NA",

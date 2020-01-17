@@ -72,7 +72,7 @@ export const dashboardColumns : ITableColumn<BuildDefinitionReference>[] = [
   {
     id:"LastBuildInfo02",
     renderCell: renderLastBuild02,
-    width: 125
+    width: 135
   },
   new ColumnMore(() => {
     return {
