@@ -14,7 +14,8 @@ import {
 
 export async function getProjects() {
   let coreClient = API.getClient(CoreRestClient);
-  return await coreClient.getProjects();
+  let result = await coreClient.getProjects();
+  return result.sort((a,b) => a.name.localeCompare(b.name) );
 }
 
 export async function getReleases(projectName: string) {
