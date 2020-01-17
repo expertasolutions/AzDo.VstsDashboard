@@ -83,19 +83,8 @@ class CICDDashboard extends React.Component<{}, {}> {
       this.setState({releases: result });
     });
 
-    // Update Builds Runs list...
     getBuilds(projectName).then(result=> {
-      let buildsList = this.state.builds;
-      for(let i=0;i<result.length;i++){
-        let newBuild = result[i];
-        let currentBuild = buildsList.find(x=> x.id === newBuild.id);
-        if(currentBuild === undefined){
-          buildsList.push(newBuild);
-        } else {
-          currentBuild = newBuild;
-        }
-      }
-      this.setState({ builds: buildsList });
+      this.setState({ builds: result });
     });
   }
 
