@@ -91,7 +91,6 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   private buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(this.state.buildDefs));
   private buildProvider = new ObservableValue<ArrayItemProvider<Build>>(new ArrayItemProvider(this.state.builds));
-  private projectProvider = new ObservableValue<ArrayItemProvider<TeamProjectReference>>(new ArrayItemProvider(this.state.projects));
 
   private onSelectedTabChanged = (newTabId: string) => {
     this.selectedTabId.value = newTabId;
