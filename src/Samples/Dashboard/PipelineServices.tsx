@@ -34,8 +34,9 @@ export async function getBuilds(projectName: string)  {
 
 export async function getBuildDefinitions(projectName: string) {
   let buildClient = API.getClient(BuildRestClient);
-  return await buildClient.getDefinitions(projectName, undefined, undefined, undefined,
+  let result = await buildClient.getDefinitions(projectName, undefined, undefined, undefined,
                                               undefined, undefined, undefined,undefined, undefined,
                                               undefined,undefined,undefined,undefined, true, undefined, 
                                               undefined, undefined);
+  return result.sort((a,b) => a.id - b.id);
 }
