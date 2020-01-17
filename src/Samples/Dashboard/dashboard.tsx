@@ -83,8 +83,10 @@ class CICDDashboard extends React.Component<{}, {}> {
       this.setState({releases: result });
     });
 
+    // Update Builds Runs list...
     getBuilds(projectName).then(result=> {
       this.setState({ builds: result });
+      this.buildProvider.value = new ArrayItemProvider(this.state.builds);
     });
   }
 
