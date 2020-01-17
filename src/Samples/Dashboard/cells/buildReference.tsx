@@ -90,14 +90,14 @@ export function renderLastBuild02(
                           <div>{lastBuildRun.requestedFor!.displayName}</div>
                         )
                     });
-    buildTimeCtrl = (<div>{WithIconSpan({
+    buildTimeCtrl = (<div>{WithIcon({
                               className: "fontSize font-size",
                               iconProps: { iconName: "Calendar" },
                               children: (
                                   <Ago date={lastBuildRun.startTime!} />
                               )
-                          })} - {
-                            WithIconSpan({
+                          })}{
+                            WithIcon({
                                 className: "fontSize font-size bolt-table-two-line-cell-item",
                                 iconProps: { iconName: "Clock" },
                                 children: (
