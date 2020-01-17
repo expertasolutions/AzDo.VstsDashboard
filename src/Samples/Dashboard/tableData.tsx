@@ -9,7 +9,7 @@ import {
 
 import {
   renderBuildRef01,
-  renderBuildRef02,
+  renderLastBuildTDB,
   renderLastBuild01,
   renderLastBuild02,
   renderReleaseInfo01
@@ -53,32 +53,33 @@ export const buildColumns : ITableColumn<Build>[] = [
 
 export const dashboardColumns : ITableColumn<BuildDefinitionReference>[] = [
   {
-    id: "status",
+    id: "pipeline",
+    name: "Pipeline",
     renderCell: renderBuildRef01,
-    width: 60
+    width: new ObservableValue(-30)
   },
   {
     id: "pipeline",
-    name: "Pipeline / Last Build",
-    renderCell: renderBuildRef02,
-    width: new ObservableValue(-20)
+    name: "Last Run",
+    renderCell: renderLastBuild01,
+    width: new ObservableValue(-30)
   },
   {
     id:"LastBuildInfo01",
     name: "Last run",
-    renderCell: renderLastBuild01,
+    renderCell: renderLastBuildTDB,
     width: new ObservableValue(-10)
+  },
+  {
+    id: "ReleaseInfo01",
+    name: "Latest Deployments",
+    renderCell: renderReleaseInfo01,
+    width: new ObservableValue(-30)
   },
   {
     id:"LastBuildInfo02",
     renderCell: renderLastBuild02,
     width: 125
-  },
-  {
-    id: "ReleaseInfo01",
-    name: "Latest release",
-    renderCell: renderReleaseInfo01,
-    width: new ObservableValue(-70)
   },
   new ColumnMore(() => {
     return {

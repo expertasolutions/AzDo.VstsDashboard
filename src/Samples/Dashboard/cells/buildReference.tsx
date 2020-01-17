@@ -36,35 +36,42 @@ export function renderBuildRef01 (
             <Status {...getBuildDefinitionStatus(tableItem).statusProps}
                     className="icon-large-margin"
                     size={StatusSize.l}/>
+            <div>{tableItem.name}</div>
       </SimpleTableCell>
   );
 }
 
-export function renderBuildRef02 (
+export function renderLastBuild01 (
   rowIndex: number,
   columnIndex: number,
   tableColumn: ITableColumn<BuildDefinitionReference>,
   tableItem: BuildDefinitionReference
 ) {
   let lastBuild = tableItem.latestBuild;
-  let content = (<div>Not found</div>)
-  if(lastBuild === undefined){
-    content = (<div>Not found</div>);
-  } else {
-    content = <div>{lastBuild.buildNumber}</div>
+  let contentRow1 = (<div>Not found</div>);
+  let contentRow2 = (<div></div>);
+  if(lastBuild != undefined){
+    contentRow1 = (<div>{lastBuild.buildNumber}</div>)
+    contentRow2 = WithIcon({
+                            className: "fontSize font-size",
+                            iconProps: { iconName: "BranchMerge" },
+                            children: (
+                                <div>{lastBuild.sourceBranch}</div>
+                            )
+                          });
   }
   return (
     <TwoLineTableCell
       key={"col-" + columnIndex}
       columnIndex={columnIndex}
       tableColumn={tableColumn}
-      line1={<div><b>{tableItem.name}</b></div>}
-      line2={content}
+      line1={contentRow1}
+      line2={contentRow2}
     />
   )
 }
 
-export function renderLastBuild01(
+export function renderLastBuildTDB (
   rowIndex: number,
   columnIndex: number,
   tableColumn: ITableColumn<BuildDefinitionReference>,
@@ -83,7 +90,7 @@ export function renderLastBuild01(
               className: "fontSize font-size",
               iconProps: { iconName: "BranchMerge" },
               children: (
-                  <div>{lastBuild.sourceBranch}</div>
+                  <div>na</div>
               )
           })}
           line2={WithIcon({
@@ -157,7 +164,8 @@ export function renderLastBuild02(
                   <Ago date={lastBuildRun.startTime!} />
               )
           })}
-          line2={WithIcon({
+          line2={
+            WithIcon({
               className: "fontSize font-size bolt-table-two-line-cell-item",
               iconProps: { iconName: "Clock" },
               children: (
