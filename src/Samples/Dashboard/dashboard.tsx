@@ -61,21 +61,8 @@ class CICDDashboard extends React.Component<{}, {}> {
     if(item.text != undefined)
       projectName = item.text;
 
-    let currentBuildState = new Array<BuildDefinitionReference>();
     getBuildDefinitions(projectName).then(result => {
-      for(let i=0;i<result.length;i++) {
-        let resultBuildDef = result[i];
-        if(resultBuildDef.latestBuild != undefined) {
-          let currentBuildDef = currentBuildState.find(x=> x.id === resultBuildDef.id);
-          // CODE_REVIEW: this code not work !!! 
-          if(currentBuildDef != undefined) {
-            currentBuildDef = resultBuildDef;
-          } else {
-            currentBuildState.push(resultBuildDef);
-          }
-        }
-      }
-      this.setState({ buildDefs: currentBuildState });
+      this.setState({ buildDefs: result });
       this.buildReferenceProvider.value = new ArrayItemProvider(this.state.buildDefs);
     });
 
