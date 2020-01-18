@@ -72,13 +72,10 @@ export function renderLastBuild01 (
                               <div><Link href={lastBuild._links.web.href} target="_blank">{lastBuild.buildNumber}</Link></div>
                             )
                   });
-    contentRow2 = WithIcon({
-                            className: "fontSize font-size",
-                            iconProps: { iconName: "BranchMerge" },
-                            children: (
-                                <div><Link href={branchUrl} target="_blank">{branchName}</Link> - <Icon iconName="BranchCommit" /><Link href={commitUrl} target="blank">{lastBuild.sourceVersion.substr(0, 7)}</Link></div>
-                            )
-                          });
+    contentRow2 = (<div>
+                    <Icon iconName="BranchMerge"/><Link href={branchUrl} target="_blank">{branchName}</Link>&nbsp;
+                    <Icon iconName="BranchCommit" /><Link href={commitUrl} target="blank">{lastBuild.sourceVersion.substr(0, 7)}</Link>
+                  </div>);
   }
   return (
     <TwoLineTableCell
