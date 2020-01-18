@@ -31,7 +31,7 @@ export function renderBuildRef01 (
   tableItem: BuildDefinitionReference
 ): JSX.Element {
   console.log("DEF:" + JSON.stringify(tableItem));
-  let definitionUrl = "https://perdu.com";
+  let definitionUrl = tableItem._links.web.href;
   return (
       <SimpleTableCell
           columnIndex={columnIndex}
@@ -72,11 +72,11 @@ export function renderLastBuild01 (
       commitUrl = lastBuild._links.sourceVersionDisplayUri.href;
     }
     contentRow1 = (<div>
-                    <Icon iconName="Build"/><Link href={lastBuild._links.web.href} target="_blank">{lastBuild.buildNumber}</Link>
+                    <Icon iconName="Build"/>&nbsp;<Link href={lastBuild._links.web.href} target="_blank">{lastBuild.buildNumber}</Link>
                   </div>);
     contentRow2 = (<div>
-                    <Icon iconName="BranchMerge"/><Link href={branchUrl} target="_blank">{branchName}</Link>&nbsp;
-                    <Icon iconName="BranchCommit" /><Link href={commitUrl} target="blank">{lastBuild.sourceVersion.substr(0, 7)}</Link>
+                    <Icon iconName="BranchMerge"/>&nbsp;<Link href={branchUrl} target="_blank">{branchName}</Link>&nbsp;
+                    <Icon iconName="BranchCommit" />&nbsp;<Link href={commitUrl} target="blank">{lastBuild.sourceVersion.substr(0, 7)}</Link>
                   </div>);
   }
   return (
@@ -101,13 +101,7 @@ export function renderLastBuild02(
   let requestByCtrl = (<div></div>);
   let buildTimeCtrl = (<div></div>);
   if(lastBuildRun != undefined) {
-    requestByCtrl = WithIcon({
-                        className: "fontSize font-size bolt-table-two-line-cell-item",
-                        iconProps: { iconName: "People" },
-                        children: (
-                          <div>{lastBuildRun.requestedFor!.displayName}</div>
-                        )
-                    });
+    requestByCtrl = (<div><Icon iconName="People"/>{lastBuildRun.requestedFor!.displayName}</div>);
     buildTimeCtrl = (<div>{WithIcon({
                               className: "fontSize font-size",
                               iconProps: { iconName: "Calendar" },
