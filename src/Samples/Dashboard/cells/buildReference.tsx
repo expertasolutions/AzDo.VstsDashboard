@@ -62,6 +62,7 @@ export function renderLastBuild01 (
     let branchName = lastBuild.sourceBranch.replace('refs/heads/','');
     let branchUrl = "https://perdu.com"; 
     let commitUrl = "https://perdu.com";
+    let buildUrl = lastBuild._links.web.href + "&view=logs";
     if(lastBuild.repository.type === "TfsGit"){
       branchUrl = lastBuild.repository.url + "?version=GB" + branchName + "&_a=contents";
       commitUrl = lastBuild.repository.url + "/commit/" + lastBuild.sourceVersion;
@@ -71,7 +72,7 @@ export function renderLastBuild01 (
       commitUrl = lastBuild._links.sourceVersionDisplayUri.href;
     }
     contentRow1 = (<div>
-                    <Icon iconName="Build"/>&nbsp;<Link href={lastBuild._links.web.href} target="_blank">{lastBuild.buildNumber}</Link>
+                    <Icon iconName="Build"/>&nbsp;<Link href={buildUrl} target="_blank">{lastBuild.buildNumber}</Link>
                   </div>);
     contentRow2 = (<div>
                     <Icon iconName="BranchMerge"/>&nbsp;<Link href={branchUrl} target="_blank">{branchName}</Link>&nbsp;
