@@ -52,14 +52,18 @@ export function renderLastBuild01 (
   let lastBuild = tableItem.latestBuild;
   let contentRow1 = (<div>Not found</div>);
   let contentRow2 = (<div></div>);
-  console.log("lastBuild: " + JSON.stringify(lastBuild));
-  if(lastBuild != undefined){
+  if(lastBuild != undefined) {
+    let branchName = lastBuild.sourceBranch.replace('refs/heads/','');
+    let branchUrl = lastBuild.repository.url + "?version=GB" + branchName + "&_a=contents";
+    if(lastBuild.repository.type === "GitHub"){
+      branchUrl = "https://github.com/" + lastBuild.repository.id + "/tree/" + branchName;
+    }
     contentRow1 = (<div><Link href={lastBuild._links.web.href} target="_blank">{lastBuild.buildNumber}</Link></div>)
     contentRow2 = WithIcon({
                             className: "fontSize font-size",
                             iconProps: { iconName: "BranchMerge" },
                             children: (
-                                <div>{lastBuild.sourceBranch.replace('refs/heads/','')} - <Link href={lastBuild._links.sourceVersionDisplayUri.href} target="blank">{lastBuild.sourceVersion.substr(0, 7)}</Link></div>
+                                <div><Link href={branchUrl} target="_blank">{branchName}</Link> - <Link href={lastBuild._links.sourceVersionDisplayUri.href} target="blank">{lastBuild.sourceVersion.substr(0, 7)}</Link></div>
                             )
                           });
   }
