@@ -64,6 +64,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       projectName = item.text;
 
     this.currentProjectSelected = projectName;
+    console.log("SelectedProject: " + this.currentState);
     getBuildDefinitions(projectName).then(result => {
       this.setState({ buildDefs: result });
       this.buildReferenceProvider.value = new ArrayItemProvider(this.state.buildDefs);
@@ -99,6 +100,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   }
 
   private getProjectUrl(projectName:string) {
+    console.log("getProjectUrl: " + projectName);
     let prj = this.state.projects.find(x=> x.name === projectName);
     if(prj === undefined){
       return "http://perdu.com";
