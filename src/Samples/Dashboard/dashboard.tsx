@@ -112,23 +112,20 @@ class CICDDashboard extends React.Component<{}, {}> {
               else {
                 return (
                   <ZeroData
-                    primaryText="This is the primary text"
+                    primaryText="Create your first Pipeline"
                     secondaryText={
                       <span>
-                        This secondary text contains{" "}
-                        <a
-                          rel="nofollow noopener"
-                          target="_blank"
-                          href="https://bing.com"
-                        >
-                          a link
-                        </a>{" "}
-                        to somewhere else. Lorem ipsum dolor sit amet, consectetur
-                        adipiscing elit.
+                        Automate your build and release processes using our wizard, and go
+                        from code to cloud-hosted within minutes.
                       </span>
                     }
                     imageAltText="Bars"
-                    imagePath="asset://static/logo.png"
+                    imagePath="https://cdn.vsassets.io/ext/ms.vss-build-web/pipelines/Content/no-builds.G8i4mxU5f17yTzxc.png"
+                    actionText="Create Pipeline"
+                    actionType={ZeroDataActionType.ctaButton}
+                    onActionClick={(event, item) =>
+                      alert("Hey, you clicked the button for " + item!.primaryText)
+                    }
                   />
                 )
               }
