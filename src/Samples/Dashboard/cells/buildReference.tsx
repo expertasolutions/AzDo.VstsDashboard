@@ -64,7 +64,13 @@ export function renderLastBuild01 (
       branchUrl = "https://github.com/" + lastBuild.repository.id + "/tree/" + branchName;
       commitUrl = lastBuild._links.sourceVersionDisplayUri.href;
     }
-    contentRow1 = (<div><Link href={lastBuild._links.web.href} target="_blank">{lastBuild.buildNumber}</Link></div>)
+    contentRow1 = WithIcon({
+                            className: "fontSize font-size",
+                            iconProps: { iconName: "Builds" },
+                            children: (
+                              <div><Link href={lastBuild._links.web.href} target="_blank">{lastBuild.buildNumber}</Link></div>
+                            )
+                  });
     contentRow2 = WithIcon({
                             className: "fontSize font-size",
                             iconProps: { iconName: "BranchMerge" },
