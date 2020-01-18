@@ -105,6 +105,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     if(prj === undefined){
       return "http://perdu.com";
     }
+    console.log("PROJ:" + JSON.stringify(prj));
     return prj.url;
   }
 
