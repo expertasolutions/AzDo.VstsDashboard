@@ -28,11 +28,13 @@ import { IListBoxItem } from "azure-devops-ui/ListBox";
 import { Filter, FilterOperatorType, FILTER_CHANGE_EVENT } from "azure-devops-ui/Utilities/Filter";
 import { FilterBar } from "azure-devops-ui/FilterBar";
 import { ZeroData, ZeroDataActionType } from "azure-devops-ui/ZeroData";
+import { ResultObjectType } from "azure-devops-extension-api/Test/Test";
 
 class CICDDashboard extends React.Component<{}, {}> {
   private selectedTabId = new ObservableValue("summary");
   private projectSelection = new DropdownSelection();
   private filter: Filter = new Filter();
+  private currentProjectSelected: string = "";
   private currentState = new ObservableValue("");
 
   constructor(props: {}) {
@@ -61,6 +63,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     if(item.text != undefined)
       projectName = item.text;
 
+    this.currentProjectSelected = projectName;
     getBuildDefinitions(projectName).then(result => {
       this.setState({ buildDefs: result });
       this.buildReferenceProvider.value = new ArrayItemProvider(this.state.buildDefs);
@@ -95,6 +98,11 @@ class CICDDashboard extends React.Component<{}, {}> {
     this.selectedTabId.value = newTabId;
   }
 
+  private getProjectUrl(projectName:string) {
+    let prj = this.state.projects.find(x=> x.name === projectName);
+    return prj?.url;
+  }
+
   private renderTab(tabId: string) : JSX.Element {
     if(tabId === "summary") {
       return (
@@ -122,9 +130,11 @@ class CICDDashboard extends React.Component<{}, {}> {
                     imageAltText="Bars"
                     imagePath="https://cdn.vsassets.io/ext/ms.vss-build-web/pipelines/Content/no-builds.G8i4mxU5f17yTzxc.png"
                     actionText="Create Pipeline"
-                    actionType={ZeroDataActionType.ctaButton}
-                    onActionClick={(event, item) =>
-                      alert("Hey, you clicked the button for " + item!.primaryText)
+                    actionType={ZeroDataActionType.link}
+                    onActionClick={(event, item) =>{
+                        let projectUrl = this.getProjectUrl(this.currentProjectSelected);
+                        window.open(projectUrl, "_blank");
+                      }
                     }
                   />
                 )
