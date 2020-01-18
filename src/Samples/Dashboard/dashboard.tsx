@@ -100,7 +100,39 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   private getProjectUrl(projectName:string) {
     let prj = this.state.projects.find(x=> x.name === projectName);
-    return prj?.url;
+    if(prj === undefined){
+      return "http://perdu.com";
+    }
+    return prj.url;
+  }
+
+  private renderZeroData(tabId: string) : JSX.Element {
+    if(tabId === "summary" && this.buildReferenceProvider.value.length === 0){
+      return (
+        <div>
+          <ZeroData
+            primaryText="Create your first Pipeline"
+            secondaryText={
+              <span>
+                Automate your build and release processes using our wizard, and go
+                from code to cloud-hosted within minutes.
+              </span>
+            }
+            imageAltText="Bars"
+            imagePath="https://cdn.vsassets.io/ext/ms.vss-build-web/pipelines/Content/no-builds.G8i4mxU5f17yTzxc.png"
+            actionText="Create Pipeline"
+            actionType={ZeroDataActionType.ctaButton}
+            onActionClick={(event, item) =>{
+                let projectUrl = this.getProjectUrl(this.currentProjectSelected);
+                window.open(projectUrl, "_blank");
+              }
+            }
+          />
+        </div>
+      );
+    } else {
+      return <div></div>;
+    }
   }
 
   private renderTab(tabId: string) : JSX.Element {
@@ -116,28 +148,8 @@ class CICDDashboard extends React.Component<{}, {}> {
                       showLines={true}
                       role="table"/>
                 );
-              }
-              else {
-                return (
-                  <ZeroData
-                    primaryText="Create your first Pipeline"
-                    secondaryText={
-                      <span>
-                        Automate your build and release processes using our wizard, and go
-                        from code to cloud-hosted within minutes.
-                      </span>
-                    }
-                    imageAltText="Bars"
-                    imagePath="https://cdn.vsassets.io/ext/ms.vss-build-web/pipelines/Content/no-builds.G8i4mxU5f17yTzxc.png"
-                    actionText="Create Pipeline"
-                    actionType={ZeroDataActionType.link}
-                    onActionClick={(event, item) =>{
-                        let projectUrl = this.getProjectUrl(this.currentProjectSelected);
-                        window.open(projectUrl, "_blank");
-                      }
-                    }
-                  />
-                )
+              } else {
+                return this.renderZeroData(tabId);
               }
             }
           }
@@ -188,6 +200,7 @@ class CICDDashboard extends React.Component<{}, {}> {
               selection={this.projectSelection}
             />
           </FilterBar>
+          
           <div className="page-content page-content-top">
             <Card className="flex-grow bolt-table-card" 
                   titleProps={{ text: "All pipelines" }} 
