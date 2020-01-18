@@ -35,7 +35,7 @@ export const buildColumns : ITableColumn<Build>[] = [
     id: "BuildInfo01",
     name: "Build #", 
     renderCell: renderBuildInfo01Cell,
-    width: new ObservableValue(-15),
+    width: new ObservableValue(-20),
   },
   {
     id: "BuildInfo02",
@@ -46,7 +46,7 @@ export const buildColumns : ITableColumn<Build>[] = [
     id: "ReleaseInfo01",
     name: "Releases Status",
     renderCell: renderDeploymentInfo01,
-    width: new ObservableValue(-80)
+    width: new ObservableValue(-70)
   }
 ]
 
