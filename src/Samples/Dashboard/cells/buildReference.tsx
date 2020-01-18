@@ -30,6 +30,8 @@ export function renderBuildRef01 (
   tableColumn: ITableColumn<BuildDefinitionReference>,
   tableItem: BuildDefinitionReference
 ): JSX.Element {
+  console.log("DEF:" + JSON.stringify(tableItem));
+  let definitionUrl = "https://perdu.com";
   return (
       <SimpleTableCell
           columnIndex={columnIndex}
@@ -39,7 +41,11 @@ export function renderBuildRef01 (
             <Status {...getBuildDefinitionStatus(tableItem).statusProps}
                     className="icon-large-margin"
                     size={StatusSize.l}/>
-            <div>{tableItem.name}</div>
+            <div>
+              <Link href={definitionUrl} target="_blank">
+                {tableItem.name}
+              </Link>
+            </div>
       </SimpleTableCell>
   );
 }
@@ -65,13 +71,9 @@ export function renderLastBuild01 (
       branchUrl = "https://github.com/" + lastBuild.repository.id + "/tree/" + branchName;
       commitUrl = lastBuild._links.sourceVersionDisplayUri.href;
     }
-    contentRow1 = WithIcon({
-                            className: "fontSize font-size",
-                            iconProps: { iconName: "Builds" },
-                            children: (
-                              <div><Link href={lastBuild._links.web.href} target="_blank">{lastBuild.buildNumber}</Link></div>
-                            )
-                  });
+    contentRow1 = (<div>
+                    <Icon iconName="Build"/><Link href={lastBuild._links.web.href} target="_blank">{lastBuild.buildNumber}</Link>
+                  </div>);
     contentRow2 = (<div>
                     <Icon iconName="BranchMerge"/><Link href={branchUrl} target="_blank">{branchName}</Link>&nbsp;
                     <Icon iconName="BranchCommit" /><Link href={commitUrl} target="blank">{lastBuild.sourceVersion.substr(0, 7)}</Link>
