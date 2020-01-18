@@ -59,7 +59,7 @@ export function renderLastBuild01 (
                             className: "fontSize font-size",
                             iconProps: { iconName: "BranchMerge" },
                             children: (
-                                <div>{lastBuild.sourceBranch.replace('refs/heads/','')} - <Link href={lastBuild._links.sourceVersionDisplayUri.href}>{lastBuild.sourceVersion.substr(0, 8)}</Link></div>
+                                <div>{lastBuild.sourceBranch.replace('refs/heads/','')} - <Link href={lastBuild._links.sourceVersionDisplayUri.href}>{lastBuild.sourceVersion.substr(0, 7)}</Link></div>
                             )
                           });
   }
