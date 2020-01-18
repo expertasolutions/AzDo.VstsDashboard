@@ -54,11 +54,12 @@ export function renderLastBuild01 (
   let contentRow2 = (<div></div>);
   if(lastBuild != undefined) {
     let branchName = lastBuild.sourceBranch.replace('refs/heads/','');
-    let branchUrl = lastBuild.repository.url + "?version=GB" + branchName + "&_a=contents";
-    if(lastBuild.repository.type === "GitHub"){
+    let branchUrl = "https://perdu.com"; 
+    if(lastBuild.repository.type === "TfsGit"){
+      branchUrl = lastBuild.repository.url + "?version=GB" + branchName + "&_a=contents";
+    }
+    else if(lastBuild.repository.type === "GitHub"){
       branchUrl = "https://github.com/" + lastBuild.repository.id + "/tree/" + branchName;
-    } else {
-      branchUrl = "https://perdu.com";
     }
     contentRow1 = (<div><Link href={lastBuild._links.web.href} target="_blank">{lastBuild.buildNumber}</Link></div>)
     contentRow2 = WithIcon({
