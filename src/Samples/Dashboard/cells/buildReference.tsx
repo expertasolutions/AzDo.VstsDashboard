@@ -75,7 +75,7 @@ export function renderLastBuild01 (
                     <Icon iconName="Build"/>&nbsp;<Link href={buildUrl} target="_blank">{lastBuild.buildNumber}</Link>
                   </div>);
     contentRow2 = (<div>
-                    <Icon iconName="BranchMerge"/>&nbsp;<Link href={branchUrl} target="_blank">{branchName}</Link>&nbsp;
+                    <Icon iconName="BranchMerge"/>&nbsp;<Link href={branchUrl} target="_blank">{branchName}</Link>
                     <Icon iconName="BranchCommit" />&nbsp;<Link href={commitUrl} target="blank">{lastBuild.sourceVersion.substr(0, 7)}</Link>
                   </div>);
   }
@@ -101,7 +101,7 @@ export function renderLastBuild02(
   let requestByCtrl = (<div></div>);
   let buildTimeCtrl = (<div></div>);
   if(lastBuildRun != undefined) {
-    requestByCtrl = (<div><Icon iconName="People"/>{lastBuildRun.requestedFor!.displayName}</div>);
+    requestByCtrl = (<div><Icon iconName="People"/>&nbsp;{lastBuildRun.requestedFor!.displayName}</div>);
     buildTimeCtrl = (<div>{WithIcon({
                               className: "fontSize font-size",
                               iconProps: { iconName: "Calendar" },
