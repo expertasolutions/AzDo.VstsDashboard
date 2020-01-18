@@ -155,10 +155,6 @@ export function renderReleaseInfo01 (
   tableItem: BuildDefinitionReference
 ) : JSX.Element {
   let lastBuild = tableItem.latestCompletedBuild;
-  if(lastBuild === undefined) {
-    return (<div><div>Not deploy yet</div></div>);
-  }
-  
   return (
     <DataContext.Consumer>
       {(context) => (

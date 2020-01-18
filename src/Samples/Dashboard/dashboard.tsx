@@ -128,7 +128,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                       </span>
                     }
                     imageAltText="Bars"
-                    imagePath="./icon.png"
+                    imagePath="./static/logo.png"
                   />
                 )
               }

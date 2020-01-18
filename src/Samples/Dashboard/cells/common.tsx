@@ -180,6 +180,10 @@ export function getPipelineIndicator(result: BuildResult, status:BuildStatus) : 
 }
 
 export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>) {
+  if(build === undefined) {
+    return (<div>Not deploy yet</div>);
+  }
+
   let deploys = releases.filter(
     x=> x.release.artifacts.find(
       a=> {
