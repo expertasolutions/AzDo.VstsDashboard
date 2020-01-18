@@ -57,6 +57,8 @@ export function renderLastBuild01 (
     let branchUrl = lastBuild.repository.url + "?version=GB" + branchName + "&_a=contents";
     if(lastBuild.repository.type === "GitHub"){
       branchUrl = "https://github.com/" + lastBuild.repository.id + "/tree/" + branchName;
+    } else {
+      branchUrl = "https://perdu.com";
     }
     contentRow1 = (<div><Link href={lastBuild._links.web.href} target="_blank">{lastBuild.buildNumber}</Link></div>)
     contentRow2 = WithIcon({
