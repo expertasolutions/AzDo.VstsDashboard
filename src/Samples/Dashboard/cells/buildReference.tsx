@@ -103,8 +103,8 @@ export function renderLastBuild02(
   if(lastBuildRun != undefined) {
     requestByCtrl = (<div><Icon iconName="People"/>&nbsp;{lastBuildRun.requestedFor!.displayName}</div>);
     buildTimeCtrl = (<div>
-                      <Icon iconName="Calendar"/>&nbsp;<Ago date={lastBuildRun.startTime!} />
-                      <Icon iconName="Clock"/>&nbsp;<Duration startDate={lastBuildRun.startTime} endDate={lastBuildRun.finishTime} />
+                      <div><Icon iconName="Calendar"/>&nbsp;<Ago date={lastBuildRun.startTime!} /></div>
+                      <div><Icon iconName="Clock"/>&nbsp;<Duration startDate={lastBuildRun.startTime} endDate={lastBuildRun.finishTime} /></div>
                     </div>)
   }
 
