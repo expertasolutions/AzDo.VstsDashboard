@@ -51,6 +51,7 @@ export function renderLastBuild01 (
   let lastBuild = tableItem.latestBuild;
   let contentRow1 = (<div>Not found</div>);
   let contentRow2 = (<div></div>);
+  console.log("lastBuild: " + JSON.stringify(lastBuild));
   if(lastBuild != undefined){
     contentRow1 = (<div>{lastBuild.buildNumber}</div>)
     contentRow2 = WithIcon({
