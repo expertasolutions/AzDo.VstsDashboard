@@ -168,7 +168,7 @@ export function renderReleaseInfo01 (
 ) : JSX.Element {
   let lastBuild = tableItem.latestCompletedBuild;
   if(lastBuild === undefined) {
-    return (<div>not found</div>)
+    return (<div><div>Not deploy yet</div></div>);
   }
   
   return (
