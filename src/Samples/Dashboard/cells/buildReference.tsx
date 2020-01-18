@@ -55,18 +55,21 @@ export function renderLastBuild01 (
   if(lastBuild != undefined) {
     let branchName = lastBuild.sourceBranch.replace('refs/heads/','');
     let branchUrl = "https://perdu.com"; 
+    let commitUrl = "https://perdu.com";
     if(lastBuild.repository.type === "TfsGit"){
-      branchUrl = lastBuild.repository.url;// + "?version=GB" + branchName + "&_a=contents";
+      branchUrl = lastBuild.repository.url + "?version=GB" + branchName + "&_a=contents";
+      commitUrl = lastBuild.repository.url + "/commit/" + lastBuild.sourceVersion;
     }
     else if(lastBuild.repository.type === "GitHub"){
       branchUrl = "https://github.com/" + lastBuild.repository.id + "/tree/" + branchName;
+      commitUrl = lastBuild._links.sourceVersionDisplayUri.href;
     }
     contentRow1 = (<div><Link href={lastBuild._links.web.href} target="_blank">{lastBuild.buildNumber}</Link></div>)
     contentRow2 = WithIcon({
                             className: "fontSize font-size",
                             iconProps: { iconName: "BranchMerge" },
                             children: (
-                                <div><Link href={branchUrl} target="_blank">{branchName}</Link> - <Link href={lastBuild._links.sourceVersionDisplayUri.href} target="blank">{lastBuild.sourceVersion.substr(0, 7)}</Link></div>
+                                <div><Link href={branchUrl} target="_blank">{branchName}</Link> - <Link href={commitUrl} target="blank">{lastBuild.sourceVersion.substr(0, 7)}</Link></div>
                             )
                           });
   }
