@@ -30,7 +30,6 @@ export function renderBuildRef01 (
   tableColumn: ITableColumn<BuildDefinitionReference>,
   tableItem: BuildDefinitionReference
 ): JSX.Element {
-  console.log("DEF:" + JSON.stringify(tableItem));
   let definitionUrl = tableItem._links.web.href;
   return (
       <SimpleTableCell
