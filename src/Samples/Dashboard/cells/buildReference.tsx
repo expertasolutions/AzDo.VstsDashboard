@@ -76,7 +76,7 @@ export function renderLastBuild01 (
                             className: "fontSize font-size",
                             iconProps: { iconName: "BranchMerge" },
                             children: (
-                                <div><Link href={branchUrl} target="_blank">{branchName}</Link> - <Icon iconName="branchCommit" /><Link href={commitUrl} target="blank">{lastBuild.sourceVersion.substr(0, 7)}</Link></div>
+                                <div><Link href={branchUrl} target="_blank">{branchName}</Link> - <Icon iconName="BranchCommit" /><Link href={commitUrl} target="blank">{lastBuild.sourceVersion.substr(0, 7)}</Link></div>
                             )
                           });
   }
