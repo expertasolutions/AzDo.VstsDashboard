@@ -20,6 +20,7 @@ import { Duration } from "azure-devops-ui/Duration";
 
 import { BuildDefinitionReference } from "azure-devops-extension-api/Build";
 import { Status, Statuses, StatusSize } from "azure-devops-ui/Status";
+import { Link } from "azure-devops-ui/Link";
 import { DataContext } from "../dataContext";
 
 export function renderBuildRef01 (
@@ -58,7 +59,7 @@ export function renderLastBuild01 (
                             className: "fontSize font-size",
                             iconProps: { iconName: "BranchMerge" },
                             children: (
-                                <div>{lastBuild.sourceBranch.replace('refs/heads/','')} - {lastBuild.sourceVersion}</div>
+                                <div>{lastBuild.sourceBranch.replace('refs/heads/','')} - <Link href={lastBuild._links.sourceVersionDisplayUri.href}>{lastBuild.sourceVersion}</Link></div>
                             )
                           });
   }
