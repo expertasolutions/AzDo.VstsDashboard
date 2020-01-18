@@ -54,12 +54,12 @@ export function renderLastBuild01 (
   let contentRow2 = (<div></div>);
   console.log("lastBuild: " + JSON.stringify(lastBuild));
   if(lastBuild != undefined){
-    contentRow1 = (<div>{lastBuild.buildNumber}</div>)
+    contentRow1 = (<div><Link href={lastBuild._links.web.href} target="_blank">{lastBuild.buildNumber}</Link></div>)
     contentRow2 = WithIcon({
                             className: "fontSize font-size",
                             iconProps: { iconName: "BranchMerge" },
                             children: (
-                                <div>{lastBuild.sourceBranch.replace('refs/heads/','')} - <Link href={lastBuild._links.sourceVersionDisplayUri.href}>{lastBuild.sourceVersion.substr(0, 7)}</Link></div>
+                                <div>{lastBuild.sourceBranch.replace('refs/heads/','')} - <Link href={lastBuild._links.sourceVersionDisplayUri.href} target="blank">{lastBuild.sourceVersion.substr(0, 7)}</Link></div>
                             )
                           });
   }
