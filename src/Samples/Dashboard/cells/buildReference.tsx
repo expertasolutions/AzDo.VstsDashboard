@@ -102,10 +102,18 @@ export function renderLastBuild02(
   let buildTimeCtrl = (<div></div>);
   if(lastBuildRun != undefined) {
     requestByCtrl = (<div><Icon iconName="People"/>&nbsp;{lastBuildRun.requestedFor!.displayName}</div>);
-    buildTimeCtrl = (<div>
-                      <div><Icon iconName="Calendar"/>&nbsp;<Ago date={lastBuildRun.startTime!} /></div>
-                      <div><Icon iconName="Clock"/>&nbsp;<Duration startDate={lastBuildRun.startTime} endDate={lastBuildRun.finishTime} /></div>
-                    </div>)
+
+    if(lastBuildRun.startTime != undefined) {
+      buildTimeCtrl = (<div>
+                        <div><Icon iconName="Calendar"/>&nbsp;<Ago date={lastBuildRun.startTime!} /></div>
+                        <div><Icon iconName="Clock"/>&nbsp;<Duration startDate={lastBuildRun.startTime} endDate={lastBuildRun.finishTime} /></div>
+                      </div>);
+    } else {
+      buildTimeCtrl = (<div>
+        <div><Icon iconName="Calendar"/>&nbsp;Not Started</div>
+        <div><Icon iconName="Clock"/>&nbsp;Waiting...</div>
+      </div>);
+    }
   }
 
   if(lastBuildRun === undefined) {
@@ -125,26 +133,6 @@ export function renderLastBuild02(
               iconProps: { iconName: "Clock" },
               children: (
                   <div>NA</div>
-              )
-          })}
-      />
-  } else if(lastBuildRun.startTime === undefined) {
-    return <TwoLineTableCell
-          key={"col-" + columnIndex}
-          columnIndex={columnIndex}
-          tableColumn={tableColumn}
-          line1={WithIcon({
-              className: "fontSize font-size",
-              iconProps: { iconName: "Calendar" },
-              children: (
-                  <div>Not Started</div>
-              )
-          })}
-          line2={WithIcon({
-              className: "fontSize font-size bolt-table-two-line-cell-item",
-              iconProps: { iconName: "Clock" },
-              children: (
-                  <div>Waiting...</div>
               )
           })}
       />
