@@ -78,8 +78,16 @@ export const dashboardColumns : ITableColumn<BuildDefinitionReference>[] = [
     return {
       id: "sub-menu",
       items: [
-        { id: "submenu-two", text: "Edit Pipeline" },
-        { id: "submenu-one", text: "View Releases" }
+        { id: "editPipeline", text: "Edit Pipeline", 
+          onActivate: () => {
+            alert("editPipeline");
+          } 
+        },
+        { id: "viewReleases", text: "View Releases",
+          onActivate: () => {
+            alert('ViewRelease');
+          }
+        }
       ]
     }
   })
