@@ -220,9 +220,10 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
       if(env === undefined) {
         lastRelease.push(lastDep.releaseEnvironment.name);
         let relStatusInfo = getReleaseStatus(lastDep);
-        children.push(<Pill color={relStatusInfo.color} variant={PillVariant.colored}>
-          <Link href={lastDep.releaseEnvironment._links.web.href} target="_blank">
-            <Status {...relStatusInfo.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{lastDep.releaseEnvironment.name}</Link>
+        children.push(
+          <Pill color={relStatusInfo.color} variant={PillVariant.colored} 
+            onClick={() => window.open(lastDep.releaseEnvironment._links.web.href, "_blank") }>
+            <Status {...relStatusInfo.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{lastDep.releaseEnvironment.name}
           </Pill>)
       } else {
         console.log(lastDep.releaseEnvironment.name + " already found for " + lastDep.releaseEnvironment.id);
