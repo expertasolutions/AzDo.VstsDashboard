@@ -189,8 +189,10 @@ class CICDDashboard extends React.Component<{}, {}> {
     return (
       <Surface background={SurfaceBackground.neutral}>
         <Page className="pipelines-page flex-grow">
-          <Header title="CI/CD Dashboard" titleSize={TitleSize.Large} />
-          
+          <Header title="CI/CD Dashboard" 
+                  titleSize={TitleSize.Large}
+                  titleIconProps={{ iconName: "GoToDashboard"}} />
+
           <div className="page-content page-content-top">
             <FilterBar filter={this.filter}>
               <KeywordFilterBarItem filterItemKey="Placeholder" />
