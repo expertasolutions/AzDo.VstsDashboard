@@ -190,24 +190,26 @@ class CICDDashboard extends React.Component<{}, {}> {
       <Surface background={SurfaceBackground.neutral}>
         <Page className="pipelines-page flex-grow">
           <Header title="CI/CD Dashboard" titleSize={TitleSize.Large} />
-          <FilterBar filter={this.filter}>
-            <KeywordFilterBarItem filterItemKey="Placeholder" />
-            <DropdownFilterBarItem
-              filterItemKey="listSingle"
-              filter={this.filter}
-              items={this.state.projects.map(i => {
-                return {
-                  id: i.id,
-                  text: i.name
-                };
-              })}
-              placeholder="Team Project"
-              showFilterBox={true}
-              onSelect={this.onProjectSelected}
-              selection={this.projectSelection}
-            />
-          </FilterBar>
           
+          <div className="page-content page-content-top">
+            <FilterBar filter={this.filter}>
+              <KeywordFilterBarItem filterItemKey="Placeholder" />
+              <DropdownFilterBarItem
+                filterItemKey="listSingle"
+                filter={this.filter}
+                items={this.state.projects.map(i => {
+                  return {
+                    id: i.id,
+                    text: i.name
+                  };
+                })}
+                placeholder="Team Project"
+                showFilterBox={true}
+                onSelect={this.onProjectSelected}
+                selection={this.projectSelection}
+              />
+            </FilterBar>
+          </div>
           <div className="page-content page-content-top">
             <Card className="flex-grow bolt-table-card" 
                   titleProps={{ text: "All pipelines" }} 
