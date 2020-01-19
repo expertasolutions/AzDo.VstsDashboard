@@ -212,18 +212,16 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
 
     for(let i=0;i<releaseDeploys.length;i++) {
       let dep = releaseDeploys[i];
-      let lastDeploys = releaseDeploys.filter(x=> x.releaseEnvironment.name === dep.releaseEnvironment.name)
-                                      .sort(x=> x.id);
-
+      let lastDeploys = releaseDeploys.filter(x=> x.releaseEnvironment.name === dep.releaseEnvironment.name).sort(x=> x.id);
       let lastDep = lastDeploys[0];
       let envName = lastDep.releaseEnvironment.name;
       let env = lastRelease.find(x => x === envName);
+
       if(env === undefined) {
         lastRelease.push(lastDep.releaseEnvironment.name);
-        console.log("Rel: " + JSON.stringify(lastDep));
         let relStatusInfo = getReleaseStatus(lastDep);
         children.push(<Pill color={relStatusInfo.color} variant={PillVariant.colored}>
-          <Link href={lastDep._links.web.href} target="_blank">
+          <Link href={lastDep.releaseEnvironment._links.web.href} target="_blank">
             <Status {...relStatusInfo.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{lastDep.releaseEnvironment.name}</Link>
           </Pill>)
       } else {
@@ -236,7 +234,7 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
     }
 
     if(deploys.length > 0) {
-      content.push(<div><b>{relRefInfo.name}-{relRefInfo.id}</b><p><PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{children}</PillGroup></p></div>);
+      content.push(<div><b><Link href={"http://perdu.com"} target="_blank">{relRefInfo.name}-{relRefInfo.id}</Link></b><p><PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{children}</PillGroup></p></div>);
     }
     children = [];
   }
