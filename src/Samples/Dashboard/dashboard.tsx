@@ -180,6 +180,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       <Surface background={SurfaceBackground.neutral}>
         <Page className="pipelines-page flex-grow">
           <Header title="CI/CD Dashboard" titleSize={TitleSize.Large} />
+
           <TabBar
             onSelectedTabChanged={this.onSelectedTabChanged}
             selectedTabId={this.selectedTabId}
@@ -187,6 +188,7 @@ class CICDDashboard extends React.Component<{}, {}> {
             <Tab name="Summary" id="summary"/>
             <Tab name="Runs" id="builds"/>
           </TabBar>
+          
           <FilterBar filter={this.filter}>
             <KeywordFilterBarItem filterItemKey="Placeholder" />
             <DropdownFilterBarItem

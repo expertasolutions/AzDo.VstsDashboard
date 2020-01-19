@@ -101,16 +101,16 @@ export function renderLastBuild02(
   let requestByCtrl = (<div></div>);
   let buildTimeCtrl = (<div></div>);
   if(lastBuildRun != undefined) {
-    requestByCtrl = (<div className="font-size-xs"><Icon iconName="People"/>&nbsp;{lastBuildRun.requestedFor!.displayName}</div>);
+    requestByCtrl = (<div className="font-size-ms"><Icon iconName="People"/>&nbsp;{lastBuildRun.requestedFor!.displayName}</div>);
 
     if(lastBuildRun.startTime != undefined) {
-      buildTimeCtrl = (<div className="font-size-xs">
+      buildTimeCtrl = (<div className="font-size-ms">
                         <div><Icon iconName="Calendar"/>&nbsp;<Ago date={lastBuildRun.startTime!} /></div>
                         <div><Icon iconName="Clock"/>&nbsp;<Duration startDate={lastBuildRun.startTime} endDate={lastBuildRun.finishTime} /></div>
                       </div>);
     } else {
       buildTimeCtrl = (
-      <div className="font-size-xs">
+      <div className="font-size-ms">
         <div><Icon iconName="Calendar"/>&nbsp;Not Started</div>
         <div><Icon iconName="Clock"/>&nbsp;Waiting...</div>
       </div>);
@@ -126,14 +126,14 @@ export function renderLastBuild02(
               className: "fontSize font-size",
               iconProps: { iconName: "Calendar" },
               children: (
-                  <div className="font-size-xs">NA</div>
+                  <div className="font-size-ms">NA</div>
               )
           })}
           line2={WithIcon({
               className: "fontSize font-size bolt-table-two-line-cell-item",
               iconProps: { iconName: "Clock" },
               children: (
-                  <div className="font-size-xs">NA</div>
+                  <div className="font-size-ms">NA</div>
               )
           })}
       />
