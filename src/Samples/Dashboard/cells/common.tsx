@@ -220,7 +220,7 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
       let env = lastRelease.find(x => x === envName);
       if(env === undefined) {
         lastRelease.push(lastDep.releaseEnvironment.name);
-        console.log("Rel: " + JSON.stringify(lastDep._links));
+        console.log("Rel: " + JSON.stringify(lastDep));
         let relStatusInfo = getReleaseStatus(lastDep);
         children.push(<Pill color={relStatusInfo.color} variant={PillVariant.colored}>
           <Link href={lastDep._links.web.href} target="_blank">
