@@ -76,7 +76,7 @@ export function renderLastBuild01 (
                   </div>);
     contentRow2 = (<div>
                     <Icon iconName="BranchMerge"/>&nbsp;<Link href={branchUrl} target="_blank">{branchName}</Link>
-                    <Icon iconName="BranchCommit" />&nbsp;<Link href={commitUrl} target="blank">{lastBuild.sourceVersion.substr(0, 7)}</Link>
+                    <Icon iconName="BranchCommit" /><Link href={commitUrl} target="blank">{lastBuild.sourceVersion.substr(0, 7)}</Link>
                   </div>);
   }
   return (
@@ -101,15 +101,16 @@ export function renderLastBuild02(
   let requestByCtrl = (<div></div>);
   let buildTimeCtrl = (<div></div>);
   if(lastBuildRun != undefined) {
-    requestByCtrl = (<div><Icon iconName="People"/>&nbsp;{lastBuildRun.requestedFor!.displayName}</div>);
+    requestByCtrl = (<div className="font-size-xs"><Icon iconName="People"/>&nbsp;{lastBuildRun.requestedFor!.displayName}</div>);
 
     if(lastBuildRun.startTime != undefined) {
-      buildTimeCtrl = (<div>
+      buildTimeCtrl = (<div className="font-size-xs">
                         <div><Icon iconName="Calendar"/>&nbsp;<Ago date={lastBuildRun.startTime!} /></div>
                         <div><Icon iconName="Clock"/>&nbsp;<Duration startDate={lastBuildRun.startTime} endDate={lastBuildRun.finishTime} /></div>
                       </div>);
     } else {
-      buildTimeCtrl = (<div>
+      buildTimeCtrl = (
+      <div className="font-size-xs">
         <div><Icon iconName="Calendar"/>&nbsp;Not Started</div>
         <div><Icon iconName="Clock"/>&nbsp;Waiting...</div>
       </div>);
@@ -125,14 +126,14 @@ export function renderLastBuild02(
               className: "fontSize font-size",
               iconProps: { iconName: "Calendar" },
               children: (
-                  <div>NA</div>
+                  <div className="font-size-xs">NA</div>
               )
           })}
           line2={WithIcon({
               className: "fontSize font-size bolt-table-two-line-cell-item",
               iconProps: { iconName: "Clock" },
               children: (
-                  <div>NA</div>
+                  <div className="font-size-xs">NA</div>
               )
           })}
       />
