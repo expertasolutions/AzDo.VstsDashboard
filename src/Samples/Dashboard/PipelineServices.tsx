@@ -18,6 +18,12 @@ export async function getProjects() {
   return result.sort((a,b) => a.name.localeCompare(b.name) );
 }
 
+export async function getProject(projectName: string) {
+  let coreClient = API.getClient(CoreRestClient);
+  let result = await coreClient.getProject(projectName);
+  return result;
+}
+
 export async function getReleases(projectName: string) {
   let minDate = new Date();
   let newDate = minDate.setDate(minDate.getDate()-1000);

@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as SDK from "azure-devops-extension-sdk";
 
-import { getBuildDefinitions, getBuilds , getReleases, getProjects } from "./PipelineServices";
+import { getBuildDefinitions, getBuilds , getReleases, getProjects, getProject } from "./PipelineServices";
 import { dashboardColumns, buildColumns }  from "./tableData";
 
 import { KeywordFilterBarItem } from "azure-devops-ui/TextFilterBarItem";
@@ -99,14 +99,14 @@ class CICDDashboard extends React.Component<{}, {}> {
     this.selectedTabId.value = newTabId;
   }
 
-  private getProjectUrl(projectName:string) {
+  private async getProjectUrl(projectName:string) {
     console.log("getProjectUrl: " + projectName);
     let prj = this.state.projects.find(x=> x.name === projectName);
     if(prj === undefined){
       return "http://perdu.com";
     }
-    console.log("PROJ:" + JSON.stringify(prj));
-    return prj.url;
+    let prjDetail = await getProject(projectName);
+    return prjDetail._links.web.href;
   }
 
   private renderZeroData(tabId: string) : JSX.Element {
@@ -125,9 +125,11 @@ class CICDDashboard extends React.Component<{}, {}> {
             imagePath="https://cdn.vsassets.io/ext/ms.vss-build-web/pipelines/Content/no-builds.G8i4mxU5f17yTzxc.png"
             actionText="Create Pipeline"
             actionType={ZeroDataActionType.ctaButton}
-            onActionClick={(event, item) =>{
-                let projectUrl = this.getProjectUrl(this.currentProjectSelected);
-                window.open(projectUrl, "_blank");
+            onActionClick={(event, item) => {
+                this.getProjectUrl(this.currentProjectSelected).then(url => {
+                  let createPipelineUrl = url + "/_apps/hub/ms.vss-build-web.ci-designer-hub";
+                  window.open(createPipelineUrl, "_blank");
+                });
               }
             }
           />
