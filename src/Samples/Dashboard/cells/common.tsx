@@ -8,7 +8,7 @@ import { Deployment, DeploymentStatus, ReleaseReference } from "azure-devops-ext
 import { Pill, PillVariant } from "azure-devops-ui/Pill";
 import { PillGroup, PillGroupOverflow } from "azure-devops-ui/PillGroup";
 import { Build } from "azure-devops-extension-api/Build";
-
+import { Link } from "azure-devops-ui/Link";
 
 const lightGreen: IColor = {
   red: 204,
@@ -220,9 +220,12 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
       let env = lastRelease.find(x => x === envName);
       if(env === undefined) {
         lastRelease.push(lastDep.releaseEnvironment.name);
+        console.log("Rel: " + JSON.stringify(lastDep._links));
         let relStatusInfo = getReleaseStatus(lastDep);
         children.push(<Pill color={relStatusInfo.color} variant={PillVariant.colored}>
-          <Status {...relStatusInfo.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{lastDep.releaseEnvironment.name}</Pill>)
+          <Link href={lastDep._links.web.href} target="_blank">
+            <Status {...relStatusInfo.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{lastDep.releaseEnvironment.name}</Link>
+          </Pill>)
       } else {
         console.log(lastDep.releaseEnvironment.name + " already found for " + lastDep.releaseEnvironment.id);
       }

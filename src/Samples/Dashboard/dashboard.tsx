@@ -100,7 +100,6 @@ class CICDDashboard extends React.Component<{}, {}> {
   }
 
   private async getProjectUrl(projectName:string) {
-    console.log("getProjectUrl: " + projectName);
     let prj = this.state.projects.find(x=> x.name === projectName);
     if(prj === undefined){
       return "http://perdu.com";
