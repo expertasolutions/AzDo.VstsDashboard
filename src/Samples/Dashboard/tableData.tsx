@@ -74,22 +74,5 @@ export const dashboardColumns : ITableColumn<BuildDefinitionReference>[] = [
     renderCell: renderLastBuild02,
     width: 150
   },
-  new ColumnMore(() => {
-    return {
-      id: "sub-menu",
-      items: [
-        { id: "editPipeline", text: "Edit Pipeline", 
-          onActivate: () => {
-            alert("editPipeline");
-          } 
-        },
-        { id: "viewReleases", text: "View Releases",
-          onActivate: () => {
-            alert('ViewRelease');
-          }
-        }
-      ]
-    }
-  })
 ];
 
