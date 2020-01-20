@@ -5,8 +5,7 @@ import { getBuildDefinitions, getBuilds , getReleases, getProjects, getProject }
 import { dashboardColumns, buildColumns }  from "./tableData";
 
 import { KeywordFilterBarItem } from "azure-devops-ui/TextFilterBarItem";
-import { Button } from "azure-devops-ui/Button";
-import { Dropdown, DropdownFilterBarItem } from "azure-devops-ui/Dropdown";
+import { DropdownFilterBarItem } from "azure-devops-ui/Dropdown";
 import { DropdownSelection } from "azure-devops-ui/Utilities/DropdownSelection";
 import { Card } from "azure-devops-ui/Card";
 import { Table } from "azure-devops-ui/Table";
@@ -28,7 +27,6 @@ import { IListBoxItem } from "azure-devops-ui/ListBox";
 import { Filter, FilterOperatorType, FILTER_CHANGE_EVENT } from "azure-devops-ui/Utilities/Filter";
 import { FilterBar } from "azure-devops-ui/FilterBar";
 import { ZeroData, ZeroDataActionType } from "azure-devops-ui/ZeroData";
-import { ResultObjectType } from "azure-devops-extension-api/Test/Test";
 
 class CICDDashboard extends React.Component<{}, {}> {
   private selectedTabId = new ObservableValue("summary");
