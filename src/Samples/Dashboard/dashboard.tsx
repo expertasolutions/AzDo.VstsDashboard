@@ -109,7 +109,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   private renderZeroData(tabId: string) : JSX.Element {
     if(tabId === "summary" && this.buildReferenceProvider.value.length === 0){
       return (
-        <div>
+        <div flex-center>
           <ZeroData
             primaryText="Create your first Pipeline"
             secondaryText={
