@@ -125,7 +125,7 @@ class CICDDashboard extends React.Component<{}, {}> {
             onActionClick={(event, item) => {
                 this.getProjectUrl(this.currentProjectSelected).then(url => {
                   let createPipelineUrl = url + "/_apps/hub/ms.vss-build-web.ci-designer-hub";
-                  window.open(createPipelineUrl, "_blank");
+                  window.open(createPipelineUrl);
                 });
               }
             }
