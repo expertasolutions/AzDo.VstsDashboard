@@ -139,24 +139,24 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   private renderTab(tabId: string) : JSX.Element {
     if(tabId === "summary") {
-      return (
-        <Observer itemProvider={this.buildReferenceProvider}>
-          {(observableProps: {itemProvider: ArrayItemProvider<BuildDefinitionReference> }) => 
-            {
-              if(observableProps.itemProvider.length > 0) {
+      if(this.buildReferenceProvider.value.length > 0) {
+        return (
+          <Observer itemProvider={this.buildReferenceProvider}>
+            {(observableProps: {itemProvider: ArrayItemProvider<BuildDefinitionReference> }) => 
+              {
                 return (
                   <Table<BuildDefinitionReference> columns={dashboardColumns} 
                       itemProvider={observableProps.itemProvider}
                       showLines={true}
                       role="table"/>
                 );
-              } else {
-                return this.renderZeroData(tabId);
               }
             }
-          }
-        </Observer>
-      )
+          </Observer>
+        )
+      } else {
+        return this.renderZeroData(tabId);
+      }
     } else if(tabId === "builds") {
       return (
         <Observer itemProvider={ this.buildProvider }>
