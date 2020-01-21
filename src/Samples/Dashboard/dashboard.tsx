@@ -50,6 +50,9 @@ class CICDDashboard extends React.Component<{}, {}> {
 
     setInterval(()=> {
       console.log("interval called: " + new Date() + " for " + this.currentProjectSelected);
+      if(this.currentProjectSelected != undefined) {
+        this.updateFromProject(this.currentProjectSelected);
+      }
     }, 10000);
   }
 
@@ -60,11 +63,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     projects: Array<TeamProjectReference>(),
   };
 
-  private onProjectSelected = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
-    let projectName = "";
-    if(item.text != undefined)
-      projectName = item.text;
-
+  private updateFromProject(projectName: string){ 
     this.currentProjectSelected = projectName;
     getBuildDefinitions(projectName).then(result => {
       this.setState({ buildDefs: result });
@@ -80,6 +79,14 @@ class CICDDashboard extends React.Component<{}, {}> {
       this.setState({ builds: result });
       this.buildProvider.value = new ArrayItemProvider(this.state.builds);
     });
+  }
+
+  private onProjectSelected = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
+    let projectName = "";
+    if(item.text != undefined)
+      projectName = item.text;
+
+    this.updateFromProject(projectName);
   }
 
   public loadProjects() {
