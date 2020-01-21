@@ -186,6 +186,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   public render() : JSX.Element {
 
     return (
+      <Surface background={SurfaceBackground.neutral}>
         <Page>
           <Header title="CI/CD Dashboard" 
                   titleSize={TitleSize.Large} />
@@ -231,6 +232,7 @@ class CICDDashboard extends React.Component<{}, {}> {
             </DataContext.Provider>
           </div>
         </Page>
+      </Surface>
     );
   }
 }
