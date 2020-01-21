@@ -187,51 +187,49 @@ class CICDDashboard extends React.Component<{}, {}> {
 
     return (
       <Surface background={SurfaceBackground.neutral}>
-        <Page className="pipelines-page flex-grow">
-          <Header title="CI/CD Dashboard" 
-                  titleSize={TitleSize.Large} />
+        <Header title="CI/CD Dashboard" 
+                titleSize={TitleSize.Large} />
 
-          <div className="page-content page-content-top">
-            <FilterBar filter={this.filter}>
-              <KeywordFilterBarItem filterItemKey="Placeholder" />
-              <DropdownFilterBarItem
-                filterItemKey="listSingle"
-                filter={this.filter}
-                items={this.state.projects.map(i => {
-                  return {
-                    id: i.id,
-                    text: i.name
-                  };
-                })}
-                placeholder="Team Project"
-                showFilterBox={true}
-                onSelect={this.onProjectSelected}
-                selection={this.projectSelection}
-              />
-            </FilterBar>
-          </div>
-          <div className="page-content page-content-top">
-            <DataContext.Provider value={{ state: this.state }}>
-                <Observer selectedTabId={this.selectedTabId}>
-                  {(props: { selectedTabId: string }) => {
-                    if(this.state.buildDefs.length === 0){
-                      return this.renderZeroData(this.selectedTabId.value);
-                    } else {
-                      return (
-                        <Card className="flex-grow bolt-table-card" 
-                              titleProps={{ text: "All pipelines" }} 
-                              contentProps={{ contentPadding: false }}>
-                                  <div  style={{ marginTop: "16px;", marginBottom: "16px;"}}>
-                                      { this.renderTab(props.selectedTabId) }
-                                  </div>
-                        </Card>
-                      );
-                    }
-                  }}
-                </Observer>
-            </DataContext.Provider>
-          </div>
-        </Page>
+        <div className="page-content page-content-top">
+          <FilterBar filter={this.filter}>
+            <KeywordFilterBarItem filterItemKey="Placeholder" />
+            <DropdownFilterBarItem
+              filterItemKey="listSingle"
+              filter={this.filter}
+              items={this.state.projects.map(i => {
+                return {
+                  id: i.id,
+                  text: i.name
+                };
+              })}
+              placeholder="Team Project"
+              showFilterBox={true}
+              onSelect={this.onProjectSelected}
+              selection={this.projectSelection}
+            />
+          </FilterBar>
+        </div>
+        <div className="page-content page-content-top">
+          <DataContext.Provider value={{ state: this.state }}>
+              <Observer selectedTabId={this.selectedTabId}>
+                {(props: { selectedTabId: string }) => {
+                  if(this.state.buildDefs.length === 0){
+                    return this.renderZeroData(this.selectedTabId.value);
+                  } else {
+                    return (
+                      <Card className="flex-grow bolt-table-card" 
+                            titleProps={{ text: "All pipelines" }} 
+                            contentProps={{ contentPadding: false }}>
+                                <div  style={{ marginTop: "16px;", marginBottom: "16px;"}}>
+                                    { this.renderTab(props.selectedTabId) }
+                                </div>
+                      </Card>
+                    );
+                  }
+                }}
+              </Observer>
+          </DataContext.Provider>
+        </div>
       </Surface>
     );
   }
