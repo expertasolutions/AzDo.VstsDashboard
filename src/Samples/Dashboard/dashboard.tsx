@@ -111,7 +111,6 @@ class CICDDashboard extends React.Component<{}, {}> {
       return (
         <div className="flex-center">
           <ZeroData
-            className="flex-center"
             primaryText="Create your first Pipeline"
             secondaryText={
               <span>
@@ -218,7 +217,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                 <Observer selectedTabId={this.selectedTabId}>
                   {(props: { selectedTabId: string }) => {
                     return (
-                      <div style={{ marginTop: "16px;"}}>
+                      <div style={{ marginTop: "16px;", marginBottom: "16px;"}}>
                           { this.renderTab(props.selectedTabId)}
                       </div>
                     )
