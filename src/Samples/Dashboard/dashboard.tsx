@@ -66,7 +66,6 @@ class CICDDashboard extends React.Component<{}, {}> {
       projectName = item.text;
 
     this.currentProjectSelected = projectName;
-    console.log("SelectedProject: " + this.currentState);
     getBuildDefinitions(projectName).then(result => {
       this.setState({ buildDefs: result });
       this.buildReferenceProvider.value = new ArrayItemProvider(this.state.buildDefs);
