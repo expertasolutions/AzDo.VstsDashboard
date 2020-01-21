@@ -49,7 +49,6 @@ class CICDDashboard extends React.Component<{}, {}> {
     }, FILTER_CHANGE_EVENT);
 
     setInterval(()=> {
-      console.log("interval called: " + new Date() + " for " + this.currentProjectSelected);
       if(this.currentProjectSelected != undefined) {
         this.updateFromProject(this.currentProjectSelected);
       }
