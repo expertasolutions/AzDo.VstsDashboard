@@ -24,6 +24,7 @@ import { Observer } from "azure-devops-ui/Observer";
 import { DataContext }  from "./dataContext";
 import { Header, TitleSize } from "azure-devops-ui/Header";
 import { IListBoxItem } from "azure-devops-ui/ListBox";
+import { ITextFieldProps } from "azure-devops-ui/TextField";
 import { Filter, FilterOperatorType, FILTER_CHANGE_EVENT } from "azure-devops-ui/Utilities/Filter";
 import { FilterBar } from "azure-devops-ui/FilterBar";
 import { ZeroData, ZeroDataActionType } from "azure-devops-ui/ZeroData";
@@ -200,7 +201,6 @@ class CICDDashboard extends React.Component<{}, {}> {
           <Header title="CI/CD Dashboard" titleSize={TitleSize.Large} />
           <div className="page-content page-content-top">
             <FilterBar filter={this.filter}>
-              <KeywordFilterBarItem filterItemKey="Placeholder" />
               <DropdownFilterBarItem
                 filterItemKey="listSingle"
                 filter={this.filter}
