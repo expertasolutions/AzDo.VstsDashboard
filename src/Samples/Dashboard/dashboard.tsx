@@ -188,9 +188,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     return (
       <Surface background={SurfaceBackground.neutral}>
         <Page>
-          <Header title="CI/CD Dashboard" 
-                  titleSize={TitleSize.Large} />
-
+          <Header title="CI/CD Dashboard" titleSize={TitleSize.Large} />
           <div className="page-content page-content-top">
             <FilterBar filter={this.filter}>
               <KeywordFilterBarItem filterItemKey="Placeholder" />
