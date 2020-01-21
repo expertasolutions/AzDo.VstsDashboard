@@ -47,6 +47,10 @@ class CICDDashboard extends React.Component<{}, {}> {
     this.filter.subscribe(() => {
       this.currentState.value = JSON.stringify(this.filter.getState(), null, 4);
     }, FILTER_CHANGE_EVENT);
+
+    setInterval(()=> {
+      console.log("interval called: " + new Date());
+    }, 10000);
   }
 
   state = {
