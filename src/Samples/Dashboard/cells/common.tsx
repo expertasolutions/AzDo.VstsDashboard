@@ -225,8 +225,6 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
             onClick={() => window.open(lastDep.releaseEnvironment._links.web.href, "_blank") }>
             <Status {...relStatusInfo.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{lastDep.releaseEnvironment.name}
           </Pill>)
-      } else {
-        console.log(lastDep.releaseEnvironment.name + " already found for " + lastDep.releaseEnvironment.id);
       }
     }
     let all = false;
@@ -235,7 +233,8 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
     }
 
     if(deploys.length > 0) {
-      content.push(<div><b><Link href={relRefInfo._links.web.href} target="_blank">{relRefInfo.name}</Link></b><p><PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{children}</PillGroup></p></div>);
+      content.push(<div><b><Link href={relRefInfo._links.web.href} target="_blank">{relRefInfo.name}</Link></b><p>
+                          <PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{children}</PillGroup></p></div>);
     }
     children = [];
   }
