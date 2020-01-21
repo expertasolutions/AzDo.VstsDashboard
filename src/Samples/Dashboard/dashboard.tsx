@@ -155,7 +155,7 @@ class CICDDashboard extends React.Component<{}, {}> {
           </Observer>
         )
       } else {
-        return this.renderZeroData(tabId);
+        return (<div></div>)
       }
     } else if(tabId === "builds") {
       return (
@@ -169,7 +169,7 @@ class CICDDashboard extends React.Component<{}, {}> {
         </Observer>
       )
     } else {
-      return (<div>{tabId}</div>)
+      return (<div></div>);
     }
   }
 
@@ -184,6 +184,9 @@ class CICDDashboard extends React.Component<{}, {}> {
   }
 
   public render() : JSX.Element {
+
+    let zeroDataCtrl = this.renderZeroData(this.selectedTabId.value);
+
     return (
       <Surface background={SurfaceBackground.neutral}>
         <Page className="pipelines-page flex-grow">
@@ -210,6 +213,7 @@ class CICDDashboard extends React.Component<{}, {}> {
             </FilterBar>
           </div>
           <div className="page-content page-content-top">
+            {zeroDataCtrl}
             <Card className="flex-grow bolt-table-card" 
                   titleProps={{ text: "All pipelines" }} 
                   contentProps={{ contentPadding: false }}>
@@ -217,8 +221,8 @@ class CICDDashboard extends React.Component<{}, {}> {
                 <Observer selectedTabId={this.selectedTabId}>
                   {(props: { selectedTabId: string }) => {
                     return (
-                      <div style={{ marginTop: "16px;", marginBottom: "16px;"}}>
-                          { this.renderTab(props.selectedTabId)}
+                      <div  style={{ marginTop: "16px;", marginBottom: "16px;"}}>
+                          { this.renderTab(props.selectedTabId) }
                       </div>
                     )
                   }}
