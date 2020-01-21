@@ -185,8 +185,6 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   public render() : JSX.Element {
 
-    let zeroDataCtrl = this.renderZeroData(this.selectedTabId.value);
-
     return (
       <Surface background={SurfaceBackground.neutral}>
         <Page className="pipelines-page flex-grow">
@@ -213,22 +211,25 @@ class CICDDashboard extends React.Component<{}, {}> {
             </FilterBar>
           </div>
           <div className="page-content page-content-top">
-            {zeroDataCtrl}
-            <Card className="flex-grow bolt-table-card" 
-                  titleProps={{ text: "All pipelines" }} 
-                  contentProps={{ contentPadding: false }}>
-              <DataContext.Provider value={{ state: this.state }}>
+            <DataContext.Provider value={{ state: this.state }}>
                 <Observer selectedTabId={this.selectedTabId}>
                   {(props: { selectedTabId: string }) => {
-                    return (
-                      <div  style={{ marginTop: "16px;", marginBottom: "16px;"}}>
-                          { this.renderTab(props.selectedTabId) }
-                      </div>
-                    )
+                    if(this.state.buildDefs.length === 0){
+                      return this.renderZeroData(this.selectedTabId.value);
+                    } else {
+                      return (
+                        <Card className="flex-grow bolt-table-card" 
+                              titleProps={{ text: "All pipelines" }} 
+                              contentProps={{ contentPadding: false }}>
+                                  <div  style={{ marginTop: "16px;", marginBottom: "16px;"}}>
+                                      { this.renderTab(props.selectedTabId) }
+                                  </div>
+                        </Card>
+                      );
+                    }
                   }}
                 </Observer>
-              </DataContext.Provider>
-            </Card>
+            </DataContext.Provider>
           </div>
         </Page>
       </Surface>
