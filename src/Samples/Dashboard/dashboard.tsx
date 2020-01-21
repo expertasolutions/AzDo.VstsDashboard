@@ -49,7 +49,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     }, FILTER_CHANGE_EVENT);
 
     setInterval(()=> {
-      console.log("interval called: " + new Date());
+      console.log("interval called: " + new Date() + " for " + this.currentProjectSelected);
     }, 10000);
   }
 
