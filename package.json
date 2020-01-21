@@ -1,0 +1,51 @@
+{
+  "name": "vstsDashboard",
+  "version": "1.0.0",
+  "description": "## Objectives",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "publishExt": "npm install && tsc -p .",
+    "clean": "rimraf ./dist",
+    "webpack": "webpack --mode production",
+    "compile": "npm run clean && webpack --mode production",
+    "compile:dev": "npm run clean && webpack --mode development",
+    "build": "npm run compile"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "azure-devops-extension-api": "^1.157.0",
+    "azure-devops-extension-sdk": "^2.0.11",
+    "azure-devops-ui": "^1.160.4",
+    "es6-promise": "^4.2.8",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0"
+  },
+  "devDependencies": {
+    "@types/react": "~16.8.2",
+    "@types/react-dom": "~16.8.0",
+    "base64-inline-loader": "^1.1.1",
+    "copy-webpack-plugin": "^4.5.4",
+    "css-loader": "~1.0.0",
+    "file-loader": "~2.0.0",
+    "node-sass": "~4.12.0",
+    "rimraf": "~2.6.2",
+    "sass-loader": "~7.1.0",
+    "style-loader": "~0.23.1",
+    "tfx-cli": "^0.6.3",
+    "ts-loader": "~5.2.2",
+    "typescript": "^2.9.2",
+    "webpack": "^4.22.0",
+    "webpack-cli": "^3.1.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/expertasolutions/VstsDashboard.git"
+  },
+  "bugs": {
+    "url": "https://github.com/expertasolutions/VstsDashboard/issues"
+  },
+  "homepage": "https://github.com/expertasolutions/VstsDashboard#readme"
+}

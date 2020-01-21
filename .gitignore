@@ -1,4 +1,2 @@
-node_modules
-dist
-secrets
-configs/docker/vsts.appsettings.json
+node_modules/
+dist/

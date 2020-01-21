@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+      "charset": "utf8",
+      "experimentalDecorators": true,
+      "module": "amd",
+      "moduleResolution": "node",
+      "noImplicitAny": true,
+      "noImplicitThis": true,
+      "strict": true,
+      "target": "es6",
+      "rootDir": "src/",
+      "outDir": "dist/",
+      "jsx": "react",
+      "lib": [
+        "es6",
+        "dom",
+        "es2015.promise"
+      ],
+      "types": [
+          "react"
+      ]
+  }
+}
