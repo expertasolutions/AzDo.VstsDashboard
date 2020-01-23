@@ -96,25 +96,28 @@ class CICDDashboard extends React.Component<{}, {}> {
   }
 
   public componentDidMount() {
-    
+    /*
     SDK.init().then(()=> {
       console.log("Init is finish");
     });
+    */
+    this.initializeState();    
+  }
 
-    SDK.ready().then(()=> {
-      console.log("ready is call");
-      let context = SDK.getExtensionContext();
-      console.log("extensionContext: " + JSON.stringify(context));
-      let user = SDK.getUser();
-      console.log("User: " + JSON.stringify(user));
+  private async initializeState(): Promise<void> {
+    await SDK.ready();
 
-      SDK.getService<IProjectPageService>(CommonServiceIds.ProjectPageService).then(rs=> {
-        let project = rs.getProject();
-        console.log("PROJ: " + JSON.stringify(project));
-      });
+    console.log("ready is call");
+    let context = SDK.getExtensionContext();
+    console.log("extensionContext: " + JSON.stringify(context));
+    let user = SDK.getUser();
+    console.log("User: " + JSON.stringify(user));
 
-      this.loadProjects();
-    })
+    let projectService = await SDK.getService<IProjectPageService>(CommonServiceIds.ProjectPageService);
+    let project = projectService.getProject();
+    console.log("PROJ: " + JSON.stringify(project));
+
+    this.loadProjects();
   }
 
   private buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(this.state.buildDefs));
