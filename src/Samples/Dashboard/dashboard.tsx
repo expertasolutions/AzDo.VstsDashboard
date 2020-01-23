@@ -96,6 +96,8 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   public componentDidMount() {
     SDK.init();
+    let config = SDK.getConfiguration();
+    console.log("configuration: " + JSON.stringify(config));
     this.loadProjects();
   }
 
