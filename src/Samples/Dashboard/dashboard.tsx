@@ -27,6 +27,7 @@ import { IListBoxItem } from "azure-devops-ui/ListBox";
 import { Filter, FilterOperatorType, FILTER_CHANGE_EVENT } from "azure-devops-ui/Utilities/Filter";
 import { FilterBar } from "azure-devops-ui/FilterBar";
 import { ZeroData, ZeroDataActionType } from "azure-devops-ui/ZeroData";
+import { CommonServiceIds, IProjectPageService } from "azure-devops-extension-api";
 
 class CICDDashboard extends React.Component<{}, {}> {
   private selectedTabId = new ObservableValue("summary");
@@ -110,6 +111,11 @@ class CICDDashboard extends React.Component<{}, {}> {
       console.log("Host: " + JSON.stringify(host));
       let user = SDK.getUser();
       console.log("User: " + JSON.stringify(user));
+
+      SDK.getService<IProjectPageService>(CommonServiceIds.ProjectPageService).then(rs=> {
+        let project = rs.getProject();
+        console.log("PROJ: " + JSON.stringify(project));
+      });
       this.loadProjects();
     })
   }
