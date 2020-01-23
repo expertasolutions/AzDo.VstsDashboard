@@ -105,10 +105,6 @@ class CICDDashboard extends React.Component<{}, {}> {
       console.log("ready is call");
       let context = SDK.getExtensionContext();
       console.log("extensionContext: " + JSON.stringify(context));
-      let contrib = SDK.getContributionId();
-      console.log("contributionId: " + contrib);
-      let host = SDK.getHost();
-      console.log("Host: " + JSON.stringify(host));
       let user = SDK.getUser();
       console.log("User: " + JSON.stringify(user));
 
@@ -116,6 +112,7 @@ class CICDDashboard extends React.Component<{}, {}> {
         let project = rs.getProject();
         console.log("PROJ: " + JSON.stringify(project));
       });
+
       this.loadProjects();
     })
   }
