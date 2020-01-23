@@ -96,11 +96,6 @@ class CICDDashboard extends React.Component<{}, {}> {
   }
 
   public componentDidMount() {
-    /*
-    SDK.init().then(()=> {
-      console.log("Init is finish");
-    });
-    */
     this.initializeState();    
   }
 
@@ -115,6 +110,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     console.log("User: " + JSON.stringify(user));
 
     let projectService = await SDK.getService<IProjectPageService>(CommonServiceIds.ProjectPageService);
+    console.log("ProjectService: " + JSON.stringify(projectService));
     let project = projectService.getProject();
     console.log("PROJ: " + JSON.stringify(project));
 
