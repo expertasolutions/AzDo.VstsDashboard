@@ -98,8 +98,11 @@ class CICDDashboard extends React.Component<{}, {}> {
     SDK.init().then(()=> {
       //let config = SDK.getConfiguration();
       //console.log("configuration: " + JSON.stringify(config));
+    });
+    SDK.ready().then(()=> {
+      console.log("ready is call");
       this.loadProjects();
-    });  
+    })
   }
 
   private buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(this.state.buildDefs));
