@@ -27,6 +27,7 @@ import { IListBoxItem } from "azure-devops-ui/ListBox";
 import { Filter, FilterOperatorType, FILTER_CHANGE_EVENT } from "azure-devops-ui/Utilities/Filter";
 import { FilterBar } from "azure-devops-ui/FilterBar";
 import { ZeroData, ZeroDataActionType } from "azure-devops-ui/ZeroData";
+import { CommonServiceIds, IProjectPageService } from "azure-devops-extension-api";
 
 class CICDDashboard extends React.Component<{}, {}> {
   private selectedTabId = new ObservableValue("summary");
@@ -95,7 +96,23 @@ class CICDDashboard extends React.Component<{}, {}> {
   }
 
   public componentDidMount() {
-    SDK.init();
+    this.initializeState();    
+  }
+
+  private async initializeState(): Promise<void> {
+    await SDK.init();
+    await SDK.ready();
+
+    console.log("ready is call");
+    let context = SDK.getExtensionContext();
+    console.log("extensionContext: " + JSON.stringify(context));
+    let user = SDK.getUser();
+    console.log("User: " + JSON.stringify(user));
+
+    const projectService = await SDK.getService<IProjectPageService>(CommonServiceIds.ProjectPageService);
+    let proj = await projectService.getProject();
+    console.log("CurrentProject: " + JSON.stringify(proj));
+
     this.loadProjects();
   }
 
@@ -197,7 +214,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     return (
       <Surface background={SurfaceBackground.neutral}>
         <Page className="pipelines-page flex-grow">
-          <Header title="CI/CD Dashboard [Beta-Preview]" titleSize={TitleSize.Large} />
+          <Header title="CI/CD Dashboard" titleSize={TitleSize.Large} />
           <div className="page-content page-content-top">
             <FilterBar filter={this.filter}>
               <KeywordFilterBarItem filterItemKey="pipeline" />
