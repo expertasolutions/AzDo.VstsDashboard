@@ -53,7 +53,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       if(this.currentProjectSelected != undefined) {
         this.updateFromProject(this.currentProjectSelected);
       }
-    }, 5000);
+    }, 10000);
   }
 
   state = {
