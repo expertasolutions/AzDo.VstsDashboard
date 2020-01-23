@@ -105,6 +105,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   }
 
   private async initializeState(): Promise<void> {
+    await SDK.init();
     await SDK.ready();
 
     console.log("ready is call");
