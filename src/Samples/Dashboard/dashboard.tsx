@@ -106,6 +106,10 @@ class CICDDashboard extends React.Component<{}, {}> {
       console.log("extensionContext: " + JSON.stringify(context));
       let contrib = SDK.getContributionId();
       console.log("contributionId: " + contrib);
+      let host = SDK.getHost();
+      console.log("Host: " + JSON.stringify(host));
+      let user = SDK.getUser();
+      console.log("User: " + JSON.stringify(user));
       this.loadProjects();
     })
   }
