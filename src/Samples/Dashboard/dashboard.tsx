@@ -109,8 +109,9 @@ class CICDDashboard extends React.Component<{}, {}> {
     let user = SDK.getUser();
     console.log("User: " + JSON.stringify(user));
 
-    let projectService = await SDK.getService<IProjectPageService>(CommonServiceIds.ProjectPageService);
-    console.log("ProjectService: " + JSON.stringify(projectService));
+    const projectService = await SDK.getService<IProjectPageService>(CommonServiceIds.ProjectPageService);
+    let proj = await projectService.getProject();
+    console.log("CurrentProject: " + proj?.name);
 
     this.loadProjects();
   }
