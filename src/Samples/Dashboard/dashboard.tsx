@@ -117,8 +117,8 @@ class CICDDashboard extends React.Component<{}, {}> {
       let prj = this.state.projects.find(x=> x.name === nam);
       if(prj != undefined) {
         let currentProjectIndex = this.state.projects.indexOf(prj);
-        //this.updateFromProject(currentProject.name);
         this.projectSelection.select(currentProjectIndex);
+        this.updateFromProject(currentProject.name);
       }
     }
   }
