@@ -31,7 +31,7 @@ export async function getReleases(projectName: string) {
   let newDate = minDate.setDate(minDate.getDate()-1000);
   minDate = new Date(newDate);
   return await releaseClient.getDeployments(projectName, undefined, undefined, undefined, minDate, new Date(),
-    undefined, undefined, false, undefined, -1, undefined,
+    undefined, undefined, false, undefined, 1000, undefined,
     undefined, undefined, undefined, undefined);
 }
 
