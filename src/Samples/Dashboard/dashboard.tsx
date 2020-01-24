@@ -111,9 +111,10 @@ class CICDDashboard extends React.Component<{}, {}> {
     const projectService = await SDK.getService<IProjectPageService>(CommonServiceIds.ProjectPageService);
     let currentProject = await projectService.getProject();
     await this.loadProjects();
-    
+
     if(currentProject != undefined){
       this.updateFromProject(currentProject.name);
+      console.log("ProjectSelection: " + JSON.stringify(this.projectSelection.value));
     }
   }
 
