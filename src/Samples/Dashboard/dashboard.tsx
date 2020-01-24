@@ -89,10 +89,9 @@ class CICDDashboard extends React.Component<{}, {}> {
     this.updateFromProject(projectName);
   }
 
-  public loadProjects() {
-    getProjects().then(result => {
-      this.setState( { projects: result });
-    });
+  public async loadProjects() {
+    let result = await getProjects();
+    this.setState( { projects: result });
   }
 
   public componentDidMount() {
@@ -103,17 +102,19 @@ class CICDDashboard extends React.Component<{}, {}> {
     await SDK.init();
     await SDK.ready();
 
-    console.log("ready is call");
-    let context = SDK.getExtensionContext();
-    console.log("extensionContext: " + JSON.stringify(context));
-    let user = SDK.getUser();
-    console.log("User: " + JSON.stringify(user));
-
     const projectService = await SDK.getService<IProjectPageService>(CommonServiceIds.ProjectPageService);
-    let proj = await projectService.getProject();
-    console.log("CurrentProject: " + JSON.stringify(proj));
+    let currentProject = await projectService.getProject();
+    await this.loadProjects();
 
-    this.loadProjects();
+    if(currentProject != undefined){
+      let nam = currentProject.name;
+      let prj = this.state.projects.find(x=> x.name === nam);
+      if(prj != undefined) {
+        let currentProjectIndex = this.state.projects.indexOf(prj);
+        this.projectSelection.select(currentProjectIndex);
+        this.updateFromProject(currentProject.name);
+      }
+    }
   }
 
   private buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(this.state.buildDefs));
