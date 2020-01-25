@@ -136,11 +136,13 @@ class CICDDashboard extends React.Component<{}, {}> {
       let nam = currentProject.name;
       let prj = this.state.projects.find(x=> x.name === nam);
       if(prj != undefined) {
+        /*
         this.filter = new Filter({
           defaultState: {
             teamProjectId: { value: currentProject.name }
           }
         });
+        */
         let currentProjectIndex = this.state.projects.indexOf(prj);
         this.projectSelection.select(currentProjectIndex);
         this.updateFromProject(currentProject.name);
