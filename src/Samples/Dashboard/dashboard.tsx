@@ -83,8 +83,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     this.currentProjectSelected = projectName;
     getBuildDefinitions(projectName).then(result => {
       this.setState({ buildDefs: result });
-      // CODE_REVIEW: Warning about the filter bar after interval refresh
-      this.buildReferenceProvider.value = new ArrayItemProvider(this.state.buildDefs);
+      this.filterData();
     });
 
     getReleases(projectName).then(result => {
