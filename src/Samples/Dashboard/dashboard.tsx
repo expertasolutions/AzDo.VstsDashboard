@@ -127,7 +127,6 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   private async initializeState(): Promise<void> {
     await SDK.init();
-    await SDK.ready();
 
     const projectService = await SDK.getService<IProjectPageService>(CommonServiceIds.ProjectPageService);
     let currentProject = await projectService.getProject();
@@ -147,6 +146,8 @@ class CICDDashboard extends React.Component<{}, {}> {
         this.updateFromProject(currentProject.name);
       }
     }
+
+    await SDK.ready();
   }
 
   private buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(this.state.buildDefs));
