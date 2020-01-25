@@ -56,12 +56,18 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   private onFilterChanged = ()  => {
     let filterState = this.filter.getState();
-    console.log("PipelineKeyWord: " + filterState.pipelineKeyWord?.value);
-    console.log("TeamProjectId: " + filterState.teamProjectId?.value);
 
-    let pipelineKeyWord = filterState.pipelineKeyWord;
-    if(pipelineKeyWord !== undefined) {
-      let elm = this.state.buildDefs.filter(x=> x.name.indexOf(pipelineKeyWord?.value) !== -1);
+    if(filterState.pipelineKeyWord !== null){
+      console.log("PipelineKeyWord: " + filterState.pipelineKeyWord.value);
+    }
+
+    if(filterState.teamProjectId !== null) {
+      console.log("TeamProjectId: " + filterState.teamProjectId.value);
+    }
+
+    if(filterState.pipelineKeyWord !== null) {
+      let pipelineFilterText = filterState.pipelineKeyWord.value;
+      let elm = this.state.buildDefs.filter(x=> x.name.indexOf(pipelineFilterText) !== -1);
       console.log("Element Found: " + elm.length);
     }
   };
