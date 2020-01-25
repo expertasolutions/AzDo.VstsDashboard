@@ -34,7 +34,6 @@ class CICDDashboard extends React.Component<{}, {}> {
   private projectSelection = new DropdownSelection();
   private filter: Filter = new Filter();
   private currentProjectSelected: string = "";
-  private currentState = new ObservableValue("");
 
   constructor(props: {}) {
     super(props);
@@ -44,10 +43,6 @@ class CICDDashboard extends React.Component<{}, {}> {
       value: [],
       operator: FilterOperatorType.and
     });
-
-    this.filter.subscribe(() => {
-      this.currentState.value = JSON.stringify(this.filter.getState(), null, 4);
-    }, FILTER_CHANGE_EVENT);
 
     setInterval(()=> {
       if(this.currentProjectSelected != undefined) {
@@ -61,6 +56,11 @@ class CICDDashboard extends React.Component<{}, {}> {
     builds: Array<Build>(),
     releases: Array<Deployment>(),
     projects: Array<TeamProjectReference>(),
+  };
+
+  private onFilterChanged = () => {
+    let filterValue = JSON.stringify(this.filter.getState(), null, 4);
+    console.log("New filter value: " + filterValue);
   };
 
   private updateFromProject(projectName: string){ 
@@ -96,6 +96,11 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   public componentDidMount() {
     this.initializeState();    
+    this.filter.subscribe(this.onFilterChanged, FILTER_CHANGE_EVENT);
+  }
+
+  public componentWillMount() {
+    this.filter.unsubscribe(this.onFilterChanged, FILTER_CHANGE_EVENT);
   }
 
   private async initializeState(): Promise<void> {
