@@ -69,6 +69,9 @@ class CICDDashboard extends React.Component<{}, {}> {
       let pipelineFilterText = filterState.pipelineKeyWord.value;
       let elm = this.state.buildDefs.filter(x=> x.name.indexOf(pipelineFilterText) !== -1);
       console.log("Element Found: " + elm.length);
+      this.buildReferenceProvider.value = new ArrayItemProvider(elm);
+    } else {
+      this.buildReferenceProvider.value = new ArrayItemProvider(this.state.buildDefs);
     }
   };
 
