@@ -70,8 +70,8 @@ class CICDDashboard extends React.Component<{}, {}> {
     }
 
     if(filterState.pipelineKeyWord !== null) {
-      let pipelineFilterText = filterState.pipelineKeyWord.value;
-      let elm = this.state.buildDefs.filter(x=> x.name.indexOf(pipelineFilterText) !== -1);
+      let pipelineFilterText = filterState.pipelineKeyWord.value.toLowerCase();
+      let elm = this.state.buildDefs.filter(x=> x.name.toLowerCase().indexOf(pipelineFilterText) !== -1);
       console.log("Element Found: " + elm.length);
       this.buildReferenceProvider.value = new ArrayItemProvider(elm);
     } else {
