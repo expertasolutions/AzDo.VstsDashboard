@@ -24,7 +24,7 @@ import { Observer } from "azure-devops-ui/Observer";
 import { DataContext }  from "./dataContext";
 import { Header, TitleSize } from "azure-devops-ui/Header";
 import { IListBoxItem } from "azure-devops-ui/ListBox";
-import { Filter, FILTER_CHANGE_EVENT } from "azure-devops-ui/Utilities/Filter";
+import { Filter, FILTER_CHANGE_EVENT, FILTER_RESET_EVENT } from "azure-devops-ui/Utilities/Filter";
 import { FilterBar } from "azure-devops-ui/FilterBar";
 import { ZeroData, ZeroDataActionType } from "azure-devops-ui/ZeroData";
 import { CommonServiceIds, IProjectPageService } from "azure-devops-extension-api";
@@ -53,6 +53,10 @@ class CICDDashboard extends React.Component<{}, {}> {
     releases: Array<Deployment>(),
     projects: Array<TeamProjectReference>(),
   };
+
+  private onFilterReset =() => {
+    console.log("OnFilterReset called");
+  }
 
   private onFilterChanged = ()  => {
     this.filterData();
@@ -119,10 +123,12 @@ class CICDDashboard extends React.Component<{}, {}> {
   public componentDidMount() {
     this.initializeState();    
     this.filter.subscribe(this.onFilterChanged, FILTER_CHANGE_EVENT);
+    this.filter.subscribe(this.onFilterReset, FILTER_RESET_EVENT);
   }
 
   public componentWillMount() {
     this.filter.unsubscribe(this.onFilterChanged, FILTER_CHANGE_EVENT);
+    this.filter.unsubscribe(this.onFilterReset, FILTER_RESET_EVENT);
   }
 
   private async initializeState(): Promise<void> {
