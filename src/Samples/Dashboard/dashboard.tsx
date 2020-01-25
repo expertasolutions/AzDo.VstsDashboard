@@ -105,7 +105,9 @@ class CICDDashboard extends React.Component<{}, {}> {
 
     // Reset the Pipeline KeyWord only, when TeamProject selection has changed
     let filterState = this.filter.getState();
-    filterState.pipelineKeyWord = null;
+    if(filterState.pipelineKeyWord !== undefined){
+      filterState.pipelineKeyWord = null;
+    }
     this.filter.setState(filterState);
 
     this.updateFromProject(projectName);
