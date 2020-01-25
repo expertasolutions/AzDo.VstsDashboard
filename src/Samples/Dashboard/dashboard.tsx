@@ -55,6 +55,10 @@ class CICDDashboard extends React.Component<{}, {}> {
   };
 
   private onFilterChanged = ()  => {
+    this.filterData();
+  };
+
+  private filterData() {
     let filterState = this.filter.getState();
 
     if(filterState.pipelineKeyWord !== null){
@@ -73,12 +77,13 @@ class CICDDashboard extends React.Component<{}, {}> {
     } else {
       this.buildReferenceProvider.value = new ArrayItemProvider(this.state.buildDefs);
     }
-  };
+  }
 
   private updateFromProject(projectName: string){ 
     this.currentProjectSelected = projectName;
     getBuildDefinitions(projectName).then(result => {
       this.setState({ buildDefs: result });
+      // CODE_REVIEW: Warning about the filter bar after interval refresh
       this.buildReferenceProvider.value = new ArrayItemProvider(this.state.buildDefs);
     });
 
@@ -89,7 +94,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     // Update Builds Runs list...
     getBuilds(projectName).then(result=> {
       this.setState({ builds: result });
-      this.buildProvider.value = new ArrayItemProvider(this.state.builds);
+      this.filterData();
     });
   }
 
