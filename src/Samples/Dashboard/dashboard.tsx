@@ -39,10 +39,6 @@ class CICDDashboard extends React.Component<{}, {}> {
     super(props);
 
     this.filter = new Filter();
-    this.filter.setFilterItemState("listMulti", {
-      value: [],
-      operator: FilterOperatorType.and
-    });
 
     setInterval(()=> {
       if(this.currentProjectSelected != undefined) {
