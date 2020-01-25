@@ -105,9 +105,7 @@ class CICDDashboard extends React.Component<{}, {}> {
 
     // Reset the Pipeline KeyWord only, when TeamProject selection has changed
     let filterState = this.filter.getState();
-    if(filterState.pipelineKeyWord !== undefined){
-      filterState.pipelineKeyWord = null;
-    }
+    filterState.pipelineKeyWord = null;
     this.filter.setState(filterState);
 
     this.updateFromProject(projectName);
@@ -138,6 +136,12 @@ class CICDDashboard extends React.Component<{}, {}> {
       let nam = currentProject.name;
       let prj = this.state.projects.find(x=> x.name === nam);
       if(prj != undefined) {
+        this.filter = new Filter({
+          defaultState: {
+            teamProjectId: { value: currentProject.name },
+            pipelineKeyWord: { value: "" }
+          }
+        });
         let currentProjectIndex = this.state.projects.indexOf(prj);
         this.projectSelection.select(currentProjectIndex);
         this.updateFromProject(currentProject.name);
