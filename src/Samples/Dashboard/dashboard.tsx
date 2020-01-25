@@ -24,7 +24,7 @@ import { Observer } from "azure-devops-ui/Observer";
 import { DataContext }  from "./dataContext";
 import { Header, TitleSize } from "azure-devops-ui/Header";
 import { IListBoxItem } from "azure-devops-ui/ListBox";
-import { Filter, FilterOperatorType, FILTER_CHANGE_EVENT } from "azure-devops-ui/Utilities/Filter";
+import { Filter, FILTER_CHANGE_EVENT } from "azure-devops-ui/Utilities/Filter";
 import { FilterBar } from "azure-devops-ui/FilterBar";
 import { ZeroData, ZeroDataActionType } from "azure-devops-ui/ZeroData";
 import { CommonServiceIds, IProjectPageService } from "azure-devops-extension-api";
