@@ -61,15 +61,15 @@ class CICDDashboard extends React.Component<{}, {}> {
   private filterData() {
     let filterState = this.filter.getState();
 
-    if(filterState.pipelineKeyWord !== null){
+    if(filterState.pipelineKeyword !== undefined && filterState.pipelineKeyWord !== null){
       console.log("PipelineKeyWord: " + filterState.pipelineKeyWord.value);
     }
 
-    if(filterState.teamProjectId !== null) {
+    if(filterState.teamProjectId !== undefined && filterState.teamProjectId !== null) {
       console.log("TeamProjectId: " + filterState.teamProjectId.value);
     }
 
-    if(filterState.pipelineKeyWord !== null) {
+    if(filterState.teamProjectId !== undefined && filterState.pipelineKeyWord !== null) {
       let pipelineFilterText = filterState.pipelineKeyWord.value.toLowerCase();
       let elm = this.state.buildDefs.filter(x=> x.name.toLowerCase().indexOf(pipelineFilterText) !== -1);
       console.log("Element Found: " + elm.length);
@@ -142,8 +142,8 @@ class CICDDashboard extends React.Component<{}, {}> {
             teamProjectId: { value: currentProject.name }
           }
         });
-//      let currentProjectIndex = this.state.projects.indexOf(prj);
-//      this.projectSelection.select(currentProjectIndex);
+        let currentProjectIndex = this.state.projects.indexOf(prj);
+        this.projectSelection.select(currentProjectIndex);
         this.updateFromProject(currentProject.name);
       }
     }
