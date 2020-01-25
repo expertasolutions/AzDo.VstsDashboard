@@ -54,9 +54,16 @@ class CICDDashboard extends React.Component<{}, {}> {
     projects: Array<TeamProjectReference>(),
   };
 
-  private onFilterChanged = () => {
-    let filterValue = JSON.stringify(this.filter.getState(), null, 4);
-    console.log("New filter value: " + filterValue);
+  private onFilterChanged = ()  => {
+    let filterState = this.filter.getState();
+    console.log("PipelineKeyWord: " + filterState.pipelineKeyWord?.value);
+    console.log("TeamProjectId: " + filterState.teamProjectId?.value);
+
+    let pipelineKeyWord = filterState.pipelineKeyWord;
+    if(pipelineKeyWord !== undefined) {
+      let elm = this.state.buildDefs.filter(x=> x.name.indexOf(pipelineKeyWord?.value) !== -1);
+      console.log("Element Found: " + elm.length);
+    }
   };
 
   private updateFromProject(projectName: string){ 
@@ -219,9 +226,9 @@ class CICDDashboard extends React.Component<{}, {}> {
           <Header title="CI/CD Dashboard" titleSize={TitleSize.Large} />
           <div className="page-content page-content-top">
             <FilterBar filter={this.filter}>
-              <KeywordFilterBarItem filterItemKey="pipeline" />
+              <KeywordFilterBarItem filterItemKey="pipelineKeyWord" />
               <DropdownFilterBarItem
-                filterItemKey="listSingle"
+                filterItemKey="teamProjectId"
                 filter={this.filter}
                 items={this.state.projects.map(i => {
                   return {
