@@ -42,7 +42,7 @@ class CICDDashboard extends React.Component<{}, {}> {
 
     setInterval(()=> {
       if(this.currentProjectSelected != undefined) {
-        this.updateFromProject(this.currentProjectSelected);
+      //  this.updateFromProject(this.currentProjectSelected);
       }
     }, 10000);
   }
@@ -58,7 +58,8 @@ class CICDDashboard extends React.Component<{}, {}> {
     console.log("OnFilterReset called");
   }
 
-  private onFilterChanged = ()  => {
+  private onFilterChanged = () => {
+    console.log("onFilterChanged");
     this.filterData();
   };
 
