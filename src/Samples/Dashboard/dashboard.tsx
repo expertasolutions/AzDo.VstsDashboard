@@ -66,7 +66,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   private filterData() {
     let filterState = this.filter.getState();
 
-    if(filterState.pipelineKeyword !== undefined && filterState.pipelineKeyWord !== null){
+    if(filterState.pipelineKeyWord !== undefined && filterState.pipelineKeyWord !== null){
       console.log("PipelineKeyWord: " + filterState.pipelineKeyWord.value);
     }
 
