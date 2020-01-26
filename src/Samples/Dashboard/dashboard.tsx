@@ -144,8 +144,8 @@ class CICDDashboard extends React.Component<{}, {}> {
       if(prj != undefined) {
         this.filter = new Filter({
           defaultState: {
-            teamProjectId: { value: currentProject.name },
-            pipelineKeyWord: { value: '' }
+            teamProjectId: { value: currentProject.id }//,
+            //pipelineKeyWord: { value: '' }
           }
         });
         let currentProjectIndex = this.state.projects.indexOf(prj);
