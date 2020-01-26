@@ -277,6 +277,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                 showFilterBox={true}
                 onSelect={this.onProjectSelected}
                 selection={this.projectSelection}
+                hideClearAction={true}
               />
             </FilterBar>
           </div>
