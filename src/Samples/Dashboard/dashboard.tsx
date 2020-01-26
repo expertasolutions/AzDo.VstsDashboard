@@ -34,7 +34,6 @@ class CICDDashboard extends React.Component<{}, {}> {
   private projectSelection = new DropdownSelection();
   private filter: Filter = new Filter();
   private currentProjectSelected: string = "";
-  private currentInitialProject: any = {};
 
   constructor(props: {}) {
     super(props);
@@ -65,8 +64,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       let nam = currentProject.name;
       let prj = this.state.projects.find(x=> x.name === nam);
       if(prj != undefined) {
-        this.currentInitialProject = prj;
-        let index = this.state.projects.indexOf(this.currentInitialProject);
+        let index = this.state.projects.indexOf(prj);
         this.projectSelection.select(index);
         this.updateFromProject(currentProject.name);
       }
@@ -157,8 +155,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       let nam = currentProject.name;
       let prj = this.state.projects.find(x=> x.name === nam);
       if(prj != undefined) {
-        this.currentInitialProject = prj;
-        let index = this.state.projects.indexOf(this.currentInitialProject);
+        let index = this.state.projects.indexOf(prj);
         this.projectSelection.select(index);
         this.updateFromProject(currentProject.name);
       }
