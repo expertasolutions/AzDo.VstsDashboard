@@ -97,7 +97,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     // Update Builds Runs list...
     getBuilds(projectName).then(result=> {
       this.setState({ builds: result });
-      this.filterData();
+      //this.filterData();
     });
   }
 
