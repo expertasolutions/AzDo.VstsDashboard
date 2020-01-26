@@ -43,7 +43,7 @@ class CICDDashboard extends React.Component<{}, {}> {
 
     setInterval(()=> {
       if(this.currentProjectSelected != undefined) {
-      //  this.updateFromProject(this.currentProjectSelected);
+        this.updateFromProject(this.currentProjectSelected);
       }
     }, 10000);
   }
