@@ -90,8 +90,10 @@ class CICDDashboard extends React.Component<{}, {}> {
     if(filterState.pipelineKeyWord !== null && filterState.pipelineKeyWord.value !== "") {
       let pipelineFilterText = filterState.pipelineKeyWord.value.toLowerCase();
       let elm = this.state.buildDefs.filter(x=> x.name.toLowerCase().indexOf(pipelineFilterText) !== -1);
+      console.log("With Filter");
       this.buildReferenceProvider.value = new ArrayItemProvider(elm);
     } else {
+      console.log("No Filter")
       this.buildReferenceProvider.value = new ArrayItemProvider(this.state.buildDefs);
     }
   }
