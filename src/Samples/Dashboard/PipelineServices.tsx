@@ -39,6 +39,8 @@ export async function getReleases(projectName: string) {
       undefined, undefined, false, undefined, 1000, continuationToken,
       undefined, undefined, undefined, undefined); 
     console.log("Result: " + result.length);
+    console.log(JSON.stringify(result));
+    return result;
     dpl.concat(result);
     console.log("DeploymentNumber: " + dpl.length);
   }
