@@ -24,7 +24,7 @@ import { Observer } from "azure-devops-ui/Observer";
 import { DataContext }  from "./dataContext";
 import { Header, TitleSize } from "azure-devops-ui/Header";
 import { IListBoxItem } from "azure-devops-ui/ListBox";
-import { Filter, FilterOperatorType, FILTER_CHANGE_EVENT } from "azure-devops-ui/Utilities/Filter";
+import { Filter, FILTER_CHANGE_EVENT, FILTER_RESET_EVENT } from "azure-devops-ui/Utilities/Filter";
 import { FilterBar } from "azure-devops-ui/FilterBar";
 import { ZeroData, ZeroDataActionType } from "azure-devops-ui/ZeroData";
 import { CommonServiceIds, IProjectPageService } from "azure-devops-extension-api";
@@ -34,20 +34,12 @@ class CICDDashboard extends React.Component<{}, {}> {
   private projectSelection = new DropdownSelection();
   private filter: Filter = new Filter();
   private currentProjectSelected: string = "";
-  private currentState = new ObservableValue("");
+  private initialProjectName : string = "";
 
   constructor(props: {}) {
     super(props);
 
     this.filter = new Filter();
-    this.filter.setFilterItemState("listMulti", {
-      value: [],
-      operator: FilterOperatorType.and
-    });
-
-    this.filter.subscribe(() => {
-      this.currentState.value = JSON.stringify(this.filter.getState(), null, 4);
-    }, FILTER_CHANGE_EVENT);
 
     setInterval(()=> {
       if(this.currentProjectSelected != undefined) {
@@ -63,11 +55,50 @@ class CICDDashboard extends React.Component<{}, {}> {
     projects: Array<TeamProjectReference>(),
   };
 
+  private onFilterReset = async () => {
+    console.log("OnFilterReset called");
+
+    let nam = this.initialProjectName;
+    let prj = this.state.projects.find(x=> x.name === nam);
+    if(prj != undefined) {
+      let index = this.state.projects.indexOf(prj);
+      this.projectSelection.select(index);
+      this.updateFromProject(this.initialProjectName);
+    }
+  }
+
+  private onFilterChanged = () => {
+    console.log("onFilterChanged");
+    this.filterData();
+  };
+
+  private filterData() {
+    let filterState = this.filter.getState();
+
+    if(filterState.pipelineKeyWord !== undefined && filterState.pipelineKeyWord !== null){
+      console.log("PipelineKeyWord: " + filterState.pipelineKeyWord.value);
+    }
+
+    if(filterState.teamProjectId !== undefined && filterState.teamProjectId !== null) {
+      console.log("TeamProjectId: " + filterState.teamProjectId.value);
+    }
+
+    if(filterState.pipelineKeyWord !== undefined && filterState.pipelineKeyWord !== null && filterState.pipelineKeyWord.value !== "") {
+      let pipelineFilterText = filterState.pipelineKeyWord.value.toLowerCase();
+      let elm = this.state.buildDefs.filter(x=> x.name.toLowerCase().indexOf(pipelineFilterText) !== -1);
+      console.log("With Filter");
+      this.buildReferenceProvider.value = new ArrayItemProvider(elm);
+    } else {
+      console.log("No Filter")
+      this.buildReferenceProvider.value = new ArrayItemProvider(this.state.buildDefs);
+    }
+  }
+
   private updateFromProject(projectName: string){ 
     this.currentProjectSelected = projectName;
     getBuildDefinitions(projectName).then(result => {
       this.setState({ buildDefs: result });
-      this.buildReferenceProvider.value = new ArrayItemProvider(this.state.buildDefs);
+      this.filterData();
     });
 
     getReleases(projectName).then(result => {
@@ -77,14 +108,20 @@ class CICDDashboard extends React.Component<{}, {}> {
     // Update Builds Runs list...
     getBuilds(projectName).then(result=> {
       this.setState({ builds: result });
-      this.buildProvider.value = new ArrayItemProvider(this.state.builds);
+      //this.filterData();
     });
   }
 
   private onProjectSelected = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
     let projectName = "";
+    
     if(item.text != undefined)
       projectName = item.text;
+
+    // Reset the Pipeline KeyWord only, when TeamProject selection has changed
+    let filterState = this.filter.getState();
+    filterState.pipelineKeyWord = null;
+    this.filter.setState(filterState);
 
     this.updateFromProject(projectName);
   }
@@ -96,6 +133,13 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   public componentDidMount() {
     this.initializeState();    
+    this.filter.subscribe(this.onFilterChanged, FILTER_CHANGE_EVENT);
+    this.filter.subscribe(this.onFilterReset, FILTER_RESET_EVENT);
+  }
+
+  public componentWillMount() {
+    this.filter.unsubscribe(this.onFilterChanged, FILTER_CHANGE_EVENT);
+    this.filter.unsubscribe(this.onFilterReset, FILTER_RESET_EVENT);
   }
 
   private async initializeState(): Promise<void> {
@@ -107,14 +151,15 @@ class CICDDashboard extends React.Component<{}, {}> {
     await this.loadProjects();
 
     if(currentProject != undefined){
-      let nam = currentProject.name;
-      let prj = this.state.projects.find(x=> x.name === nam);
+      this.initialProjectName = currentProject.name;
+      let prj = this.state.projects.find(x=> x.name === this.initialProjectName);
       if(prj != undefined) {
-        let currentProjectIndex = this.state.projects.indexOf(prj);
-        this.projectSelection.select(currentProjectIndex);
-        this.updateFromProject(currentProject.name);
+        let index = this.state.projects.indexOf(prj);
+        this.projectSelection.select(index);
+        this.updateFromProject(this.initialProjectName);
       }
     }
+
   }
 
   private buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(this.state.buildDefs));
@@ -218,9 +263,9 @@ class CICDDashboard extends React.Component<{}, {}> {
           <Header title="CI/CD Dashboard" titleSize={TitleSize.Large} />
           <div className="page-content page-content-top">
             <FilterBar filter={this.filter}>
-              <KeywordFilterBarItem filterItemKey="pipeline" />
+              <KeywordFilterBarItem filterItemKey="pipelineKeyWord" />
               <DropdownFilterBarItem
-                filterItemKey="listSingle"
+                filterItemKey="teamProjectId"
                 filter={this.filter}
                 items={this.state.projects.map(i => {
                   return {
@@ -232,6 +277,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                 showFilterBox={true}
                 onSelect={this.onProjectSelected}
                 selection={this.projectSelection}
+                hideClearAction={true}
               />
             </FilterBar>
           </div>
