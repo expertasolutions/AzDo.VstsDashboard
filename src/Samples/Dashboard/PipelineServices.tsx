@@ -30,19 +30,19 @@ export async function getReleases(projectName: string) {
   let minDate = new Date();
   let newDate = minDate.setDate(minDate.getDate()-1000);
   minDate = new Date(newDate);
-  let continuationToken = undefined;
+  let continuationToken = 0;
   let dpl = new Array<Deployment>();
 
-  //for(let i=1;i<10;i++){
+  for(let i=1;i<10;i++){
+    console.log("ContinuationToken: " + continuationToken);
     let result = await releaseClient.getDeployments(projectName, undefined, undefined, undefined, minDate, new Date(),
       undefined, undefined, false, undefined, 1000, continuationToken,
-      undefined, undefined, undefined, undefined);  
-    return result;
-    //dpl.concat(result);
-  //  continuationToken += result.length;
-  //}
-  console.log("ContinuationToken: " + continuationToken);
-  console.log("DeploymentNumber: " + dpl.length);
+      undefined, undefined, undefined, undefined); 
+    console.log("Result: " + result.length);
+    dpl.concat(result);
+    console.log("DeploymentNumber: " + dpl.length);
+  }
+  
   return dpl;
 }
 
