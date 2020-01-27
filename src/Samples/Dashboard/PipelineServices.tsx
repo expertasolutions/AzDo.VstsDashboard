@@ -37,7 +37,8 @@ export async function getReleases(projectName: string) {
     let result = await releaseClient.getDeployments(projectName, undefined, undefined, undefined, minDate, new Date(),
       undefined, undefined, false, undefined, 1000, continuationToken,
       undefined, undefined, undefined, undefined);  
-    dpl.concat(result);
+    return result;
+    //dpl.concat(result);
   //  continuationToken += result.length;
   //}
   console.log("ContinuationToken: " + continuationToken);
