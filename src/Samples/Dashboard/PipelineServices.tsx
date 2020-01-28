@@ -40,7 +40,7 @@ export async function getReleases(projectName: string) {
       undefined, undefined, false, undefined, 1000, continuationToken,
       undefined, undefined, undefined, undefined); 
     
-    if(result.length > 0){
+    if(result.length > 1){
       continuationToken = result[result.length-1].id;
     } else {
       console.log("Result is empty");
