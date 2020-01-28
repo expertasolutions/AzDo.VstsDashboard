@@ -5,7 +5,7 @@ import {
 } from "azure-devops-extension-api/Build";
 
 import {
-  ReleaseRestClient
+  ReleaseRestClient, Deployment
 } from "azure-devops-extension-api/Release";
 
 import {
@@ -27,12 +27,27 @@ export async function getProject(projectName: string) {
 }
 
 export async function getReleases(projectName: string) {
-  let minDate = new Date();
-  let newDate = minDate.setDate(minDate.getDate()-1000);
-  minDate = new Date(newDate);
-  return await releaseClient.getDeployments(projectName, undefined, undefined, undefined, minDate, new Date(),
-    undefined, undefined, false, undefined, 1000, undefined,
-    undefined, undefined, undefined, undefined);
+  //let minDate = new Date();
+  //let newDate = minDate.setDate(minDate.getDate()-1000);
+  //minDate = new Date(newDate);
+  let minDate = undefined;
+  let continuationToken = 0;
+  let dpl = new Array<Deployment>();
+
+  let result = new Array<Deployment>();
+  do {
+    result = await releaseClient.getDeployments(projectName, undefined, undefined, undefined, minDate, new Date(),
+      undefined, undefined, false, undefined, 1000, continuationToken,
+      undefined, undefined, undefined, undefined); 
+    
+    if(result.length > 1){
+      continuationToken = result[result.length-1].id;
+    } else {
+      continuationToken = -1;
+    }
+    dpl.push(...result);
+  } while(result.length > 0);
+  return dpl;
 }
 
 export async function getBuilds(projectName: string)  {
