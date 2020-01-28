@@ -33,17 +33,21 @@ export async function getReleases(projectName: string) {
   let continuationToken = 0;
   let dpl = new Array<Deployment>();
 
-  for(let i=1;i<10;i++){
+  let result = new Array<Deployment>();
+  do {
     console.log("ContinuationToken: " + continuationToken);
-    let result = await releaseClient.getDeployments(projectName, undefined, undefined, undefined, minDate, new Date(),
+    result = await releaseClient.getDeployments(projectName, undefined, undefined, undefined, minDate, new Date(),
       undefined, undefined, false, undefined, 1000, continuationToken,
       undefined, undefined, undefined, undefined); 
+    
+    if(result.length> 0){
+      continuationToken = result[result.length-1].id;
+    }
+
     console.log("Result: " + result.length);
-    console.log(JSON.stringify(result));
-    return result;
     dpl.concat(result);
     console.log("DeploymentNumber: " + dpl.length);
-  }
+  } while(result.length > 0);
   
   return dpl;
 }
