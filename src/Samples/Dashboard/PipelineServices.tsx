@@ -42,10 +42,12 @@ export async function getReleases(projectName: string) {
     
     if(result.length> 0){
       continuationToken = result[result.length-1].id;
+    } else {
+      continuationToken -= 1;
     }
 
     console.log("Result: " + result.length);
-    dpl.concat(result);
+    dpl.push(...result);
     console.log("DeploymentNumber: " + dpl.length);
   } while(result.length > 0);
   
