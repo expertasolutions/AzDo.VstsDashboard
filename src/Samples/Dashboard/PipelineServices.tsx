@@ -27,9 +27,10 @@ export async function getProject(projectName: string) {
 }
 
 export async function getReleases(projectName: string) {
-  let minDate = new Date();
-  let newDate = minDate.setDate(minDate.getDate()-1000);
-  minDate = new Date(newDate);
+  //let minDate = new Date();
+  //let newDate = minDate.setDate(minDate.getDate()-1000);
+  //minDate = new Date(newDate);
+  let minDate = undefined;
   let continuationToken = 0;
   let dpl = new Array<Deployment>();
 
