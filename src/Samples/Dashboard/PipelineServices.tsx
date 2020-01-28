@@ -40,17 +40,18 @@ export async function getReleases(projectName: string) {
       undefined, undefined, false, undefined, 1000, continuationToken,
       undefined, undefined, undefined, undefined); 
     
-    if(result.length> 0){
+    if(result.length > 0){
       continuationToken = result[result.length-1].id;
     } else {
-      continuationToken -= 1;
+      console.log("Result is empty");
+      continuationToken = -1;
     }
 
     console.log("Result: " + result.length);
     dpl.push(...result);
     console.log("DeploymentNumber: " + dpl.length);
   } while(result.length > 0);
-  
+  console.log("IM OUT !!!!");
   return dpl;
 }
 
