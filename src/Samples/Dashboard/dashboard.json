@@ -10,7 +10,7 @@
       "properties": {
         "name":"CI/CD Dashboard",
         "order":100,
-        "uri":"dist/dashboard/dashboard.html",
+        "uri":"asset://static//dashboard.html",
         "icon": {
           "light": "asset://static/light-logo.png",
           "dark": "asset://static/dark-logo.png"
