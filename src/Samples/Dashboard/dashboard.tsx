@@ -253,7 +253,6 @@ class CICDDashboard extends React.Component<{}, {}> {
   }
 
   public render() : JSX.Element {
-
     return (
       <Surface background={SurfaceBackground.neutral}>
         <Page className="pipelines-page flex-grow">
