@@ -39,7 +39,6 @@
   "files": [
     { "path": "static", "addressable": true },
     { "path": "dist", "addressable": true },
-    { "path": "dist/dashboard", "addressable": true },
     { "path": "screenshots", "addressable": true }
   ]  
 }
