@@ -257,7 +257,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       <Surface background={SurfaceBackground.neutral}>
         <Page className="pipelines-page flex-grow">
           <Header title="CI/CD Dashboard" titleSize={TitleSize.Large} />
-          <div className="page-content page-content-top">
+          <div className="page-content-left page-content-right page-content-top">
             <FilterBar filter={this.filter}>
               <KeywordFilterBarItem filterItemKey="pipelineKeyWord" />
               <DropdownFilterBarItem
@@ -277,7 +277,7 @@ class CICDDashboard extends React.Component<{}, {}> {
               />
             </FilterBar>
           </div>
-          <div className="page-content page-content-top">
+          <div className="page-content page-content-top page-content-bottom">
             <DataContext.Provider value={{ state: this.state }}>
                 <Observer selectedTabId={this.selectedTabId}>
                   {(props: { selectedTabId: string }) => {
