@@ -220,11 +220,14 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
       if(env === undefined) {
         lastRelease.push(lastDep.releaseEnvironment.name);
         let relStatusInfo = getReleaseStatus(lastDep);
+        /*
         children.push(
           <Pill color={relStatusInfo.color} variant={PillVariant.colored} 
             onClick={() => window.open(lastDep.releaseEnvironment._links.web.href, "_blank") }>
             <Status {...relStatusInfo.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{lastDep.releaseEnvironment.name}
           </Pill>)
+        */
+        children.push(<Pill color={relStatusInfo.color} variant={PillVariant.colored}>{lastDep.releaseEnvironment.name}</Pill>);
       }
     }
     let all = false;
@@ -233,8 +236,9 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
     }
 
     if(deploys.length > 0) {
-      content.push(<div><b><Link href={relRefInfo._links.web.href} target="_blank">{relRefInfo.name}</Link></b><p>
-                          <PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{children}</PillGroup></p></div>);
+      //content.push(<div><b><Link href={relRefInfo._links.web.href} target="_blank">{relRefInfo.name}</Link></b><p>
+      //                    <PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{children}</PillGroup></p></div>);
+      content.push(<div><PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{children}</PillGroup></div>);
     }
     children = [];
   }
