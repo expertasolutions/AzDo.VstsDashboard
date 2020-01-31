@@ -56,8 +56,6 @@ class CICDDashboard extends React.Component<{}, {}> {
   };
 
   private onFilterReset = async () => {
-    console.log("OnFilterReset called");
-
     let nam = this.initialProjectName;
     let prj = this.state.projects.find(x=> x.name === nam);
     if(prj != undefined) {
@@ -74,13 +72,15 @@ class CICDDashboard extends React.Component<{}, {}> {
   private filterData() {
     let filterState = this.filter.getState();
 
+    /*
     if(filterState.pipelineKeyWord !== undefined && filterState.pipelineKeyWord !== null){
-      console.log("PipelineKeyWord: " + filterState.pipelineKeyWord.value);
+      //console.log("PipelineKeyWord: " + filterState.pipelineKeyWord.value);
     }
 
     if(filterState.teamProjectId !== undefined && filterState.teamProjectId !== null) {
-      console.log("TeamProjectId: " + filterState.teamProjectId.value);
+      //console.log("TeamProjectId: " + filterState.teamProjectId.value);
     }
+    */
 
     if(filterState.pipelineKeyWord !== undefined && filterState.pipelineKeyWord !== null && filterState.pipelineKeyWord.value !== "") {
       let pipelineFilterText = filterState.pipelineKeyWord.value.toLowerCase();
