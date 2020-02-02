@@ -13,4 +13,4 @@ The UI of this extension has been develop in occordance of the [Formula Design S
 
 # ***Important***
 This is a version 0.y.z release, which means it's in early stage of features inclusion and optimization.
-You can fellow the next features inclusion on our [GitHub project page](https://github.com/expertasolutions/VstsDashboard/issues). If you want to contribute, don't hesitate du jump in it.
+You can follow the next features inclusion on our [GitHub project page](https://github.com/expertasolutions/VstsDashboard/issues). If you want to contribute, don't hesitate to jump in it.
