@@ -1,5 +1,5 @@
 # CI/CD dashboard
-[![Build status](https://dev.azure.com/experta/ExpertaSolutions/_apis/build/status/GitHub-VstsDasboard-CI)](https://dev.azure.com/experta/ExpertaSolutions/_build/latest?definitionId=204)
+[![Build status](https://dev.azure.com/experta/Community/_apis/build/status/CI-GitHub-VstsDashboard)](https://dev.azure.com/experta/ExpertaSolutions/_build/latest?definitionId=204)
 
 ## Objectives
 
