@@ -45,7 +45,7 @@ steps:
     rootFolder: 
     patternManifest: |
       vss-extension.json
-      src/samples/**/*.json
+      src/ext/**/*.json
     extensionVersion: '$(build.fullVersion)'
     updateTasksVersion: true
 
