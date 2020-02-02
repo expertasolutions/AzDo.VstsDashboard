@@ -1,4 +1,7 @@
+import "es6-promise/auto";
+
 import * as React from "react";
+
 import * as SDK from "azure-devops-extension-sdk";
 
 import { getBuildDefinitions, getBuilds , getReleases, getProjects, getProject } from "./PipelineServices";
