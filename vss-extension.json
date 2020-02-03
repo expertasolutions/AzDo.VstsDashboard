@@ -30,7 +30,7 @@
   "badges": [
     {
       "href": "https://dev.azure.com/experta/Community/_build?definitionId=240",
-      "uri": "https://dev.azure.com/experta/ExpertaSolutions/_apis/build/status/GitHub-VstsDasboard-CI",
+      "uri": "https://dev.azure.com/experta/Community/_apis/build/status/CI-GitHub-VstsDashboard",
       "description": "Master Build"
     },
     {
