@@ -73,6 +73,7 @@ export function renderLastBuild01 (
     } else if(lastBuild.repository.type === "TfsVersionControl") {
       branchUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl";
       commitUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl/changeset/" + lastBuild.sourceVersion;
+      console.log(JSON.stringify(lastBuild));
     }
     contentRow1 = (<div>
                     <Icon iconName="Build"/>&nbsp;<Link href={buildUrl} target="_blank">{lastBuild.buildNumber}</Link>
