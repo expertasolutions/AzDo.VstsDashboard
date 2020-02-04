@@ -3,12 +3,12 @@
   "id": "cicd-dashboard",
   "publisher": "experta",
   "version": "0.0.0",
-  "name": "CICDDashboard",
+  "name": "CI/CD Dashboard",
   "description": "Track events important to your team, view and manage days off, quickly see when sprints start and end, and more.",
   "categories": ["Azure Pipelines"],
   "targets": [
     {
-      "id": "Microsoft.VisualStudio.Services.Cloud"
+      "id": "Microsoft.VisualStudio.Services"
     }
   ],
   "scopes": [
@@ -27,6 +27,18 @@
       "path": "LICENSE"
     }
   },
+  "badges": [
+    {
+      "href": "https://dev.azure.com/experta/Community/_build?definitionId=240",
+      "uri": "https://dev.azure.com/experta/Community/_apis/build/status/CI-GitHub-VstsDashboard",
+      "description": "Master Build"
+    },
+    {
+      "href": "https://dev.azure.com/experta/Community/_release?_a=releases&definitionId=6",
+      "uri": "https://vsrm.dev.azure.com/experta/_apis/public/Release/badge/97814487-b723-4a7d-a446-f599ab91ea2f/6/46",
+      "description": "Public marketplace"
+    }
+  ],
   "links": {
     "support": {
       "uri": "https://github.com/expertasolutions/VstsDashboard/issues"
