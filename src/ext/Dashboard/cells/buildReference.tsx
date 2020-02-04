@@ -70,9 +70,8 @@ export function renderLastBuild01 (
     else if(lastBuild.repository.type === "GitHub"){
       branchUrl = "https://github.com/" + lastBuild.repository.id + "/tree/" + branchName;
       commitUrl = lastBuild._links.sourceVersionDisplayUri.href;
-    } else {
-      console.log("repo.type " + lastBuild.repository.type);
-      console.log(JSON.stringify(lastBuild._links));
+    } else if(lastBuild.repository.type === "TfsVersionControl"){
+      console.log(JSON.stringify(lastBuild));
     }
     contentRow1 = (<div>
                     <Icon iconName="Build"/>&nbsp;<Link href={buildUrl} target="_blank">{lastBuild.buildNumber}</Link>
