@@ -69,6 +69,6 @@ export async function getBuildDefinitions(projectName: string) {
     } else {
       console.log("Not latest build");
     }
-    return -a.id;
+    return a.id;
   });
 }
