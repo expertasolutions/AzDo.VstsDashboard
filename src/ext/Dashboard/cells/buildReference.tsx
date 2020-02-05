@@ -60,8 +60,8 @@ export function renderLastBuild01 (
   let contentRow2 = (<div></div>);
   if(lastBuild != undefined) {
     let branchName = lastBuild.sourceBranch.replace('refs/heads/','');
-    let branchUrl = "https://perdu.com"; 
-    let commitUrl = "https://perdu.com";
+    let branchUrl = lastBuild.repository.url;
+    let commitUrl = lastBuild.repository.url;
     let buildUrl = lastBuild._links.web.href + "&view=logs";
     if(lastBuild.repository.type === "TfsGit"){
       branchUrl = lastBuild.repository.url + "?version=GB" + branchName + "&_a=contents";
@@ -70,6 +70,15 @@ export function renderLastBuild01 (
     else if(lastBuild.repository.type === "GitHub"){
       branchUrl = "https://github.com/" + lastBuild.repository.id + "/tree/" + branchName;
       commitUrl = lastBuild._links.sourceVersionDisplayUri.href;
+    } else if(lastBuild.repository.type === "TfsVersionControl") {
+
+      if(lastBuild.sourceVersion.indexOf("$/") == 0) {
+        branchUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl?path=" + lastBuild.sourceBranch;
+        commitUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl/changeset/" + lastBuild.sourceVersion;
+      } else {
+        branchUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl/shelveset?ss=" + lastBuild.sourceBranch;
+        commitUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl/changeset/" + lastBuild.sourceVersion;
+      }
     }
     contentRow1 = (<div>
                     <Icon iconName="Build"/>&nbsp;<Link href={buildUrl} target="_blank">{lastBuild.buildNumber}</Link>
