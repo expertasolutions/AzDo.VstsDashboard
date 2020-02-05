@@ -59,7 +59,7 @@ export const dashboardColumns : ITableColumn<BuildDefinitionReference>[] = [
   },
   {
     id: "pipeline",
-    name: "Last Completed Run",
+    name: "Last Run",
     renderCell: renderLastBuild01,
     width: new ObservableValue(-25)
   },
