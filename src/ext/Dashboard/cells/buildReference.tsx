@@ -72,7 +72,7 @@ export function renderLastBuild01 (
       commitUrl = lastBuild._links.sourceVersionDisplayUri.href;
     } else if(lastBuild.repository.type === "TfsVersionControl") {
 
-      if(lastBuild.sourceVersion.indexOf("$/") == 0) {
+      if(lastBuild.sourceBranch.indexOf("$/") == 0) {
         branchUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl?path=" + lastBuild.sourceBranch;
         commitUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl/changeset/" + lastBuild.sourceVersion;
       } else {
