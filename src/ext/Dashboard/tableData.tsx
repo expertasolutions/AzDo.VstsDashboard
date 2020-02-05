@@ -44,7 +44,7 @@ export const buildColumns : ITableColumn<Build>[] = [
   },
   {
     id: "ReleaseInfo01",
-    name: "Releases Status",
+    name: "Deployment Health",
     renderCell: renderDeploymentInfo01,
     width: new ObservableValue(-70)
   }

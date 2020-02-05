@@ -70,6 +70,7 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   private onFilterChanged = () => {
     this.filterData();
+    this.filterBuildsData();
   };
 
   private filterData() {
@@ -81,6 +82,18 @@ class CICDDashboard extends React.Component<{}, {}> {
       this.buildReferenceProvider.value = new ArrayItemProvider(elm);
     } else {
       this.buildReferenceProvider.value = new ArrayItemProvider(this.state.buildDefs);
+    }
+  }
+
+  private filterBuildsData() {
+    let filterState = this.filter.getState();
+
+    if(filterState.pipelineKeyWord !== undefined && filterState.pipelineKeyWord !== null && filterState.pipelineKeyWord.value !== "") {
+      let pipelineFilterText = filterState.pipelineKeyWord.value.toLowerCase();
+      let elm = this.state.builds.filter(x=> x.definition.name.toLowerCase().indexOf(pipelineFilterText) !== -1);
+      this.buildProvider.value = new ArrayItemProvider(elm);
+    } else {
+      this.buildProvider.value = new ArrayItemProvider(this.state.builds);
     }
   }
 
@@ -98,7 +111,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     // Update Builds Runs list...
     getBuilds(projectName).then(result=> {
       this.setState({ builds: result });
-      //this.filterData();
+      this.filterBuildsData();
     });
   }
 
@@ -149,7 +162,6 @@ class CICDDashboard extends React.Component<{}, {}> {
         this.updateFromProject(this.initialProjectName);
       }
     }
-
   }
 
   private buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(this.state.buildDefs));
