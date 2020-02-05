@@ -59,7 +59,6 @@ export async function getBuildDefinitions(projectName: string) {
                                               undefined, undefined, undefined,undefined, undefined,
                                               undefined,undefined,undefined,undefined, true, undefined, 
                                               undefined, undefined);
-  console.log(JSON.stringify(result));
   return result.sort((a,b) => {
     if(b.latestBuild != undefined && a.latestBuild != undefined){
       return b.latestBuild.id - a.latestBuild.id
