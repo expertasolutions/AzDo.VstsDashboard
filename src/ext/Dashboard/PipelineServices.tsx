@@ -60,11 +60,11 @@ export async function getBuildDefinitions(projectName: string) {
                                               undefined,undefined,undefined,undefined, true, undefined, 
                                               undefined, undefined);
   return result.sort((a,b) => {
-    if(b.latestBuild != undefined && a.latestBuild != undefined){
+    if(b.latestBuild !== undefined && a.latestBuild !== undefined){
       return b.latestBuild.id - a.latestBuild.id
-    } else if(b.latestCompletedBuild != undefined && a.latestBuild === undefined) {
+    } else if(b.latestBuild !== undefined && a.latestBuild === undefined) {
       return b.latestBuild.id;
-    } else if(b.latestCompletedBuild === undefined && a.latestBuild != undefined) {
+    } else if(b.latestBuild === undefined && a.latestBuild !== undefined) {
       return a.latestBuild.id;
     } else {
       console.log("Not latest build");
