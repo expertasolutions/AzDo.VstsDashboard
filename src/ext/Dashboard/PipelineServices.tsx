@@ -66,7 +66,9 @@ export async function getBuildDefinitions(projectName: string) {
       return b.latestBuild.id;
     } else if(b.latestCompletedBuild === undefined && a.latestBuild != undefined) {
       return a.latestBuild.id;
+    } else {
+      console.log("Not latest build");
     }
-    return 0;
+    return -a.id;
   });
 }
