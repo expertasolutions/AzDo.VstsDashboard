@@ -71,8 +71,14 @@ export function renderLastBuild01 (
       branchUrl = "https://github.com/" + lastBuild.repository.id + "/tree/" + branchName;
       commitUrl = lastBuild._links.sourceVersionDisplayUri.href;
     } else if(lastBuild.repository.type === "TfsVersionControl") {
-      branchUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl?path=" + lastBuild.sourceBranch;
-      commitUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl/changeset/" + lastBuild.sourceVersion;
+
+      if(lastBuild.sourceVersion.indexOf("$/") == 0) {
+        branchUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl?path=" + lastBuild.sourceBranch;
+        commitUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl/changeset/" + lastBuild.sourceVersion;
+      } else {
+        branchUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl?shelveset?ss=" + lastBuild.sourceBranch;
+        commitUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl/changeset/" + lastBuild.sourceVersion;
+      }
       console.log(JSON.stringify(lastBuild));
     }
     contentRow1 = (<div>
