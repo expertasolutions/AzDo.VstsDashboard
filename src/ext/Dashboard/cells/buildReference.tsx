@@ -60,8 +60,8 @@ export function renderLastBuild01 (
   let contentRow2 = (<div></div>);
   if(lastBuild != undefined) {
     let branchName = lastBuild.sourceBranch.replace('refs/heads/','');
-    let branchUrl = "https://perdu.com"; 
-    let commitUrl = "https://perdu.com";
+    let branchUrl = lastBuild.repository.url;
+    let commitUrl = lastBuild.repository.url;
     let buildUrl = lastBuild._links.web.href + "&view=logs";
     if(lastBuild.repository.type === "TfsGit"){
       branchUrl = lastBuild.repository.url + "?version=GB" + branchName + "&_a=contents";
