@@ -4,7 +4,7 @@
   "publisher": "experta",
   "version": "0.0.0",
   "name": "CI/CD Dashboard",
-  "description": "Provide a simple way to view all Builds and Releases on a single page. The intention was to see what's currently happened into the CI/CD pipeline and provide quick feedback of what's going on.",
+  "description": "Provide a simple way to view all Builds and Releases on a single page.",
   "categories": ["Azure Pipelines"],
   "targets": [
     {
