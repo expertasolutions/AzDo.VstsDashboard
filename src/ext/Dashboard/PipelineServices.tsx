@@ -62,9 +62,9 @@ export async function getBuildDefinitions(projectName: string) {
   return result.sort((a,b) => {
     if(b.latestBuild !== undefined && a.latestBuild !== undefined) {
       if(a.latestBuild.id > b.latestBuild.id){
-        return 1;
-      } else if(a.latestBuild.id < b.latestBuild.id) {
         return -1;
+      } else if(a.latestBuild.id < b.latestBuild.id) {
+        return 1;
       } else {
         return 0;
       }
