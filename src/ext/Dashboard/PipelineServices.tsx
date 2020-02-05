@@ -73,9 +73,7 @@ export async function getBuildDefinitions(projectName: string) {
       }
     } else if(b.latestBuild !== undefined && a.latestBuild === undefined) {
       return 1;
-      //return b.latestBuild.id;
     } else if(b.latestBuild === undefined && a.latestBuild !== undefined) {
-      //return -a.latestBuild.id;
       return -1;
     } else {
       return 0;
