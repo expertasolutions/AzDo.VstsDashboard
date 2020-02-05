@@ -76,7 +76,7 @@ export function renderLastBuild01 (
         branchUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl?path=" + lastBuild.sourceBranch;
         commitUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl/changeset/" + lastBuild.sourceVersion;
       } else {
-        branchUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl?shelveset?ss=" + lastBuild.sourceBranch;
+        branchUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl/shelveset?ss=" + lastBuild.sourceBranch;
         commitUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl/changeset/" + lastBuild.sourceVersion;
       }
       console.log(JSON.stringify(lastBuild));
