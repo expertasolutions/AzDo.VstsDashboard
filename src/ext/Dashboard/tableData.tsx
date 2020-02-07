@@ -29,19 +29,19 @@ export const buildColumns : ITableColumn<Build>[] = [
     id: "pipeline",
     name: "Pipeline",
     renderCell: renderBuildStatus,
-    width: new ObservableValue(-25)
+    width: new ObservableValue(-20)
   },
   {
     id: "BuildInfo01",
     name: "Build #", 
     renderCell: renderBuildInfo01Cell,
-    width: new ObservableValue(-20),
+    width: new ObservableValue(-25),
   },
   {
     id: "ReleaseInfo01",
     name: "Deployment Health",
     renderCell: renderDeploymentInfo01,
-    width: new ObservableValue(-70)
+    width: new ObservableValue(-65)
   },
   {
     id: "BuildInfo02",
@@ -55,7 +55,7 @@ export const dashboardColumns : ITableColumn<BuildDefinitionReference>[] = [
     id: "pipeline",
     name: "Pipeline",
     renderCell: renderBuildRef01,
-    width: new ObservableValue(-25)
+    width: new ObservableValue(-20)
   },
   {
     id: "pipeline",
@@ -67,7 +67,7 @@ export const dashboardColumns : ITableColumn<BuildDefinitionReference>[] = [
     id: "ReleaseInfo01",
     name: "Deployment Health",
     renderCell: renderReleaseInfo01,
-    width: new ObservableValue(-50)
+    width: new ObservableValue(-65)
   },
   {
     id:"LastBuildInfo02",
