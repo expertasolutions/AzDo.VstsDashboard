@@ -32,6 +32,7 @@ export function renderBuildStatus (
   tableColumn: ITableColumn<Build>,
   tableItem: Build
 ): JSX.Element {
+  console.log(JSON.stringify(tableItem));
   let definitionUrl = tableItem.definition.url;
   return (
       <SimpleTableCell
