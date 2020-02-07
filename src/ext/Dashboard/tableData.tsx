@@ -26,10 +26,10 @@ import {
 
 export const buildColumns : ITableColumn<Build>[] = [
   {
-    id: "Status",
-    name: "Status",
+    id: "pipeline",
+    name: "Pipeline",
     renderCell: renderBuildStatus,
-    width: 65
+    width: new ObservableValue(-25)
   },
   {
     id: "BuildInfo01",
