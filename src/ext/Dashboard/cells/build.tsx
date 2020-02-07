@@ -32,8 +32,6 @@ export function renderBuildStatus (
   tableColumn: ITableColumn<Build>,
   tableItem: Build
 ): JSX.Element {
-  console.log(JSON.stringify(tableItem));
-  let definitionUrl = tableItem.definition.url;
   return (
       <SimpleTableCell
           columnIndex={columnIndex}
@@ -44,9 +42,7 @@ export function renderBuildStatus (
                     className="icon-large-margin"
                     size={StatusSize.l}/>
             <div>
-              <Link href={definitionUrl} target="_blank">
                 {tableItem.definition.name}
-              </Link>
             </div>
       </SimpleTableCell>
   );
