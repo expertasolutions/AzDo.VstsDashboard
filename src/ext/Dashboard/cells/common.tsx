@@ -218,7 +218,7 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
       let env = lastRelease.find(x => x === envName);
 
       if(env === undefined) {
-        console.log(JSON.stringify(lastDep.releaseEnvironment));
+        console.log(JSON.stringify(lastDep));
         lastRelease.push(lastDep.releaseEnvironment.name);
         let relStatusInfo = getReleaseStatus(lastDep);
         children.push(
