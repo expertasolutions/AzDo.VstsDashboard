@@ -219,14 +219,14 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
 
       if(env === undefined) {
         
-        let appIcon = getApprovalIcon(lastDep, lastDep.releaseEnvironment.id);
+        let pendingApproval = waitingForApproval(lastDep, lastDep.releaseEnvironment.id);
 
         lastRelease.push(lastDep.releaseEnvironment.name);
         let relStatusInfo = getReleaseStatus(lastDep);
         children.push(
           <Pill color={relStatusInfo.color} variant={PillVariant.colored} 
             onClick={() => window.open(lastDep.releaseEnvironment._links.web.href, "_blank") }>
-            <Status {...relStatusInfo.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{lastDep.releaseEnvironment.name}&nbsp;{appIcon}
+            <Status {...relStatusInfo.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{lastDep.releaseEnvironment.name}
           </Pill>)
       }
     }
@@ -248,19 +248,18 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
   return <div>Not deploy yet</div>
 }
 
-export function getApprovalIcon(dep: Deployment, envId: number) {
-  let personIcon = <Icon iconName="person"/>
+export function waitingForApproval(dep: Deployment, envId: number) {
   let preApproval = dep.preDeployApprovals.find(x=> x.releaseEnvironment.id === envId);
   if(preApproval !== undefined && preApproval.status === ApprovalStatus.Pending) {
     // Pending Approval
-    return personIcon;
+    console.log("Pending Approval");
+    return true;
   }
 
   let postApproval = dep.postDeployApprovals.find(x=> x.releaseEnvironment.id === envId);
   if(postApproval !== undefined && postApproval.status === ApprovalStatus.Pending) {
     // Pending Approval
-    return personIcon;
+    return true;
   }
-
-  return undefined;
+  return false;
 }
