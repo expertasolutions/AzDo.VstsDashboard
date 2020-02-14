@@ -4,7 +4,7 @@ import { Icon, IIconProps } from "azure-devops-ui/Icon";
 import { Status, IStatusProps, Statuses, StatusSize } from "azure-devops-ui/Status";
 import { IColor } from "azure-devops-ui/Utilities/Color";
 import { BuildResult, BuildStatus } from "azure-devops-extension-api/Build";
-import { Deployment, DeploymentStatus, ReleaseReference } from "azure-devops-extension-api/Release";
+import { Deployment, DeploymentStatus, ReleaseReference, ApprovalStatus } from "azure-devops-extension-api/Release";
 import { Pill, PillVariant } from "azure-devops-ui/Pill";
 import { PillGroup, PillGroupOverflow } from "azure-devops-ui/PillGroup";
 import { Build } from "azure-devops-extension-api/Build";
@@ -72,17 +72,16 @@ export function WithIconSpan(props: {
   );
 }
 
-export function getReleaseStatus(depl: Deployment) : IStatusIndicatorData {
+export function getReleaseStatus(depl: Deployment, pendingApproval: boolean) : IStatusIndicatorData {
   const indicatorData: IStatusIndicatorData = {
     label: "NA",
     statusProps: { ...Statuses.Queued, ariaLabel: "None" },
     color: lightGray,
   };
-  
-  return getReleaseIndicator(depl.deploymentStatus);
+  return getReleaseIndicator(depl.deploymentStatus, pendingApproval);
 }
 
-export function getReleaseIndicator(status: DeploymentStatus) : IStatusIndicatorData {
+export function getReleaseIndicator(status: DeploymentStatus, pendingApproval: boolean) : IStatusIndicatorData {
   const indicatorData: IStatusIndicatorData = {
     label: "NA",
     statusProps: { ...Statuses.Queued, ariaLabel: "None" },
@@ -91,6 +90,13 @@ export function getReleaseIndicator(status: DeploymentStatus) : IStatusIndicator
 
   if(status === undefined){
     status = DeploymentStatus.Undefined;
+  }
+
+  if(pendingApproval){
+    indicatorData.statusProps = { ...Statuses.Waiting, ariaLabel: "Waiting Approval"};
+    indicatorData.label = "Waiting Approval";
+    indicatorData.color = lightBlue;
+    return indicatorData;
   }
 
   switch(status){
@@ -213,13 +219,17 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
     for(let i=0;i<releaseDeploys.length;i++) {
       let dep = releaseDeploys[i];
       let lastDeploys = releaseDeploys.filter(x=> x.releaseEnvironment.name === dep.releaseEnvironment.name).sort(x=> x.id);
+
       let lastDep = lastDeploys[0];
       let envName = lastDep.releaseEnvironment.name;
       let env = lastRelease.find(x => x === envName);
 
       if(env === undefined) {
+        
+        let pendingApproval = waitingForApproval(lastDep, lastDep.releaseEnvironment.id);
+
         lastRelease.push(lastDep.releaseEnvironment.name);
-        let relStatusInfo = getReleaseStatus(lastDep);
+        let relStatusInfo = getReleaseStatus(lastDep, pendingApproval);
         children.push(
           <Pill color={relStatusInfo.color} variant={PillVariant.colored} 
             onClick={() => window.open(lastDep.releaseEnvironment._links.web.href, "_blank") }>
@@ -243,4 +253,17 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
     return content;
   }
   return <div>Not deploy yet</div>
+}
+
+export function waitingForApproval(dep: Deployment, envId: number) {
+  let preApproval = dep.preDeployApprovals.find(x=> x.releaseEnvironment.id === envId);
+  if(preApproval !== undefined && preApproval.status === ApprovalStatus.Pending) {
+    return true;
+  }
+
+  let postApproval = dep.postDeployApprovals.find(x=> x.releaseEnvironment.id === envId);
+  if(postApproval !== undefined && postApproval.status === ApprovalStatus.Pending) {
+    return true;
+  }
+  return false;
 }
