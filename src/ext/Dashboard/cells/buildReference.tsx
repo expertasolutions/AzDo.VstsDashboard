@@ -86,7 +86,6 @@ export function renderLastBuild01 (
     contentRow2 = (<div>
                     <Icon iconName="BranchMerge"/>&nbsp;<Link href={branchUrl} target="_blank">{branchName}</Link>
                     <Icon iconName="BranchCommit" /><Link href={commitUrl} target="blank">{lastBuild.sourceVersion.substr(0, 7)}</Link>
-                    &nbsp;<Icon iconName="People" />&nbsp;{lastBuild.requestedFor!.displayName}
                   </div>);
   }
   return (
@@ -117,6 +116,7 @@ export function renderLastBuild02(
 
     if(lastBuildRun.startTime != undefined) {
       buildTimeCtrl = (<div className="font-size-s">
+                        <div>{lastBuildRun.agentSpecification.identifier}</div>
                         <div><Icon iconName="Calendar"/>&nbsp;<Ago date={lastBuildRun.startTime!} /></div>
                         <div><Icon iconName="Clock"/>&nbsp;<Duration startDate={lastBuildRun.startTime} endDate={lastBuildRun.finishTime} /></div>
                       </div>);
