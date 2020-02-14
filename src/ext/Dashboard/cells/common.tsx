@@ -4,7 +4,7 @@ import { Icon, IIconProps } from "azure-devops-ui/Icon";
 import { Status, IStatusProps, Statuses, StatusSize } from "azure-devops-ui/Status";
 import { IColor } from "azure-devops-ui/Utilities/Color";
 import { BuildResult, BuildStatus } from "azure-devops-extension-api/Build";
-import { Deployment, DeploymentStatus, ReleaseReference } from "azure-devops-extension-api/Release";
+import { Deployment, DeploymentStatus, ReleaseReference, ApprovalStatus } from "azure-devops-extension-api/Release";
 import { Pill, PillVariant } from "azure-devops-ui/Pill";
 import { PillGroup, PillGroupOverflow } from "azure-devops-ui/PillGroup";
 import { Build } from "azure-devops-extension-api/Build";
@@ -251,7 +251,7 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
 export function getApprovalIcon(dep: Deployment, envId: number) {
   let preApproval = dep.preDeployApprovals.find(x=> x.releaseEnvironment.id === envId);
   let postApproval = dep.postDeployApprovals.find(x=> x.releaseEnvironment.id === envId);
-  if(preApproval?.status === 1 || postApproval?.status === 1) {
+  if(preApproval?.status === ApprovalStatus.Pending || postApproval?.status === ApprovalStatus.Pending) {
     // Pending Approval
     return <Icon iconName="person"/>
   }
