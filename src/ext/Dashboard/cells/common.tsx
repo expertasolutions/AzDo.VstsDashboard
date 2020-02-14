@@ -249,11 +249,17 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
 }
 
 export function getApprovalIcon(dep: Deployment, envId: number) {
+  let personIcon = <Icon iconName="person"/>
   let preApproval = dep.preDeployApprovals.find(x=> x.releaseEnvironment.id === envId);
-  let postApproval = dep.postDeployApprovals.find(x=> x.releaseEnvironment.id === envId);
-  if(preApproval?.status === ApprovalStatus.Pending || postApproval?.status === ApprovalStatus.Pending) {
+  if(preApproval !== undefined && preApproval.status === ApprovalStatus.Pending) {
     // Pending Approval
-    return <Icon iconName="person"/>
+    return personIcon;
+  }
+
+  let postApproval = dep.postDeployApprovals.find(x=> x.releaseEnvironment.id === envId);
+  if(postApproval !== undefined && postApproval.status === ApprovalStatus.Pending) {
+    // Pending Approval
+    return personIcon;
   }
 
   return undefined;
