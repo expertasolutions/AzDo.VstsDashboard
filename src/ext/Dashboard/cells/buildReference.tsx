@@ -86,6 +86,7 @@ export function renderLastBuild01 (
     contentRow2 = (<div>
                     <Icon iconName="BranchMerge"/>&nbsp;<Link href={branchUrl} target="_blank">{branchName}</Link>
                     <Icon iconName="BranchCommit" /><Link href={commitUrl} target="blank">{lastBuild.sourceVersion.substr(0, 7)}</Link>
+                    <Icon iconName="People" />&nbsp;{lastBuild.requestedFor!.displayName}
                   </div>);
   }
   return (
