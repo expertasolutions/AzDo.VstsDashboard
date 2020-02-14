@@ -113,7 +113,6 @@ export function renderLastBuild02(
     // Replace by Agent Name
     console.log(JSON.stringify(lastBuildRun));
     requestByCtrl = (<div className="font-size-s"><Icon iconName="People"/>&nbsp;{lastBuildRun.requestedFor!.displayName}</div>);
-    lastBuildRun.queue.url
     if(lastBuildRun.startTime != undefined) {
       buildTimeCtrl = (<div className="font-size-s">
                         <div><Icon iconName="Settings"/>&nbsp;{lastBuildRun.queue.name}</div>
