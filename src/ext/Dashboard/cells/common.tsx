@@ -93,8 +93,8 @@ export function getReleaseIndicator(status: DeploymentStatus, pendingApproval: b
   }
 
   if(pendingApproval){
-    indicatorData.statusProps = { ...Statuses.Running, ariaLabel: "InProgress"};
-    indicatorData.label = "In Progress";
+    indicatorData.statusProps = { ...Statuses.Waiting, ariaLabel: "Waiting Approval"};
+    indicatorData.label = "Waiting Approval";
     indicatorData.color = lightBlue;
     return indicatorData;
   }
