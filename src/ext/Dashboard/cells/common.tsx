@@ -72,17 +72,16 @@ export function WithIconSpan(props: {
   );
 }
 
-export function getReleaseStatus(depl: Deployment) : IStatusIndicatorData {
+export function getReleaseStatus(depl: Deployment, pendingApproval: boolean) : IStatusIndicatorData {
   const indicatorData: IStatusIndicatorData = {
     label: "NA",
     statusProps: { ...Statuses.Queued, ariaLabel: "None" },
     color: lightGray,
   };
-  
-  return getReleaseIndicator(depl.deploymentStatus);
+  return getReleaseIndicator(depl.deploymentStatus, pendingApproval);
 }
 
-export function getReleaseIndicator(status: DeploymentStatus) : IStatusIndicatorData {
+export function getReleaseIndicator(status: DeploymentStatus, pendingApproval: boolean) : IStatusIndicatorData {
   const indicatorData: IStatusIndicatorData = {
     label: "NA",
     statusProps: { ...Statuses.Queued, ariaLabel: "None" },
@@ -91,6 +90,13 @@ export function getReleaseIndicator(status: DeploymentStatus) : IStatusIndicator
 
   if(status === undefined){
     status = DeploymentStatus.Undefined;
+  }
+
+  if(pendingApproval){
+    indicatorData.statusProps = { ...Statuses.Running, ariaLabel: "InProgress"};
+    indicatorData.label = "In Progress";
+    indicatorData.color = lightBlue;
+    return indicatorData;
   }
 
   switch(status){
@@ -213,6 +219,7 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
     for(let i=0;i<releaseDeploys.length;i++) {
       let dep = releaseDeploys[i];
       let lastDeploys = releaseDeploys.filter(x=> x.releaseEnvironment.name === dep.releaseEnvironment.name).sort(x=> x.id);
+
       let lastDep = lastDeploys[0];
       let envName = lastDep.releaseEnvironment.name;
       let env = lastRelease.find(x => x === envName);
@@ -222,7 +229,7 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
         let pendingApproval = waitingForApproval(lastDep, lastDep.releaseEnvironment.id);
 
         lastRelease.push(lastDep.releaseEnvironment.name);
-        let relStatusInfo = getReleaseStatus(lastDep);
+        let relStatusInfo = getReleaseStatus(lastDep, pendingApproval);
         children.push(
           <Pill color={relStatusInfo.color} variant={PillVariant.colored} 
             onClick={() => window.open(lastDep.releaseEnvironment._links.web.href, "_blank") }>
@@ -251,14 +258,11 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
 export function waitingForApproval(dep: Deployment, envId: number) {
   let preApproval = dep.preDeployApprovals.find(x=> x.releaseEnvironment.id === envId);
   if(preApproval !== undefined && preApproval.status === ApprovalStatus.Pending) {
-    // Pending Approval
-    console.log("Pending Approval");
     return true;
   }
 
   let postApproval = dep.postDeployApprovals.find(x=> x.releaseEnvironment.id === envId);
   if(postApproval !== undefined && postApproval.status === ApprovalStatus.Pending) {
-    // Pending Approval
     return true;
   }
   return false;
