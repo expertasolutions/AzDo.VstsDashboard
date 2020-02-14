@@ -116,7 +116,7 @@ export function renderLastBuild02(
 
     if(lastBuildRun.startTime != undefined) {
       buildTimeCtrl = (<div className="font-size-s">
-                        <div>{lastBuildRun.queue.name}</div>
+                        <div><Icon iconName="WorkforceManagement"/>&nbsp;{lastBuildRun.queue.name}</div>
                         <div><Icon iconName="Calendar"/>&nbsp;<Ago date={lastBuildRun.startTime!} /></div>
                         <div><Icon iconName="Clock"/>&nbsp;<Duration startDate={lastBuildRun.startTime} endDate={lastBuildRun.finishTime} /></div>
                       </div>);
