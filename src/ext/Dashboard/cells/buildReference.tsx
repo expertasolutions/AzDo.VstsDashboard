@@ -109,11 +109,13 @@ export function renderLastBuild02(
 
   let requestByCtrl = (<div></div>);
   let buildTimeCtrl = (<div></div>);
-  let queuName = "NA";
-  
+  let queueName = "NA";
+
+  /*
   if(lastBuildRun.queue !== undefined){
-    queuName = lastBuildRun.queue.name;
+    queueName = lastBuildRun.queue.name;
   }
+*/
 
   if(lastBuildRun != undefined) {
     // Replace by Agent Name
@@ -121,7 +123,7 @@ export function renderLastBuild02(
     requestByCtrl = (<div className="font-size-s"><Icon iconName="People"/>&nbsp;{lastBuildRun.requestedFor!.displayName}</div>);
     if(lastBuildRun.startTime != undefined) {
       buildTimeCtrl = (<div className="font-size-s">
-                        <div><Icon iconName="Settings"/>&nbsp;{queuName}</div>
+                        <div><Icon iconName="Settings"/>&nbsp;{queueName}</div>
                         <div><Icon iconName="Calendar"/>&nbsp;<Ago date={lastBuildRun.startTime!} /></div>
                         <div><Icon iconName="Clock"/>&nbsp;<Duration startDate={lastBuildRun.startTime} endDate={lastBuildRun.finishTime} /></div>
                       </div>);
