@@ -181,7 +181,7 @@ export function renderReleaseInfo01 (
             columnIndex={columnIndex}
             tableColumn={tableColumn}>
               <div>
-                {getReleaseTagFromBuild(lastBuild, context.state.releases) }
+                {getReleaseTagFromBuild(lastBuild, context.state.releases, false) }
               </div>
         </SimpleTableCell>
       )}

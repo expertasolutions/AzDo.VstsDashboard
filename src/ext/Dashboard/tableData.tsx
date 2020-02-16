@@ -17,6 +17,7 @@ import {
 import {
     ColumnMore,
     ITableColumn,
+    TableColumnLayout,
 } from "azure-devops-ui/Table";
 
 import { 
@@ -29,11 +30,11 @@ export const buildColumns : ITableColumn<Build>[] = [
     id: "pipeline",
     name: "Pipeline",
     renderCell: renderBuildStatus,
-    width: new ObservableValue(-20)
+    width: new ObservableValue(-20),
   },
   {
     id: "BuildInfo01",
-    name: "Build #", 
+    name: "Build # | Branch/commit", 
     renderCell: renderBuildInfo01Cell,
     width: new ObservableValue(-25),
   },
