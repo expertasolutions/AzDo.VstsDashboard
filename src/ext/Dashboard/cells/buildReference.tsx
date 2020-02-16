@@ -111,7 +111,7 @@ export function renderLastBuild02(
   let buildTimeCtrl = (<div></div>);
   let queueName = "NA";
 
-  if(lastBuildRun.queue !== undefined){
+  if(lastBuildRun !== undefined && lastBuildRun.queue !== undefined){
     queueName = lastBuildRun.queue.name;
   } 
 
