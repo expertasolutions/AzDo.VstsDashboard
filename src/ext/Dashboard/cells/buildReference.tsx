@@ -117,7 +117,6 @@ export function renderLastBuild02(
 
   if(lastBuildRun != undefined) {
     // Replace by Agent Name
-    console.log(JSON.stringify(lastBuildRun));
     requestByCtrl = (<div className="font-size-s"><Icon iconName="People"/>&nbsp;{lastBuildRun.requestedFor!.displayName}</div>);
     if(lastBuildRun.startTime != undefined) {
       buildTimeCtrl = (<div className="font-size-s">
@@ -181,7 +180,7 @@ export function renderReleaseInfo01 (
             columnIndex={columnIndex}
             tableColumn={tableColumn}>
               <div>
-                {getReleaseTagFromBuild(lastBuild, context.state.releases) }
+                {getReleaseTagFromBuild(lastBuild, context.state.releases, false) }
               </div>
         </SimpleTableCell>
       )}

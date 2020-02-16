@@ -185,7 +185,7 @@ export function getPipelineIndicator(result: BuildResult, status:BuildStatus) : 
   return indicatorData;
 }
 
-export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>) {
+export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>, allRelease: boolean) {
   if(build === undefined) {
     return (<div>Not deploy yet</div>);
   }
@@ -238,7 +238,7 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
       }
     }
 
-    let all = false;
+    let all = allRelease;
     if(all === false) {
       relRef = releaseReferences.length;
     }
