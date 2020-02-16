@@ -238,10 +238,12 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
       }
     }
 
+    /*
     let all = false;
     if(all === false) {
       relRef = releaseReferences.length;
     }
+    */
 
     if(deploys.length > 0) {
       content.push(<div><b><Link href={relRefInfo._links.web.href} target="_blank">{relRefInfo.name}</Link></b><p>
