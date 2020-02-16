@@ -111,11 +111,9 @@ export function renderLastBuild02(
   let buildTimeCtrl = (<div></div>);
   let queueName = "NA";
 
-  /*
   if(lastBuildRun.queue !== undefined){
     queueName = lastBuildRun.queue.name;
-  }
-*/
+  } 
 
   if(lastBuildRun != undefined) {
     // Replace by Agent Name

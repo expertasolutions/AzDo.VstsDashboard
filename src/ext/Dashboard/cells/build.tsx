@@ -129,12 +129,18 @@ export function renderBuildInfo02Cell(
   let lastBuildRun = tableItem;
   let requestByCtrl = (<div></div>);
   let buildTimeCtrl = (<div></div>);
+  let queueName = "NA";
+
+  if(lastBuildRun.queue !== undefined){
+    queueName = lastBuildRun.queue.name;
+  }
+  
   if(lastBuildRun != undefined) {
     requestByCtrl = (<div className="font-size-s"><Icon iconName="People"/>&nbsp;{lastBuildRun.requestedFor!.displayName}</div>);
 
     if(lastBuildRun.startTime != undefined) {
       buildTimeCtrl = (<div className="font-size-s">
-                        <div><Icon iconName="Settings"/>&nbsp;{lastBuildRun.queue.name}</div>
+                        <div><Icon iconName="Settings"/>&nbsp;{queueName}</div>
                         <div><Icon iconName="Calendar"/>&nbsp;<Ago date={lastBuildRun.startTime!} /></div>
                         <div><Icon iconName="Clock"/>&nbsp;<Duration startDate={lastBuildRun.startTime} endDate={lastBuildRun.finishTime} /></div>
                       </div>);
