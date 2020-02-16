@@ -237,6 +237,7 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
           </Pill>)
       }
     }
+
     let all = false;
     if(all === false) {
       relRef = releaseReferences.length;
