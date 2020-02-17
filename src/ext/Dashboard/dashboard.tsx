@@ -33,6 +33,7 @@ import { ZeroData, ZeroDataActionType } from "azure-devops-ui/ZeroData";
 import { CommonServiceIds, IProjectPageService } from "azure-devops-extension-api";
 
 class CICDDashboard extends React.Component<{}, {}> {
+  private isLoading = new ObservableValue<boolean>(true);
   private selectedTabId = new ObservableValue("summary");
   private projectSelection = new DropdownSelection();
   private filter: Filter = new Filter();
@@ -113,6 +114,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       this.setState({ builds: result });
       this.filterBuildsData();
     });
+    this.isLoading.value = false;
   }
 
   private onProjectSelected = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
@@ -180,6 +182,12 @@ class CICDDashboard extends React.Component<{}, {}> {
     return prjDetail._links.web.href;
   }
 
+  private renderFirstLoad(isLoading: boolean) : JSX.Element {
+    return (
+      <div>Loading in progress... {isLoading}</div>
+    );
+  }
+
   private renderZeroData(tabId: string) : JSX.Element {
     if(tabId === "summary" && this.buildReferenceProvider.value.length === 0){
       return (
@@ -207,7 +215,7 @@ class CICDDashboard extends React.Component<{}, {}> {
         </div>
       );
     } else {
-      return <div></div>;
+      return (<div></div>);
     }
   }
 
@@ -287,6 +295,11 @@ class CICDDashboard extends React.Component<{}, {}> {
           </div>
           <div className="page-content page-content-top page-content-bottom">
             <DataContext.Provider value={{ state: this.state }}>
+
+                <Observer isLoading={this.isLoading}>
+                  {this.renderFirstLoad(this.isLoading.value)}
+                </Observer>
+
                 <Observer selectedTabId={this.selectedTabId}>
                   {(props: { selectedTabId: string }) => {
                     if(this.state.buildDefs.length === 0){
@@ -304,6 +317,8 @@ class CICDDashboard extends React.Component<{}, {}> {
                     }
                   }}
                 </Observer>
+
+
             </DataContext.Provider>
           </div>
         </Page>
