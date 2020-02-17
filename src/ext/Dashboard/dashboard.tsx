@@ -183,6 +183,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   }
 
   private renderFirstLoad(isLoading: boolean) : JSX.Element {
+    console.log("isLoading: " + isLoading");
     return (
       <div>Loading in progress... {isLoading}</div>
     );
