@@ -42,6 +42,9 @@
   "links": {
     "support": {
       "uri": "https://github.com/expertasolutions/VstsDashboard/issues"
+    },
+    "privacypolicy": {
+      "uri": "http://experta.ca/privacy/azuredevopsprivacy"
     }
   },
   "repository": {
