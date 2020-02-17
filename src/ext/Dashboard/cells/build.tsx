@@ -133,6 +133,8 @@ export function renderBuildInfo02Cell(
 
   if(lastBuildRun !== undefined && lastBuildRun.queue !== undefined){
     queueName = lastBuildRun.queue.name;
+
+    console.log(JSON.stringify(lastBuildRun));
   }
   
   if(lastBuildRun != undefined) {
