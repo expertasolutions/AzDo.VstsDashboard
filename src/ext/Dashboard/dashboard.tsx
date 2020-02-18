@@ -15,6 +15,7 @@ import { Table } from "azure-devops-ui/Table";
 import { Tab, TabBar, TabSize } from "azure-devops-ui/Tabs";
 import { Surface, SurfaceBackground } from "azure-devops-ui/Surface";
 import { Page } from "azure-devops-ui/Page";
+import { Icon } from "azure-devops-ui/Icon";
 
 import { TeamProjectReference } from "azure-devops-extension-api/Core";
 import { BuildDefinitionReference, Build } from "azure-devops-extension-api/Build";
@@ -184,7 +185,7 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   private renderFirstLoad(isLoading: boolean) : JSX.Element {
     return (
-      <div>Loading in progress...</div>
+      <div><Icon iconName="ProgressRingDots"></Icon>&nbsp;Loading in progress...</div>
     );
   }
 
