@@ -115,7 +115,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       this.setState({ builds: result });
       this.filterBuildsData();
     });
-    this.isLoading.value = false;
+    SDK.ready().then(()=> { this.isLoading.value = false; });
   }
 
   private onProjectSelected = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
@@ -150,7 +150,7 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   private async initializeState(): Promise<void> {
     await SDK.init();
-    await SDK.ready();
+    //await SDK.ready();
 
     const projectService = await SDK.getService<IProjectPageService>(CommonServiceIds.ProjectPageService);
     let currentProject = await projectService.getProject();
@@ -185,7 +185,19 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   private renderFirstLoad(isLoading: boolean) : JSX.Element {
     return (
-      <div><Icon iconName="ProgressRingDots"></Icon>&nbsp;Loading in progress...</div>
+      <div className="flex-center">
+          <ZeroData
+            primaryText="Loading in progress..."
+            secondaryText={
+              <span>
+                <Icon iconName="ProgressRingDots"></Icon>&nbsp;Loading in progress...
+              </span>
+            }
+            imageAltText="Bars"
+            imagePath="https://cdn.vsassets.io/ext/ms.vss-build-web/pipelines/Content/no-builds.G8i4mxU5f17yTzxc.png"
+          />
+        </div>
+        
     );
   }
 
