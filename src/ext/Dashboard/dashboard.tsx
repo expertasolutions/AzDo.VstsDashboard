@@ -297,8 +297,10 @@ class CICDDashboard extends React.Component<{}, {}> {
           <div className="page-content page-content-top page-content-bottom">
             <DataContext.Provider value={{ state: this.state }}>
 
-                <Observer isLoading={this.isLoading}>
-                  {this.renderFirstLoad(this.isLoading.value)}
+                <Observer isLoading={this.isLoading}> 
+                  {(props: {isLoading: boolean }) => {
+                    return this.renderFirstLoad(props.isLoading);
+                  }}
                 </Observer>
 
                 <Observer selectedTabId={this.selectedTabId}>
