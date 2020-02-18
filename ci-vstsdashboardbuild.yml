@@ -1,4 +1,4 @@
-name: CI-VstsDashboard-v0.$(date:yyMMdd)$(rev:.r)-$(Build.SourceBranchName)
+name: VstsDashboard-v0.$(date:yyMMdd)$(rev:.r)-$(Build.SourceBranchName)
 
 trigger:
 - master

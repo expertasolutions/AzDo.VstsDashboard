@@ -15,6 +15,7 @@ import { Table } from "azure-devops-ui/Table";
 import { Tab, TabBar, TabSize } from "azure-devops-ui/Tabs";
 import { Surface, SurfaceBackground } from "azure-devops-ui/Surface";
 import { Page } from "azure-devops-ui/Page";
+import { Icon } from "azure-devops-ui/Icon";
 
 import { TeamProjectReference } from "azure-devops-extension-api/Core";
 import { BuildDefinitionReference, Build } from "azure-devops-extension-api/Build";
@@ -33,6 +34,7 @@ import { ZeroData, ZeroDataActionType } from "azure-devops-ui/ZeroData";
 import { CommonServiceIds, IProjectPageService } from "azure-devops-extension-api";
 
 class CICDDashboard extends React.Component<{}, {}> {
+  private isLoading = new ObservableValue<boolean>(true);
   private selectedTabId = new ObservableValue("summary");
   private projectSelection = new DropdownSelection();
   private filter: Filter = new Filter();
@@ -102,6 +104,8 @@ class CICDDashboard extends React.Component<{}, {}> {
     getBuildDefinitions(projectName).then(result => {
       this.setState({ buildDefs: result });
       this.filterData();
+    }).then(()=> {
+      SDK.ready().then(()=> { this.isLoading.value = false; });
     });
 
     getReleases(projectName).then(result => {
@@ -113,6 +117,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       this.setState({ builds: result });
       this.filterBuildsData();
     });
+
   }
 
   private onProjectSelected = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
@@ -147,7 +152,7 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   private async initializeState(): Promise<void> {
     await SDK.init();
-    await SDK.ready();
+    //await SDK.ready();
 
     const projectService = await SDK.getService<IProjectPageService>(CommonServiceIds.ProjectPageService);
     let currentProject = await projectService.getProject();
@@ -180,6 +185,22 @@ class CICDDashboard extends React.Component<{}, {}> {
     return prjDetail._links.web.href;
   }
 
+  private renderFirstLoad() : JSX.Element {
+    return (
+      <div className="flex-center">
+          <ZeroData
+            primaryText="Loading in progress..."
+            secondaryText={
+              <span></span>
+            }
+            imageAltText="Bars"
+            imagePath="https://cdn.vsassets.io/ext/ms.vss-build-web/pipelines/Content/no-builds.G8i4mxU5f17yTzxc.png"
+          />
+        </div>
+        
+    );
+  }
+
   private renderZeroData(tabId: string) : JSX.Element {
     if(tabId === "summary" && this.buildReferenceProvider.value.length === 0){
       return (
@@ -207,7 +228,7 @@ class CICDDashboard extends React.Component<{}, {}> {
         </div>
       );
     } else {
-      return <div></div>;
+      return (<div></div>);
     }
   }
 
@@ -287,23 +308,35 @@ class CICDDashboard extends React.Component<{}, {}> {
           </div>
           <div className="page-content page-content-top page-content-bottom">
             <DataContext.Provider value={{ state: this.state }}>
-                <Observer selectedTabId={this.selectedTabId}>
-                  {(props: { selectedTabId: string }) => {
-                    if(this.state.buildDefs.length === 0){
-                      return this.renderZeroData(this.selectedTabId.value);
+
+                <Observer isLoading={this.isLoading}> 
+                  {(props: {isLoading: boolean }) => {
+                    if(props.isLoading) {
+                      return this.renderFirstLoad();
                     } else {
                       return (
-                        <Card className="flex-grow bolt-table-card" 
-                              titleProps={{ text: "All pipelines" }} 
-                              contentProps={{ contentPadding: false }}>
-                                  <div  style={{ marginTop: "16px;", marginBottom: "16px;"}}>
-                                      { this.renderTab(props.selectedTabId) }
-                                  </div>
-                        </Card>
-                      );
+                        <Observer selectedTabId={this.selectedTabId}>
+                            {(props: { selectedTabId: string }) => {
+                              if(this.state.buildDefs.length === 0){
+                                return this.renderZeroData(this.selectedTabId.value);
+                              } else {
+                                return (
+                                  <Card className="flex-grow bolt-table-card" 
+                                        titleProps={{ text: "All pipelines" }} 
+                                        contentProps={{ contentPadding: false }}>
+                                            <div  style={{ marginTop: "16px;", marginBottom: "16px;"}}>
+                                                { this.renderTab(props.selectedTabId) }
+                                            </div>
+                                  </Card>
+                                );
+                              }
+                            }}
+                          </Observer>
+                      )
                     }
                   }}
                 </Observer>
+                
             </DataContext.Provider>
           </div>
         </Page>
