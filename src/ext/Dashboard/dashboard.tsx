@@ -185,15 +185,13 @@ class CICDDashboard extends React.Component<{}, {}> {
     return prjDetail._links.web.href;
   }
 
-  private renderFirstLoad(isLoading: boolean) : JSX.Element {
+  private renderFirstLoad() : JSX.Element {
     return (
       <div className="flex-center">
           <ZeroData
             primaryText="Loading in progress..."
             secondaryText={
-              <span>
-                <Icon iconName="ProgressRingDots"></Icon>&nbsp;Loading in progress...
-              </span>
+              <span></span>
             }
             imageAltText="Bars"
             imagePath="https://cdn.vsassets.io/ext/ms.vss-build-web/pipelines/Content/no-builds.G8i4mxU5f17yTzxc.png"
@@ -314,7 +312,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                 <Observer isLoading={this.isLoading}> 
                   {(props: {isLoading: boolean }) => {
                     if(props.isLoading) {
-                      return this.renderFirstLoad(props.isLoading);
+                      return this.renderFirstLoad();
                     } else {
                       return (
                         <Observer selectedTabId={this.selectedTabId}>
