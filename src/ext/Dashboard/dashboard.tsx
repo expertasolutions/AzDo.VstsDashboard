@@ -183,9 +183,8 @@ class CICDDashboard extends React.Component<{}, {}> {
   }
 
   private renderFirstLoad(isLoading: boolean) : JSX.Element {
-    console.log("isLoading: " + isLoading);
     return (
-      <div>Loading in progress... {isLoading}</div>
+      <div>Loading in progress...</div>
     );
   }
 
@@ -299,29 +298,32 @@ class CICDDashboard extends React.Component<{}, {}> {
 
                 <Observer isLoading={this.isLoading}> 
                   {(props: {isLoading: boolean }) => {
-                    return this.renderFirstLoad(props.isLoading);
-                  }}
-                </Observer>
-
-                <Observer selectedTabId={this.selectedTabId}>
-                  {(props: { selectedTabId: string }) => {
-                    if(this.state.buildDefs.length === 0){
-                      return this.renderZeroData(this.selectedTabId.value);
+                    if(props.isLoading) {
+                      return this.renderFirstLoad(props.isLoading);
                     } else {
                       return (
-                        <Card className="flex-grow bolt-table-card" 
-                              titleProps={{ text: "All pipelines" }} 
-                              contentProps={{ contentPadding: false }}>
-                                  <div  style={{ marginTop: "16px;", marginBottom: "16px;"}}>
-                                      { this.renderTab(props.selectedTabId) }
-                                  </div>
-                        </Card>
-                      );
+                        <Observer selectedTabId={this.selectedTabId}>
+                            {(props: { selectedTabId: string }) => {
+                              if(this.state.buildDefs.length === 0){
+                                return this.renderZeroData(this.selectedTabId.value);
+                              } else {
+                                return (
+                                  <Card className="flex-grow bolt-table-card" 
+                                        titleProps={{ text: "All pipelines" }} 
+                                        contentProps={{ contentPadding: false }}>
+                                            <div  style={{ marginTop: "16px;", marginBottom: "16px;"}}>
+                                                { this.renderTab(props.selectedTabId) }
+                                            </div>
+                                  </Card>
+                                );
+                              }
+                            }}
+                          </Observer>
+                      )
                     }
                   }}
                 </Observer>
-
-
+                
             </DataContext.Provider>
           </div>
         </Page>
