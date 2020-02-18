@@ -104,6 +104,8 @@ class CICDDashboard extends React.Component<{}, {}> {
     getBuildDefinitions(projectName).then(result => {
       this.setState({ buildDefs: result });
       this.filterData();
+    }).then(()=> {
+      SDK.ready().then(()=> { this.isLoading.value = false; });
     });
 
     getReleases(projectName).then(result => {
@@ -115,7 +117,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       this.setState({ builds: result });
       this.filterBuildsData();
     });
-    SDK.ready().then(()=> { this.isLoading.value = false; });
+
   }
 
   private onProjectSelected = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
