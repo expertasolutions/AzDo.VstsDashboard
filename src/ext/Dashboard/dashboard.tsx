@@ -108,6 +108,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       SDK.ready().then(()=> { this.isLoading.value = false; });
     });
 
+    // Update the Release List
     getReleases(projectName).then(result => {
       this.setState({releases: result });
     });
