@@ -25,6 +25,10 @@ import {
   BuildDefinitionReference 
 } from "azure-devops-extension-api/Build";
 
+function buildRefOnSize(event: MouseEvent, index: number, width: number) {
+  return (dashboardColumns[index].width as ObservableValue<number>).value = width;
+}
+
 export const buildColumns : ITableColumn<Build>[] = [
   {
     id: "pipeline",
@@ -55,23 +59,27 @@ export const dashboardColumns : ITableColumn<BuildDefinitionReference>[] = [
   {
     id: "pipeline",
     name: "Pipeline",
+    onSize: buildRefOnSize,
     renderCell: renderBuildRef01,
     width: new ObservableValue(-20)
   },
   {
     id: "pipeline",
     name: "Last Run",
+    onSize: buildRefOnSize,
     renderCell: renderLastBuild01,
     width: new ObservableValue(-25)
   },
   {
     id: "ReleaseInfo01",
     name: "Deployment Health",
+    onSize: buildRefOnSize,
     renderCell: renderReleaseInfo01,
     width: new ObservableValue(-65)
   },
   {
     id:"LastBuildInfo02",
+    onSize: buildRefOnSize,
     renderCell: renderLastBuild02,
     width: 150
   },
