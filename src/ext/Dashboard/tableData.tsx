@@ -15,10 +15,7 @@ import {
 } from "./cells/buildReference";
 
 import {
-    ColumnMore,
-    ITableColumn,
-    TableColumnLayout,
-    ColumnFill,
+    ITableColumn
 } from "azure-devops-ui/Table";
 
 import { 
