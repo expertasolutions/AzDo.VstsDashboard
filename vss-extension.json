@@ -8,8 +8,7 @@
   "categories": ["Azure Pipelines"],
   "targets": [
     {
-      "id": "Microsoft.VisualStudio.Services",
-      "version": "[17.0,)"
+      "id": "Microsoft.VisualStudio.Services"
     }
   ],
   "demands": [
