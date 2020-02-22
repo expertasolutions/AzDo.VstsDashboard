@@ -15,7 +15,6 @@ import { Table } from "azure-devops-ui/Table";
 import { Tab, TabBar, TabSize } from "azure-devops-ui/Tabs";
 import { Surface, SurfaceBackground } from "azure-devops-ui/Surface";
 import { Page } from "azure-devops-ui/Page";
-import { Icon } from "azure-devops-ui/Icon";
 
 import { TeamProjectReference } from "azure-devops-extension-api/Core";
 import { BuildDefinitionReference, Build } from "azure-devops-extension-api/Build";
@@ -26,7 +25,7 @@ import { ArrayItemProvider } from "azure-devops-ui/Utilities/Provider";
 import { ObservableValue } from "azure-devops-ui/Core/Observable";
 import { Observer } from "azure-devops-ui/Observer";
 import { DataContext }  from "./dataContext";
-import { Header, TitleSize } from "azure-devops-ui/Header";
+import { CustomHeader, HeaderTitle, HeaderTitleArea, HeaderTitleRow, TitleSize, HeaderDescription } from "azure-devops-ui/Header";
 import { IListBoxItem } from "azure-devops-ui/ListBox";
 import { Filter, FILTER_CHANGE_EVENT, FILTER_RESET_EVENT } from "azure-devops-ui/Utilities/Filter";
 import { FilterBar } from "azure-devops-ui/FilterBar";
@@ -40,6 +39,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   private filter: Filter = new Filter();
   private currentProjectSelected: string = "";
   private initialProjectName : string = "";
+  private extensionVersion : string = "";
 
   constructor(props: {}) {
     super(props);
@@ -108,6 +108,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       SDK.ready().then(()=> { this.isLoading.value = false; });
     });
 
+    // Update the Release List
     getReleases(projectName).then(result => {
       this.setState({releases: result });
     });
@@ -153,6 +154,12 @@ class CICDDashboard extends React.Component<{}, {}> {
   private async initializeState(): Promise<void> {
     await SDK.init();
     //await SDK.ready();
+
+    let hostInfo = SDK.getHost();
+
+    let extContext = SDK.getExtensionContext();
+    console.log("Version: " + JSON.stringify(extContext));
+    this.extensionVersion = "ver." + extContext.version;
 
     const projectService = await SDK.getService<IProjectPageService>(CommonServiceIds.ProjectPageService);
     let currentProject = await projectService.getProject();
@@ -282,7 +289,18 @@ class CICDDashboard extends React.Component<{}, {}> {
     return (
       <Surface background={SurfaceBackground.neutral}>
         <Page className="pipelines-page flex-grow">
-          <Header title="CI/CD Dashboard" titleSize={TitleSize.Large} />
+          <CustomHeader>
+            <HeaderTitleArea>
+              <HeaderTitleRow>
+                <HeaderTitle titleSize={TitleSize.Large}>
+                  CI/CD Dashboard
+                </HeaderTitle>
+              </HeaderTitleRow>
+              <HeaderDescription>
+                {this.extensionVersion}
+              </HeaderDescription>
+            </HeaderTitleArea>
+          </CustomHeader>
           <div className="page-content-left page-content-right page-content-top">
             {this.renderTabBar()}
           </div>

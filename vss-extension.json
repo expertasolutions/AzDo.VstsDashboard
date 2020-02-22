@@ -11,6 +11,9 @@
       "id": "Microsoft.VisualStudio.Services"
     }
   ],
+  "demands": [
+    "api-version/5.0"
+  ],
   "scopes": [
     "vso.project",
     "vso.build", 
