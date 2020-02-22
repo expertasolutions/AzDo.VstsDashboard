@@ -156,7 +156,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     //await SDK.ready();
 
     // TODO: Get AzureDevOps version here !!
-    let hostInfo = wait SDK.getHost();
+    let hostInfo = await SDK.getHost();
     console.log("HostInfo: " + JSON.stringify(hostInfo));
 
     const projectService = await SDK.getService<IProjectPageService>(CommonServiceIds.ProjectPageService);
