@@ -160,6 +160,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     console.log("HostInfo: " + JSON.stringify(hostInfo));
 
     let extContext = SDK.getExtensionContext();
+    console.log("Version: " + JSON.stringify(extContext));
     this.extensionVersion = "ver." + extContext.version;
 
     const projectService = await SDK.getService<IProjectPageService>(CommonServiceIds.ProjectPageService);
