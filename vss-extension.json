@@ -8,8 +8,12 @@
   "categories": ["Azure Pipelines"],
   "targets": [
     {
-      "id": "Microsoft.VisualStudio.Services"
+      "id": "Microsoft.VisualStudio.Services",
+      "version": "[17.0,)"
     }
+  ],
+  "demands": [
+    "api-version/5.0"
   ],
   "scopes": [
     "vso.project",
