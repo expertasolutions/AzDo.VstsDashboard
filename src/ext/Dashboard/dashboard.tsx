@@ -159,6 +159,12 @@ class CICDDashboard extends React.Component<{}, {}> {
     let hostInfo = await SDK.getHost();
     console.log("HostInfo: " + JSON.stringify(hostInfo));
 
+    let configuration = await SDK.getConfiguration();
+    console.log("Configuration: " + JSON.stringify(configuration));
+
+    let extContext = await SDK.getExtensionContext();
+    console.log("Extension: " + JSON.stringify(extContext));
+
     const projectService = await SDK.getService<IProjectPageService>(CommonServiceIds.ProjectPageService);
     let currentProject = await projectService.getProject();
     await this.loadProjects();
