@@ -4,7 +4,7 @@ import { Icon, IIconProps } from "azure-devops-ui/Icon";
 import { Status, IStatusProps, Statuses, StatusSize } from "azure-devops-ui/Status";
 import { IColor } from "azure-devops-ui/Utilities/Color";
 import { BuildResult, BuildStatus } from "azure-devops-extension-api/Build";
-import { Deployment, DeploymentStatus, ReleaseReference, ApprovalStatus } from "azure-devops-extension-api/Release";
+import { Deployment, DeploymentStatus, ReleaseReference, ApprovalStatus, ReleaseDefinition } from "azure-devops-extension-api/Release";
 import { Pill, PillVariant } from "azure-devops-ui/Pill";
 import { PillGroup, PillGroupOverflow } from "azure-devops-ui/PillGroup";
 import { Build } from "azure-devops-extension-api/Build";
@@ -210,6 +210,17 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
   let content = [];
   let children = [];
   let lastRelease = Array<string>();
+
+  let releaseDef = Array<ReleaseReference>();
+  for(let relRef=0;relRef<releaseReferences.length;relRef++){
+    let def = releaseReferences[relRef];
+    if(releaseDef.find(x=> x.name == def.name) === undefined){
+      releaseDef.push(def);
+    }
+  }
+
+  console.log("UniqueRelease: " + JSON.stringify(releaseDef));
+
   for(let relRef=0;relRef<releaseReferences.length;relRef++){
     let relRefInfo = releaseReferences[relRef];
     lastRelease = Array<string>();
