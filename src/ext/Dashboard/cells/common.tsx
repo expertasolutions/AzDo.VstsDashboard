@@ -244,8 +244,12 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
     }
 
     if(deploys.length > 0) {
-      content.push(<div><b><Link href={relRefInfo._links.web.href} target="_blank">{relRefInfo.name}</Link></b><p>
-                          <PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{children}</PillGroup></p></div>);
+      content.push(<div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
+                      <b style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
+                        <Link href={relRefInfo._links.web.href} target="_blank">{relRefInfo.name}</Link>
+                      </b>
+                      <p><PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{children}</PillGroup></p>
+                  </div>);
     }
     children = [];
   }

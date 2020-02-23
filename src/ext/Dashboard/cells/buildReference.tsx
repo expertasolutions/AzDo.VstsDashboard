@@ -23,6 +23,7 @@ import { Status, Statuses, StatusSize } from "azure-devops-ui/Status";
 import { Link } from "azure-devops-ui/Link";
 import { Icon } from "azure-devops-ui/Icon";
 import { DataContext } from "../dataContext";
+import { Spacing } from "azure-devops-ui/Surface";
 
 export function renderBuildRef01 (
   rowIndex: number,
@@ -36,12 +37,12 @@ export function renderBuildRef01 (
           columnIndex={columnIndex}
           tableColumn={tableColumn}
           key={"col-" + columnIndex}
-          contentClassName="fontWeightSemiBold font-weight-semibold fontSizeM font-size-m scroll-hidden">
+          contentClassName="fontWeightSemiBold font-weight-semibold fontSizeM font-size-m scroll-hidden bolt-table-cell-primary">
             <Status {...getBuildDefinitionStatus(tableItem).statusProps}
                     className="icon-large-margin"
                     size={StatusSize.l}/>
-            <div>
-              <Link href={definitionUrl} target="_blank">
+            <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
+              <Link href={definitionUrl} target="_blank" className="bolt-table-cell-primary">
                 {tableItem.name}
               </Link>
             </div>
@@ -80,10 +81,10 @@ export function renderLastBuild01 (
         commitUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl/changeset/" + lastBuild.sourceVersion;
       }
     }
-    contentRow1 = (<div>
+    contentRow1 = (<div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
                     <Icon iconName="Build"/>&nbsp;<Link href={buildUrl} target="_blank">{lastBuild.buildNumber}</Link>
                   </div>);
-    contentRow2 = (<div>
+    contentRow2 = (<div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
                     <Icon iconName="BranchMerge"/>&nbsp;<Link href={branchUrl} target="_blank">{branchName}</Link>
                     <Icon iconName="BranchCommit" /><Link href={commitUrl} target="blank">{lastBuild.sourceVersion.substr(0, 7)}</Link>
                   </div>);
