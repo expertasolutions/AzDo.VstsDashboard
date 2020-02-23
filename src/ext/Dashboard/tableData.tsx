@@ -49,7 +49,6 @@ export const buildColumns : ITableColumn<Build>[] = [
   {
     id: "ReleaseInfo01",
     name: "Deployment Health",
-    onSize: buildOnSize,
     renderCell: renderDeploymentInfo01,
     width: new ObservableValue(-45)
   },
@@ -78,7 +77,6 @@ export const dashboardColumns : ITableColumn<BuildDefinitionReference>[] = [
   {
     id: "ReleaseInfo01",
     name: "Deployment Health",
-    onSize: buildRefOnSize,
     renderCell: renderReleaseInfo01,
     width: new ObservableValue(-45)
   },
