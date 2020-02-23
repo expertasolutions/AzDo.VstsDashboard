@@ -42,7 +42,7 @@ export function renderBuildRef01 (
                     className="icon-large-margin"
                     size={StatusSize.l}/>
             <span>
-              <Link href={definitionUrl} target="_blank">
+              <Link href={definitionUrl} target="_blank" className="bolt-table-cell-primary">
                 {tableItem.name}
               </Link>
             </span>
