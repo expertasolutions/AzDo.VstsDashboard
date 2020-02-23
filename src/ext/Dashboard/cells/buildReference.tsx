@@ -36,6 +36,7 @@ export function renderBuildRef01 (
           columnIndex={columnIndex}
           tableColumn={tableColumn}
           key={"col-" + columnIndex}
+          className="bolt-table-cell-primary"
           contentClassName="fontWeightSemiBold font-weight-semibold fontSizeM font-size-m scroll-hidden">
             <Status {...getBuildDefinitionStatus(tableItem).statusProps}
                     className="icon-large-margin"

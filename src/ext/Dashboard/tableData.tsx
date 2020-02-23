@@ -65,7 +65,6 @@ export const dashboardColumns : ITableColumn<BuildDefinitionReference>[] = [
     id: "pipeline",
     name: "Pipeline",
     onSize: buildRefOnSize,
-    readonly: true,
     renderCell: renderBuildRef01,
     width: new ObservableValue(-25)
   },
