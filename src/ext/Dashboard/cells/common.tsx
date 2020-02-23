@@ -211,11 +211,11 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
   let children = [];
   let lastRelease = Array<string>();
 
-  let releaseDef = Array<ReleaseReference>();
+  let releaseDef = Array<string>();
   for(let relRef=0;relRef<releaseReferences.length;relRef++){
     let def = releaseReferences[relRef];
-    if(releaseDef.find(x=> x.name == def.name) === undefined){
-      releaseDef.push(def);
+    if(releaseDef.find(x=> x == def.name) === undefined){
+      releaseDef.push(def.name);
     }
   }
 
