@@ -41,11 +41,11 @@ export function renderBuildRef01 (
             <Status {...getBuildDefinitionStatus(tableItem).statusProps}
                     className="icon-large-margin"
                     size={StatusSize.l}/>
-            <div>
+            <span>
               <Link href={definitionUrl} target="_blank">
                 {tableItem.name}
               </Link>
-            </div>
+            </span>
       </SimpleTableCell>
   );
 }
