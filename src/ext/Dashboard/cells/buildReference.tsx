@@ -180,7 +180,7 @@ export function renderReleaseInfo01 (
             key={"col-" + columnIndex}
             columnIndex={columnIndex}
             tableColumn={tableColumn}>
-              <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
+              <div>
                 {getReleaseTagFromBuild(lastBuild, context.state.releases, false) }
               </div>
         </SimpleTableCell>
