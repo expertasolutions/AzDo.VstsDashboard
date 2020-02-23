@@ -23,6 +23,7 @@ import { Status, Statuses, StatusSize } from "azure-devops-ui/Status";
 import { Link } from "azure-devops-ui/Link";
 import { Icon } from "azure-devops-ui/Icon";
 import { DataContext } from "../dataContext";
+import { Spacing } from "azure-devops-ui/Surface";
 
 export function renderBuildRef01 (
   rowIndex: number,
@@ -40,9 +41,11 @@ export function renderBuildRef01 (
             <Status {...getBuildDefinitionStatus(tableItem).statusProps}
                     className="icon-large-margin"
                     size={StatusSize.l}/>
-            <Link href={definitionUrl} target="_blank" className="bolt-table-cell-primary">
-              {tableItem.name}
-            </Link>
+            <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
+              <Link href={definitionUrl} target="_blank" className="bolt-table-cell-primary">
+                {tableItem.name}
+              </Link>
+            </div>
       </SimpleTableCell>
   );
 }
