@@ -41,7 +41,7 @@ export function renderBuildStatus (
             <Status {...getBuildStatus(tableItem).statusProps}
                     className="icon-large-margin"
                     size={StatusSize.l}/>
-            <div>
+            <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
                 {tableItem.definition.name}
             </div>
       </SimpleTableCell>
@@ -82,7 +82,7 @@ export function renderBuildInfo01Cell(
     contentRow1 = (<div>
                     <Icon iconName="Build"/>&nbsp;<Link href={buildUrl} target="_blank">{lastBuild.buildNumber}</Link>
                   </div>);
-    contentRow2 = (<div>
+    contentRow2 = (<div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
                     <Icon iconName="BranchMerge"/>&nbsp;<Link href={branchUrl} target="_blank">{branchName}</Link>
                     <Icon iconName="BranchCommit" /><Link href={commitUrl} target="blank">{lastBuild.sourceVersion.substr(0, 7)}</Link>
                   </div>);
