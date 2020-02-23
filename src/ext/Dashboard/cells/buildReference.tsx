@@ -36,16 +36,13 @@ export function renderBuildRef01 (
           columnIndex={columnIndex}
           tableColumn={tableColumn}
           key={"col-" + columnIndex}
-          className="bolt-table-cell-primary"
-          contentClassName="fontWeightSemiBold font-weight-semibold fontSizeM font-size-m scroll-hidden">
+          contentClassName="fontWeightSemiBold font-weight-semibold fontSizeM font-size-m scroll-hidden bolt-table-cell-primary">
             <Status {...getBuildDefinitionStatus(tableItem).statusProps}
                     className="icon-large-margin"
                     size={StatusSize.l}/>
-            <span>
-              <Link href={definitionUrl} target="_blank" className="bolt-table-cell-primary">
-                {tableItem.name}
-              </Link>
-            </span>
+            <Link href={definitionUrl} target="_blank" className="bolt-table-cell-primary">
+              {tableItem.name}
+            </Link>
       </SimpleTableCell>
   );
 }
