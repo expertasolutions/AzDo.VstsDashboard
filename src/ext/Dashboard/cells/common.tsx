@@ -214,6 +214,15 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
 
   for(let feDep=0;feDep<uniqueRelDef.length;feDep++){
     let depName = uniqueRelDef[feDep];
+
+    deploys = releases.filter(
+      x=> x.release.artifacts.find(
+        a=> {
+          let version = a.definitionReference["version"];
+          return version.id === build.id.toString() && x.releaseDefinition.name === depName;
+        }
+      ) != null
+    );
     
     let releaseReferences = Array<ReleaseReference>();
     for(let i=0;i<deploys.length;i++) {
@@ -229,12 +238,12 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
 
     for(let relRef=0;relRef<releaseReferences.length;relRef++){
       let relRefInfo = releaseReferences[relRef];
-
       lastRelease = Array<string>();
       let releaseDeploys = deploys.filter(x=> x.release.id == relRefInfo.id && x.releaseDefinition.name === depName)
                             .sort((a,b)=> a.releaseEnvironment.id - b.releaseEnvironment.id);
 
       for(let i=0;i<releaseDeploys.length;i++) {
+        /*
 
         let dep = releaseDeploys[i];
         let lastDeploys = releaseDeploys.filter(x=> x.releaseEnvironment.name === dep.releaseEnvironment.name).sort(x=> x.id);
@@ -242,7 +251,6 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
         let lastDep = lastDeploys[0];
         let envName = lastDep.releaseEnvironment.name;
         let env = lastRelease.find(x => x === envName);
-
         if(env === undefined) {
           let pendingApproval = waitingForApproval(lastDep, lastDep.releaseEnvironment.id);
 
@@ -254,6 +262,8 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
               <Status {...relStatusInfo.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{lastDep.releaseEnvironment.name}
             </Pill>)
         }
+        */
+        children.push(<span></span>)
       }
 
       let all = allRelease;
