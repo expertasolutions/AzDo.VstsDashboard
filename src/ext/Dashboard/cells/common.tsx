@@ -214,7 +214,15 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
     ) != null
   );
 
-  console.log("Deploys: " + JSON.stringify(deploys));
+  let uniqueRelDef = Array<string>();
+  for(let feDep=0;feDep<deploys.length;feDep++){
+    let dep = deploys[feDep];
+    if(uniqueRelDef.find(x=> x === dep.releaseDefinition.name) === undefined){
+      uniqueRelDef.push(dep.releaseDefinition.name);
+    }
+  }
+
+  console.log("UniqueRelDef: " + JSON.stringify(uniqueRelDef));
 
   let releaseReferences = Array<ReleaseReference>();
   for(let i=0;i<deploys.length;i++) {
