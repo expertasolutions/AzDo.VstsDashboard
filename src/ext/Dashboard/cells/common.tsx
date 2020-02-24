@@ -191,6 +191,7 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
     return (<div>Not deploy yet</div>);
   }
 
+  /*
   let buildSources = Array<string>();
   for(let feRel=0;feRel<releases.length;feRel++){
     let rel = releases[feRel].release;
@@ -201,8 +202,8 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
       }
     }
   };
-
-  console.log("BuildSource: " + JSON.stringify(buildSources));
+*/
+  //console.log("BuildSource: " + JSON.stringify(buildSources));
 
   let deploys = releases.filter(
     x=> x.release.artifacts.find(
@@ -216,7 +217,8 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
   let releaseReferences = Array<ReleaseReference>();
   for(let i=0;i<deploys.length;i++) {
     let dep = deploys[i];
-    if(releaseReferences.find(x=> x.id === dep.release.id) === undefined){
+    console.log("Depl: " + JSON.stringify(dep));
+    if(releaseReferences.find(x=> x.id === dep.release.id) === undefined) {
       releaseReferences.push(dep.release);
     }
   }
