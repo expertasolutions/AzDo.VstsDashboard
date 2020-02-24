@@ -219,7 +219,7 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
     for(let i=0;i<deploys.length;i++) {
       let dep = deploys[i];
       
-      if(releaseReferences.find(x=> x.id === dep.release.id && x.releaseDefinition.name === depName) === undefined) {
+      if(releaseReferences.find(x=> x.id === dep.release.id && dep.releaseDefinition.name === depName) === undefined) {
         releaseReferences.push(dep.release);
       }
     }
