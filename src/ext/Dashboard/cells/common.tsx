@@ -219,9 +219,9 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
       x=> x.release.artifacts.find(
         a=> {
           let version = a.definitionReference["version"];
-          return version.id === build.id.toString() && x.releaseDefinition.name === depName;
+          return version.id === build.id.toString();
         }
-      ) != null
+      ) != null && x.releaseDefinition.name === depName
     );
     
     let releaseReferences = Array<ReleaseReference>();
