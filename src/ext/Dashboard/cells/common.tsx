@@ -208,8 +208,6 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
     }
   }
 
-  console.log("UniqueRelDef: " + JSON.stringify(uniqueRelDef));
-
   let content = [];
 
   for(let feDep=0;feDep<uniqueRelDef.length;feDep++){
@@ -243,8 +241,6 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
                             .sort((a,b)=> a.releaseEnvironment.id - b.releaseEnvironment.id);
 
       for(let i=0;i<releaseDeploys.length;i++) {
-        /*
-
         let dep = releaseDeploys[i];
         let lastDeploys = releaseDeploys.filter(x=> x.releaseEnvironment.name === dep.releaseEnvironment.name).sort(x=> x.id);
 
@@ -262,8 +258,6 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
               <Status {...relStatusInfo.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{lastDep.releaseEnvironment.name}
             </Pill>)
         }
-        */
-        children.push(<span></span>)
       }
 
       let all = allRelease;
