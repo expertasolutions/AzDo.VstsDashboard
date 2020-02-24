@@ -8,7 +8,7 @@ import { getBuildDefinitions, getBuilds , getReleases, getProjects, getProject }
 import { dashboardColumns, buildColumns }  from "./tableData";
 
 import { KeywordFilterBarItem } from "azure-devops-ui/TextFilterBarItem";
-import { DropdownFilterBarItem } from "azure-devops-ui/Dropdown";
+import { DropdownFilterBarItem, Dropdown } from "azure-devops-ui/Dropdown";
 import { DropdownSelection } from "azure-devops-ui/Utilities/DropdownSelection";
 import { Card } from "azure-devops-ui/Card";
 import { Table } from "azure-devops-ui/Table";
@@ -36,7 +36,9 @@ class CICDDashboard extends React.Component<{}, {}> {
   private isLoading = new ObservableValue<boolean>(true);
   private selectedTabId = new ObservableValue("summary");
   private projectSelection = new DropdownSelection();
+  private allDeploymentSelection = new DropdownSelection();
   private filter: Filter = new Filter();
+  private allDeploymentFilter: Filter = new Filter();
   private currentProjectSelected: string = "";
   private initialProjectName : string = "";
   private extensionVersion : string = "";
@@ -118,6 +120,10 @@ class CICDDashboard extends React.Component<{}, {}> {
       this.setState({ builds: result });
       this.filterBuildsData();
     });
+
+  }
+
+  private onAllDeploymentSelected = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) {
 
   }
 
@@ -307,6 +313,18 @@ class CICDDashboard extends React.Component<{}, {}> {
           <div className="page-content-left page-content-right page-content-top">
             <FilterBar filter={this.filter}>
               <KeywordFilterBarItem filterItemKey="pipelineKeyWord" />
+              <DropdownFilterBarItem
+                filterItemKey="allDeployments"
+                filter={this.allDeploymentFilter}
+                items={[
+                  { id:"true", text: "Yes"},
+                  { id:"false", text: "No"}
+                ]}
+                placeholder="Show All Deployments"
+                onSelect={this.onAllDeploymentSelected}
+                selection={this.allDeploymentSelection}
+                hideClearAction={true}
+              />
               <DropdownFilterBarItem
                 filterItemKey="teamProjectId"
                 filter={this.filter}
