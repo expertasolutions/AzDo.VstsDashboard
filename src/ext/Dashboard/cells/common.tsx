@@ -191,20 +191,6 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
     return (<div>Not deploy yet</div>);
   }
 
-  /*
-  let buildSources = Array<string>();
-  for(let feRel=0;feRel<releases.length;feRel++){
-    let rel = releases[feRel].release;
-    for(let feArt=0;feArt<rel.artifacts.length;feArt++){
-      let art = rel.artifacts[feArt];
-      if(buildSources.find(x=> x === art.definitionReference["definition"].name) === undefined) {
-        buildSources.push(art.definitionReference["definition"].name);
-      }
-    }
-  };
-*/
-  //console.log("BuildSource: " + JSON.stringify(buildSources));
-
   let deploys = releases.filter(
     x=> x.release.artifacts.find(
       a=> {
@@ -224,65 +210,70 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
 
   console.log("UniqueRelDef: " + JSON.stringify(uniqueRelDef));
 
-  let releaseReferences = Array<ReleaseReference>();
-  for(let i=0;i<deploys.length;i++) {
-    let dep = deploys[i];
-    
-    if(releaseReferences.find(x=> x.id === dep.release.id) === undefined) {
-      releaseReferences.push(dep.release);
-    }
-  }
-
   let content = [];
-  let children = [];
-  let lastRelease = Array<string>();
 
-  for(let relRef=0;relRef<releaseReferences.length;relRef++){
-    let relRefInfo = releaseReferences[relRef];
-
-    lastRelease = Array<string>();
-    let releaseDeploys = deploys.filter(x=> x.release.id == relRefInfo.id)
-                         .sort((a,b)=> a.releaseEnvironment.id - b.releaseEnvironment.id);
-
-    for(let i=0;i<releaseDeploys.length;i++) {
-
-      let dep = releaseDeploys[i];
-      let lastDeploys = releaseDeploys.filter(x=> x.releaseEnvironment.name === dep.releaseEnvironment.name).sort(x=> x.id);
-
-      let lastDep = lastDeploys[0];
-      let envName = lastDep.releaseEnvironment.name;
-      let env = lastRelease.find(x => x === envName);
-
-      if(env === undefined) {
-        let pendingApproval = waitingForApproval(lastDep, lastDep.releaseEnvironment.id);
-
-        lastRelease.push(lastDep.releaseEnvironment.name);
-        let relStatusInfo = getReleaseStatus(lastDep, pendingApproval);
-        children.push(
-          <Pill color={relStatusInfo.color} variant={PillVariant.colored} 
-            onClick={() => window.open(lastDep.releaseEnvironment._links.web.href, "_blank") }>
-            <Status {...relStatusInfo.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{lastDep.releaseEnvironment.name}
-          </Pill>)
+  for(let feDep=0;feDep<uniqueRelDef.length;feDep++){
+    let depName = uniqueRelDef[feDep];
+    
+    let releaseReferences = Array<ReleaseReference>();
+    for(let i=0;i<deploys.length;i++) {
+      let dep = deploys[i];
+      
+      if(releaseReferences.find(x=> x.id === dep.release.id && x.releaseDefinition.name === depName) === undefined) {
+        releaseReferences.push(dep.release);
       }
     }
 
-    let all = allRelease;
-    if(all === false) {
-      relRef = releaseReferences.length;
-    }
+    let children = [];
+    let lastRelease = Array<string>();
 
-    if(deploys.length > 0) {
-      content.push(<div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
-                      <b style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
-                        <Link href={relRefInfo._links.web.href} target="_blank">{relRefInfo.name}</Link>
-                      </b>
-                      <p><PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{children}</PillGroup></p>
-                  </div>);
+    for(let relRef=0;relRef<releaseReferences.length;relRef++){
+      let relRefInfo = releaseReferences[relRef];
+
+      lastRelease = Array<string>();
+      let releaseDeploys = deploys.filter(x=> x.release.id == relRefInfo.id)
+                          .sort((a,b)=> a.releaseEnvironment.id - b.releaseEnvironment.id);
+
+      for(let i=0;i<releaseDeploys.length;i++) {
+
+        let dep = releaseDeploys[i];
+        let lastDeploys = releaseDeploys.filter(x=> x.releaseEnvironment.name === dep.releaseEnvironment.name).sort(x=> x.id);
+
+        let lastDep = lastDeploys[0];
+        let envName = lastDep.releaseEnvironment.name;
+        let env = lastRelease.find(x => x === envName);
+
+        if(env === undefined) {
+          let pendingApproval = waitingForApproval(lastDep, lastDep.releaseEnvironment.id);
+
+          lastRelease.push(lastDep.releaseEnvironment.name);
+          let relStatusInfo = getReleaseStatus(lastDep, pendingApproval);
+          children.push(
+            <Pill color={relStatusInfo.color} variant={PillVariant.colored} 
+              onClick={() => window.open(lastDep.releaseEnvironment._links.web.href, "_blank") }>
+              <Status {...relStatusInfo.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{lastDep.releaseEnvironment.name}
+            </Pill>)
+        }
+      }
+
+      let all = allRelease;
+      if(all === false) {
+        relRef = releaseReferences.length;
+      }
+
+      if(deploys.length > 0) {
+        content.push(<div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
+                        <b style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
+                          <Link href={relRefInfo._links.web.href} target="_blank">{depName} - {relRefInfo.name}</Link>
+                        </b>
+                        <p><PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{children}</PillGroup></p>
+                    </div>);
+      }
+      children = [];
     }
-    children = [];
   }
 
-  if(releaseReferences.length > 0){
+  if(content.length > 0){
     return content;
   }
   return <div>Not deploy yet</div>
