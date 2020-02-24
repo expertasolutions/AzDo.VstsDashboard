@@ -9,6 +9,7 @@ import { Pill, PillVariant } from "azure-devops-ui/Pill";
 import { PillGroup, PillGroupOverflow } from "azure-devops-ui/PillGroup";
 import { Build } from "azure-devops-extension-api/Build";
 import { Link } from "azure-devops-ui/Link";
+import { findDOMNode } from "react-dom";
 
 const lightGreen: IColor = {
   red: 204,
@@ -190,6 +191,19 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
     return (<div>Not deploy yet</div>);
   }
 
+  let buildSources = Array<string>();
+  for(let feRel=0;feRel<releases.length;feRel++){
+    let rel = releases[feRel].release;
+    for(let feArt=0;feArt<rel.artifacts.length;feArt++){
+      let art = rel.artifacts[feArt];
+      if(buildSources.find(x=> x === art.definitionReference["definition"].name) === undefined) {
+        buildSources.push(art.definitionReference["definition"].name);
+      }
+    }
+  };
+
+  console.log("BuildSource: " + JSON.stringify(buildSources));
+
   let deploys = releases.filter(
     x=> x.release.artifacts.find(
       a=> {
@@ -211,19 +225,9 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
   let children = [];
   let lastRelease = Array<string>();
 
-  let releaseDef = Array<string>();
-  for(let relRef=0;relRef<releaseReferences.length;relRef++){
-    let def = releaseReferences[relRef];
-    console.log("def: " + JSON.stringify(def));
-    if(releaseDef.find(x=> x === def.releaseDefinition.name) === undefined){
-      //releaseDef.push(def.releaseDefinition.name);
-    }
-  }
-
-  console.log("UniqueRelease: " + JSON.stringify(releaseDef));
-
   for(let relRef=0;relRef<releaseReferences.length;relRef++){
     let relRefInfo = releaseReferences[relRef];
+
     lastRelease = Array<string>();
     let releaseDeploys = deploys.filter(x=> x.release.id == relRefInfo.id)
                          .sort((a,b)=> a.releaseEnvironment.id - b.releaseEnvironment.id);
@@ -237,7 +241,6 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
       let env = lastRelease.find(x => x === envName);
 
       if(env === undefined) {
-        
         let pendingApproval = waitingForApproval(lastDep, lastDep.releaseEnvironment.id);
 
         lastRelease.push(lastDep.releaseEnvironment.name);
