@@ -218,6 +218,7 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
   for(let i=0;i<deploys.length;i++) {
     let dep = deploys[i];
     console.log("Depl: " + JSON.stringify(dep));
+    
     if(releaseReferences.find(x=> x.id === dep.release.id) === undefined) {
       releaseReferences.push(dep.release);
     }

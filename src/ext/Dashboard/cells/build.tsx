@@ -41,7 +41,7 @@ export function renderBuildStatus (
             <Status {...getBuildStatus(tableItem).statusProps}
                     className="icon-large-margin"
                     size={StatusSize.l}/>
-            <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
+            <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", verticalAlign: "top"}}>
                 {tableItem.definition.name}
             </div>
       </SimpleTableCell>
