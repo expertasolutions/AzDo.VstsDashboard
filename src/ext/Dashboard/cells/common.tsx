@@ -214,10 +214,11 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
     ) != null
   );
 
+  console.log("Deploys: " + JSON.stringify(deploys));
+
   let releaseReferences = Array<ReleaseReference>();
   for(let i=0;i<deploys.length;i++) {
     let dep = deploys[i];
-    console.log("Depl: " + JSON.stringify(dep));
     
     if(releaseReferences.find(x=> x.id === dep.release.id) === undefined) {
       releaseReferences.push(dep.release);
@@ -236,6 +237,7 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
                          .sort((a,b)=> a.releaseEnvironment.id - b.releaseEnvironment.id);
 
     for(let i=0;i<releaseDeploys.length;i++) {
+
       let dep = releaseDeploys[i];
       let lastDeploys = releaseDeploys.filter(x=> x.releaseEnvironment.name === dep.releaseEnvironment.name).sort(x=> x.id);
 
