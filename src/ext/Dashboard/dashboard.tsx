@@ -123,7 +123,7 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   }
 
-  private onAllDeploymentSelected = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) {
+  private onAllDeploymentSelected = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
 
   }
 
