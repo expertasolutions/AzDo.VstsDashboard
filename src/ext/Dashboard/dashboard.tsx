@@ -328,7 +328,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                   { id:"true", text: "Yes"},
                   { id:"false", text: "No"}
                 ]}
-                placeholder="Show all pipeline deployments"
+                placeholder="Show all deployments for a pipeline"
                 onSelect={this.onAllDeploymentSelected}
                 selection={this.allDeploymentSelection}
                 hideClearAction={true}
