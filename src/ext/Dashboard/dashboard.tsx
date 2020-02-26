@@ -129,7 +129,6 @@ class CICDDashboard extends React.Component<{}, {}> {
     if(item.text != undefined) {
       let showAll = item.text === "Yes";
       this.setState({ showAllBuildDeployment: showAll });
-      console.log("showAllBuildDeployment: " + item.text);
     } else {
       this.setState({ showAllBuildDeployment: false });
     }
@@ -327,7 +326,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                   { id:"true", text: "Yes"},
                   { id:"false", text: "No"}
                 ]}
-                placeholder="Show All Deployments"
+                placeholder="Show all pipeline deployments"
                 onSelect={this.onAllDeploymentSelected}
                 selection={this.allDeploymentSelection}
                 hideClearAction={true}
