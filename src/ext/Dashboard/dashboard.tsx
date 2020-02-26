@@ -60,6 +60,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     builds: Array<Build>(),
     releases: Array<Deployment>(),
     projects: Array<TeamProjectReference>(),
+    showAllBuildDeployment: false
   };
 
   private onFilterReset = async () => {
@@ -125,7 +126,12 @@ class CICDDashboard extends React.Component<{}, {}> {
   }
 
   private onAllDeploymentSelected = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
-
+    if(item.text != undefined) {
+      this.setState({ showAllBuildDeployment: false });
+    } else {
+      let showAll = item.text === "Yes";
+      this.setState({ showAllBuildDeployment: showAll });
+    }
   }
 
   private onProjectSelected = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
