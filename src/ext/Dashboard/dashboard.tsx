@@ -171,7 +171,6 @@ class CICDDashboard extends React.Component<{}, {}> {
     let hostInfo = SDK.getHost();
 
     let extContext = SDK.getExtensionContext();
-    console.log("Version: " + JSON.stringify(extContext));
     this.extensionVersion = "v" + extContext.version;
 
     const projectService = await SDK.getService<IProjectPageService>(CommonServiceIds.ProjectPageService);
@@ -352,8 +351,8 @@ class CICDDashboard extends React.Component<{}, {}> {
           </div>
           <div className="page-content page-content-top page-content-bottom">
             <DataContext.Provider value={{ state: this.state }}>
-
-                <Observer isLoading={this.isLoading}> 
+              
+                <Observer isLoading={this.isLoading} showAllBuildDeployment={this.state.showAllBuildDeployment}> 
                   {(props: {isLoading: boolean }) => {
                     if(props.isLoading) {
                       return this.renderFirstLoad();
