@@ -8,7 +8,7 @@ import { getBuildDefinitions, getBuilds , getReleases, getProjects, getProject }
 import { dashboardColumns, buildColumns }  from "./tableData";
 
 import { KeywordFilterBarItem } from "azure-devops-ui/TextFilterBarItem";
-import { DropdownFilterBarItem } from "azure-devops-ui/Dropdown";
+import { DropdownFilterBarItem, Dropdown } from "azure-devops-ui/Dropdown";
 import { DropdownSelection } from "azure-devops-ui/Utilities/DropdownSelection";
 import { Card } from "azure-devops-ui/Card";
 import { Table } from "azure-devops-ui/Table";
@@ -36,7 +36,9 @@ class CICDDashboard extends React.Component<{}, {}> {
   private isLoading = new ObservableValue<boolean>(true);
   private selectedTabId = new ObservableValue("summary");
   private projectSelection = new DropdownSelection();
+  private allDeploymentSelection = new DropdownSelection();
   private filter: Filter = new Filter();
+  private allDeploymentFilter: Filter = new Filter();
   private currentProjectSelected: string = "";
   private initialProjectName : string = "";
   private extensionVersion : string = "";
@@ -58,6 +60,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     builds: Array<Build>(),
     releases: Array<Deployment>(),
     projects: Array<TeamProjectReference>(),
+    showAllBuildDeployment: false
   };
 
   private onFilterReset = async () => {
@@ -67,6 +70,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       let index = this.state.projects.indexOf(prj);
       this.projectSelection.select(index);
       this.updateFromProject(this.initialProjectName);
+      this.allDeploymentSelection.select(1);
     }
   }
 
@@ -80,7 +84,9 @@ class CICDDashboard extends React.Component<{}, {}> {
 
     if(filterState.pipelineKeyWord !== undefined && filterState.pipelineKeyWord !== null && filterState.pipelineKeyWord.value !== "") {
       let pipelineFilterText = filterState.pipelineKeyWord.value.toLowerCase();
-      let elm = this.state.buildDefs.filter(x=> x.name.toLowerCase().indexOf(pipelineFilterText) !== -1);
+      let elm = this.state.buildDefs.filter(x=> x.name.toLowerCase()
+                                                  .indexOf(pipelineFilterText) !== -1 || 
+                                                  (x.latestCompletedBuild != null && x.latestCompletedBuild.buildNumber.toLowerCase().indexOf(pipelineFilterText) !== -1));
       this.buildReferenceProvider.value = new ArrayItemProvider(elm);
     } else {
       this.buildReferenceProvider.value = new ArrayItemProvider(this.state.buildDefs);
@@ -121,6 +127,15 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   }
 
+  private onAllDeploymentSelected = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
+    if(item.text != undefined) {
+      let showAll = item.text === "Yes";
+      this.setState({ showAllBuildDeployment: showAll });
+    } else {
+      this.setState({ showAllBuildDeployment: false });
+    }
+  }
+
   private onProjectSelected = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
     let projectName = "";
     
@@ -158,7 +173,6 @@ class CICDDashboard extends React.Component<{}, {}> {
     let hostInfo = SDK.getHost();
 
     let extContext = SDK.getExtensionContext();
-    console.log("Version: " + JSON.stringify(extContext));
     this.extensionVersion = "v" + extContext.version;
 
     const projectService = await SDK.getService<IProjectPageService>(CommonServiceIds.ProjectPageService);
@@ -172,6 +186,7 @@ class CICDDashboard extends React.Component<{}, {}> {
         let index = this.state.projects.indexOf(prj);
         this.projectSelection.select(index);
         this.updateFromProject(this.initialProjectName);
+        this.allDeploymentSelection.select(1);
       }
     }
   }
@@ -204,7 +219,6 @@ class CICDDashboard extends React.Component<{}, {}> {
             imagePath="https://cdn.vsassets.io/ext/ms.vss-build-web/pipelines/Content/no-builds.G8i4mxU5f17yTzxc.png"
           />
         </div>
-        
     );
   }
 
@@ -308,6 +322,18 @@ class CICDDashboard extends React.Component<{}, {}> {
             <FilterBar filter={this.filter}>
               <KeywordFilterBarItem filterItemKey="pipelineKeyWord" />
               <DropdownFilterBarItem
+                filterItemKey="allDeployments"
+                filter={this.allDeploymentFilter}
+                items={[
+                  { id:"true", text: "Yes"},
+                  { id:"false", text: "No"}
+                ]}
+                placeholder="Show all pipeline deployments"
+                onSelect={this.onAllDeploymentSelected}
+                selection={this.allDeploymentSelection}
+                hideClearAction={true}
+              />
+              <DropdownFilterBarItem
                 filterItemKey="teamProjectId"
                 filter={this.filter}
                 items={this.state.projects.map(i => {
@@ -326,8 +352,8 @@ class CICDDashboard extends React.Component<{}, {}> {
           </div>
           <div className="page-content page-content-top page-content-bottom">
             <DataContext.Provider value={{ state: this.state }}>
-
-                <Observer isLoading={this.isLoading}> 
+              
+                <Observer isLoading={this.isLoading} showAllBuildDeployment={this.state.showAllBuildDeployment}> 
                   {(props: {isLoading: boolean }) => {
                     if(props.isLoading) {
                       return this.renderFirstLoad();
