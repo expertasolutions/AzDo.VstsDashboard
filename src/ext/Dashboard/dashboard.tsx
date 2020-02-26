@@ -127,10 +127,11 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   private onAllDeploymentSelected = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
     if(item.text != undefined) {
-      this.setState({ showAllBuildDeployment: false });
-    } else {
       let showAll = item.text === "Yes";
       this.setState({ showAllBuildDeployment: showAll });
+      console.log("showAllBuildDeployment: " + item.text);
+    } else {
+      this.setState({ showAllBuildDeployment: false });
     }
   }
 
@@ -217,7 +218,6 @@ class CICDDashboard extends React.Component<{}, {}> {
             imagePath="https://cdn.vsassets.io/ext/ms.vss-build-web/pipelines/Content/no-builds.G8i4mxU5f17yTzxc.png"
           />
         </div>
-        
     );
   }
 
