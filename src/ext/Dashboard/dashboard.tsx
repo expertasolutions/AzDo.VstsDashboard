@@ -69,6 +69,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       let index = this.state.projects.indexOf(prj);
       this.projectSelection.select(index);
       this.updateFromProject(this.initialProjectName);
+      this.allDeploymentSelection.select(1);
     }
   }
 
