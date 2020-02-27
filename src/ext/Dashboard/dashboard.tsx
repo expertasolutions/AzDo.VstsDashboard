@@ -37,8 +37,10 @@ class CICDDashboard extends React.Component<{}, {}> {
   private selectedTabId = new ObservableValue("summary");
   private projectSelection = new DropdownSelection();
   private allDeploymentSelection = new DropdownSelection();
+  private onlyWithDeploymentSelection = new DropdownSelection();
   private filter: Filter = new Filter();
   private allDeploymentFilter: Filter = new Filter();
+  private onlyBuildWithDeploymentFilter: Filter = new Filter();
   private currentProjectSelected: string = "";
   private initialProjectName : string = "";
   private extensionVersion : string = "";
