@@ -10,7 +10,8 @@ export const DataContext = React.createContext(
       builds: Array<Build>(),
       releases: Array<Deployment>(),
       projects: Array<TeamProjectReference>(),
-      showAllBuildDeployment: false
+      showAllBuildDeployment: false,
+      showOnlyBuildWithDeployments: false
     }
   }
 );

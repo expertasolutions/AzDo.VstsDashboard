@@ -62,7 +62,8 @@ class CICDDashboard extends React.Component<{}, {}> {
     builds: Array<Build>(),
     releases: Array<Deployment>(),
     projects: Array<TeamProjectReference>(),
-    showAllBuildDeployment: false
+    showAllBuildDeployment: false,
+    showOnlyBuildWithDeployments: false
   };
 
   private onFilterReset = async () => {
@@ -73,6 +74,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       this.projectSelection.select(index);
       this.updateFromProject(this.initialProjectName);
       this.allDeploymentSelection.select(1);
+      this.onlyWithDeploymentSelection.select(1);
     }
   }
 
@@ -127,6 +129,15 @@ class CICDDashboard extends React.Component<{}, {}> {
       this.filterBuildsData();
     });
 
+  }
+
+  private onOnlyBuildWithDeployments = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
+    if(item.text != undefined) {
+      let showAll = item.text === "Yes";
+      this.setState({ showOnlyBuildWithDeployments: showAll });
+    } else {
+      this.setState({ showOnlyBuildWithDeployments: false });
+    }
   }
 
   private onAllDeploymentSelected = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
@@ -189,6 +200,7 @@ class CICDDashboard extends React.Component<{}, {}> {
         this.projectSelection.select(index);
         this.updateFromProject(this.initialProjectName);
         this.allDeploymentSelection.select(1);
+        this.onlyWithDeploymentSelection.select(1);
       }
     }
   }
@@ -323,6 +335,18 @@ class CICDDashboard extends React.Component<{}, {}> {
           <div className="page-content-left page-content-right page-content-top">
             <FilterBar filter={this.filter}>
               <KeywordFilterBarItem filterItemKey="pipelineKeyWord" />
+              <DropdownFilterBarItem
+                filterItemKey="onlyWithDeployments"
+                filter={this.onlyBuildWithDeploymentFilter}
+                items={[
+                  { id:"true", text: "Yes"},
+                  { id:"false", text: "No"}
+                ]}
+                placeholder="Show only pipeline with deployments"
+                onSelect={this.onOnlyBuildWithDeployments}
+                selection={this.onlyWithDeploymentSelection}
+                hideClearAction={true}
+              />
               <DropdownFilterBarItem
                 filterItemKey="allDeployments"
                 filter={this.allDeploymentFilter}
