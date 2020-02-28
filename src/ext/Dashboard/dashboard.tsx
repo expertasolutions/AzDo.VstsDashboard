@@ -37,8 +37,10 @@ class CICDDashboard extends React.Component<{}, {}> {
   private selectedTabId = new ObservableValue("summary");
   private projectSelection = new DropdownSelection();
   private allDeploymentSelection = new DropdownSelection();
+  private onlyWithDeploymentSelection = new DropdownSelection();
   private filter: Filter = new Filter();
   private allDeploymentFilter: Filter = new Filter();
+  private onlyBuildWithDeploymentFilter: Filter = new Filter();
   private currentProjectSelected: string = "";
   private initialProjectName : string = "";
   private extensionVersion : string = "";
@@ -60,7 +62,8 @@ class CICDDashboard extends React.Component<{}, {}> {
     builds: Array<Build>(),
     releases: Array<Deployment>(),
     projects: Array<TeamProjectReference>(),
-    showAllBuildDeployment: false
+    showAllBuildDeployment: false,
+    showOnlyBuildWithDeployments: false
   };
 
   private onFilterReset = async () => {
@@ -69,8 +72,11 @@ class CICDDashboard extends React.Component<{}, {}> {
     if(prj != undefined) {
       let index = this.state.projects.indexOf(prj);
       this.projectSelection.select(index);
-      this.updateFromProject(this.initialProjectName);
       this.allDeploymentSelection.select(1);
+      this.setState({ showOnlyBuildWithDeployments: false });
+      this.onlyWithDeploymentSelection.select(1);
+      this.setState({ showAllBuildDeployment: false });
+      this.updateFromProject(this.initialProjectName);
     }
   }
 
@@ -79,30 +85,65 @@ class CICDDashboard extends React.Component<{}, {}> {
     this.filterBuildsData();
   };
 
+  // BuildDefinition Summary
   private filterData() {
     let filterState = this.filter.getState();
+
+    let buildDefList = Array<BuildDefinitionReference>();
 
     if(filterState.pipelineKeyWord !== undefined && filterState.pipelineKeyWord !== null && filterState.pipelineKeyWord.value !== "") {
       let pipelineFilterText = filterState.pipelineKeyWord.value.toLowerCase();
       let elm = this.state.buildDefs.filter(x=> x.name.toLowerCase()
                                                   .indexOf(pipelineFilterText) !== -1 || 
                                                   (x.latestCompletedBuild != null && x.latestCompletedBuild.buildNumber.toLowerCase().indexOf(pipelineFilterText) !== -1));
-      this.buildReferenceProvider.value = new ArrayItemProvider(elm);
+      buildDefList = elm;
     } else {
-      this.buildReferenceProvider.value = new ArrayItemProvider(this.state.buildDefs);
+      buildDefList = this.state.buildDefs;
     }
+
+    if(this.state.showOnlyBuildWithDeployments) {
+      let allBuildWithRelease = buildDefList.filter(
+        b => b.latestCompletedBuild != undefined && this.state.releases.find(r=> 
+            r.release.artifacts.find(a=> 
+              {
+                let version = a.definitionReference["version"];
+                return version.id === b.latestCompletedBuild.id.toString();
+              }) != null
+          ) != null
+      );
+      buildDefList = allBuildWithRelease;
+    }
+
+    this.buildReferenceProvider.value = new ArrayItemProvider(buildDefList);
   }
 
+  // All Builds
   private filterBuildsData() {
     let filterState = this.filter.getState();
 
+    let buildList = Array<Build>();
     if(filterState.pipelineKeyWord !== undefined && filterState.pipelineKeyWord !== null && filterState.pipelineKeyWord.value !== "") {
       let pipelineFilterText = filterState.pipelineKeyWord.value.toLowerCase();
       let elm = this.state.builds.filter(x=> x.definition.name.toLowerCase().indexOf(pipelineFilterText) !== -1 || x.buildNumber.toLowerCase().indexOf(pipelineFilterText) !== -1);
-      this.buildProvider.value = new ArrayItemProvider(elm);
+      buildList = elm;
     } else {
-      this.buildProvider.value = new ArrayItemProvider(this.state.builds);
+      buildList = this.state.builds;
     }
+
+    if(this.state.showOnlyBuildWithDeployments) {
+      let allBuildWithRelease = buildList.filter(
+        b => this.state.releases.find(r=> 
+            r.release.artifacts.find(a=> 
+              {
+                let version = a.definitionReference["version"];
+                return version.id === b.id.toString();
+              }) != null
+          ) != null
+      );
+      buildList = allBuildWithRelease;
+    }
+
+    this.buildProvider.value = new ArrayItemProvider(buildList);
   }
 
   private updateFromProject(projectName: string){ 
@@ -125,6 +166,15 @@ class CICDDashboard extends React.Component<{}, {}> {
       this.filterBuildsData();
     });
 
+  }
+
+  private onOnlyBuildWithDeployments = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
+    if(item.text != undefined) {
+      let showAll = item.text === "Yes";
+      this.setState({ showOnlyBuildWithDeployments: showAll });
+    } else {
+      this.setState({ showOnlyBuildWithDeployments: false });
+    }
   }
 
   private onAllDeploymentSelected = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
@@ -187,6 +237,7 @@ class CICDDashboard extends React.Component<{}, {}> {
         this.projectSelection.select(index);
         this.updateFromProject(this.initialProjectName);
         this.allDeploymentSelection.select(1);
+        this.onlyWithDeploymentSelection.select(1);
       }
     }
   }
@@ -322,13 +373,25 @@ class CICDDashboard extends React.Component<{}, {}> {
             <FilterBar filter={this.filter}>
               <KeywordFilterBarItem filterItemKey="pipelineKeyWord" />
               <DropdownFilterBarItem
+                filterItemKey="onlyWithDeployments"
+                filter={this.onlyBuildWithDeploymentFilter}
+                items={[
+                  { id:"true", text: "Yes"},
+                  { id:"false", text: "No"}
+                ]}
+                placeholder="Show only pipeline with deployments"
+                onSelect={this.onOnlyBuildWithDeployments}
+                selection={this.onlyWithDeploymentSelection}
+                hideClearAction={true}
+              />
+              <DropdownFilterBarItem
                 filterItemKey="allDeployments"
                 filter={this.allDeploymentFilter}
                 items={[
                   { id:"true", text: "Yes"},
                   { id:"false", text: "No"}
                 ]}
-                placeholder="Show all deployments for a pipeline"
+                placeholder="Show all deployments per pipeline"
                 onSelect={this.onAllDeploymentSelected}
                 selection={this.allDeploymentSelection}
                 hideClearAction={true}
