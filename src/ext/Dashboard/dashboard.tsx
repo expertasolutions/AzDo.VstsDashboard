@@ -87,15 +87,32 @@ class CICDDashboard extends React.Component<{}, {}> {
   private filterData() {
     let filterState = this.filter.getState();
 
+    let buildDefList = Array<BuildDefinitionReference>();
+
     if(filterState.pipelineKeyWord !== undefined && filterState.pipelineKeyWord !== null && filterState.pipelineKeyWord.value !== "") {
       let pipelineFilterText = filterState.pipelineKeyWord.value.toLowerCase();
       let elm = this.state.buildDefs.filter(x=> x.name.toLowerCase()
                                                   .indexOf(pipelineFilterText) !== -1 || 
                                                   (x.latestCompletedBuild != null && x.latestCompletedBuild.buildNumber.toLowerCase().indexOf(pipelineFilterText) !== -1));
-      this.buildReferenceProvider.value = new ArrayItemProvider(elm);
+      buildDefList = elm;
     } else {
-      this.buildReferenceProvider.value = new ArrayItemProvider(this.state.buildDefs);
+      buildDefList = this.state.buildDefs;
     }
+
+    if(this.state.showOnlyBuildWithDeployments) {
+      let allBuildWithRelease = buildDefList.filter(
+        b => this.state.releases.find(r=> 
+            r.release.artifacts.find(a=> 
+              {
+                let version = a.definitionReference["version"];
+                return version.id === b.id.toString();
+              }) != null
+          ) != null
+      );
+      buildDefList = allBuildWithRelease;
+    }
+
+    this.buildReferenceProvider.value = new ArrayItemProvider(buildDefList);
   }
 
   // All Builds
