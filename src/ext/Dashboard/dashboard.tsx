@@ -83,6 +83,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     this.filterBuildsData();
   };
 
+  // BuildDefinition Summary
   private filterData() {
     let filterState = this.filter.getState();
 
@@ -97,6 +98,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     }
   }
 
+  // All Builds
   private filterBuildsData() {
     let filterState = this.filter.getState();
 
