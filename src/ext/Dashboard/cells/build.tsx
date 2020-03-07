@@ -79,7 +79,6 @@ export function renderBuildInfo01Cell(
         commitUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl/changeset/" + lastBuild.sourceVersion;
       }
     }
-    console.log("SourceVersion: " + lastBuild.sourceVersion);
     contentRow1 = (<div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
                     <Icon iconName="Build"/>&nbsp;<Link href={buildUrl} target="_blank">{lastBuild.buildNumber}</Link>
                   </div>);
@@ -91,7 +90,7 @@ export function renderBuildInfo01Cell(
     } else {
       contentRow2 = (<div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
                       <Icon iconName="BranchMerge"/>&nbsp;<Link href={branchUrl} target="_blank">{branchName}</Link>
-                      <Icon iconName="BranchCommit" /><Link href={commitUrl} target="blank">**{lastBuild.sourceVersion}**</Link>
+                      <Icon iconName="BranchCommit" />Not found
                     </div>);
     }
   }
