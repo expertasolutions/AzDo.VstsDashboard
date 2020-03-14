@@ -59,11 +59,13 @@ export function renderLastBuild01 (
   let lastBuild = tableItem.latestBuild;
   let contentRow1 = (<div>Not found</div>);
   let contentRow2 = (<div></div>);
+
   if(lastBuild != undefined) {
     let branchName = lastBuild.sourceBranch.replace('refs/heads/','');
     let branchUrl = lastBuild.repository.url;
     let commitUrl = lastBuild.repository.url;
     let buildUrl = lastBuild._links.web.href + "&view=logs";
+
     if(lastBuild.repository.type === "TfsGit"){
       branchUrl = lastBuild.repository.url + "?version=GB" + branchName + "&_a=contents";
       commitUrl = lastBuild.repository.url + "/commit/" + lastBuild.sourceVersion;
@@ -81,13 +83,22 @@ export function renderLastBuild01 (
         commitUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl/changeset/" + lastBuild.sourceVersion;
       }
     }
+
     contentRow1 = (<div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
                     <Icon iconName="Build"/>&nbsp;<Link href={buildUrl} target="_blank">{lastBuild.buildNumber}</Link>
                   </div>);
+
+    if(lastBuild.sourceVersion !== undefined) {
+      contentRow2 = (<div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
+                      <Icon iconName="BranchMerge"/>&nbsp;<Link href={branchUrl} target="_blank">{branchName}</Link>
+                      <Icon iconName="BranchCommit" /><Link href={commitUrl} target="blank">{lastBuild.sourceVersion.substr(0, 7)}</Link>
+                    </div>);
+    }
+    
     contentRow2 = (<div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
-                    <Icon iconName="BranchMerge"/>&nbsp;<Link href={branchUrl} target="_blank">{branchName}</Link>
-                    <Icon iconName="BranchCommit" /><Link href={commitUrl} target="blank">{lastBuild.sourceVersion.substr(0, 7)}</Link>
-                  </div>);
+                      <Icon iconName="BranchMerge"/>&nbsp;<Link href={branchUrl} target="_blank">{branchName}</Link>
+                      <Icon iconName="BranchCommit" />Not found
+                    </div>);
   }
   return (
     <TwoLineTableCell

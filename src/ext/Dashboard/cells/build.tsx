@@ -57,11 +57,13 @@ export function renderBuildInfo01Cell(
   let lastBuild = tableItem;
   let contentRow1 = (<div>Not found</div>);
   let contentRow2 = (<div></div>);
+
   if(lastBuild != undefined) {
     let branchName = lastBuild.sourceBranch.replace('refs/heads/','');
     let branchUrl = lastBuild.repository.url;
     let commitUrl = lastBuild.repository.url;
     let buildUrl = lastBuild._links.web.href + "&view=logs";
+
     if(lastBuild.repository.type === "TfsGit"){
       branchUrl = lastBuild.repository.url + "?version=GB" + branchName + "&_a=contents";
       commitUrl = lastBuild.repository.url + "/commit/" + lastBuild.sourceVersion;
@@ -82,6 +84,7 @@ export function renderBuildInfo01Cell(
     contentRow1 = (<div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
                     <Icon iconName="Build"/>&nbsp;<Link href={buildUrl} target="_blank">{lastBuild.buildNumber}</Link>
                   </div>);
+                  
     if(lastBuild.sourceVersion !== undefined) {
       contentRow2 = (<div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
                       <Icon iconName="BranchMerge"/>&nbsp;<Link href={branchUrl} target="_blank">{branchName}</Link>
