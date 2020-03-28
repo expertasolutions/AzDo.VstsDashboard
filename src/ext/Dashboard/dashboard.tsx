@@ -404,28 +404,19 @@ class CICDDashboard extends React.Component<{}, {}> {
           <div className="page-content-left page-content-right page-content-top">
             <FilterBar filter={this.filter}>
               <KeywordFilterBarItem filterItemKey="pipelineKeyWord" />
-              <Observer isLoading={this.isLoading} selectedTab={this.selectedTabId}> 
-                {(props: { selectedTab: string}) => {
-                  //if(this.selectedTabId.value === "summary"){
-                  if(props.selectedTab === "summary") {
-                    return (<DropdownFilterBarItem
-                      filterItemKey="errorsOnSummaryTop"
-                      filter={this.errorsOnSummaryTopFilter}
-                      items={[
-                        { id:"true", text: "Failure/Partial on top"},
-                        { id:"false", text: "By Queue start date"}
-                      ]}
-                      disabled={false}
-                      placeholder="Status order"
-                      onSelect={this.onErrorsOnSummaryOnTop}
-                      selection={this.errorsOnSummaryTopSelection}
-                      hideClearAction={true}
-                    />)
-                  } else {
-                    return (<div></div>)
-                  }
-              }}
-              </Observer>
+              <DropdownFilterBarItem
+                filterItemKey="errorsOnSummaryTop"
+                filter={this.errorsOnSummaryTopFilter}
+                disabled={this.selectedTabId.value === "summary"}
+                items={[
+                  { id:"true", text: "Failure/Partial on top"},
+                  { id:"false", text: "By Queue start date"}
+                ]}
+                placeholder="Status order"
+                onSelect={this.onErrorsOnSummaryOnTop}
+                selection={this.errorsOnSummaryTopSelection}
+                hideClearAction={true}
+              />
               <DropdownFilterBarItem
                   filterItemKey="onlyWithDeployments"
                   filter={this.onlyBuildWithDeploymentFilter}
