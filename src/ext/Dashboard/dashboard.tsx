@@ -154,7 +154,6 @@ class CICDDashboard extends React.Component<{}, {}> {
       );
       buildList = allBuildWithRelease;
     }
-
     this.buildProvider.value = new ArrayItemProvider(buildList);
   }
 
@@ -187,8 +186,6 @@ class CICDDashboard extends React.Component<{}, {}> {
     } else {
       this.setState({ showOnlyBuildWithDeployments: false });
     }
-    this.filterData();
-    this.filterBuildsData();
   }
 
   private onErrorsOnSummaryOnTop = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
@@ -198,7 +195,6 @@ class CICDDashboard extends React.Component<{}, {}> {
     } else {
       this.setState({ showErrorsOnSummaryOnTop: true });
     }
-    this.filterData();
   }
 
   private onAllDeploymentSelected = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
@@ -452,7 +448,11 @@ class CICDDashboard extends React.Component<{}, {}> {
           </div>
           <div className="page-content page-content-top page-content-bottom">
             <DataContext.Provider value={{ state: this.state }}>
-                <Observer isLoading={this.isLoading} showAllBuildDeployment={this.state.showAllBuildDeployment}> 
+                <Observer isLoading={this.isLoading} 
+                          showAllBuildDeployment={this.state.showAllBuildDeployment}
+                          showOnlyBuildWithDeployments={this.state.showOnlyBuildWithDeployments}
+                          showErrorsOnSummaryOnTop={this.state.showErrorsOnSummaryOnTop}
+                > 
                   {(props: {isLoading: boolean }) => {
                     if(props.isLoading) {
                       return this.renderFirstLoad();
