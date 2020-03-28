@@ -404,55 +404,6 @@ class CICDDashboard extends React.Component<{}, {}> {
           <div className="page-content-left page-content-right page-content-top">
           <Observer selectedTabId={this.selectedTabId} isLoading={this.isLoading}>
             {(props: { selectedTabId: string, isLoading: boolean }) => {
-                let keywordFilter = (<KeywordFilterBarItem filterItemKey="pipelineKeyWord" />);
-                let onlyWithDeploymentFilter = (
-                    <DropdownFilterBarItem
-                      filterItemKey="onlyWithDeployments"
-                      filter={this.onlyBuildWithDeploymentFilter}
-                      items={[
-                        { id:"true", text: "Yes"},
-                        { id:"false", text: "No"}
-                      ]}
-                      placeholder="With deployments only"
-                      onSelect={this.onOnlyBuildWithDeployments}
-                      selection={this.onlyWithDeploymentSelection}
-                      hideClearAction={true}
-                    />
-                );
-
-                let allDeployments = (
-                  <DropdownFilterBarItem
-                    filterItemKey="allDeployments"
-                    filter={this.allDeploymentFilter}
-                    items={[
-                      { id:"true", text: "Yes"},
-                      { id:"false", text: "No"}
-                    ]}
-                    placeholder="Show all deployments"
-                    onSelect={this.onAllDeploymentSelected}
-                    selection={this.allDeploymentSelection}
-                    hideClearAction={true}
-                  />
-                );
-
-                let projectFilter = (
-                  <DropdownFilterBarItem
-                    filterItemKey="teamProjectId"
-                    filter={this.filter}
-                    items={this.state.projects.map(i => {
-                      return {
-                        id: i.id,
-                        text: i.name
-                      };
-                    })}
-                    placeholder="Team Project"
-                    showFilterBox={true}
-                    onSelect={this.onProjectSelected}
-                    selection={this.projectSelection}
-                    hideClearAction={true}
-                  />
-                );
-
                 let errorOnTopFilter = (
                   <DropdownFilterBarItem
                         filterItemKey="errorsOnSummaryTop"
@@ -470,8 +421,47 @@ class CICDDashboard extends React.Component<{}, {}> {
 
                 return (
                   <FilterBar filter={this.filter}>
-                    { keywordFilter }
-                    { projectFilter }
+                    <KeywordFilterBarItem filterItemKey="pipelineKeyWord" />
+                    <DropdownFilterBarItem
+                      filterItemKey="onlyWithDeployments"
+                      filter={this.onlyBuildWithDeploymentFilter}
+                      items={[
+                        { id:"true", text: "Yes"},
+                        { id:"false", text: "No"}
+                      ]}
+                      placeholder="With deployments only"
+                      onSelect={this.onOnlyBuildWithDeployments}
+                      selection={this.onlyWithDeploymentSelection}
+                      hideClearAction={true}
+                    />
+                    
+                    <DropdownFilterBarItem
+                      filterItemKey="allDeployments"
+                      filter={this.allDeploymentFilter}
+                      items={[
+                        { id:"true", text: "Yes"},
+                        { id:"false", text: "No"}
+                      ]}
+                      placeholder="Show all deployments"
+                      onSelect={this.onAllDeploymentSelected}
+                      selection={this.allDeploymentSelection}
+                      hideClearAction={true}
+                    />
+                    <DropdownFilterBarItem
+                      filterItemKey="teamProjectId"
+                      filter={this.filter}
+                      items={this.state.projects.map(i => {
+                        return {
+                          id: i.id,
+                          text: i.name
+                        };
+                      })}
+                      placeholder="Team Project"
+                      showFilterBox={true}
+                      onSelect={this.onProjectSelected}
+                      selection={this.projectSelection}
+                      hideClearAction={true}
+                    />
                   </FilterBar>
                 );
             }}
