@@ -407,7 +407,7 @@ class CICDDashboard extends React.Component<{}, {}> {
 
               <Observer selectedTabId={this.selectedTabId}>
                 {(props: { selectedTabId: string }) => {
-                  if(props.selectedTabId === "summary"){
+                  if(false){
                     return (<DropdownFilterBarItem
                       filterItemKey="errorsOnSummaryTop"
                       filter={this.errorsOnSummaryTopFilter}
