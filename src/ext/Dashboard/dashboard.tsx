@@ -200,7 +200,7 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   private onErrorsOnSummaryOnTop = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
     if(item.id !== undefined) {
-      let showAll = item.id === "yes";
+      let showAll = item.id === "true";
       this.setState({ showErrorsOnSummaryOnTop: showAll });
     } else {
       this.setState({ showErrorsOnSummaryOnTop: true });
