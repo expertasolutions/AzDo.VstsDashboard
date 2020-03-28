@@ -195,6 +195,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     } else {
       this.setState({ showErrorsOnSummaryOnTop: true });
     }
+    this.render();
   }
 
   private onAllDeploymentSelected = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
