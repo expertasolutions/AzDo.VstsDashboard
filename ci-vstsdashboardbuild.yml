@@ -23,9 +23,9 @@ steps:
   inputs:
     stringToAnalyze: '$(Build.BuildNumber)'
 
-  inputs:
-    version: 'v0.6.x'
-    checkLatest: false
+- task: TfxInstaller@2
+  displayName: 'Use Node CLI for Azure DevOps (tfx-cli): v0.6.x'
+  checkLatest: false
 
 - task: Npm@1
   displayName: 'Install Dependencies'

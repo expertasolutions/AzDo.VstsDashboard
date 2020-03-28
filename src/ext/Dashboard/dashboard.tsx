@@ -420,8 +420,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                       selection={this.errorsOnSummaryTopSelection}
                       hideClearAction={true}
                     />)
-                  } else {
-                  }
+                  } 
               }}
               <DropdownFilterBarItem
                   filterItemKey="onlyWithDeployments"
