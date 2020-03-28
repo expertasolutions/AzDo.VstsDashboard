@@ -120,6 +120,11 @@ class CICDDashboard extends React.Component<{}, {}> {
       buildDefList = allBuildWithRelease;
     }
 
+    if(this.state.showErrorsOnSummaryOnTop) {
+      var reOrder = buildDefList;
+      buildDefList = reOrder.sort((a, b) => -a.latestCompletedBuild.result);
+    }
+
     this.buildReferenceProvider.value = new ArrayItemProvider(buildDefList);
   }
 
@@ -398,7 +403,6 @@ class CICDDashboard extends React.Component<{}, {}> {
                 placeholder="Failures on top"
                 onSelect={this.onErrorsOnSummaryOnTop}
                 selection={this.errorsOnSummaryTopSelection}
-                showFilterBox={false}
                 hideClearAction={true}
               />
               <DropdownFilterBarItem
@@ -459,7 +463,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                                   <Card className="flex-grow bolt-table-card" 
                                         titleProps={{ text: "All pipelines" }} 
                                         contentProps={{ contentPadding: false }}>
-                                            <div  style={{ marginTop: "16px;", marginBottom: "16px;"}}>
+                                            <div style={{ marginTop: "16px;", marginBottom: "16px;"}}>
                                                 { this.renderTab(props.selectedTabId) }
                                             </div>
                                   </Card>
