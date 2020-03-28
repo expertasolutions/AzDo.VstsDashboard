@@ -379,7 +379,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                   { id:"true", text: "Yes"},
                   { id:"false", text: "No"}
                 ]}
-                placeholder="Pipeline with deployments only"
+                placeholder="With deployments only"
                 onSelect={this.onOnlyBuildWithDeployments}
                 selection={this.onlyWithDeploymentSelection}
                 hideClearAction={true}
