@@ -122,7 +122,17 @@ class CICDDashboard extends React.Component<{}, {}> {
     
     if(this.state.showErrorsOnSummaryOnTop) {
       var reOrder = buildDefList;
-      buildDefList = reOrder.sort((a, b) => b.latestBuild.result - a.latestBuild.result);
+      buildDefList = reOrder.sort((a, b) => {
+        if(a.latestBuild !== undefined && b.latestBuild !== undefined){
+          return b.latestBuild.result - a.latestBuild.result;
+        } else if(a.latestBuild !== undefined && b.latestBuild === undefined) {
+          return -a.latestBuild.result;
+        } else if(a.latestBuild === undefined && b.latestBuild !== undefined){
+          return -b.latestBuild.result;
+        } else {
+          return 0;
+        }
+      });
     }
 
     this.buildReferenceProvider.value = new ArrayItemProvider(buildDefList);
@@ -398,14 +408,16 @@ class CICDDashboard extends React.Component<{}, {}> {
                 filterItemKey="errorsOnSummaryTop"
                 filter={this.errorsOnSummaryTopFilter}
                 items={[
-                  { id:"true", text: "Yes"},
-                  { id:"false", text: "No"}
+                  { id:"true", text: "Failure/Partial on top"},
+                  { id:"false", text: "By Queue start date"}
                 ]}
-                placeholder="Failures on top"
+                disabled={true}
+                placeholder="Status order"
                 onSelect={this.onErrorsOnSummaryOnTop}
                 selection={this.errorsOnSummaryTopSelection}
                 hideClearAction={true}
               />
+
               <DropdownFilterBarItem
                 filterItemKey="onlyWithDeployments"
                 filter={this.onlyBuildWithDeploymentFilter}
