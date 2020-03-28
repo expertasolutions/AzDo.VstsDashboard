@@ -468,6 +468,14 @@ class CICDDashboard extends React.Component<{}, {}> {
                         hideClearAction={true}/>
                 );
 
+                return (
+                  <FilterBar filter={this.filter}>
+                    {{ keywordFilter }}
+                    {{ projectFilter }}
+                  </FilterBar>
+                );
+
+                /*
                 if(props.selectedTabId !== "summary") {
                   return (
                     <FilterBar filter={this.filter}>
@@ -486,6 +494,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                       {{ projectFilter }}
                     </FilterBar>)
                 }
+                */
               }
             }}
             </Observer>
