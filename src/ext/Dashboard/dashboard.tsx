@@ -119,14 +119,12 @@ class CICDDashboard extends React.Component<{}, {}> {
       );
       buildDefList = allBuildWithRelease;
     }
-/*
+    
     if(this.state.showErrorsOnSummaryOnTop) {
       var reOrder = buildDefList;
-      buildDefList = reOrder.sort((a, b) => -a.latestCompletedBuild.result);
+      buildDefList = reOrder.sort((a, b) => -a.latestBuild.result);
     }
-
     this.buildReferenceProvider.value = new ArrayItemProvider(buildDefList);
-    */
   }
 
   // All Builds
