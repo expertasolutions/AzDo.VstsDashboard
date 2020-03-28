@@ -78,6 +78,8 @@ class CICDDashboard extends React.Component<{}, {}> {
       this.projectSelection.select(index);
       this.allDeploymentSelection.select(1);
       this.setState({ showOnlyBuildWithDeployments: false });
+      this.errorsOnSummaryTopSelection.select(1);
+      this.setState({ showErrorsOnSummaryOnTop: true });
       this.onlyWithDeploymentSelection.select(1);
       this.setState({ showAllBuildDeployment: false });
       this.updateFromProject(this.initialProjectName);
