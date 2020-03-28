@@ -450,11 +450,7 @@ class CICDDashboard extends React.Component<{}, {}> {
           </div>
           <div className="page-content page-content-top page-content-bottom">
             <DataContext.Provider value={{ state: this.state }}>
-                <Observer isLoading={this.isLoading} 
-                          showAllBuildDeployment={this.state.showAllBuildDeployment}
-                          showOnlyBuildWithDeployments={this.state.showOnlyBuildWithDeployments}
-                          showErrorsOnSummaryOnTop={this.state.showErrorsOnSummaryOnTop}
-                > 
+                <Observer isLoading={this.isLoading}> 
                   {(props: {isLoading: boolean }) => {
                     if(props.isLoading) {
                       return this.renderFirstLoad();
