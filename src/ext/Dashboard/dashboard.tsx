@@ -78,7 +78,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       this.projectSelection.select(index);
       this.allDeploymentSelection.select(1);
       this.setState({ showOnlyBuildWithDeployments: false });
-      this.errorsOnSummaryTopSelection.select(1);
+      this.errorsOnSummaryTopSelection.select(0);
       this.setState({ showErrorsOnSummaryOnTop: true });
       this.onlyWithDeploymentSelection.select(1);
       this.setState({ showAllBuildDeployment: false });
@@ -188,7 +188,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       let showAll = item.text === "Yes";
       this.setState({ showErrorsOnSummaryOnTop: showAll });
     } else {
-      this.setState({ showErrorsOnSummaryOnTop: false });
+      this.setState({ showErrorsOnSummaryOnTop: true });
     }
   }
 
@@ -253,6 +253,7 @@ class CICDDashboard extends React.Component<{}, {}> {
         this.updateFromProject(this.initialProjectName);
         this.allDeploymentSelection.select(1);
         this.onlyWithDeploymentSelection.select(1);
+        this.errorsOnSummaryTopSelection.select(0);
       }
     }
   }
@@ -394,7 +395,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                   { id:"true", text: "Yes"},
                   { id:"false", text: "No"}
                 ]}
-                placeholder="Error on top"
+                placeholder="Failures on top"
                 onSelect={this.onErrorsOnSummaryOnTop}
                 selection={this.errorsOnSummaryTopSelection}
                 showFilterBox={false}
