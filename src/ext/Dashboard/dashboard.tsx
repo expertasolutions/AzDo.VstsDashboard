@@ -130,7 +130,7 @@ class CICDDashboard extends React.Component<{}, {}> {
         } else if(a.latestBuild === undefined && b.latestBuild !== undefined){
           return -b.latestBuild.result;
         } else {
-          return 0;
+          return 999;
         }
       });
     }
