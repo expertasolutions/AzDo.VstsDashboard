@@ -195,6 +195,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     } else {
       this.setState({ showErrorsOnSummaryOnTop: true });
     }
+    this.filterData();
   }
 
   private onAllDeploymentSelected = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
@@ -204,6 +205,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     } else {
       this.setState({ showAllBuildDeployment: false });
     }
+    this.filterData();
   }
 
   private onProjectSelected = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
