@@ -422,18 +422,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                 return (
                   <FilterBar filter={this.filter}>
                     <KeywordFilterBarItem filterItemKey="pipelineKeyWord" />
-                    <DropdownFilterBarItem
-                        filterItemKey="errorsOnSummaryTop"
-                        filter={this.errorsOnSummaryTopFilter}
-                        disabled={props.selectedTabId !== "summary"}
-                        items={[
-                          { id:"true", text: "Failure/Partial on top"},
-                          { id:"false", text: "By Queue start date"}
-                        ]}
-                        placeholder="Status order"
-                        onSelect={this.onErrorsOnSummaryOnTop}
-                        selection={this.errorsOnSummaryTopSelection}
-                        hideClearAction={true}/>
+                    { errorOnTopFilter }
                     <DropdownFilterBarItem
                       filterItemKey="onlyWithDeployments"
                       filter={this.onlyBuildWithDeploymentFilter}
