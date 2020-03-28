@@ -402,61 +402,66 @@ class CICDDashboard extends React.Component<{}, {}> {
             {this.renderTabBar()}
           </div>
           <div className="page-content-left page-content-right page-content-top">
-            <FilterBar filter={this.filter}>
-              <KeywordFilterBarItem filterItemKey="pipelineKeyWord" />
-              <DropdownFilterBarItem
-                filterItemKey="errorsOnSummaryTop"
-                filter={this.errorsOnSummaryTopFilter}
-                disabled={this.selectedTabId.value !== "summary"}
-                items={[
-                  { id:"true", text: "Failure/Partial on top"},
-                  { id:"false", text: "By Queue start date"}
-                ]}
-                placeholder="Status order"
-                onSelect={this.onErrorsOnSummaryOnTop}
-                selection={this.errorsOnSummaryTopSelection}
-                hideClearAction={true}
-              />
-              <DropdownFilterBarItem
-                  filterItemKey="onlyWithDeployments"
-                  filter={this.onlyBuildWithDeploymentFilter}
-                  items={[
-                    { id:"true", text: "Yes"},
-                    { id:"false", text: "No"}
-                  ]}
-                  placeholder="With deployments only"
-                  onSelect={this.onOnlyBuildWithDeployments}
-                  selection={this.onlyWithDeploymentSelection}
-                  hideClearAction={true}
-                />
-                <DropdownFilterBarItem
-                  filterItemKey="allDeployments"
-                  filter={this.allDeploymentFilter}
-                  items={[
-                    { id:"true", text: "Yes"},
-                    { id:"false", text: "No"}
-                  ]}
-                  placeholder="Show all deployments"
-                  onSelect={this.onAllDeploymentSelected}
-                  selection={this.allDeploymentSelection}
-                  hideClearAction={true}
-                />
-                <DropdownFilterBarItem
-                  filterItemKey="teamProjectId"
-                  filter={this.filter}
-                  items={this.state.projects.map(i => {
-                    return {
-                      id: i.id,
-                      text: i.name
-                    };
-                  })}
-                  placeholder="Team Project"
-                  showFilterBox={true}
-                  onSelect={this.onProjectSelected}
-                  selection={this.projectSelection}
-                  hideClearAction={true}
-                />
-            </FilterBar>
+          <Observer selectedTabId={this.selectedTabId}>
+            {(props: { selectedTabId: string }) => {
+              return (
+                <FilterBar filter={this.filter}>
+                  <KeywordFilterBarItem filterItemKey="pipelineKeyWord" />
+                  <DropdownFilterBarItem
+                    filterItemKey="errorsOnSummaryTop"
+                    filter={this.errorsOnSummaryTopFilter}
+                    disabled={props.selectedTabId !== "summary"}
+                    items={[
+                      { id:"true", text: "Failure/Partial on top"},
+                      { id:"false", text: "By Queue start date"}
+                    ]}
+                    placeholder="Status order"
+                    onSelect={this.onErrorsOnSummaryOnTop}
+                    selection={this.errorsOnSummaryTopSelection}
+                    hideClearAction={true}
+                  />
+                  <DropdownFilterBarItem
+                      filterItemKey="onlyWithDeployments"
+                      filter={this.onlyBuildWithDeploymentFilter}
+                      items={[
+                        { id:"true", text: "Yes"},
+                        { id:"false", text: "No"}
+                      ]}
+                      placeholder="With deployments only"
+                      onSelect={this.onOnlyBuildWithDeployments}
+                      selection={this.onlyWithDeploymentSelection}
+                      hideClearAction={true}
+                    />
+                    <DropdownFilterBarItem
+                      filterItemKey="allDeployments"
+                      filter={this.allDeploymentFilter}
+                      items={[
+                        { id:"true", text: "Yes"},
+                        { id:"false", text: "No"}
+                      ]}
+                      placeholder="Show all deployments"
+                      onSelect={this.onAllDeploymentSelected}
+                      selection={this.allDeploymentSelection}
+                      hideClearAction={true}
+                    />
+                    <DropdownFilterBarItem
+                      filterItemKey="teamProjectId"
+                      filter={this.filter}
+                      items={this.state.projects.map(i => {
+                        return {
+                          id: i.id,
+                          text: i.name
+                        };
+                      })}
+                      placeholder="Team Project"
+                      showFilterBox={true}
+                      onSelect={this.onProjectSelected}
+                      selection={this.projectSelection}
+                      hideClearAction={true}
+                    />
+                </FilterBar>)
+                }}
+            </Observer>
           </div>
           <div className="page-content page-content-top page-content-bottom">
             <DataContext.Provider value={{ state: this.state }}>
