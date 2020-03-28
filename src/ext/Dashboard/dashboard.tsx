@@ -180,7 +180,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   }
 
   private onOnlyBuildWithDeployments = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
-    if(item.text != undefined) {
+    if(item.text !== undefined) {
       let showAll = item.text === "Yes";
       this.setState({ showOnlyBuildWithDeployments: showAll });
     } else {
@@ -189,28 +189,29 @@ class CICDDashboard extends React.Component<{}, {}> {
   }
 
   private onErrorsOnSummaryOnTop = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
-    if(item.text != undefined) {
+    if(item.text !== undefined) {
       let showAll = item.text === "Yes";
       this.setState({ showErrorsOnSummaryOnTop: showAll });
     } else {
       this.setState({ showErrorsOnSummaryOnTop: true });
     }
-    this.render();
+    this.updateFromProject(this.currentProjectSelected);
   }
 
   private onAllDeploymentSelected = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
-    if(item.text != undefined) {
+    if(item.text !== undefined) {
       let showAll = item.text === "Yes";
       this.setState({ showAllBuildDeployment: showAll });
     } else {
       this.setState({ showAllBuildDeployment: false });
     }
+    this.updateFromProject(this.currentProjectSelected);
   }
 
   private onProjectSelected = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
     let projectName = "";
     
-    if(item.text != undefined)
+    if(item.text !== undefined)
       projectName = item.text;
 
     // Reset the Pipeline KeyWord only, when TeamProject selection has changed
