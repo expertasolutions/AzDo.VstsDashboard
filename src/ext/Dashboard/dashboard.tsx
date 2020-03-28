@@ -405,7 +405,6 @@ class CICDDashboard extends React.Component<{}, {}> {
             <FilterBar filter={this.filter}>
               <KeywordFilterBarItem filterItemKey="pipelineKeyWord" />
 
-              <Observer selectedTabId={this.selectedTabId}>
                 {(props: { selectedTabId: string }) => {
                   if(false){
                     return (<DropdownFilterBarItem
@@ -421,9 +420,9 @@ class CICDDashboard extends React.Component<{}, {}> {
                       selection={this.errorsOnSummaryTopSelection}
                       hideClearAction={true}
                     />)
+                  } else {
                   }
               }}
-              </Observer>
               <DropdownFilterBarItem
                   filterItemKey="onlyWithDeployments"
                   filter={this.onlyBuildWithDeploymentFilter}
