@@ -421,7 +421,9 @@ class CICDDashboard extends React.Component<{}, {}> {
                       selection={this.errorsOnSummaryTopSelection}
                       hideClearAction={true}
                     />)
-                  } 
+                  } else {
+                    return (<div></div>)
+                  }
               }}
               </Observer>
               <DropdownFilterBarItem
