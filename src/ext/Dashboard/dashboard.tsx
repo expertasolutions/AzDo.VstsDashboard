@@ -52,12 +52,13 @@ class CICDDashboard extends React.Component<{}, {}> {
     super(props);
 
     this.filter = new Filter();
-
+/*
     setInterval(()=> {
       if(this.currentProjectSelected != undefined) {
         this.updateFromProject(this.currentProjectSelected);
       }
     }, 10000);
+*/
   }
 
   state = {
