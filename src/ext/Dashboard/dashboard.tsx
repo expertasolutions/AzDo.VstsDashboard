@@ -402,87 +402,90 @@ class CICDDashboard extends React.Component<{}, {}> {
             {this.renderTabBar()}
           </div>
           <div className="page-content-left page-content-right page-content-top">
-          <Observer selectedTabId={this.selectedTabId}>
-            {(props: { selectedTabId: string }) => {
-              let keywordFilter = (<KeywordFilterBarItem filterItemKey="pipelineKeyWord" />);
-              let onlyWithDeploymentFilter = (
+          <Observer selectedTabId={this.selectedTabId} isLoading={this.isLoading}>
+            {(props: { selectedTabId: string, isLoading: boolean }) => {
+              if(!props.isLoading) {
+                let keywordFilter = (<KeywordFilterBarItem filterItemKey="pipelineKeyWord" />);
+                let onlyWithDeploymentFilter = (
+                    <DropdownFilterBarItem
+                      filterItemKey="onlyWithDeployments"
+                      filter={this.onlyBuildWithDeploymentFilter}
+                      items={[
+                        { id:"true", text: "Yes"},
+                        { id:"false", text: "No"}
+                      ]}
+                      placeholder="With deployments only"
+                      onSelect={this.onOnlyBuildWithDeployments}
+                      selection={this.onlyWithDeploymentSelection}
+                      hideClearAction={true}
+                    />
+                );
+
+                let allDeployments = (
                   <DropdownFilterBarItem
-                    filterItemKey="onlyWithDeployments"
-                    filter={this.onlyBuildWithDeploymentFilter}
+                    filterItemKey="allDeployments"
+                    filter={this.allDeploymentFilter}
                     items={[
                       { id:"true", text: "Yes"},
                       { id:"false", text: "No"}
                     ]}
-                    placeholder="With deployments only"
-                    onSelect={this.onOnlyBuildWithDeployments}
-                    selection={this.onlyWithDeploymentSelection}
+                    placeholder="Show all deployments"
+                    onSelect={this.onAllDeploymentSelected}
+                    selection={this.allDeploymentSelection}
                     hideClearAction={true}
                   />
-              );
+                );
 
-              let allDeployments = (
-                <DropdownFilterBarItem
-                  filterItemKey="allDeployments"
-                  filter={this.allDeploymentFilter}
-                  items={[
-                    { id:"true", text: "Yes"},
-                    { id:"false", text: "No"}
-                  ]}
-                  placeholder="Show all deployments"
-                  onSelect={this.onAllDeploymentSelected}
-                  selection={this.allDeploymentSelection}
-                  hideClearAction={true}
-                />
-              );
+                let projectFilter = (
+                  <DropdownFilterBarItem
+                    filterItemKey="teamProjectId"
+                    filter={this.filter}
+                    items={this.state.projects.map(i => {
+                      return {
+                        id: i.id,
+                        text: i.name
+                      };
+                    })}
+                    placeholder="Team Project"
+                    showFilterBox={true}
+                    onSelect={this.onProjectSelected}
+                    selection={this.projectSelection}
+                    hideClearAction={true}
+                  />
+                );
 
-              let projectFilter = (
-                <DropdownFilterBarItem
-                  filterItemKey="teamProjectId"
-                  filter={this.filter}
-                  items={this.state.projects.map(i => {
-                    return {
-                      id: i.id,
-                      text: i.name
-                    };
-                  })}
-                  placeholder="Team Project"
-                  showFilterBox={true}
-                  onSelect={this.onProjectSelected}
-                  selection={this.projectSelection}
-                  hideClearAction={true}
-                />
-              );
+                let errorOnTopFilter = (
+                  <DropdownFilterBarItem
+                        filterItemKey="errorsOnSummaryTop"
+                        filter={this.errorsOnSummaryTopFilter}
+                        items={[
+                          { id:"true", text: "Failure/Partial on top"},
+                          { id:"false", text: "By Queue start date"}
+                        ]}
+                        placeholder="Status order"
+                        onSelect={this.onErrorsOnSummaryOnTop}
+                        selection={this.errorsOnSummaryTopSelection}
+                        hideClearAction={true}/>
+                );
 
-              let errorOnTopFilter = (
-                <DropdownFilterBarItem
-                      filterItemKey="errorsOnSummaryTop"
-                      filter={this.errorsOnSummaryTopFilter}
-                      items={[
-                        { id:"true", text: "Failure/Partial on top"},
-                        { id:"false", text: "By Queue start date"}
-                      ]}
-                      placeholder="Status order"
-                      onSelect={this.onErrorsOnSummaryOnTop}
-                      selection={this.errorsOnSummaryTopSelection}
-                      hideClearAction={true}/>
-              );
-
-              if(props.selectedTabId !== "summary") {
-                return (
-                  <FilterBar filter={this.filter}>
-                    {{ keywordFilter }}
-                    {{ onlyWithDeploymentFilter}}
-                    {{ allDeployments }}
-                    {{ projectFilter }}
-                  </FilterBar>)
-              } else {
-                return (
-                  <FilterBar filter={this.filter}>
-                    {{ keywordFilter }}
-                    {{ onlyWithDeploymentFilter}}
-                    {{ allDeployments }}
-                    {{ projectFilter }}
-                  </FilterBar>)
+                if(props.selectedTabId !== "summary") {
+                  return (
+                    <FilterBar filter={this.filter}>
+                      {{ keywordFilter }}
+                      {{ onlyWithDeploymentFilter}}
+                      {{ allDeployments }}
+                      {{ projectFilter }}
+                    </FilterBar>)
+                } else {
+                  return (
+                    <FilterBar filter={this.filter}>
+                      {{ keywordFilter }}
+                      {{ errorOnTopFilter }}
+                      {{ onlyWithDeploymentFilter}}
+                      {{ allDeployments }}
+                      {{ projectFilter }}
+                    </FilterBar>)
+                }
               }
             }}
             </Observer>
