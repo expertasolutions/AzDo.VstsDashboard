@@ -404,7 +404,6 @@ class CICDDashboard extends React.Component<{}, {}> {
           <div className="page-content-left page-content-right page-content-top">
           <Observer selectedTabId={this.selectedTabId} isLoading={this.isLoading}>
             {(props: { selectedTabId: string, isLoading: boolean }) => {
-              //if(!props.isLoading) {
                 let keywordFilter = (<KeywordFilterBarItem filterItemKey="pipelineKeyWord" />);
                 let onlyWithDeploymentFilter = (
                     <DropdownFilterBarItem
@@ -458,6 +457,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                   <DropdownFilterBarItem
                         filterItemKey="errorsOnSummaryTop"
                         filter={this.errorsOnSummaryTopFilter}
+                        disabled={props.selectedTabId !== "summary"}
                         items={[
                           { id:"true", text: "Failure/Partial on top"},
                           { id:"false", text: "By Queue start date"}
@@ -470,32 +470,10 @@ class CICDDashboard extends React.Component<{}, {}> {
 
                 return (
                   <FilterBar filter={this.filter}>
-                    {{ keywordFilter }}
-                    {{ projectFilter }}
+                    { keywordFilter }
+                    { projectFilter }
                   </FilterBar>
                 );
-
-                /*
-                if(props.selectedTabId !== "summary") {
-                  return (
-                    <FilterBar filter={this.filter}>
-                      {{ keywordFilter }}
-                      {{ onlyWithDeploymentFilter}}
-                      {{ allDeployments }}
-                      {{ projectFilter }}
-                    </FilterBar>)
-                } else {
-                  return (
-                    <FilterBar filter={this.filter}>
-                      {{ keywordFilter }}
-                      {{ errorOnTopFilter }}
-                      {{ onlyWithDeploymentFilter}}
-                      {{ allDeployments }}
-                      {{ projectFilter }}
-                    </FilterBar>)
-                }
-                */
-              //}
             }}
             </Observer>
           </div>
