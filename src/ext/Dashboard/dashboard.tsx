@@ -423,6 +423,18 @@ class CICDDashboard extends React.Component<{}, {}> {
                   <FilterBar filter={this.filter}>
                     <KeywordFilterBarItem filterItemKey="pipelineKeyWord" />
                     <DropdownFilterBarItem
+                        filterItemKey="errorsOnSummaryTop"
+                        filter={this.errorsOnSummaryTopFilter}
+                        disabled={props.selectedTabId !== "summary"}
+                        items={[
+                          { id:"true", text: "Failure/Partial on top"},
+                          { id:"false", text: "By Queue start date"}
+                        ]}
+                        placeholder="Status order"
+                        onSelect={this.onErrorsOnSummaryOnTop}
+                        selection={this.errorsOnSummaryTopSelection}
+                        hideClearAction={true}/>
+                    <DropdownFilterBarItem
                       filterItemKey="onlyWithDeployments"
                       filter={this.onlyBuildWithDeploymentFilter}
                       items={[
@@ -432,9 +444,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                       placeholder="With deployments only"
                       onSelect={this.onOnlyBuildWithDeployments}
                       selection={this.onlyWithDeploymentSelection}
-                      hideClearAction={true}
-                    />
-                    
+                      hideClearAction={true}/>
                     <DropdownFilterBarItem
                       filterItemKey="allDeployments"
                       filter={this.allDeploymentFilter}
@@ -445,8 +455,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                       placeholder="Show all deployments"
                       onSelect={this.onAllDeploymentSelected}
                       selection={this.allDeploymentSelection}
-                      hideClearAction={true}
-                    />
+                      hideClearAction={true}/>
                     <DropdownFilterBarItem
                       filterItemKey="teamProjectId"
                       filter={this.filter}
@@ -460,8 +469,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                       showFilterBox={true}
                       onSelect={this.onProjectSelected}
                       selection={this.projectSelection}
-                      hideClearAction={true}
-                    />
+                      hideClearAction={true}/>
                   </FilterBar>
                 );
             }}
