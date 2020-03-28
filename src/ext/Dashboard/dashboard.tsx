@@ -126,9 +126,9 @@ class CICDDashboard extends React.Component<{}, {}> {
         if(a.latestBuild !== undefined && b.latestBuild !== undefined){
           return b.latestBuild.result - a.latestBuild.result;
         } else if(a.latestBuild !== undefined && b.latestBuild === undefined) {
-          return -a.latestBuild.result;
+          return a.latestBuild.result;
         } else if(a.latestBuild === undefined && b.latestBuild !== undefined){
-          return -b.latestBuild.result;
+          return b.latestBuild.result;
         } else {
           return 999;
         }
