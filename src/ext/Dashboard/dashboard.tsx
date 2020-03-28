@@ -66,8 +66,8 @@ class CICDDashboard extends React.Component<{}, {}> {
     releases: Array<Deployment>(),
     projects: Array<TeamProjectReference>(),
     showAllBuildDeployment: false,
-    showOnlyBuildWithDeployments: true,
-    showErrorsOnSummaryOnTop: false
+    showOnlyBuildWithDeployments: false,
+    showErrorsOnSummaryOnTop: true
   };
 
   private onFilterReset = async () => {
@@ -120,12 +120,10 @@ class CICDDashboard extends React.Component<{}, {}> {
       buildDefList = allBuildWithRelease;
     }
     
-    /*
     if(this.state.showErrorsOnSummaryOnTop) {
       var reOrder = buildDefList;
-      buildDefList = reOrder.sort((a, b) => -a.latestBuild.result);
+      buildDefList = reOrder.sort((a, b) => a.latestBuild.result);
     }
-    */
 
     this.buildReferenceProvider.value = new ArrayItemProvider(buildDefList);
   }
