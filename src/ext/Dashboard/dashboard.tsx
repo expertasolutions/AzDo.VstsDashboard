@@ -411,13 +411,17 @@ class CICDDashboard extends React.Component<{}, {}> {
                         disabled={props.selectedTabId !== "summary"}
                         items={[
                           { id:"true", text: "Failure/Partial on top"},
-                          { id:"false", text: "By Queue start date"}
+                          { id:"false", text: "By Queue date"}
                         ]}
                         placeholder="Status order"
                         onSelect={this.onErrorsOnSummaryOnTop}
                         selection={this.errorsOnSummaryTopSelection}
                         hideClearAction={true}/>
                 );
+
+                if(props.selectedTabId !== "summary") {
+                  errorOnTopFilter = (<div></div>);
+                }
 
                 return (
                   <FilterBar filter={this.filter}>
