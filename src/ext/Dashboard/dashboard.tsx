@@ -122,7 +122,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     
     if(this.state.showErrorsOnSummaryOnTop) {
       var reOrder = buildDefList;
-      buildDefList = reOrder.sort((a, b) => a.latestBuild.result);
+      buildDefList = reOrder.sort((a, b) => b.latestBuild.result - a.latestBuild.result);
     }
 
     this.buildReferenceProvider.value = new ArrayItemProvider(buildDefList);
