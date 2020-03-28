@@ -406,7 +406,8 @@ class CICDDashboard extends React.Component<{}, {}> {
               <KeywordFilterBarItem filterItemKey="pipelineKeyWord" />
 
                 {(props: { selectedTabId: string }) => {
-                  if(this.selectedTabId.value === "summary"){
+                  //if(this.selectedTabId.value === "summary"){
+                  if(true) {
                     return (<DropdownFilterBarItem
                       filterItemKey="errorsOnSummaryTop"
                       filter={this.errorsOnSummaryTopFilter}
