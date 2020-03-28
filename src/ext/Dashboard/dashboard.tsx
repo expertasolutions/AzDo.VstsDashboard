@@ -379,7 +379,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                   { id:"true", text: "Yes"},
                   { id:"false", text: "No"}
                 ]}
-                placeholder="Show only pipeline with deployments"
+                placeholder="Pipeline with deployments only"
                 onSelect={this.onOnlyBuildWithDeployments}
                 selection={this.onlyWithDeploymentSelection}
                 hideClearAction={true}
@@ -391,7 +391,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                   { id:"true", text: "Yes"},
                   { id:"false", text: "No"}
                 ]}
-                placeholder="Show all deployments per pipeline"
+                placeholder="Show all deployments"
                 onSelect={this.onAllDeploymentSelected}
                 selection={this.allDeploymentSelection}
                 hideClearAction={true}
