@@ -404,10 +404,10 @@ class CICDDashboard extends React.Component<{}, {}> {
           <div className="page-content-left page-content-right page-content-top">
             <FilterBar filter={this.filter}>
               <KeywordFilterBarItem filterItemKey="pipelineKeyWord" />
-              <Observer isLoading={this.isLoading}> 
-                {() => {
+              <Observer isLoading={this.isLoading} selectedTab={this.selectedTabId}> 
+                {(props: { selectedTab: string}) => {
                   //if(this.selectedTabId.value === "summary"){
-                  if(true) {
+                  if(props.selectedTab === "summary") {
                     return (<DropdownFilterBarItem
                       filterItemKey="errorsOnSummaryTop"
                       filter={this.errorsOnSummaryTopFilter}
