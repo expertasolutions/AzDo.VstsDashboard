@@ -395,8 +395,9 @@ class CICDDashboard extends React.Component<{}, {}> {
                 placeholder="Error on top"
                 onSelect={this.onErrorsOnSummaryOnTop}
                 selection={this.errorsOnSummaryTopSelection}
-                hideClearAction={false}
-                />
+                showFilterBox={false}
+                hideClearAction={true}
+              />
               <DropdownFilterBarItem
                 filterItemKey="onlyWithDeployments"
                 filter={this.onlyBuildWithDeploymentFilter}
@@ -412,7 +413,6 @@ class CICDDashboard extends React.Component<{}, {}> {
               <DropdownFilterBarItem
                 filterItemKey="allDeployments"
                 filter={this.allDeploymentFilter}
-                showFilterBox={true}
                 items={[
                   { id:"true", text: "Yes"},
                   { id:"false", text: "No"}
