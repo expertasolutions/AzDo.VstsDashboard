@@ -453,11 +453,8 @@ class CICDDashboard extends React.Component<{}, {}> {
                 />
               );
 
-              if(props.selectedTabId === "summary") {
-                return (
-                  <FilterBar filter={this.filter}>
-                    {{ keywordFilter }}
-                    <DropdownFilterBarItem
+              let errorOnTopFilter = (
+                <DropdownFilterBarItem
                       filterItemKey="errorsOnSummaryTop"
                       filter={this.errorsOnSummaryTopFilter}
                       items={[
@@ -468,6 +465,12 @@ class CICDDashboard extends React.Component<{}, {}> {
                       onSelect={this.onErrorsOnSummaryOnTop}
                       selection={this.errorsOnSummaryTopSelection}
                       hideClearAction={true}/>
+              );
+
+              if(props.selectedTabId !== "summary") {
+                return (
+                  <FilterBar filter={this.filter}>
+                    {{ keywordFilter }}
                     {{ onlyWithDeploymentFilter}}
                     {{ allDeployments }}
                     {{ projectFilter }}
