@@ -407,7 +407,7 @@ class CICDDashboard extends React.Component<{}, {}> {
               <DropdownFilterBarItem
                 filterItemKey="errorsOnSummaryTop"
                 filter={this.errorsOnSummaryTopFilter}
-                disabled={this.selectedTabId.value === "summary"}
+                disabled={this.selectedTabId.value !== "summary"}
                 items={[
                   { id:"true", text: "Failure/Partial on top"},
                   { id:"false", text: "By Queue start date"}
