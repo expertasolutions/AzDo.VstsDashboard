@@ -411,7 +411,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                   { id:"true", text: "Failure/Partial on top"},
                   { id:"false", text: "By Queue start date"}
                 ]}
-                disabled={true}
+                disabled={false}
                 placeholder="Status order"
                 onSelect={this.onErrorsOnSummaryOnTop}
                 selection={this.errorsOnSummaryTopSelection}
