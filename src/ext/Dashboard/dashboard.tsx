@@ -31,15 +31,18 @@ import { Filter, FILTER_CHANGE_EVENT, FILTER_RESET_EVENT } from "azure-devops-ui
 import { FilterBar } from "azure-devops-ui/FilterBar";
 import { ZeroData, ZeroDataActionType } from "azure-devops-ui/ZeroData";
 import { CommonServiceIds, IProjectPageService } from "azure-devops-extension-api";
+import { IList } from "azure-devops-ui/List";
 
 class CICDDashboard extends React.Component<{}, {}> {
   private isLoading = new ObservableValue<boolean>(true);
   private selectedTabId = new ObservableValue("summary");
   private projectSelection = new DropdownSelection();
   private allDeploymentSelection = new DropdownSelection();
+  private errorsOnSummaryTopSelection = new DropdownSelection();
   private onlyWithDeploymentSelection = new DropdownSelection();
   private filter: Filter = new Filter();
   private allDeploymentFilter: Filter = new Filter();
+  private errorsOnSummaryTopFilter = new Filter();
   private onlyBuildWithDeploymentFilter: Filter = new Filter();
   private currentProjectSelected: string = "";
   private initialProjectName : string = "";
@@ -49,12 +52,12 @@ class CICDDashboard extends React.Component<{}, {}> {
     super(props);
 
     this.filter = new Filter();
-
     setInterval(()=> {
       if(this.currentProjectSelected != undefined) {
         this.updateFromProject(this.currentProjectSelected);
       }
     }, 10000);
+    
   }
 
   state = {
@@ -63,7 +66,8 @@ class CICDDashboard extends React.Component<{}, {}> {
     releases: Array<Deployment>(),
     projects: Array<TeamProjectReference>(),
     showAllBuildDeployment: false,
-    showOnlyBuildWithDeployments: false
+    showOnlyBuildWithDeployments: false,
+    showErrorsOnSummaryOnTop: true
   };
 
   private onFilterReset = async () => {
@@ -74,6 +78,8 @@ class CICDDashboard extends React.Component<{}, {}> {
       this.projectSelection.select(index);
       this.allDeploymentSelection.select(1);
       this.setState({ showOnlyBuildWithDeployments: false });
+      this.errorsOnSummaryTopSelection.select(0);
+      this.setState({ showErrorsOnSummaryOnTop: true });
       this.onlyWithDeploymentSelection.select(1);
       this.setState({ showAllBuildDeployment: false });
       this.updateFromProject(this.initialProjectName);
@@ -113,6 +119,21 @@ class CICDDashboard extends React.Component<{}, {}> {
       );
       buildDefList = allBuildWithRelease;
     }
+    
+    if(this.state.showErrorsOnSummaryOnTop) {
+      var reOrder = buildDefList;
+      buildDefList = reOrder.sort((a, b) => {
+        if(a.latestBuild !== undefined && b.latestBuild !== undefined){
+          return b.latestBuild.result - a.latestBuild.result;
+        } else if(a.latestBuild !== undefined && b.latestBuild === undefined) {
+          return a.latestBuild.result;
+        } else if(a.latestBuild === undefined && b.latestBuild !== undefined){
+          return b.latestBuild.result;
+        } else {
+          return 999;
+        }
+      });
+    }
 
     this.buildReferenceProvider.value = new ArrayItemProvider(buildDefList);
   }
@@ -142,7 +163,6 @@ class CICDDashboard extends React.Component<{}, {}> {
       );
       buildList = allBuildWithRelease;
     }
-
     this.buildProvider.value = new ArrayItemProvider(buildList);
   }
 
@@ -169,16 +189,27 @@ class CICDDashboard extends React.Component<{}, {}> {
   }
 
   private onOnlyBuildWithDeployments = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
-    if(item.text != undefined) {
+    if(item.text !== undefined) {
       let showAll = item.text === "Yes";
       this.setState({ showOnlyBuildWithDeployments: showAll });
     } else {
       this.setState({ showOnlyBuildWithDeployments: false });
     }
+    this.updateFromProject(this.currentProjectSelected);
+  }
+
+  private onErrorsOnSummaryOnTop = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
+    if(item.id !== undefined) {
+      let showAll = item.id === "true";
+      this.setState({ showErrorsOnSummaryOnTop: showAll });
+    } else {
+      this.setState({ showErrorsOnSummaryOnTop: true });
+    }
+    this.updateFromProject(this.currentProjectSelected);
   }
 
   private onAllDeploymentSelected = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
-    if(item.text != undefined) {
+    if(item.text !== undefined) {
       let showAll = item.text === "Yes";
       this.setState({ showAllBuildDeployment: showAll });
     } else {
@@ -189,7 +220,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   private onProjectSelected = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
     let projectName = "";
     
-    if(item.text != undefined)
+    if(item.text !== undefined)
       projectName = item.text;
 
     // Reset the Pipeline KeyWord only, when TeamProject selection has changed
@@ -238,6 +269,7 @@ class CICDDashboard extends React.Component<{}, {}> {
         this.updateFromProject(this.initialProjectName);
         this.allDeploymentSelection.select(1);
         this.onlyWithDeploymentSelection.select(1);
+        this.errorsOnSummaryTopSelection.select(0);
       }
     }
   }
@@ -370,53 +402,75 @@ class CICDDashboard extends React.Component<{}, {}> {
             {this.renderTabBar()}
           </div>
           <div className="page-content-left page-content-right page-content-top">
-            <FilterBar filter={this.filter}>
-              <KeywordFilterBarItem filterItemKey="pipelineKeyWord" />
-              <DropdownFilterBarItem
-                filterItemKey="onlyWithDeployments"
-                filter={this.onlyBuildWithDeploymentFilter}
-                items={[
-                  { id:"true", text: "Yes"},
-                  { id:"false", text: "No"}
-                ]}
-                placeholder="Show only pipeline with deployments"
-                onSelect={this.onOnlyBuildWithDeployments}
-                selection={this.onlyWithDeploymentSelection}
-                hideClearAction={true}
-              />
-              <DropdownFilterBarItem
-                filterItemKey="allDeployments"
-                filter={this.allDeploymentFilter}
-                items={[
-                  { id:"true", text: "Yes"},
-                  { id:"false", text: "No"}
-                ]}
-                placeholder="Show all deployments per pipeline"
-                onSelect={this.onAllDeploymentSelected}
-                selection={this.allDeploymentSelection}
-                hideClearAction={true}
-              />
-              <DropdownFilterBarItem
-                filterItemKey="teamProjectId"
-                filter={this.filter}
-                items={this.state.projects.map(i => {
-                  return {
-                    id: i.id,
-                    text: i.name
-                  };
-                })}
-                placeholder="Team Project"
-                showFilterBox={true}
-                onSelect={this.onProjectSelected}
-                selection={this.projectSelection}
-                hideClearAction={true}
-              />
-            </FilterBar>
+          <Observer selectedTabId={this.selectedTabId} isLoading={this.isLoading}>
+            {(props: { selectedTabId: string, isLoading: boolean }) => {
+                let errorOnTopFilter = (
+                  <DropdownFilterBarItem
+                        filterItemKey="errorsOnSummaryTop"
+                        filter={this.errorsOnSummaryTopFilter}
+                        disabled={props.selectedTabId !== "summary"}
+                        items={[
+                          { id:"true", text: "Failure/Partial on top"},
+                          { id:"false", text: "By Queue date"}
+                        ]}
+                        placeholder="Status order"
+                        onSelect={this.onErrorsOnSummaryOnTop}
+                        selection={this.errorsOnSummaryTopSelection}
+                        hideClearAction={true}/>
+                );
+
+                if(props.selectedTabId !== "summary") {
+                  errorOnTopFilter = (<div></div>);
+                }
+
+                return (
+                  <FilterBar filter={this.filter}>
+                    <KeywordFilterBarItem filterItemKey="pipelineKeyWord" />
+                    { errorOnTopFilter }
+                    <DropdownFilterBarItem
+                      filterItemKey="onlyWithDeployments"
+                      filter={this.onlyBuildWithDeploymentFilter}
+                      items={[
+                        { id:"true", text: "Yes"},
+                        { id:"false", text: "No"}
+                      ]}
+                      placeholder="With deployments only"
+                      onSelect={this.onOnlyBuildWithDeployments}
+                      selection={this.onlyWithDeploymentSelection}
+                      hideClearAction={true}/>
+                    <DropdownFilterBarItem
+                      filterItemKey="allDeployments"
+                      filter={this.allDeploymentFilter}
+                      items={[
+                        { id:"true", text: "Yes"},
+                        { id:"false", text: "No"}
+                      ]}
+                      placeholder="Show all deployments"
+                      onSelect={this.onAllDeploymentSelected}
+                      selection={this.allDeploymentSelection}
+                      hideClearAction={true}/>
+                    <DropdownFilterBarItem
+                      filterItemKey="teamProjectId"
+                      filter={this.filter}
+                      items={this.state.projects.map(i => {
+                        return {
+                          id: i.id,
+                          text: i.name
+                        };
+                      })}
+                      placeholder="Team Project"
+                      showFilterBox={true}
+                      onSelect={this.onProjectSelected}
+                      selection={this.projectSelection}
+                      hideClearAction={true}/>
+                  </FilterBar>
+                );
+            }}
+            </Observer>
           </div>
           <div className="page-content page-content-top page-content-bottom">
             <DataContext.Provider value={{ state: this.state }}>
-              
-                <Observer isLoading={this.isLoading} showAllBuildDeployment={this.state.showAllBuildDeployment}> 
+                <Observer isLoading={this.isLoading}> 
                   {(props: {isLoading: boolean }) => {
                     if(props.isLoading) {
                       return this.renderFirstLoad();
@@ -431,7 +485,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                                   <Card className="flex-grow bolt-table-card" 
                                         titleProps={{ text: "All pipelines" }} 
                                         contentProps={{ contentPadding: false }}>
-                                            <div  style={{ marginTop: "16px;", marginBottom: "16px;"}}>
+                                            <div style={{ marginTop: "16px;", marginBottom: "16px;"}}>
                                                 { this.renderTab(props.selectedTabId) }
                                             </div>
                                   </Card>
