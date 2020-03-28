@@ -31,15 +31,18 @@ import { Filter, FILTER_CHANGE_EVENT, FILTER_RESET_EVENT } from "azure-devops-ui
 import { FilterBar } from "azure-devops-ui/FilterBar";
 import { ZeroData, ZeroDataActionType } from "azure-devops-ui/ZeroData";
 import { CommonServiceIds, IProjectPageService } from "azure-devops-extension-api";
+import { IList } from "azure-devops-ui/List";
 
 class CICDDashboard extends React.Component<{}, {}> {
   private isLoading = new ObservableValue<boolean>(true);
   private selectedTabId = new ObservableValue("summary");
   private projectSelection = new DropdownSelection();
   private allDeploymentSelection = new DropdownSelection();
+  private errorsOnSummaryTopSelection = new DropdownSelection();
   private onlyWithDeploymentSelection = new DropdownSelection();
   private filter: Filter = new Filter();
   private allDeploymentFilter: Filter = new Filter();
+  private errorsOnSummaryTopFilter = new Filter();
   private onlyBuildWithDeploymentFilter: Filter = new Filter();
   private currentProjectSelected: string = "";
   private initialProjectName : string = "";
@@ -63,7 +66,8 @@ class CICDDashboard extends React.Component<{}, {}> {
     releases: Array<Deployment>(),
     projects: Array<TeamProjectReference>(),
     showAllBuildDeployment: false,
-    showOnlyBuildWithDeployments: false
+    showOnlyBuildWithDeployments: true,
+    showErrorsOnSummaryOnTop: false
   };
 
   private onFilterReset = async () => {
@@ -174,6 +178,15 @@ class CICDDashboard extends React.Component<{}, {}> {
       this.setState({ showOnlyBuildWithDeployments: showAll });
     } else {
       this.setState({ showOnlyBuildWithDeployments: false });
+    }
+  }
+
+  private onErrorsOnSummaryOnTop = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
+    if(item.text != undefined) {
+      let showAll = item.text === "Yes";
+      this.setState({ showErrorsOnSummaryOnTop: showAll });
+    } else {
+      this.setState({ showErrorsOnSummaryOnTop: false });
     }
   }
 
@@ -373,6 +386,18 @@ class CICDDashboard extends React.Component<{}, {}> {
             <FilterBar filter={this.filter}>
               <KeywordFilterBarItem filterItemKey="pipelineKeyWord" />
               <DropdownFilterBarItem
+                filterItemKey="errorsOnSummaryTop"
+                filter={this.errorsOnSummaryTopFilter}
+                items={[
+                  { id:"true", text: "Yes"},
+                  { id:"false", text: "No"}
+                ]}
+                placeholder="Error on top"
+                onSelect={this.onErrorsOnSummaryOnTop}
+                selection={this.errorsOnSummaryTopSelection}
+                hideClearAction={false}
+                />
+              <DropdownFilterBarItem
                 filterItemKey="onlyWithDeployments"
                 filter={this.onlyBuildWithDeploymentFilter}
                 items={[
@@ -387,6 +412,7 @@ class CICDDashboard extends React.Component<{}, {}> {
               <DropdownFilterBarItem
                 filterItemKey="allDeployments"
                 filter={this.allDeploymentFilter}
+                showFilterBox={true}
                 items={[
                   { id:"true", text: "Yes"},
                   { id:"false", text: "No"}
@@ -415,7 +441,6 @@ class CICDDashboard extends React.Component<{}, {}> {
           </div>
           <div className="page-content page-content-top page-content-bottom">
             <DataContext.Provider value={{ state: this.state }}>
-              
                 <Observer isLoading={this.isLoading} showAllBuildDeployment={this.state.showAllBuildDeployment}> 
                   {(props: {isLoading: boolean }) => {
                     if(props.isLoading) {
