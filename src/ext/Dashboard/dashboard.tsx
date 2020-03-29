@@ -4,12 +4,12 @@ import * as React from "react";
 
 import * as SDK from "azure-devops-extension-sdk";
 
-import { getBuildDefinitions, getBuilds , getReleases, getProjects, getProject } from "./PipelineServices";
+import { getBuildDefinitionsV1, getBuildsV1 , getReleasesV1, getProjects, getProject } from "./PipelineServices";
 import { dashboardColumns, buildColumns }  from "./tableData";
 
 import { KeywordFilterBarItem } from "azure-devops-ui/TextFilterBarItem";
 import { DropdownFilterBarItem, Dropdown } from "azure-devops-ui/Dropdown";
-import { DropdownSelection } from "azure-devops-ui/Utilities/DropdownSelection";
+import { DropdownSelection, DropdownMultiSelection } from "azure-devops-ui/Utilities/DropdownSelection";
 import { Card } from "azure-devops-ui/Card";
 import { Table } from "azure-devops-ui/Table";
 import { Tab, TabBar, TabSize } from "azure-devops-ui/Tabs";
@@ -31,12 +31,11 @@ import { Filter, FILTER_CHANGE_EVENT, FILTER_RESET_EVENT } from "azure-devops-ui
 import { FilterBar } from "azure-devops-ui/FilterBar";
 import { ZeroData, ZeroDataActionType } from "azure-devops-ui/ZeroData";
 import { CommonServiceIds, IProjectPageService } from "azure-devops-extension-api";
-import { IList } from "azure-devops-ui/List";
 
 class CICDDashboard extends React.Component<{}, {}> {
   private isLoading = new ObservableValue<boolean>(true);
   private selectedTabId = new ObservableValue("summary");
-  private projectSelection = new DropdownSelection();
+  private projectSelection = new DropdownMultiSelection();
   private allDeploymentSelection = new DropdownSelection();
   private errorsOnSummaryTopSelection = new DropdownSelection();
   private onlyWithDeploymentSelection = new DropdownSelection();
@@ -44,7 +43,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   private allDeploymentFilter: Filter = new Filter();
   private errorsOnSummaryTopFilter = new Filter();
   private onlyBuildWithDeploymentFilter: Filter = new Filter();
-  private currentProjectSelected: string = "";
+  private currentSelectedProjects: Array<string> = new Array<string>();
   private initialProjectName : string = "";
   private extensionVersion : string = "";
 
@@ -52,11 +51,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     super(props);
 
     this.filter = new Filter();
-    setInterval(()=> {
-      if(this.currentProjectSelected != undefined) {
-        this.updateFromProject(this.currentProjectSelected);
-      }
-    }, 10000);
+    setInterval(()=> this.updateFromProject(), 10000);
     
   }
 
@@ -82,7 +77,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       this.setState({ showErrorsOnSummaryOnTop: true });
       this.onlyWithDeploymentSelection.select(1);
       this.setState({ showAllBuildDeployment: false });
-      this.updateFromProject(this.initialProjectName);
+      this.updateFromProject();
     }
   }
 
@@ -166,26 +161,34 @@ class CICDDashboard extends React.Component<{}, {}> {
     this.buildProvider.value = new ArrayItemProvider(buildList);
   }
 
-  private updateFromProject(projectName: string){ 
-    this.currentProjectSelected = projectName;
-    getBuildDefinitions(projectName).then(result => {
+  private updateFromProject(){ 
+    this.currentSelectedProjects = new Array<string>();
+
+    for(let i=0;i<this.projectSelection.value.length;i++){
+      let items = this.projectSelection.value[i];
+      for(let s=items.beginIndex;s<=items.endIndex;s++) {
+        let selectedProjectName = this.state.projects[s];
+        this.currentSelectedProjects.push(selectedProjectName.name);
+      }
+    }
+
+    getBuildDefinitionsV1(this.currentSelectedProjects).then(result => {
       this.setState({ buildDefs: result });
       this.filterData();
     }).then(()=> {
       SDK.ready().then(()=> { this.isLoading.value = false; });
     });
-
+   
     // Update the Release List
-    getReleases(projectName).then(result => {
+    getReleasesV1(this.currentSelectedProjects).then(result => {
       this.setState({releases: result });
     });
 
     // Update Builds Runs list...
-    getBuilds(projectName).then(result=> {
+    getBuildsV1(this.currentSelectedProjects).then(result=> {
       this.setState({ builds: result });
       this.filterBuildsData();
     });
-
   }
 
   private onOnlyBuildWithDeployments = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
@@ -195,7 +198,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     } else {
       this.setState({ showOnlyBuildWithDeployments: false });
     }
-    this.updateFromProject(this.currentProjectSelected);
+    this.updateFromProject();
   }
 
   private onErrorsOnSummaryOnTop = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
@@ -205,7 +208,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     } else {
       this.setState({ showErrorsOnSummaryOnTop: true });
     }
-    this.updateFromProject(this.currentProjectSelected);
+    this.updateFromProject();
   }
 
   private onAllDeploymentSelected = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
@@ -218,17 +221,11 @@ class CICDDashboard extends React.Component<{}, {}> {
   }
 
   private onProjectSelected = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
-    let projectName = "";
-    
-    if(item.text !== undefined)
-      projectName = item.text;
-
     // Reset the Pipeline KeyWord only, when TeamProject selection has changed
     let filterState = this.filter.getState();
     filterState.pipelineKeyWord = null;
     this.filter.setState(filterState);
-
-    this.updateFromProject(projectName);
+    this.updateFromProject();
   }
 
   public async loadProjects() {
@@ -266,7 +263,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       if(prj != undefined) {
         let index = this.state.projects.indexOf(prj);
         this.projectSelection.select(index);
-        this.updateFromProject(this.initialProjectName);
+        this.updateFromProject();
         this.allDeploymentSelection.select(1);
         this.onlyWithDeploymentSelection.select(1);
         this.errorsOnSummaryTopSelection.select(0);
@@ -306,28 +303,32 @@ class CICDDashboard extends React.Component<{}, {}> {
   }
 
   private renderZeroData(tabId: string) : JSX.Element {
-    if(tabId === "summary" && this.buildReferenceProvider.value.length === 0){
-      return (
-        <div className="flex-center">
+    if(this.currentSelectedProjects.length === 0){
+      return (<div className="flex-center">
           <ZeroData
-            primaryText="Create your first Pipeline"
+            primaryText="No Team Project selected"
             secondaryText={
               <span>
-                Automate your build and release processes using our wizard, and go
-                from code to cloud-hosted within minutes.
+                Select at least one Team Project to show CI/CD pipeline status
               </span>
             }
             imageAltText="Bars"
             imagePath="https://cdn.vsassets.io/ext/ms.vss-build-web/pipelines/Content/no-builds.G8i4mxU5f17yTzxc.png"
-            actionText="Create Pipeline"
-            actionType={ZeroDataActionType.ctaButton}
-            onActionClick={(event, item) => {
-                this.getProjectUrl(this.currentProjectSelected).then(url => {
-                  let createPipelineUrl = url + "/_apps/hub/ms.vss-build-web.ci-designer-hub";
-                  window.open(createPipelineUrl);
-                });
-              }
+          />
+        </div>);
+    }
+    else if(this.buildReferenceProvider.value.length === 0){
+      return (
+        <div className="flex-center">
+          <ZeroData
+            primaryText="No Pipeline definitions exists for the selected Team Projects"
+            secondaryText={
+              <span>
+                You will have to create Pipeline definitions to see CI/CD builds and releases status
+              </span>
             }
+            imageAltText="Bars"
+            imagePath="https://cdn.vsassets.io/ext/ms.vss-build-web/pipelines/Content/no-builds.G8i4mxU5f17yTzxc.png"
           />
         </div>
       );

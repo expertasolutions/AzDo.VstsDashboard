@@ -1,7 +1,7 @@
 
 import * as API from "azure-devops-extension-api";
 import { 
-  BuildRestClient
+  BuildRestClient, BuildDefinitionReference, Build
 } from "azure-devops-extension-api/Build";
 
 import {
@@ -24,6 +24,15 @@ export async function getProjects() {
 export async function getProject(projectName: string) {
   let result = await coreClient.getProject(projectName);
   return result;
+}
+
+export async function getReleasesV1(projectList: Array<string>){
+  let deployments = new Array<Deployment>();
+  for(let i=0;i<projectList.length;i++) {
+    let result = await getReleases(projectList[i]);
+    deployments.push(...result);
+  }
+  return deployments;
 }
 
 export async function getReleases(projectName: string) {
@@ -50,19 +59,29 @@ export async function getReleases(projectName: string) {
   return dpl;
 }
 
-export async function getBuilds(projectName: string)  {
-  let result = await buildClient.getBuilds(projectName);
-  return result.sort((a,b) => {
+export async function getBuildsV1(projectList: Array<string>) {
+  let builds = new Array<Build>();
+  for(let i=0;i<projectList.length;i++) {
+    let result = await getBuilds(projectList[i]);
+    builds.push(...result);
+  }
+  return builds.sort((a,b) => {
     return b.id - a.id;
   });
 }
 
-export async function getBuildDefinitions(projectName: string) {
-  let result = await buildClient.getDefinitions(projectName, undefined, undefined, undefined,
-                                              undefined, undefined, undefined,undefined, undefined,
-                                              undefined,undefined,undefined,undefined, true, undefined, 
-                                              undefined, undefined);
-  return result.sort((a,b) => {
+export async function getBuilds(projectName: string)  {
+  let result = await buildClient.getBuilds(projectName);
+  return result;
+}
+
+export async function getBuildDefinitionsV1(projectList: Array<string>) {
+  let buildDef = new Array<BuildDefinitionReference>();
+  for(let i=0;i<projectList.length;i++) {
+    let result = await getBuildDefinitions(projectList[i]);
+    buildDef.push(...result);
+  }
+  return buildDef.sort((a,b) => {
     if(b.latestBuild !== undefined && a.latestBuild !== undefined) {
       if(a.latestBuild.id > b.latestBuild.id){
         return -1;
@@ -79,4 +98,13 @@ export async function getBuildDefinitions(projectName: string) {
       return 0;
     }
   });
+}
+
+export async function getBuildDefinitions(projectName: string) {
+
+  let result = await buildClient.getDefinitions(projectName, undefined, undefined, undefined,
+                                              undefined, undefined, undefined,undefined, undefined,
+                                              undefined,undefined,undefined,undefined, true, undefined, 
+                                              undefined, undefined);
+  return result;
 }
