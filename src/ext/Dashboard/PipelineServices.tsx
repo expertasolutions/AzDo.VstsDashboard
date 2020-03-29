@@ -65,14 +65,14 @@ export async function getBuildsV1(projectList: Array<string>) {
     let result = await getBuilds(projectList[i]);
     builds.push(...result);
   }
-  return builds;
+  return builds.sort((a,b) => {
+    return b.id - a.id;
+  });
 }
 
 export async function getBuilds(projectName: string)  {
   let result = await buildClient.getBuilds(projectName);
-  return result.sort((a,b) => {
-    return b.id - a.id;
-  });
+  return result;
 }
 
 export async function getBuildDefinitionsV1(projectList: Array<string>) {
@@ -81,16 +81,7 @@ export async function getBuildDefinitionsV1(projectList: Array<string>) {
     let result = await getBuildDefinitions(projectList[i]);
     buildDef.push(...result);
   }
-  return buildDef;
-}
-
-export async function getBuildDefinitions(projectName: string) {
-
-  let result = await buildClient.getDefinitions(projectName, undefined, undefined, undefined,
-                                              undefined, undefined, undefined,undefined, undefined,
-                                              undefined,undefined,undefined,undefined, true, undefined, 
-                                              undefined, undefined);
-  return result.sort((a,b) => {
+  return buildDef.sort((a,b) => {
     if(b.latestBuild !== undefined && a.latestBuild !== undefined) {
       if(a.latestBuild.id > b.latestBuild.id){
         return -1;
@@ -107,4 +98,13 @@ export async function getBuildDefinitions(projectName: string) {
       return 0;
     }
   });
+}
+
+export async function getBuildDefinitions(projectName: string) {
+
+  let result = await buildClient.getDefinitions(projectName, undefined, undefined, undefined,
+                                              undefined, undefined, undefined,undefined, undefined,
+                                              undefined,undefined,undefined,undefined, true, undefined, 
+                                              undefined, undefined);
+  return result;
 }

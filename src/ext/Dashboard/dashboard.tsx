@@ -303,7 +303,6 @@ class CICDDashboard extends React.Component<{}, {}> {
   }
 
   private renderZeroData(tabId: string) : JSX.Element {
-
     if(this.currentSelectedProjects.length === 0){
       return (<div className="flex-center">
           <ZeroData
