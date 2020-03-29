@@ -1,7 +1,7 @@
 
 import * as API from "azure-devops-extension-api";
 import { 
-  BuildRestClient, BuildDefinitionReference
+  BuildRestClient, BuildDefinitionReference, Build
 } from "azure-devops-extension-api/Build";
 
 import {
@@ -9,7 +9,7 @@ import {
 } from "azure-devops-extension-api/Release";
 
 import {
-  CoreRestClient, TeamProjectReference
+  CoreRestClient
 } from "azure-devops-extension-api/core"
 
 const coreClient = API.getClient(CoreRestClient);
@@ -24,6 +24,15 @@ export async function getProjects() {
 export async function getProject(projectName: string) {
   let result = await coreClient.getProject(projectName);
   return result;
+}
+
+export async function getReleasesV1(projectList: Array<string>){
+  let deployments = new Array<Deployment>();
+  for(let i=0;i<projectList.length;i++) {
+    let result = await getReleases(projectList[i]);
+    deployments.push(...result);
+  }
+  return deployments;
 }
 
 export async function getReleases(projectName: string) {
@@ -48,6 +57,15 @@ export async function getReleases(projectName: string) {
     dpl.push(...result);
   } while(result.length > 0);
   return dpl;
+}
+
+export async function getBuildsV1(projectList: Array<string>) {
+  let builds = new Array<Build>();
+  for(let i=0;i<projectList.length;i++) {
+    let result = await getBuilds(projectList[i]);
+    builds.push(...result);
+  }
+  return builds;
 }
 
 export async function getBuilds(projectName: string)  {

@@ -4,7 +4,7 @@ import * as React from "react";
 
 import * as SDK from "azure-devops-extension-sdk";
 
-import { getBuildDefinitions, getBuilds , getReleases, getProjects, getProject, getBuildDefinitionsV1 } from "./PipelineServices";
+import { getBuildDefinitionsV1, getBuildsV1 , getReleasesV1, getProjects, getProject } from "./PipelineServices";
 import { dashboardColumns, buildColumns }  from "./tableData";
 
 import { KeywordFilterBarItem } from "azure-devops-ui/TextFilterBarItem";
@@ -179,31 +179,20 @@ class CICDDashboard extends React.Component<{}, {}> {
       }
     }
 
-    console.log(JSON.stringify(this.currentSelectedProjects))
-    
     getBuildDefinitionsV1(this.currentSelectedProjects).then(result => {
       this.setState({ buildDefs: result });
       this.filterData();
     }).then(()=> {
       SDK.ready().then(()=> { this.isLoading.value = false; });
     });
-
-    /*
-    getBuildDefinitions(projectName).then(result => {
-      this.setState({ buildDefs: result });
-      this.filterData();
-    }).then(()=> {
-      SDK.ready().then(()=> { this.isLoading.value = false; });
-    });
-    */
    
     // Update the Release List
-    getReleases(projectName).then(result => {
+    getReleasesV1(this.currentSelectedProjects).then(result => {
       this.setState({releases: result });
     });
 
     // Update Builds Runs list...
-    getBuilds(projectName).then(result=> {
+    getBuildsV1(this.currentSelectedProjects).then(result=> {
       this.setState({ builds: result });
       this.filterBuildsData();
     });
