@@ -254,10 +254,16 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
 
           lastRelease.push(lastDep.releaseEnvironment.name);
           let relStatusInfo = getReleaseStatus(lastDep, pendingApproval);
+          let pillContent = "&nbsp;" + lastDep.releaseEnvironment.name + "&nbsp;";
+          
+          if(envDepNumber > 1) {
+            pillContent += "(" + envDepNumber + ")";
+          }
+
           children.push(
             <Pill color={relStatusInfo.color} variant={PillVariant.colored} 
               onClick={() => window.open(lastDep.releaseEnvironment._links.web.href, "_blank") }>
-              <Status {...relStatusInfo.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{lastDep.releaseEnvironment.name}&nbsp;({envDepNumber})
+              <Status {...relStatusInfo.statusProps} className="icon-small-margin" size={StatusSize.s} />{pillContent}
             </Pill>)
         }
       }
