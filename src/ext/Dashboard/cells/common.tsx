@@ -255,7 +255,7 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
           children.push(
             <Pill color={relStatusInfo.color} variant={PillVariant.colored} 
               onClick={() => window.open(lastDep.releaseEnvironment._links.web.href, "_blank") }>
-              <Status {...relStatusInfo.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{lastDep.releaseEnvironment.name}
+              <Status {...relStatusInfo.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{lastDep.releaseEnvironment.name}&nbsp;(2)
             </Pill>)
         }
       }
