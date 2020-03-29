@@ -9,7 +9,7 @@ import {
 } from "azure-devops-extension-api/Release";
 
 import {
-  CoreRestClient
+  CoreRestClient, TeamProjectReference
 } from "azure-devops-extension-api/core"
 
 const coreClient = API.getClient(CoreRestClient);
