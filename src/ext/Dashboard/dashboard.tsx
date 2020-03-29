@@ -43,7 +43,6 @@ class CICDDashboard extends React.Component<{}, {}> {
   private allDeploymentFilter: Filter = new Filter();
   private errorsOnSummaryTopFilter = new Filter();
   private onlyBuildWithDeploymentFilter: Filter = new Filter();
-  private currentProjectSelected: string = "";
   private currentSelectedProjects: Array<string> = new Array<string>();
   private initialProjectName : string = "";
   private extensionVersion : string = "";
@@ -52,11 +51,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     super(props);
 
     this.filter = new Filter();
-    setInterval(()=> {
-      if(this.currentProjectSelected != undefined) {
-        this.updateFromProject(this.currentProjectSelected);
-      }
-    }, 10000);
+    setInterval(()=> this.updateFromProject(), 10000);
     
   }
 
@@ -82,7 +77,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       this.setState({ showErrorsOnSummaryOnTop: true });
       this.onlyWithDeploymentSelection.select(1);
       this.setState({ showAllBuildDeployment: false });
-      this.updateFromProject(this.initialProjectName);
+      this.updateFromProject();
     }
   }
 
@@ -166,9 +161,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     this.buildProvider.value = new ArrayItemProvider(buildList);
   }
 
-  private updateFromProject(projectName: string){ 
-    this.currentProjectSelected = projectName;
-
+  private updateFromProject(){ 
     this.currentSelectedProjects = new Array<string>();
 
     for(let i=0;i<this.projectSelection.value.length;i++){
@@ -205,7 +198,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     } else {
       this.setState({ showOnlyBuildWithDeployments: false });
     }
-    this.updateFromProject(this.currentProjectSelected);
+    this.updateFromProject();
   }
 
   private onErrorsOnSummaryOnTop = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
@@ -215,7 +208,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     } else {
       this.setState({ showErrorsOnSummaryOnTop: true });
     }
-    this.updateFromProject(this.currentProjectSelected);
+    this.updateFromProject();
   }
 
   private onAllDeploymentSelected = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
@@ -228,18 +221,11 @@ class CICDDashboard extends React.Component<{}, {}> {
   }
 
   private onProjectSelected = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
-    let projectName = "";
-    
-    if(item.text !== undefined) {
-      projectName = item.text;
-    }
-
     // Reset the Pipeline KeyWord only, when TeamProject selection has changed
     let filterState = this.filter.getState();
     filterState.pipelineKeyWord = null;
     this.filter.setState(filterState);
-
-    this.updateFromProject(projectName);
+    this.updateFromProject();
   }
 
   public async loadProjects() {
@@ -277,7 +263,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       if(prj != undefined) {
         let index = this.state.projects.indexOf(prj);
         this.projectSelection.select(index);
-        this.updateFromProject(this.initialProjectName);
+        this.updateFromProject();
         this.allDeploymentSelection.select(1);
         this.onlyWithDeploymentSelection.select(1);
         this.errorsOnSummaryTopSelection.select(0);
@@ -318,7 +304,7 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   private renderZeroData(tabId: string) : JSX.Element {
 
-    if(this.currentProjectSelected.length === 0){
+    if(this.currentSelectedProjects.length === 0){
       return (<div className="flex-center">
           <ZeroData
             primaryText="No Team Project selected"
@@ -348,10 +334,12 @@ class CICDDashboard extends React.Component<{}, {}> {
             actionText="Create Pipeline"
             actionType={ZeroDataActionType.ctaButton}
             onActionClick={(event, item) => {
+                /*
                 this.getProjectUrl(this.currentProjectSelected).then(url => {
                   let createPipelineUrl = url + "/_apps/hub/ms.vss-build-web.ci-designer-hub";
                   window.open(createPipelineUrl);
                 });
+                */
               }
             }
           />
