@@ -170,7 +170,6 @@ class CICDDashboard extends React.Component<{}, {}> {
     this.currentProjectSelected = projectName;
 
     let val = this.projectSelection.value;
-    console.log(JSON.stringify(val));
     
     this.currentSelectedProjects = new Array<string>();
 
@@ -184,19 +183,19 @@ class CICDDashboard extends React.Component<{}, {}> {
 
     console.log(JSON.stringify(this.currentSelectedProjects))
     
-    /*
-    let buildDefs = getBuildDefinitionsV1(null);
+    let buildDefs = getBuildDefinitionsV1(this.currentSelectedProjects);
     this.setState({ buidlDefs: buildDefs });
     this.filterData();
     SDK.ready().then(()=> { this.isLoading.value = false; });
-    */
 
+    /*
     getBuildDefinitions(projectName).then(result => {
       this.setState({ buildDefs: result });
       this.filterData();
     }).then(()=> {
       SDK.ready().then(()=> { this.isLoading.value = false; });
     });
+    */
    
     // Update the Release List
     getReleases(projectName).then(result => {
