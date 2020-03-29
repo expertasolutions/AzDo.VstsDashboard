@@ -1,7 +1,7 @@
 
 import * as API from "azure-devops-extension-api";
 import { 
-  BuildRestClient
+  BuildRestClient, BuildDefinitionReference
 } from "azure-devops-extension-api/Build";
 
 import {
@@ -57,7 +57,17 @@ export async function getBuilds(projectName: string)  {
   });
 }
 
+export async function getBuildDefinitionsV1(projectList: Array<string>) {
+  let buildDef = new Array<BuildDefinitionReference>();
+  for(let i=0;i<projectList.length;i++) {
+    let result = await getBuildDefinitions(projectList[i]);
+    buildDef.concat(result);
+  }
+  return buildDef;
+}
+
 export async function getBuildDefinitions(projectName: string) {
+
   let result = await buildClient.getDefinitions(projectName, undefined, undefined, undefined,
                                               undefined, undefined, undefined,undefined, undefined,
                                               undefined,undefined,undefined,undefined, true, undefined, 

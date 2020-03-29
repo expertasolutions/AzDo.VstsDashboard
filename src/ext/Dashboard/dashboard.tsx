@@ -4,7 +4,7 @@ import * as React from "react";
 
 import * as SDK from "azure-devops-extension-sdk";
 
-import { getBuildDefinitions, getBuilds , getReleases, getProjects, getProject } from "./PipelineServices";
+import { getBuildDefinitions, getBuilds , getReleases, getProjects, getProject, getBuildDefinitionsV1 } from "./PipelineServices";
 import { dashboardColumns, buildColumns }  from "./tableData";
 
 import { KeywordFilterBarItem } from "azure-devops-ui/TextFilterBarItem";
@@ -167,13 +167,31 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   private updateFromProject(projectName: string){ 
     this.currentProjectSelected = projectName;
+
+    let val = this.projectSelection.value;
+    
+    console.log(JSON.stringify(val));
+    /*
+    for(let i=0;i<this.projectSelection.value.length;i++){
+      let item = this.projectSelection.
+      let selected = this.projectSelection.selected(i);
+    }
+    */
+
+    /*
+    let buildDefs = getBuildDefinitionsV1(null);
+    this.setState({ buidlDefs: buildDefs });
+    this.filterData();
+    SDK.ready().then(()=> { this.isLoading.value = false; });
+    */
+
     getBuildDefinitions(projectName).then(result => {
       this.setState({ buildDefs: result });
       this.filterData();
     }).then(()=> {
       SDK.ready().then(()=> { this.isLoading.value = false; });
     });
-
+   
     // Update the Release List
     getReleases(projectName).then(result => {
       this.setState({releases: result });
@@ -184,7 +202,6 @@ class CICDDashboard extends React.Component<{}, {}> {
       this.setState({ builds: result });
       this.filterBuildsData();
     });
-
   }
 
   private onOnlyBuildWithDeployments = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
