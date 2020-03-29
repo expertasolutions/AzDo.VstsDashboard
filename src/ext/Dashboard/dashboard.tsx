@@ -321,26 +321,14 @@ class CICDDashboard extends React.Component<{}, {}> {
       return (
         <div className="flex-center">
           <ZeroData
-            primaryText="Create your first Pipeline"
+            primaryText="No Pipeline definitions exists for the selected Team Projects"
             secondaryText={
               <span>
-                Automate your build and release processes using our wizard, and go
-                from code to cloud-hosted within minutes.
+                You will have to create Pipeline definitions to see CI/CD builds and releases status
               </span>
             }
             imageAltText="Bars"
             imagePath="https://cdn.vsassets.io/ext/ms.vss-build-web/pipelines/Content/no-builds.G8i4mxU5f17yTzxc.png"
-            actionText="Create Pipeline"
-            actionType={ZeroDataActionType.ctaButton}
-            onActionClick={(event, item) => {
-                /*
-                this.getProjectUrl(this.currentProjectSelected).then(url => {
-                  let createPipelineUrl = url + "/_apps/hub/ms.vss-build-web.ci-designer-hub";
-                  window.open(createPipelineUrl);
-                });
-                */
-              }
-            }
           />
         </div>
       );
