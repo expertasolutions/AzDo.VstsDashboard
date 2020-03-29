@@ -44,6 +44,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   private errorsOnSummaryTopFilter = new Filter();
   private onlyBuildWithDeploymentFilter: Filter = new Filter();
   private currentProjectSelected: string = "";
+  private currentSelectedProjects: Array<string> = new Array<string>();
   private initialProjectName : string = "";
   private extensionVersion : string = "";
 
@@ -169,15 +170,20 @@ class CICDDashboard extends React.Component<{}, {}> {
     this.currentProjectSelected = projectName;
 
     let val = this.projectSelection.value;
-    
     console.log(JSON.stringify(val));
-    /*
-    for(let i=0;i<this.projectSelection.value.length;i++){
-      let item = this.projectSelection.
-      let selected = this.projectSelection.selected(i);
-    }
-    */
+    
+    this.currentSelectedProjects = new Array<string>();
 
+    for(let i=0;i<this.projectSelection.value.length;i++){
+      let items = this.projectSelection.value[i];
+      for(let s=items.beginIndex;s<=items.endIndex;s++) {
+        let selectedProjectName = this.state.projects[s];
+        this.currentSelectedProjects.push(selectedProjectName.name);
+      }
+    }
+
+    console.log(JSON.stringify(this.currentSelectedProjects))
+    
     /*
     let buildDefs = getBuildDefinitionsV1(null);
     this.setState({ buidlDefs: buildDefs });
@@ -236,8 +242,9 @@ class CICDDashboard extends React.Component<{}, {}> {
   private onProjectSelected = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
     let projectName = "";
     
-    if(item.text !== undefined)
+    if(item.text !== undefined) {
       projectName = item.text;
+    }
 
     // Reset the Pipeline KeyWord only, when TeamProject selection has changed
     let filterState = this.filter.getState();
