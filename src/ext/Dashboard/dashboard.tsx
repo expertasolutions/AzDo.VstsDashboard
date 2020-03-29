@@ -181,9 +181,8 @@ class CICDDashboard extends React.Component<{}, {}> {
 
     console.log(JSON.stringify(this.currentSelectedProjects))
     
-    getBuildDefinitionsV1(this.currentSelectedProjects).then(queryResult => {
-      console.log(JSON.stringify(queryResult));
-      this.setState({ buidlDefs: queryResult });
+    getBuildDefinitionsV1(this.currentSelectedProjects).then(result => {
+      this.setState({ buildDefs: result });
       this.filterData();
     }).then(()=> {
       SDK.ready().then(()=> { this.isLoading.value = false; });
