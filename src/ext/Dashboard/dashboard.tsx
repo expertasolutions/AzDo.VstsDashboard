@@ -317,7 +317,22 @@ class CICDDashboard extends React.Component<{}, {}> {
   }
 
   private renderZeroData(tabId: string) : JSX.Element {
-    if(tabId === "summary" && this.buildReferenceProvider.value.length === 0){
+
+    if(this.currentProjectSelected.length === 0){
+      return (<div className="flex-center">
+          <ZeroData
+            primaryText="No Team Project selected"
+            secondaryText={
+              <span>
+                Select at least one Team Project to show CI/CD pipeline status
+              </span>
+            }
+            imageAltText="Bars"
+            imagePath="https://cdn.vsassets.io/ext/ms.vss-build-web/pipelines/Content/no-builds.G8i4mxU5f17yTzxc.png"
+          />
+        </div>);
+    }
+    else if(tabId === "summary" && this.buildReferenceProvider.value.length === 0){
       return (
         <div className="flex-center">
           <ZeroData
