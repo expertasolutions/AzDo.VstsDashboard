@@ -60,10 +60,8 @@ export async function getBuilds(projectName: string)  {
 export async function getBuildDefinitionsV1(projectList: Array<string>) {
   let buildDef = new Array<BuildDefinitionReference>();
   for(let i=0;i<projectList.length;i++) {
-    console.log("Getting '" + projectList[i] + "' builds ...");
     let result = await getBuildDefinitions(projectList[i]);
-    console.log(JSON.stringify(result));
-    buildDef.concat(result);
+    buildDef = buildDef.concat(result);
   }
   return buildDef;
 }
