@@ -254,7 +254,7 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
 
           lastRelease.push(lastDep.releaseEnvironment.name);
           let relStatusInfo = getReleaseStatus(lastDep, pendingApproval);
-          let pillContent = "&nbsp;" + lastDep.releaseEnvironment.name + "&nbsp;";
+          let pillContent = " " + lastDep.releaseEnvironment.name + " ";
           
           if(envDepNumber > 1) {
             pillContent += "(" + envDepNumber + ")";
