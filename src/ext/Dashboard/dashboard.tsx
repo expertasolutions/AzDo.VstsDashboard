@@ -169,8 +169,6 @@ class CICDDashboard extends React.Component<{}, {}> {
   private updateFromProject(projectName: string){ 
     this.currentProjectSelected = projectName;
 
-    let val = this.projectSelection.value;
-    
     this.currentSelectedProjects = new Array<string>();
 
     for(let i=0;i<this.projectSelection.value.length;i++){
@@ -183,11 +181,13 @@ class CICDDashboard extends React.Component<{}, {}> {
 
     console.log(JSON.stringify(this.currentSelectedProjects))
     
-    let queryResult = getBuildDefinitionsV1(this.currentSelectedProjects);
-    console.log(JSON.stringify(queryResult));
-    this.setState({ buidlDefs: queryResult });
-    this.filterData();
-    SDK.ready().then(()=> { this.isLoading.value = false; });
+    getBuildDefinitionsV1(this.currentSelectedProjects).then(queryResult => {
+      console.log(JSON.stringify(queryResult));
+      this.setState({ buidlDefs: queryResult });
+      this.filterData();
+    }).then(()=> {
+      SDK.ready().then(()=> { this.isLoading.value = false; });
+    });
 
     /*
     getBuildDefinitions(projectName).then(result => {

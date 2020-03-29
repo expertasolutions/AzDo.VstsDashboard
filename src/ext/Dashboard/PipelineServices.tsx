@@ -63,8 +63,6 @@ export async function getBuildDefinitionsV1(projectList: Array<string>) {
     let result = await getBuildDefinitions(projectList[i]);
     buildDef.push(...result);
   }
-
-  console.log("out from V1: " + JSON.stringify(buildDef));
   return buildDef;
 }
 
