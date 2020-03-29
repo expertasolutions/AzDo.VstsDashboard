@@ -250,12 +250,14 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
         if(env === undefined) {
           let pendingApproval = waitingForApproval(lastDep, lastDep.releaseEnvironment.id);
 
+          let envDepNumber = lastDeploys.length;
+
           lastRelease.push(lastDep.releaseEnvironment.name);
           let relStatusInfo = getReleaseStatus(lastDep, pendingApproval);
           children.push(
             <Pill color={relStatusInfo.color} variant={PillVariant.colored} 
               onClick={() => window.open(lastDep.releaseEnvironment._links.web.href, "_blank") }>
-              <Status {...relStatusInfo.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{lastDep.releaseEnvironment.name}&nbsp;(2)
+              <Status {...relStatusInfo.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{lastDep.releaseEnvironment.name}&nbsp;({envDepNumber})
             </Pill>)
         }
       }
