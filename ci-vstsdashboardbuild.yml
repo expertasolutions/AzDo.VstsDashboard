@@ -1,4 +1,4 @@
-name: VstsDashboard-v0.$(date:yyMMdd)$(rev:.r)-$(Build.SourceBranchName)
+name: VstsDashboard-v1.$(date:yy)$(DayOfYear)$(rev:.r)-$(Build.SourceBranchName)
 
 trigger:
 - master
