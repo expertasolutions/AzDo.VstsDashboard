@@ -61,7 +61,7 @@ export async function getBuildDefinitionsV1(projectList: Array<string>) {
   let buildDef = new Array<BuildDefinitionReference>();
   for(let i=0;i<projectList.length;i++) {
     let result = await getBuildDefinitions(projectList[i]);
-    buildDef = buildDef.concat(result);
+    buildDef.push(...result);
   }
   return buildDef;
 }
