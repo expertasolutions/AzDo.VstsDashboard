@@ -317,7 +317,7 @@ class CICDDashboard extends React.Component<{}, {}> {
           />
         </div>);
     }
-    else if(tabId === "summary" && this.buildReferenceProvider.value.length === 0){
+    else if(this.buildReferenceProvider.value.length === 0){
       return (
         <div className="flex-center">
           <ZeroData
