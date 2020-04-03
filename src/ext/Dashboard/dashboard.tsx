@@ -242,6 +242,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   }
 
   private onOnlyBuildWithDeployments = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
+    console.log("onOnlyBuildWithDeployments: " + item.text);
     if(item.text !== undefined) {
       let showAll = item.text === "Yes";
       this.setState({ showOnlyBuildWithDeployments: showAll });
