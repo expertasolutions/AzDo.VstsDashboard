@@ -23,7 +23,6 @@ import { Status, Statuses, StatusSize } from "azure-devops-ui/Status";
 import { Link } from "azure-devops-ui/Link";
 import { Icon } from "azure-devops-ui/Icon";
 import { DataContext } from "../dataContext";
-import { Spacing } from "azure-devops-ui/Surface";
 
 export function renderBuildRef01 (
   rowIndex: number,
@@ -32,21 +31,26 @@ export function renderBuildRef01 (
   tableItem: BuildDefinitionReference
 ): JSX.Element {
   let definitionUrl = tableItem._links.web.href;
+  let projectName = tableItem.project.name;
+
   return (
       <SimpleTableCell
           columnIndex={columnIndex}
           tableColumn={tableColumn}
           key={"col-" + columnIndex}
           contentClassName="fontWeightSemiBold font-weight-semibold fontSizeM font-size-m scroll-hidden bolt-table-cell-primary">
-            <Status {...getBuildDefinitionStatus(tableItem).statusProps}
-                    className="icon-large-margin"
-                    size={StatusSize.l}/>
+          <Status {...getBuildDefinitionStatus(tableItem).statusProps}
+                  className="icon-large-margin"
+                  size={StatusSize.l}/>
+          <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
             <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
               <Link href={definitionUrl} target="_blank" className="bolt-table-cell-primary">
                 {tableItem.name}
               </Link>
             </div>
-      </SimpleTableCell>
+            <div className="font-size-s" style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>{projectName}</div>
+          </div>
+    </SimpleTableCell>
   );
 }
 
