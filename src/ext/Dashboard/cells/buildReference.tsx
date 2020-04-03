@@ -40,22 +40,23 @@ export function renderBuildRef01 (
     console.log(JSON.stringify(tableItem));
   }
 
+  let contentRow1 = (<div className="fontWeightSemiBold font-weight-semibold fontSizeM font-size-m scroll-hidden">
+                        <Status {...getBuildDefinitionStatus(tableItem).statusProps} className="icon-large-margin" size={StatusSize.l}/>
+                        <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
+                          <Link href={definitionUrl} target="_blank" className="bolt-table-cell-primary">
+                            {tableItem.name}
+                          </Link>
+                        </div>
+                      </div>);
+  let contentRow2 = (<div className="font-size-s">{projectName}</div>)
+
   return (
-      <SimpleTableCell
+      <TwoLineTableCell
           columnIndex={columnIndex}
           tableColumn={tableColumn}
           key={"col-" + columnIndex}
-          contentClassName="fontWeightSemiBold font-weight-semibold fontSizeM font-size-m scroll-hidden bolt-table-cell-primary">
-            <Status {...getBuildDefinitionStatus(tableItem).statusProps}
-                    className="icon-large-margin"
-                    size={StatusSize.l}/>
-            <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
-              <Link href={definitionUrl} target="_blank" className="bolt-table-cell-primary">
-                {tableItem.name}
-              </Link>
-            </div>
-            <div>{projectName}</div>
-      </SimpleTableCell>
+          line1={contentRow1}
+          line2={contentRow2}/>
   );
 }
 
