@@ -188,7 +188,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     getBuildsV1(this.currentSelectedProjects, firstLoad).then(result => {
       let newResult = new Array<Build>();
       //let currentBuilds = result;
-      
+      /*
       if(!firstLoad && this.state.builds.length > 0) {
         console.log("Not the first load - " + result.length + " new builds");
         let currentResult = this.state.builds;
@@ -207,10 +207,9 @@ class CICDDashboard extends React.Component<{}, {}> {
       } else {
         newResult = result;
       }
-
       console.log("---- " + newResult.length + " Builds");
-
       newResult = sortBuilds(result);
+      */
       this.setState({ builds: newResult });
       this.filterBuildsData();
     });
