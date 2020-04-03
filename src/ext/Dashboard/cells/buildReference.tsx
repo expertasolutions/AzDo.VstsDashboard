@@ -55,7 +55,7 @@ export function renderBuildRef01 (
                 {tableItem.name}
               </Link>
             </div>
-            <div>{projectName}</div>
+            <div className="font-size-s">{projectName}</div>
           </div>
     </SimpleTableCell>
   );
