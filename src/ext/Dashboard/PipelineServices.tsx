@@ -36,7 +36,7 @@ export async function getReleasesV1(projectList: Array<string>, isFirstLoad: boo
 }
 
 export async function getReleases(projectName: string, isFirstLoad: boolean) {
-  return new Array<Deployment>();
+  //return new Array<Deployment>();
 
   let minDate = undefined;
 
@@ -88,7 +88,7 @@ export async function getBuilds(projectName: string, isFirstLoad: boolean)  {
 
   let result = await buildClient.getBuilds(projectName, undefined, undefined, undefined, minDate, 
                                             undefined, undefined,
-                                            undefined,BuildStatus.All, undefined, undefined,undefined,
+                                            undefined, undefined, undefined, undefined,undefined,
                                             undefined,undefined, undefined,undefined, undefined, undefined,
                                             undefined,undefined, undefined);
 
