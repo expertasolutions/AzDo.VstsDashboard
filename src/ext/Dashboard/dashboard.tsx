@@ -85,7 +85,8 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   private onFilterChanged = () => {
     this.filterData();
-    this.filterBuildsData();
+    //this.filterBuildsData();
+    this.refreshUI.value = new Date().toTimeString();
   };
 
   // BuildDefinition Summary
@@ -133,11 +134,11 @@ class CICDDashboard extends React.Component<{}, {}> {
     }
     
     this.buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(buildDefList));
-    this.refreshUI.value = new Date().toTimeString();
   }
 
   // All Builds
   private filterBuildsData() {
+    /*
     let filterState = this.filter.getState();
 
     let buildList = Array<Build>();
@@ -161,7 +162,8 @@ class CICDDashboard extends React.Component<{}, {}> {
       );
       buildList = allBuildWithRelease;
     }
-    this.buildProvider = new ArrayItemProvider(buildList);
+    this.buildProvider.value = new ArrayItemProvider(buildList);
+    */
   }
 
   private updateFromProject(firstLoad:boolean){ 
@@ -536,14 +538,17 @@ class CICDDashboard extends React.Component<{}, {}> {
                                 return this.renderZeroData(this.selectedTabId.value);
                               } else {
                                 return (
-                                  <Card className="flex-grow bolt-table-card" 
+                                  <div>
+                                    <div>{this.refreshUI.value}</div>
+                                    <Card className="flex-grow bolt-table-card" 
                                         titleProps={{ text: "All pipelines" }} 
                                         contentProps={{ contentPadding: false }}>
-                                          <div>{this.refreshUI.value}</div>
                                           <div style={{ marginTop: "16px;", marginBottom: "16px;"}}>
                                               { this.renderTab(props.selectedTabId) }
                                           </div>
                                   </Card>
+                                  </div>
+                                  
                                 );
                               }
                             }}
