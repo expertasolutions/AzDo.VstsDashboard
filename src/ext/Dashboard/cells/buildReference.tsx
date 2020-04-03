@@ -32,6 +32,14 @@ export function renderBuildRef01 (
   tableItem: BuildDefinitionReference
 ): JSX.Element {
   let definitionUrl = tableItem._links.web.href;
+
+  let projectName = ""
+  if(tableItem.latestBuild !== undefined){
+    projectName = tableItem.latestBuild.project.name
+  } else {
+    console.log(JSON.stringify(tableItem));
+  }
+
   return (
       <SimpleTableCell
           columnIndex={columnIndex}
@@ -46,6 +54,7 @@ export function renderBuildRef01 (
                 {tableItem.name}
               </Link>
             </div>
+            <div>{projectName}</div>
       </SimpleTableCell>
   );
 }
