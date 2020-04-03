@@ -40,7 +40,7 @@ export function renderBuildRef01 (
     console.log(JSON.stringify(tableItem));
   }
 
-  let contentRow1 = (<div className="fontWeightSemiBold font-weight-semibold fontSizeM font-size-m scroll-hidden">
+  let contentRow1 = (<div className="fontWeightSemiBold font-weight-semibold fontSizeM font-size-m scroll-hidden bolt-table-cell-primary">
                         <Status {...getBuildDefinitionStatus(tableItem).statusProps} className="icon-large-margin" size={StatusSize.l}/>
                         <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
                           <Link href={definitionUrl} target="_blank" className="bolt-table-cell-primary">
