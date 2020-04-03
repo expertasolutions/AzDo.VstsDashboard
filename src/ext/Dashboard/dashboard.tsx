@@ -245,6 +245,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     console.log("onOnlyBuildWithDeployments: " + item.text);
     if(item.text !== undefined) {
       let showAll = item.text === "Yes";
+      console.log("showAll: " + showAll);
       this.setState({ showOnlyBuildWithDeployments: showAll });
     } else {
       this.setState({ showOnlyBuildWithDeployments: false });
