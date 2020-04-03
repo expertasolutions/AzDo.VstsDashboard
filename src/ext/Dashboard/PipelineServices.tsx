@@ -112,5 +112,21 @@ export async function getBuildDefinitions(projectName: string, isFirstLoad: bool
                                               undefined, undefined, undefined,undefined, undefined,
                                               undefined, undefined, undefined,undefined, true, undefined, 
                                               undefined, undefined);
-  return result;
+  return result.sort((a,b) => {
+    if(b.latestBuild !== undefined && a.latestBuild !== undefined) {
+      if(a.latestBuild.id > b.latestBuild.id){
+        return -1;
+      } else if(a.latestBuild.id < b.latestBuild.id) {
+        return 1;
+      } else {
+        return 0;
+      }
+    } else if(b.latestBuild !== undefined && a.latestBuild === undefined) {
+      return 1;
+    } else if(b.latestBuild === undefined && a.latestBuild !== undefined) {
+      return -1;
+    } else {
+      return 0;
+    }
+  });
 }
