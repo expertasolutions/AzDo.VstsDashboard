@@ -51,7 +51,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     super(props);
 
     this.filter = new Filter();
-    setInterval(()=> this.updateFromProject(false), 10000);
+    //setInterval(()=> this.updateFromProject(false), 10000);
     
   }
 
@@ -63,7 +63,6 @@ class CICDDashboard extends React.Component<{}, {}> {
     showAllBuildDeployment: false,
     showOnlyBuildWithDeployments: false,
     showErrorsOnSummaryOnTop: true,
-    lastUIRefresh: Date
   };
 
   private onFilterReset = async () => {
@@ -131,9 +130,8 @@ class CICDDashboard extends React.Component<{}, {}> {
         }
       });
     }
-
-    this.buildReferenceProvider.value = new ArrayItemProvider(buildDefList);
-    this.setState({ lastUIRefresh: new Date() });
+    
+    this.buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(buildDefList));
   }
 
   // All Builds
@@ -392,7 +390,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     if(tabId === "summary") {
       if(this.buildReferenceProvider.value.length > 0) {
         return (
-          <Observer itemProvider={this.buildReferenceProvider}>
+          <Observer itemProvider={this.buildReferenceProvider} >
             {(observableProps: {itemProvider: ArrayItemProvider<BuildDefinitionReference> }) => 
               {
                 return (
@@ -411,7 +409,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     } else if(tabId === "builds") {
       return (
         <Observer itemProvider={ this.buildProvider }>
-          {(observableProps: {itemProvider: ArrayItemProvider<Build> }) => (
+          {(observableProps: { itemProvider: ArrayItemProvider<Build> }) => (
               <Table<Build> columns={buildColumns} 
                   itemProvider={observableProps.itemProvider}
                   showLines={true}
