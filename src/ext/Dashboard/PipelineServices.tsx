@@ -36,9 +36,8 @@ export async function getReleasesV1(projectList: Array<string>, isFirstLoad: boo
 }
 
 export async function getReleases(projectName: string, isFirstLoad: boolean) {
-  //let minDate = new Date();
-  //let newDate = minDate.setDate(minDate.getDate()-1000);
-  //minDate = new Date(newDate);
+  return new Array<Deployment>();
+  
   let minDate = undefined;
 
   if(!isFirstLoad){
