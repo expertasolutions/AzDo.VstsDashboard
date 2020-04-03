@@ -1,7 +1,7 @@
 
 import * as API from "azure-devops-extension-api";
 import { 
-  BuildRestClient, BuildDefinitionReference, Build
+  BuildRestClient, BuildDefinitionReference, Build, BuildStatus
 } from "azure-devops-extension-api/Build";
 
 import {
@@ -86,7 +86,9 @@ export async function getBuilds(projectName: string, isFirstLoad: boolean)  {
     console.log(projectName + " : Getting Builds from: " + minDate.toDateString() + " - " + minDate.toTimeString());
   }
 
-  let result = await buildClient.getBuilds(projectName, undefined, undefined, undefined, minDate, undefined);
+  let result = await buildClient.getBuilds(projectName, undefined, undefined, undefined, minDate, 
+                                            undefined, undefined,
+                                            undefined,BuildStatus.All);
 
   console.log(projectName + " : " + result.length + " Builds founded - IsFirstLoad: " + isFirstLoad);
   return result;
