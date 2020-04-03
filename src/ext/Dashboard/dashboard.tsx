@@ -193,7 +193,7 @@ class CICDDashboard extends React.Component<{}, {}> {
           if(rel !== undefined) {
             let relIndex = currentReleases.indexOf(rel, 0);
             if(relIndex > -1){
-              currentReleases = currentReleases.splice(relIndex, 1);  
+              currentReleases.splice(relIndex, 1);  
             }
             currentReleases.push(newRelease);
           } else {
