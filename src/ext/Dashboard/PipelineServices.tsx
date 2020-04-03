@@ -86,7 +86,7 @@ export async function getBuilds(projectName: string, isFirstLoad: boolean)  {
     let now = new Date();
     console.log(projectName + " : " + now.toDateString() + " - " + now.toTimeString());
     minDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    console.log(projectName + " : Getting Build from: " + minDate.toDateString() + " - " + minDate.toTimeString());
+    console.log(projectName + " : Getting Builds from: " + minDate.toDateString() + " - " + minDate.toTimeString());
   }
 
   let result = await buildClient.getBuilds(projectName,undefined, undefined, undefined, minDate, new Date(), 
@@ -95,7 +95,7 @@ export async function getBuilds(projectName: string, isFirstLoad: boolean)  {
                                             undefined, undefined, undefined,
                                             undefined,undefined,undefined,undefined,undefined);
 
-  console.log(projectName + " : " + result.length + " release founded - IsFirstLoad: " + isFirstLoad);
+  console.log(projectName + " : " + result.length + " Builds founded - IsFirstLoad: " + isFirstLoad);
   return result;
 }
 
