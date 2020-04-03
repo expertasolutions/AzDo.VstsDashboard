@@ -33,12 +33,7 @@ export function renderBuildRef01 (
 ): JSX.Element {
   let definitionUrl = tableItem._links.web.href;
 
-  let projectName = ""
-  if(tableItem.latestBuild !== undefined){
-    projectName = tableItem.latestBuild.project.name
-  } else {
-    console.log(JSON.stringify(tableItem));
-  }
+  let projectName = tableItem.project.name;
 
   return (
       <SimpleTableCell
