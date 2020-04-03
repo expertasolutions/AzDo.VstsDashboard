@@ -248,6 +248,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     } else {
       this.setState({ showOnlyBuildWithDeployments: false });
     }
+    console.log("ShowOnlyBuildWithDeploys: " + this.state.showOnlyBuildWithDeployments + " - OnEvent");
     this.filterData();
   }
 
