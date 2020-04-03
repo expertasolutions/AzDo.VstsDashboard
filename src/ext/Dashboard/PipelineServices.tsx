@@ -63,7 +63,7 @@ export async function getReleases(projectName: string, isFirstLoad: boolean) {
     }
     dpl.push(...result);
   } while(result.length > 0);
-  console.log(result.length + " release founded - IsFirstLoad: " + isFirstLoad);
+  console.log(dpl.length + " release founded - IsFirstLoad: " + isFirstLoad);
   return dpl;
 }
 
