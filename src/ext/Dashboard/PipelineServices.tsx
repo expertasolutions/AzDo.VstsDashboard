@@ -88,7 +88,9 @@ export async function getBuilds(projectName: string, isFirstLoad: boolean)  {
 
   let result = await buildClient.getBuilds(projectName, undefined, undefined, undefined, minDate, 
                                             undefined, undefined,
-                                            undefined,BuildStatus.All);
+                                            undefined,BuildStatus.All, undefined, undefined,undefined,
+                                            undefined,undefined, undefined,undefined, undefined, undefined,
+                                            undefined,undefined, undefined);
 
   console.log(projectName + " : " + result.length + " Builds founded - IsFirstLoad: " + isFirstLoad);
   return result;
