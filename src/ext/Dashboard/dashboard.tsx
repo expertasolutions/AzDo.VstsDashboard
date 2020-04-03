@@ -62,7 +62,8 @@ class CICDDashboard extends React.Component<{}, {}> {
     projects: Array<TeamProjectReference>(),
     showAllBuildDeployment: false,
     showOnlyBuildWithDeployments: false,
-    showErrorsOnSummaryOnTop: true
+    showErrorsOnSummaryOnTop: true,
+    lastUIRefresh: Date
   };
 
   private onFilterReset = async () => {
@@ -132,6 +133,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     }
 
     this.buildReferenceProvider.value = new ArrayItemProvider(buildDefList);
+    this.setState({ lastUIRefresh: new Date() });
   }
 
   // All Builds
@@ -192,7 +194,7 @@ class CICDDashboard extends React.Component<{}, {}> {
           let rel = currentReleases.find(x=> x.id === newRelease.id);
           if(rel !== undefined) {
             let relIndex = currentReleases.indexOf(rel, 0);
-            if(relIndex > -1){
+            if(relIndex > -1) {
               currentReleases.splice(relIndex, 1);  
             }
             currentReleases.push(newRelease);
@@ -201,7 +203,7 @@ class CICDDashboard extends React.Component<{}, {}> {
           }
         }
       }
-      this.setState({releases: currentReleases });
+      this.setState({ releases: currentReleases });
     });
     
     // Update Builds Runs list...
@@ -243,7 +245,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     } else {
       this.setState({ showOnlyBuildWithDeployments: false });
     }
-    //this.updateFromProject();
+    this.filterData();
   }
 
   private onErrorsOnSummaryOnTop = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
@@ -253,7 +255,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     } else {
       this.setState({ showErrorsOnSummaryOnTop: true });
     }
-    //this.updateFromProject();
+    this.filterData();
   }
 
   private onAllDeploymentSelected = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
@@ -263,6 +265,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     } else {
       this.setState({ showAllBuildDeployment: false });
     }
+    this.filterData();
   }
 
   private onProjectSelected = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
