@@ -35,6 +35,7 @@ import { CommonServiceIds, IProjectPageService } from "azure-devops-extension-ap
 class CICDDashboard extends React.Component<{}, {}> {
   private isLoading = new ObservableValue<boolean>(true);
   private selectedTabId = new ObservableValue("summary");
+  private refreshUI = new ObservableValue(new Date().toTimeString());
   private projectSelection = new DropdownMultiSelection();
   private allDeploymentSelection = new DropdownSelection();
   private errorsOnSummaryTopSelection = new DropdownSelection();
@@ -131,7 +132,8 @@ class CICDDashboard extends React.Component<{}, {}> {
       });
     }
     
-    this.buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(buildDefList));
+    this.buildReferenceProvider.value = new ArrayItemProvider(buildDefList);
+    this.refreshUI.value = new Date().toTimeString();
   }
 
   // All Builds
@@ -452,7 +454,8 @@ class CICDDashboard extends React.Component<{}, {}> {
             {this.renderTabBar()}
           </div>
           <div className="page-content-left page-content-right page-content-top">
-          <Observer selectedTabId={this.selectedTabId} isLoading={this.isLoading}>
+          <Observer selectedTabId={this.selectedTabId} 
+                    isLoading={this.isLoading}>
             {(props: { selectedTabId: string, isLoading: boolean }) => {
                 let errorOnTopFilter = (
                   <DropdownFilterBarItem
@@ -526,7 +529,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                       return this.renderFirstLoad();
                     } else {
                       return (
-                        <Observer selectedTabId={this.selectedTabId}>
+                        <Observer selectedTabId={this.selectedTabId} refreshUI={this.refreshUI}>
                             {(props: { selectedTabId: string }) => {
                               if(this.state.buildDefs.length === 0){
                                 return this.renderZeroData(this.selectedTabId.value);
@@ -535,9 +538,10 @@ class CICDDashboard extends React.Component<{}, {}> {
                                   <Card className="flex-grow bolt-table-card" 
                                         titleProps={{ text: "All pipelines" }} 
                                         contentProps={{ contentPadding: false }}>
-                                            <div style={{ marginTop: "16px;", marginBottom: "16px;"}}>
-                                                { this.renderTab(props.selectedTabId) }
-                                            </div>
+                                          <div>{this.refreshUI.value}</div>
+                                          <div style={{ marginTop: "16px;", marginBottom: "16px;"}}>
+                                              { this.renderTab(props.selectedTabId) }
+                                          </div>
                                   </Card>
                                 );
                               }
