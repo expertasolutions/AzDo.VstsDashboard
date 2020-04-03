@@ -316,10 +316,14 @@ class CICDDashboard extends React.Component<{}, {}> {
         let index = this.state.projects.indexOf(prj);
         this.projectSelection.select(index);
         console.log("initializeState called");
-        this.updateFromProject(true);
+        
         this.allDeploymentSelection.select(1);
         this.onlyWithDeploymentSelection.select(1);
         this.errorsOnSummaryTopSelection.select(0);
+
+        this.updateFromProject(true);
+        this.filterData();
+        this.filterBuildsData();
       }
     }
   }
@@ -548,7 +552,6 @@ class CICDDashboard extends React.Component<{}, {}> {
                                           </div>
                                   </Card>
                                   </div>
-                                  
                                 );
                               }
                             }}
