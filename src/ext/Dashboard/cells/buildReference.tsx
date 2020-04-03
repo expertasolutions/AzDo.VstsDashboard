@@ -23,7 +23,6 @@ import { Status, Statuses, StatusSize } from "azure-devops-ui/Status";
 import { Link } from "azure-devops-ui/Link";
 import { Icon } from "azure-devops-ui/Icon";
 import { DataContext } from "../dataContext";
-import { Spacing } from "azure-devops-ui/Surface";
 
 export function renderBuildRef01 (
   rowIndex: number,
