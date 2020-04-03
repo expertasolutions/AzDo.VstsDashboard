@@ -32,7 +32,6 @@ export function renderBuildRef01 (
   tableItem: BuildDefinitionReference
 ): JSX.Element {
   let definitionUrl = tableItem._links.web.href;
-
   let projectName = tableItem.project.name;
 
   return (
