@@ -44,7 +44,7 @@ export async function getReleases(projectName: string, isFirstLoad: boolean) {
   if(!isFirstLoad){
     let now = new Date();
     minDate = new Date(now.getFullYear(), now.getMonth(), now.getDay(), now.getHours());
-    console.log("Getting Release from: " + minDate.toDateString());
+    console.log(projectName + " :Getting Release from: " + minDate.toDateString());
   }
 
   let continuationToken = 0;
@@ -63,7 +63,7 @@ export async function getReleases(projectName: string, isFirstLoad: boolean) {
     }
     dpl.push(...result);
   } while(result.length > 0);
-  console.log(dpl.length + " release founded - IsFirstLoad: " + isFirstLoad);
+  console.log(projectName + " : " + dpl.length + " release founded - IsFirstLoad: " + isFirstLoad);
   return dpl;
 }
 
