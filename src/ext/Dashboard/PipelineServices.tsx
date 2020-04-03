@@ -92,7 +92,7 @@ export async function getBuilds(projectName: string, isFirstLoad: boolean)  {
   return result;
 }
 
-export async function sortBuilds(builds: Array<Build>) {
+export function sortBuilds(builds: Array<Build>) {
   return builds.sort((a,b) => {
     return b.id - a.id;
   });

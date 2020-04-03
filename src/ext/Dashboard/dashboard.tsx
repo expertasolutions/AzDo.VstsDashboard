@@ -196,8 +196,10 @@ class CICDDashboard extends React.Component<{}, {}> {
           let newElement = result[i];
           let existingElement = currentResult.find(x=> x.id === newElement.id);
           if(existingElement !== undefined) {
+            console.log("Builds exist " + existingElement.id);
             existingElement = newElement;
           } else {
+            console.log("New Builds " + newElement.id);
             currentResult.push(newElement);
           }
         }
@@ -208,7 +210,7 @@ class CICDDashboard extends React.Component<{}, {}> {
 
       console.log("---- " + newResult.length + " Builds");
 
-      //let newResult = sortBuilds(result);
+      newResult = sortBuilds(result);
       this.setState({ builds: newResult });
       this.filterBuildsData();
     });
