@@ -43,8 +43,9 @@ export async function getReleases(projectName: string, isFirstLoad: boolean) {
 
   if(!isFirstLoad){
     let now = new Date();
+    console.log(projectName + " : " + now.toDateString() + " - " + now.toTimeString());
     minDate = new Date(now.getFullYear(), now.getMonth(), now.getDay(), now.getHours());
-    console.log(projectName + " :Getting Release from: " + minDate.toDateString());
+    console.log(projectName + " : Getting Release from: " + minDate.toDateString() + " - " + minDate.toTimeString());
   }
 
   let continuationToken = 0;
