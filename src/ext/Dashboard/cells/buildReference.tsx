@@ -40,23 +40,24 @@ export function renderBuildRef01 (
     console.log(JSON.stringify(tableItem));
   }
 
-  let contentRow1 = (<div className="fontWeightSemiBold font-weight-semibold fontSizeM font-size-m scroll-hidden bolt-table-cell-primary">
-                        <Status {...getBuildDefinitionStatus(tableItem).statusProps} className="icon-large-margin" size={StatusSize.l}/>
-                        <span style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
-                          <Link href={definitionUrl} target="_blank" className="bolt-table-cell-primary">
-                            {tableItem.name}
-                          </Link>
-                        </span>
-                      </div>);
-  let contentRow2 = (<div className="font-size-s" style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>{projectName}</div>)
-
   return (
-      <TwoLineTableCell
+      <SimpleTableCell
           columnIndex={columnIndex}
           tableColumn={tableColumn}
           key={"col-" + columnIndex}
-          line1={contentRow1}
-          line2={contentRow2}/>
+          contentClassName="fontWeightSemiBold font-weight-semibold fontSizeM font-size-m scroll-hidden bolt-table-cell-primary">
+          <Status {...getBuildDefinitionStatus(tableItem).statusProps}
+                  className="icon-large-margin"
+                  size={StatusSize.l}/>
+          <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
+            <div>
+              <Link href={definitionUrl} target="_blank" className="bolt-table-cell-primary">
+                {tableItem.name}
+              </Link>
+            </div>
+            <div>{projectName}</div>
+          </div>
+    </SimpleTableCell>
   );
 }
 
