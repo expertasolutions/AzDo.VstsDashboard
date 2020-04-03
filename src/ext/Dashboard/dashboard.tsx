@@ -192,7 +192,14 @@ class CICDDashboard extends React.Component<{}, {}> {
       if(!firstLoad) {
         console.log("Not the first load - " + result.length + " new builds");
         let currentResult = this.state.builds;
-        currentResult = currentResult.concat(result);
+        for(let i=0;i<result.length;i++) {
+          let newElement = result[i];
+          let existingElement = currentResult.find(x=> x.id === newElement.id);
+          if(existingElement !== undefined) {
+            existingElement = newElement;
+          }
+          currentResult.push(newElement);
+        }
         newResult = currentResult;
       } else {
         newResult = result;
