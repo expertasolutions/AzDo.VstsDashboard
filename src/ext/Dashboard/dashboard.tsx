@@ -197,8 +197,9 @@ class CICDDashboard extends React.Component<{}, {}> {
           let existingElement = currentResult.find(x=> x.id === newElement.id);
           if(existingElement !== undefined) {
             existingElement = newElement;
+          } else {
+            currentResult.push(newElement);
           }
-          currentResult.push(newElement);
         }
         newResult = currentResult;
       } else {
