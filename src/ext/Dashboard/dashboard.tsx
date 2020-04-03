@@ -132,7 +132,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       });
     }
     
-    this.buildReferenceProvider.value = new ArrayItemProvider(buildDefList);
+    this.buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(buildDefList));
     this.refreshUI.value = new Date().toTimeString();
   }
 
@@ -161,7 +161,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       );
       buildList = allBuildWithRelease;
     }
-    this.buildProvider.value = new ArrayItemProvider(buildList);
+    this.buildProvider = new ArrayItemProvider(buildList);
   }
 
   private updateFromProject(firstLoad:boolean){ 
