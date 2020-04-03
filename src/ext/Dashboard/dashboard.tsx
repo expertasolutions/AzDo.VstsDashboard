@@ -105,6 +105,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       buildDefList = this.state.buildDefs;
     }
 
+    console.log("ShowOnlyBuildWithDeployments: " + this.state.showOnlyBuildWithDeployments);
     if(this.state.showOnlyBuildWithDeployments) {
       let allBuildWithRelease = buildDefList.filter(
         b => b.latestCompletedBuild != undefined && this.state.releases.find(r=> 
