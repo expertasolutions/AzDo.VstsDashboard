@@ -43,12 +43,12 @@ export function renderBuildRef01 (
                   className="icon-large-margin"
                   size={StatusSize.l}/>
           <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
-            <div>
+            <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
               <Link href={definitionUrl} target="_blank" className="bolt-table-cell-primary">
                 {tableItem.name}
               </Link>
             </div>
-            <div className="font-size-s">{projectName}</div>
+            <div className="font-size-s" style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>{projectName}</div>
           </div>
     </SimpleTableCell>
   );

@@ -43,8 +43,8 @@ export function renderBuildStatus (
                     className="icon-large-margin"
                     size={StatusSize.l}/>
             <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
-                <div>{tableItem.definition.name}</div>
-                <div className="font-size-s">{projectName}</div>
+                <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>{tableItem.definition.name}</div>
+                <div className="font-size-s" style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>{projectName}</div>
             </div>
       </SimpleTableCell>
   );
