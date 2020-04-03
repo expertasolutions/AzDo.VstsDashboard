@@ -187,25 +187,8 @@ class CICDDashboard extends React.Component<{}, {}> {
     // Update Builds Runs list...
     getBuildsV1(this.currentSelectedProjects, firstLoad).then(result => {
       let currentBuilds = result;
-      //let currentBuilds = this.state.builds;
-/*
-      if(this.state.builds !== undefined && this.state.builds.length > 0) {
-        for(let i=0;i<result.length;i++){
-          let newElement = result[i];
-          let existing = currentBuilds.find(x=> x.id === newElement.id);
-
-          if(existing !== undefined) {
-
-          } else {
-            currentBuilds.push(newElement);
-          }
-        }
-      }
-      else {
-        currentBuilds = result;
-      }
-*/
-      let newResult = sortBuilds(currentBuilds);
+      
+      let newResult = sortBuilds(result);
       this.setState({ builds: newResult });
       this.filterBuildsData();
     });
