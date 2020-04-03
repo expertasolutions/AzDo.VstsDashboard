@@ -4,7 +4,7 @@ import * as React from "react";
 
 import * as SDK from "azure-devops-extension-sdk";
 
-import { getBuildDefinitionsV1, getBuildsV1 , getReleasesV1, getProjects, getProject } from "./PipelineServices";
+import { getBuildDefinitionsV1, getBuildsV1 , getReleasesV1, getProjects, getProject, sortBuilds } from "./PipelineServices";
 import { dashboardColumns, buildColumns }  from "./tableData";
 
 import { KeywordFilterBarItem } from "azure-devops-ui/TextFilterBarItem";
@@ -185,8 +185,21 @@ class CICDDashboard extends React.Component<{}, {}> {
     });
 
     // Update Builds Runs list...
-    getBuildsV1(this.currentSelectedProjects, firstLoad).then(result=> {
-      this.setState({ builds: result });
+    getBuildsV1(this.currentSelectedProjects, firstLoad).then(result => {
+      let currentBuilds = this.state.builds;
+      
+      for(let i=0;i<result.length;i++){
+        let newElement = result[i];
+        let existing = currentBuilds.find(x=> x.id === newElement.id);
+        if(existing !== undefined){
+
+        } else {
+          currentBuilds.push(newElement);
+        }
+      }
+
+      let newResult = sortBuilds(result);
+      this.setState({ builds: newResult });
       this.filterBuildsData();
     });
   }

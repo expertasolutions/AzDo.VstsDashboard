@@ -73,10 +73,7 @@ export async function getBuildsV1(projectList: Array<string>, isFirstLoad: boole
     let result = await getBuilds(projectList[i], isFirstLoad);
     builds.push(...result);
   }
-
-  return builds.sort((a,b) => {
-    return b.id - a.id;
-  });
+  return builds;
 }
 
 export async function getBuilds(projectName: string, isFirstLoad: boolean)  {
@@ -95,29 +92,19 @@ export async function getBuilds(projectName: string, isFirstLoad: boolean)  {
   return result;
 }
 
+export async function sortBuilds(builds: Array<Build>) {
+  return builds.sort((a,b) => {
+    return b.id - a.id;
+  });
+}
+
 export async function getBuildDefinitionsV1(projectList: Array<string>, isFirstLoad: boolean) {
   let buildDef = new Array<BuildDefinitionReference>();
   for(let i=0;i<projectList.length;i++) {
     let result = await getBuildDefinitions(projectList[i], isFirstLoad);
     buildDef.push(...result);
   }
-  return buildDef.sort((a,b) => {
-    if(b.latestBuild !== undefined && a.latestBuild !== undefined) {
-      if(a.latestBuild.id > b.latestBuild.id){
-        return -1;
-      } else if(a.latestBuild.id < b.latestBuild.id) {
-        return 1;
-      } else {
-        return 0;
-      }
-    } else if(b.latestBuild !== undefined && a.latestBuild === undefined) {
-      return 1;
-    } else if(b.latestBuild === undefined && a.latestBuild !== undefined) {
-      return -1;
-    } else {
-      return 0;
-    }
-  });
+  return buildDef;
 }
 
 export async function getBuildDefinitions(projectName: string, isFirstLoad: boolean) {
