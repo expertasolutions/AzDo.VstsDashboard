@@ -37,7 +37,7 @@ export async function getReleasesV1(projectList: Array<string>, isFirstLoad: boo
 
 export async function getReleases(projectName: string, isFirstLoad: boolean) {
   return new Array<Deployment>();
-  
+
   let minDate = undefined;
 
   if(!isFirstLoad){
@@ -73,13 +73,29 @@ export async function getBuildsV1(projectList: Array<string>, isFirstLoad: boole
     let result = await getBuilds(projectList[i], isFirstLoad);
     builds.push(...result);
   }
+
   return builds.sort((a,b) => {
     return b.id - a.id;
   });
 }
 
 export async function getBuilds(projectName: string, isFirstLoad: boolean)  {
-  let result = await buildClient.getBuilds(projectName);
+  let minDate = undefined;
+
+  if(!isFirstLoad){
+    let now = new Date();
+    console.log(projectName + " : " + now.toDateString() + " - " + now.toTimeString());
+    minDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    console.log(projectName + " : Getting Build from: " + minDate.toDateString() + " - " + minDate.toTimeString());
+  }
+
+  let result = await buildClient.getBuilds(projectName,undefined, undefined, undefined, minDate, new Date(), 
+                                            undefined, undefined, undefined,
+                                            undefined, undefined, undefined, undefined, 
+                                            undefined, undefined, undefined,
+                                            undefined,undefined,undefined,undefined,undefined);
+
+  console.log(projectName + " : " + result.length + " release founded - IsFirstLoad: " + isFirstLoad);
   return result;
 }
 
@@ -111,7 +127,7 @@ export async function getBuildDefinitionsV1(projectList: Array<string>, isFirstL
 export async function getBuildDefinitions(projectName: string, isFirstLoad: boolean) {
   let result = await buildClient.getDefinitions(projectName, undefined, undefined, undefined,
                                               undefined, undefined, undefined,undefined, undefined,
-                                              undefined,undefined,undefined,undefined, true, undefined, 
+                                              undefined, undefined, undefined,undefined, true, undefined, 
                                               undefined, undefined);
   return result;
 }
