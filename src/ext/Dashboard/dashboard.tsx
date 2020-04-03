@@ -187,7 +187,15 @@ class CICDDashboard extends React.Component<{}, {}> {
       if(firstLoad) {
         currentReleases = result;
       } else {
-
+        for(let i=0;i<result.length;i++) {
+          let newRelease = result[i];
+          let rel = currentReleases.find(x=> x.id === newRelease.id);
+          if(rel !== undefined) {
+            rel = newRelease;
+          } else {
+            currentReleases.push(newRelease);
+          }
+        }
       }
       this.setState({releases: currentReleases });
     });
