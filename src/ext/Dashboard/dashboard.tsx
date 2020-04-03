@@ -51,7 +51,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     super(props);
 
     this.filter = new Filter();
-    setInterval(()=> this.updateFromProject(), 10000);
+    setInterval(()=> this.updateFromProject(false), 10000);
     
   }
 
@@ -161,7 +161,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     this.buildProvider.value = new ArrayItemProvider(buildList);
   }
 
-  private updateFromProject(){ 
+  private updateFromProject(firstLoad:boolean){ 
     this.currentSelectedProjects = new Array<string>();
 
     for(let i=0;i<this.projectSelection.value.length;i++){
@@ -172,7 +172,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       }
     }
 
-    getBuildDefinitionsV1(this.currentSelectedProjects).then(result => {
+    getBuildDefinitionsV1(this.currentSelectedProjects, firstLoad).then(result => {
       this.setState({ buildDefs: result });
       this.filterData();
     }).then(()=> {
@@ -180,12 +180,12 @@ class CICDDashboard extends React.Component<{}, {}> {
     });
    
     // Update the Release List
-    getReleasesV1(this.currentSelectedProjects).then(result => {
+    getReleasesV1(this.currentSelectedProjects, firstLoad).then(result => {
       this.setState({releases: result });
     });
 
     // Update Builds Runs list...
-    getBuildsV1(this.currentSelectedProjects).then(result=> {
+    getBuildsV1(this.currentSelectedProjects, firstLoad).then(result=> {
       this.setState({ builds: result });
       this.filterBuildsData();
     });
@@ -198,7 +198,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     } else {
       this.setState({ showOnlyBuildWithDeployments: false });
     }
-    this.updateFromProject();
+    //this.updateFromProject();
   }
 
   private onErrorsOnSummaryOnTop = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
@@ -208,7 +208,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     } else {
       this.setState({ showErrorsOnSummaryOnTop: true });
     }
-    this.updateFromProject();
+    //this.updateFromProject();
   }
 
   private onAllDeploymentSelected = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
@@ -225,7 +225,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     let filterState = this.filter.getState();
     filterState.pipelineKeyWord = null;
     this.filter.setState(filterState);
-    this.updateFromProject();
+    //this.updateFromProject();
   }
 
   public async loadProjects() {
@@ -263,7 +263,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       if(prj != undefined) {
         let index = this.state.projects.indexOf(prj);
         this.projectSelection.select(index);
-        this.updateFromProject();
+        this.updateFromProject(true);
         this.allDeploymentSelection.select(1);
         this.onlyWithDeploymentSelection.select(1);
         this.errorsOnSummaryTopSelection.select(0);

@@ -26,20 +26,27 @@ export async function getProject(projectName: string) {
   return result;
 }
 
-export async function getReleasesV1(projectList: Array<string>){
+export async function getReleasesV1(projectList: Array<string>, isFirstLoad: boolean){
   let deployments = new Array<Deployment>();
   for(let i=0;i<projectList.length;i++) {
-    let result = await getReleases(projectList[i]);
+    let result = await getReleases(projectList[i], isFirstLoad);
     deployments.push(...result);
   }
   return deployments;
 }
 
-export async function getReleases(projectName: string) {
+export async function getReleases(projectName: string, isFirstLoad: boolean) {
   //let minDate = new Date();
   //let newDate = minDate.setDate(minDate.getDate()-1000);
   //minDate = new Date(newDate);
   let minDate = undefined;
+
+  if(isFirstLoad){
+    let now = new Date();
+    minDate = new Date(now.getFullYear(), now.getMonth(), now.getDay(), now.getHours());
+    console.log("Getting Release from: " + minDate.toDateString());
+  }
+
   let continuationToken = 0;
   let dpl = new Array<Deployment>();
 
@@ -56,13 +63,14 @@ export async function getReleases(projectName: string) {
     }
     dpl.push(...result);
   } while(result.length > 0);
+  console.log(result.length + " release founded - IsFirstLoad: " + isFirstLoad);
   return dpl;
 }
 
-export async function getBuildsV1(projectList: Array<string>) {
+export async function getBuildsV1(projectList: Array<string>, isFirstLoad: boolean) {
   let builds = new Array<Build>();
   for(let i=0;i<projectList.length;i++) {
-    let result = await getBuilds(projectList[i]);
+    let result = await getBuilds(projectList[i], isFirstLoad);
     builds.push(...result);
   }
   return builds.sort((a,b) => {
@@ -70,15 +78,15 @@ export async function getBuildsV1(projectList: Array<string>) {
   });
 }
 
-export async function getBuilds(projectName: string)  {
+export async function getBuilds(projectName: string, isFirstLoad: boolean)  {
   let result = await buildClient.getBuilds(projectName);
   return result;
 }
 
-export async function getBuildDefinitionsV1(projectList: Array<string>) {
+export async function getBuildDefinitionsV1(projectList: Array<string>, isFirstLoad: boolean) {
   let buildDef = new Array<BuildDefinitionReference>();
   for(let i=0;i<projectList.length;i++) {
-    let result = await getBuildDefinitions(projectList[i]);
+    let result = await getBuildDefinitions(projectList[i], isFirstLoad);
     buildDef.push(...result);
   }
   return buildDef.sort((a,b) => {
@@ -100,8 +108,7 @@ export async function getBuildDefinitionsV1(projectList: Array<string>) {
   });
 }
 
-export async function getBuildDefinitions(projectName: string) {
-
+export async function getBuildDefinitions(projectName: string, isFirstLoad: boolean) {
   let result = await buildClient.getDefinitions(projectName, undefined, undefined, undefined,
                                               undefined, undefined, undefined,undefined, undefined,
                                               undefined,undefined,undefined,undefined, true, undefined, 
