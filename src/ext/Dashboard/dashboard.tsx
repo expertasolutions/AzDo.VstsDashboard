@@ -181,6 +181,8 @@ class CICDDashboard extends React.Component<{}, {}> {
    
     // Update the Release List
     getReleasesV1(this.currentSelectedProjects, firstLoad).then(result => {
+      console.log("FirstLoad: " + firstLoad + " - ReleaseCount: " + this.state.releases.length);
+
       this.setState({releases: result });
     });
 
@@ -271,7 +273,6 @@ class CICDDashboard extends React.Component<{}, {}> {
   private async initializeState(): Promise<void> {
     await SDK.init();
     //await SDK.ready();
-
     let hostInfo = SDK.getHost();
 
     let extContext = SDK.getExtensionContext();
@@ -281,7 +282,8 @@ class CICDDashboard extends React.Component<{}, {}> {
     let currentProject = await projectService.getProject();
     await this.loadProjects();
 
-    this.setState({ builds: new Array<Build>() })
+    this.setState({ builds: new Array<Build>() });
+    this.setState({ releases: new Array<Deployment>() });
 
     if(currentProject != undefined){
       this.initialProjectName = currentProject.name;
