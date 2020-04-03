@@ -455,7 +455,8 @@ class CICDDashboard extends React.Component<{}, {}> {
           </div>
           <div className="page-content-left page-content-right page-content-top">
           <Observer selectedTabId={this.selectedTabId} 
-                    isLoading={this.isLoading}>
+                    isLoading={this.isLoading}
+                    refreshUI={this.refreshUI}>
             {(props: { selectedTabId: string, isLoading: boolean }) => {
                 let errorOnTopFilter = (
                   <DropdownFilterBarItem
