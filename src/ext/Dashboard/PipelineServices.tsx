@@ -41,7 +41,7 @@ export async function getReleases(projectName: string, isFirstLoad: boolean) {
   //minDate = new Date(newDate);
   let minDate = undefined;
 
-  if(isFirstLoad){
+  if(!isFirstLoad){
     let now = new Date();
     minDate = new Date(now.getFullYear(), now.getMonth(), now.getDay(), now.getHours());
     console.log("Getting Release from: " + minDate.toDateString());
