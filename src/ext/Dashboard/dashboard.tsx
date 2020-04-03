@@ -18,7 +18,7 @@ import { Page } from "azure-devops-ui/Page";
 
 import { TeamProjectReference } from "azure-devops-extension-api/Core";
 import { BuildDefinitionReference, Build } from "azure-devops-extension-api/Build";
-import { Deployment } from "azure-devops-extension-api/Release";
+import { Deployment, Release } from "azure-devops-extension-api/Release";
 
 import { showRootComponent } from "../../Common";
 import { ArrayItemProvider } from "azure-devops-ui/Utilities/Provider";
@@ -182,9 +182,14 @@ class CICDDashboard extends React.Component<{}, {}> {
    
     // Update the Release List
     getReleasesV1(this.currentSelectedProjects, firstLoad).then(result => {
+      let currentReleases = this.state.releases;
       console.log("UpdateFromProject.Releases - FirstLoad: " + firstLoad + " - ReleaseCount: " + this.state.releases.length);
+      if(firstLoad) {
+        currentReleases = result;
+      } else {
 
-      this.setState({releases: result });
+      }
+      this.setState({releases: currentReleases });
     });
     
     // Update Builds Runs list...
