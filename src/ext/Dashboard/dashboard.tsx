@@ -185,10 +185,10 @@ class CICDDashboard extends React.Component<{}, {}> {
 
       this.setState({releases: result });
     });
-
+    
     // Update Builds Runs list...
-    getBuildsV1(this.currentSelectedProjects, firstLoad).then(result => {
-      let newResult = new Array<Build>();
+    //getBuildsV1(this.currentSelectedProjects, firstLoad).then(result => {
+    //  let newResult = new Array<Build>();
       //let currentBuilds = result;
       /*
       if(!firstLoad && this.state.builds.length > 0) {
@@ -212,9 +212,10 @@ class CICDDashboard extends React.Component<{}, {}> {
       console.log("---- " + newResult.length + " Builds");
       newResult = sortBuilds(result);
       */
-      this.setState({ builds: newResult });
-      this.filterBuildsData();
-    });
+    //  this.setState({ builds: newResult });
+    //  this.filterBuildsData();
+    //});
+    
   }
 
   private onOnlyBuildWithDeployments = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
