@@ -190,12 +190,14 @@ class CICDDashboard extends React.Component<{}, {}> {
       //let currentBuilds = result;
       
       if(!firstLoad) {
-        console.log("Not the first load");
+        console.log("Not the first load - " + result.length + " new builds");
         let currentResult = this.state.builds;
         currentResult.push(...result);
       } else {
         newResult = result;
       }
+
+      console.log("---- " + newResult.length + " Builds");
 
       //let newResult = sortBuilds(result);
       this.setState({ builds: newResult });
@@ -268,6 +270,8 @@ class CICDDashboard extends React.Component<{}, {}> {
     const projectService = await SDK.getService<IProjectPageService>(CommonServiceIds.ProjectPageService);
     let currentProject = await projectService.getProject();
     await this.loadProjects();
+
+    this.setState({ builds: new Array<Build>() })
 
     if(currentProject != undefined){
       this.initialProjectName = currentProject.name;
