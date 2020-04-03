@@ -182,7 +182,7 @@ class CICDDashboard extends React.Component<{}, {}> {
    
     // Update the Release List
     getReleasesV1(this.currentSelectedProjects, firstLoad).then(result => {
-      console.log("FirstLoad: " + firstLoad + " - ReleaseCount: " + this.state.releases.length);
+      console.log("UpdateFromProject.Releases - FirstLoad: " + firstLoad + " - ReleaseCount: " + this.state.releases.length);
 
       this.setState({releases: result });
     });
