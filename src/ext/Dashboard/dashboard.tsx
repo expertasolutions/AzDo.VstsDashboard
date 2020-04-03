@@ -189,7 +189,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       let newResult = new Array<Build>();
       //let currentBuilds = result;
       
-      if(!firstLoad) {
+      if(!firstLoad && this.state.builds.length > 0) {
         console.log("Not the first load - " + result.length + " new builds");
         let currentResult = this.state.builds;
         for(let i=0;i<result.length;i++) {
