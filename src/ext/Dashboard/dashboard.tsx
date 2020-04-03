@@ -77,6 +77,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       this.setState({ showErrorsOnSummaryOnTop: true });
       this.onlyWithDeploymentSelection.select(1);
       this.setState({ showAllBuildDeployment: false });
+      console.log("onFilterReset Called");
       this.updateFromProject(true);
     }
   }
@@ -292,6 +293,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       if(prj != undefined) {
         let index = this.state.projects.indexOf(prj);
         this.projectSelection.select(index);
+        console.log("initializeState called");
         this.updateFromProject(true);
         this.allDeploymentSelection.select(1);
         this.onlyWithDeploymentSelection.select(1);
