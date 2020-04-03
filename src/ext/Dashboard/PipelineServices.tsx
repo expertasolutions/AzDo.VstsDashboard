@@ -89,11 +89,7 @@ export async function getBuilds(projectName: string, isFirstLoad: boolean)  {
     console.log(projectName + " : Getting Builds from: " + minDate.toDateString() + " - " + minDate.toTimeString());
   }
 
-  let result = await buildClient.getBuilds(projectName,undefined, undefined, undefined, minDate, new Date(), 
-                                            undefined, undefined, undefined,
-                                            undefined, undefined, undefined, undefined, 
-                                            undefined, undefined, undefined,
-                                            undefined,undefined,undefined,undefined,undefined);
+  let result = await buildClient.getBuilds(projectName, undefined, undefined, undefined, minDate, undefined);
 
   console.log(projectName + " : " + result.length + " Builds founded - IsFirstLoad: " + isFirstLoad);
   return result;
