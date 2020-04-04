@@ -171,7 +171,6 @@ class CICDDashboard extends React.Component<{}, {}> {
     // Update the Release List
     getReleasesV1(this.currentSelectedProjects, firstLoad).then(result => {
       let currentReleases = this.state.releases;
-      console.log("UpdateFromProject.Releases - FirstLoad: " + firstLoad + " - ReleaseCount: " + this.state.releases.length);
       if(firstLoad) {
         currentReleases = result;
       } else {
@@ -197,7 +196,6 @@ class CICDDashboard extends React.Component<{}, {}> {
       let newResult = new Array<Build>();
 
       if(!firstLoad && this.state.builds.length > 0) {
-        console.log("Not the first load - " + result.length + " new builds");
         let currentResult = this.state.builds;
         for(let i=0;i<result.length;i++) {
           let newElement = result[i];
@@ -205,12 +203,10 @@ class CICDDashboard extends React.Component<{}, {}> {
           if(existingElement !== undefined) {
             let buildIndex = currentResult.indexOf(existingElement, 0);
             if(buildIndex > -1) {
-              console.log("update build")
               currentResult.splice(buildIndex, 1);
               currentResult.push(newElement);
             }
           } else {
-            console.log("Add Build");
             currentResult.push(newElement);
           }
         }
@@ -218,10 +214,10 @@ class CICDDashboard extends React.Component<{}, {}> {
       } else {
         newResult = result;
       }
-      console.log("---- " + newResult.length + " Builds");
       newResult = sortBuilds(newResult);
 
       this.setState({ builds: newResult });
+      this.refreshUI.value = new Date().toTimeString();
       this.filterBuildsData();
     });
   }

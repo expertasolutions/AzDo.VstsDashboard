@@ -103,21 +103,8 @@ export function sortBuilds(builds: Array<Build>) {
 }
 
 export function sortBuildReferences(buildRefs: Array<BuildDefinitionReference>, errorOnTop: boolean) {
-  if(errorOnTop) {
-    return buildRefs.sort((a, b) => {
-      if(a.latestBuild !== undefined && b.latestBuild !== undefined){
-        return b.latestBuild.result - a.latestBuild.result;
-      } else if(a.latestBuild !== undefined && b.latestBuild === undefined) {
-        return a.latestBuild.result;
-      } else if(a.latestBuild === undefined && b.latestBuild !== undefined){
-        return b.latestBuild.result;
-      } else {
-        return 999;
-      }
-    });
-  }
 
-  return buildRefs.sort((a,b) => {
+  buildRefs = buildRefs.sort((a,b) => {
     if(b.latestBuild !== undefined && a.latestBuild !== undefined) {
       if(a.latestBuild.id > b.latestBuild.id){
         return -1;
@@ -134,6 +121,21 @@ export function sortBuildReferences(buildRefs: Array<BuildDefinitionReference>, 
       return 0;
     }
   });
+
+  if(errorOnTop) {
+    buildRefs = buildRefs.sort((a, b) => {
+      if(a.latestBuild !== undefined && b.latestBuild !== undefined){
+        return b.latestBuild.result - a.latestBuild.result;
+      } else if(a.latestBuild !== undefined && b.latestBuild === undefined) {
+        return a.latestBuild.result;
+      } else if(a.latestBuild === undefined && b.latestBuild !== undefined){
+        return b.latestBuild.result;
+      } else {
+        return 999;
+      }
+    });
+  }
+  return buildRefs;
 }
 
 export async function getBuildDefinitionsV1(projectList: Array<string>, isFirstLoad: boolean) {
