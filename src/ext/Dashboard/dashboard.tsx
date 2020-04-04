@@ -89,8 +89,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   private onFilterChanged = () => {
     this.filterData();
     //this.filterBuildsData();
-    this.setState({ refreshUI: new Date().toTimeString()} ); 
-    this.refreshUI = new ObservableValue(this.state.refreshUI);
+    this.refreshUI.value = new Date().toTimeString();
   }
   
   // BuildDefinition Summary
@@ -139,6 +138,8 @@ class CICDDashboard extends React.Component<{}, {}> {
     }
     
     this.buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(buildDefList));
+
+    this.setState({ refreshUI: new Date().toTimeString()} ); 
   }
 
   // All Builds
@@ -255,7 +256,8 @@ class CICDDashboard extends React.Component<{}, {}> {
       this.showOnlyBuildWithDeployments = false;
     }
     console.log("ShowOnlyBuildWithDeploys: " + this.showOnlyBuildWithDeployments + " - OnEvent");
-    this.filterData();
+    //this.filterData();
+    this.refreshUI.value = new Date().toTimeString();
   }
 
   private onErrorsOnSummaryOnTop = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
@@ -543,8 +545,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                       return this.renderFirstLoad();
                     } else {
                       return (
-                        <Observer selectedTabId={this.selectedTabId} 
-                                  refreshUI={this.refreshUI}>
+                        <Observer selectedTabId={this.selectedTabId} refreshUI={this.refreshUI}>
                             {(props: { selectedTabId: string, refreshUI: string }) => {
                               if(this.state.buildDefs.length === 0){
                                 return this.renderZeroData(this.selectedTabId.value);
