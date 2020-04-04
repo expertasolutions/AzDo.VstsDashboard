@@ -86,20 +86,28 @@ export async function getBuilds(projectName: string, isFirstLoad: boolean)  {
     console.log(projectName + " : Getting Builds from: " + minDate.toDateString() + " - " + minDate.toTimeString());
   }
 
+  let result = new Array<Build>();
   if(!isFirstLoad) {
-    let inProgressResult = await buildClient.getBuilds(projectName, undefined, undefined, undefined, undefined, 
-                                                      undefined, undefined,
-                                                      undefined, BuildStatus.InProgress, undefined, undefined,undefined,
-                                                      undefined,undefined, undefined,undefined, undefined, undefined,
-                                                      undefined,undefined, undefined);
+    let inProgressResult = await buildClient.getBuilds(projectName, undefined, undefined, undefined, undefined, undefined, undefined, undefined, BuildStatus.InProgress);
+    let cancellingResult = await buildClient.getBuilds(projectName, undefined, undefined, undefined, undefined, undefined, undefined, undefined, BuildStatus.Cancelling);  
+    let notStartedResult = await buildClient.getBuilds(projectName, undefined, undefined, undefined, undefined, undefined, undefined, undefined, BuildStatus.NotStarted);   
+    let postponedResult = await buildClient.getBuilds(projectName, undefined, undefined, undefined, undefined, undefined, undefined, undefined, BuildStatus.Postponed); 
+    let noneResult = await buildClient.getBuilds(projectName, undefined, undefined, undefined, undefined, undefined, undefined, undefined, BuildStatus.None);                                                
     console.log(projectName + " : " + inProgressResult.length + " Builds (InProgress) Founded");
+    console.log(projectName + " : " + cancellingResult.length + " Builds (Cancelling) Founded");
+    console.log(projectName + " : " + notStartedResult.length + " Builds (NotStarted) Founded");
+    console.log(projectName + " : " + postponedResult.length + " Builds (Postponed) Founded");
+    console.log(projectName + " : " + noneResult.length + " Builds (None) Founded");
+    result.push(...inProgressResult);
+    result.push(...cancellingResult);
+    result.push(...notStartedResult);
+    result.push(...notStartedResult);
+    result.push(...postponedResult);
+    result.push(...noneResult);
   }
 
-  let result = await buildClient.getBuilds(projectName, undefined, undefined, undefined, minDate, 
-                                            undefined, undefined,
-                                            undefined, undefined, undefined, undefined,undefined,
-                                            undefined,undefined, undefined,undefined, undefined, undefined,
-                                            undefined,undefined, undefined);
+  let minResult = await buildClient.getBuilds(projectName, undefined, undefined, undefined, minDate);
+  result.push(...minResult);
 
   console.log(projectName + " : " + result.length + " Builds founded - IsFirstLoad: " + isFirstLoad);
   return result;
