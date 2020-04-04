@@ -271,6 +271,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   private onProjectSelected = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
     // Reset the Pipeline KeyWord only, when TeamProject selection has changed
     let filterState = this.filter.getState();
+    this.buildTimeRangeHasChanged = true;
     filterState.pipelineKeyWord = null;
     this.filter.setState(filterState);
     this.updateFromProject(true);
