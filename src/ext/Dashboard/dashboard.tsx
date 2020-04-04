@@ -406,7 +406,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     if(tabId === "summary") {
       if(this.buildReferenceProvider.value.length > 0) {
         return (
-          <Observer itemProvider={this.buildReferenceProvider} >
+          <Observer itemProvider={this.buildReferenceProvider} refreshUI={ this.refreshUI } >
             {(observableProps: {itemProvider: ArrayItemProvider<BuildDefinitionReference> }) => 
               {
                 return (
@@ -537,20 +537,21 @@ class CICDDashboard extends React.Component<{}, {}> {
           </div>
           <div className="page-content page-content-top page-content-bottom">
             <DataContext.Provider value={{ state: this.state }}>
-                <Observer isLoading={this.isLoading}> 
+                <Observer isLoading={this.isLoading} refreshUI={this.refreshUI}> 
                   {(props: {isLoading: boolean }) => {
                     if(props.isLoading) {
                       return this.renderFirstLoad();
                     } else {
                       return (
-                        <Observer selectedTabId={this.selectedTabId} refreshUI={this.refreshUI}>
-                            {(props: { selectedTabId: string }) => {
+                        <Observer selectedTabId={this.selectedTabId} 
+                                  refreshUI={this.refreshUI}>
+                            {(props: { selectedTabId: string, refreshUI: string }) => {
                               if(this.state.buildDefs.length === 0){
                                 return this.renderZeroData(this.selectedTabId.value);
                               } else {
                                 return (
                                   <div>
-                                    <div>{this.refreshUI.value}</div>
+                                    <div>{ props.refreshUI }</div>
                                     <Card className="flex-grow bolt-table-card" 
                                         titleProps={{ text: "All pipelines" }} 
                                         contentProps={{ contentPadding: false }}>
