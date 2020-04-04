@@ -11,6 +11,7 @@ import {
 import {
   CoreRestClient
 } from "azure-devops-extension-api/core"
+import { BuildReference } from "azure-devops-extension-api/Test/Test";
 
 const coreClient = API.getClient(CoreRestClient);
 const buildClient = API.getClient(BuildRestClient);
@@ -102,21 +103,22 @@ export function sortBuilds(builds: Array<Build>) {
   });
 }
 
-export async function getBuildDefinitionsV1(projectList: Array<string>, isFirstLoad: boolean) {
-  let buildDef = new Array<BuildDefinitionReference>();
-  for(let i=0;i<projectList.length;i++) {
-    let result = await getBuildDefinitions(projectList[i], isFirstLoad);
-    buildDef.push(...result);
+export function sortBuildReferneces(buildRefs: Array<BuildDefinitionReference>, errorOnTop: boolean) {
+  if(errorOnTop) {
+    return buildRefs.sort((a, b) => {
+      if(a.latestBuild !== undefined && b.latestBuild !== undefined){
+        return b.latestBuild.result - a.latestBuild.result;
+      } else if(a.latestBuild !== undefined && b.latestBuild === undefined) {
+        return a.latestBuild.result;
+      } else if(a.latestBuild === undefined && b.latestBuild !== undefined){
+        return b.latestBuild.result;
+      } else {
+        return 999;
+      }
+    });
   }
-  return buildDef;
-}
 
-export async function getBuildDefinitions(projectName: string, isFirstLoad: boolean) {
-  let result = await buildClient.getDefinitions(projectName, undefined, undefined, undefined,
-                                              undefined, undefined, undefined,undefined, undefined,
-                                              undefined, undefined, undefined,undefined, true, undefined, 
-                                              undefined, undefined);
-  return result.sort((a,b) => {
+  return buildRefs.sort((a,b) => {
     if(b.latestBuild !== undefined && a.latestBuild !== undefined) {
       if(a.latestBuild.id > b.latestBuild.id){
         return -1;
@@ -133,4 +135,21 @@ export async function getBuildDefinitions(projectName: string, isFirstLoad: bool
       return 0;
     }
   });
+}
+
+export async function getBuildDefinitionsV1(projectList: Array<string>, isFirstLoad: boolean) {
+  let buildDef = new Array<BuildDefinitionReference>();
+  for(let i=0;i<projectList.length;i++) {
+    let result = await getBuildDefinitions(projectList[i], isFirstLoad);
+    buildDef.push(...result);
+  }
+  return buildDef;
+}
+
+export async function getBuildDefinitions(projectName: string, isFirstLoad: boolean) {
+  let result = await buildClient.getDefinitions(projectName, undefined, undefined, undefined,
+                                              undefined, undefined, undefined,undefined, undefined,
+                                              undefined, undefined, undefined,undefined, true, undefined, 
+                                              undefined, undefined);
+  return result;
 }

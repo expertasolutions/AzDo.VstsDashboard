@@ -4,7 +4,7 @@ import * as React from "react";
 
 import * as SDK from "azure-devops-extension-sdk";
 
-import { getBuildDefinitionsV1, getBuildsV1 , getReleasesV1, getProjects, getProject, sortBuilds } from "./PipelineServices";
+import { getBuildDefinitionsV1, getBuildsV1 , getReleasesV1, getProjects, getProject, sortBuilds, sortBuildReferneces } from "./PipelineServices";
 import { dashboardColumns, buildColumns }  from "./tableData";
 
 import { KeywordFilterBarItem } from "azure-devops-ui/TextFilterBarItem";
@@ -123,39 +123,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     }
     
     console.log("ShowErrorsOnSummaryOnTop: " + this.showErrorsOnSummaryOnTop + " - filterData");
-    if(this.showErrorsOnSummaryOnTop) {
-      var reOrder = buildDefList;
-      buildDefList = reOrder.sort((a, b) => {
-        if(a.latestBuild !== undefined && b.latestBuild !== undefined){
-          return b.latestBuild.result - a.latestBuild.result;
-        } else if(a.latestBuild !== undefined && b.latestBuild === undefined) {
-          return a.latestBuild.result;
-        } else if(a.latestBuild === undefined && b.latestBuild !== undefined){
-          return b.latestBuild.result;
-        } else {
-          return 999;
-        }
-      });
-    } else {
-      buildDefList = buildDefList.sort((a,b) => {
-        if(b.latestBuild !== undefined && a.latestBuild !== undefined) {
-          if(a.latestBuild.id > b.latestBuild.id){
-            return -1;
-          } else if(a.latestBuild.id < b.latestBuild.id) {
-            return 1;
-          } else {
-            return 0;
-          }
-        } else if(b.latestBuild !== undefined && a.latestBuild === undefined) {
-          return 1;
-        } else if(b.latestBuild === undefined && a.latestBuild !== undefined) {
-          return -1;
-        } else {
-          return 0;
-        }
-      });
-    }
-    
+    buildDefList = sortBuildReferneces(buildDefList, this.showErrorsOnSummaryOnTop);
     this.buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(buildDefList));
   }
 
@@ -298,6 +266,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     } else {
       this.showAllBuildDeployment = false;
     }
+    this.setState({ showAllBuildDeployment: this.showAllBuildDeployment });
     this.refreshUI.value = new Date().toTimeString();
     this.filterData();
   }
