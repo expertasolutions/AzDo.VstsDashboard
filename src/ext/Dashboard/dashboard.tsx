@@ -205,7 +205,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     getBuildsV1(this.currentSelectedProjects, this.buildTimeRangeHasChanged, this.lastBuildsDisplay).then(result => {
       let newResult = new Array<Build>();
 
-      if(!firstLoad && this.state.builds.length > 0) {
+      if(!this.buildTimeRangeHasChanged && this.state.builds.length > 0) {
         let currentResult = this.state.builds;
         for(let i=0;i<result.length;i++) {
           let newElement = result[i];
