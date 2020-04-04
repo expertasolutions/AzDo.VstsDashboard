@@ -218,7 +218,7 @@ class CICDDashboard extends React.Component<{}, {}> {
         newResult = result;
       }
       console.log("---- " + newResult.length + " Builds");
-      newResult = sortBuilds(result);
+      newResult = sortBuilds(newResult);
 
       this.setState({ builds: newResult });
       this.filterBuildsData();
