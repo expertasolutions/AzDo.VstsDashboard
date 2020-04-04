@@ -89,7 +89,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   private onFilterChanged = () => {
     this.filterData();
     //this.filterBuildsData();
-    this.state.refreshUI = new Date().toTimeString();
+    this.setState({ refreshUI: new Date().toTimeString()} ); 
     this.refreshUI = new ObservableValue(this.state.refreshUI);
   }
   
@@ -407,11 +407,11 @@ class CICDDashboard extends React.Component<{}, {}> {
       if(this.buildReferenceProvider.value.length > 0) {
         return (
           <Observer itemProvider={this.buildReferenceProvider} refreshUI={ this.refreshUI } >
-            {(observableProps: {itemProvider: ArrayItemProvider<BuildDefinitionReference> }) => 
+            {(props: {itemProvider: ArrayItemProvider<BuildDefinitionReference> }) => 
               {
                 return (
                   <Table<BuildDefinitionReference> columns={dashboardColumns} 
-                      itemProvider={observableProps.itemProvider}
+                      itemProvider={props.itemProvider}
                       showLines={true}
                       role="table"/>
                 );
