@@ -265,6 +265,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     } else {
       this.showErrorsOnSummaryOnTop = true;
     }
+    this.refreshUI.value = new Date().toTimeString();
     this.filterData();
   }
 
@@ -275,6 +276,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     } else {
       this.showAllBuildDeployment = false;
     }
+    this.refreshUI.value = new Date().toTimeString();
     this.filterData();
   }
 
