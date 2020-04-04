@@ -1,7 +1,7 @@
 
 import * as API from "azure-devops-extension-api";
 import { 
-  BuildRestClient, BuildDefinitionReference, Build, BuildStatus
+  BuildRestClient, BuildDefinitionReference, Build, BuildStatus, ResultSet
 } from "azure-devops-extension-api/Build";
 
 import {
@@ -185,5 +185,6 @@ export async function getBuildDefinitions(projectName: string, isFirstLoad: bool
                                               undefined, undefined, undefined, minDate, undefined,
                                               undefined, undefined, undefined,undefined, true, undefined, 
                                               undefined, undefined);
+  console.log("Found : " + result.length + " Build Reference");
   return result;
 }
