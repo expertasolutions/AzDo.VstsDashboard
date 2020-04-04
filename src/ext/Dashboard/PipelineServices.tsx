@@ -81,6 +81,9 @@ export async function getBuilds(projectName: string, isFirstLoad: boolean, timeR
     minDate = new Date(now.valueOf() - 5 * MS_IN_MIN);
   } else {
     switch(timeRangeLoad) {
+      case "lastHour":
+        minDate = new Date(now.valueOf() - 60 * MS_IN_MIN);
+        break;
       case "last4Hours":
         minDate = new Date(now.valueOf() - 4 * 60 * MS_IN_MIN);
         break;
@@ -97,10 +100,6 @@ export async function getBuilds(projectName: string, isFirstLoad: boolean, timeR
       case "lastWeek":
         now.setDate(now.getDate()-7);
         minDate = now;
-        break;
-      case "lastHour":
-      default:
-        minDate = new Date(now.valueOf() - 60 * MS_IN_MIN);
         break;
     }
   }

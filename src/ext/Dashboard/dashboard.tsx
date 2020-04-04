@@ -55,7 +55,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   private showAllBuildDeployment = false;
   private showOnlyBuildWithDeployments = false;
   private showErrorsOnSummaryOnTop = true;
-  private lastBuildsDisplay = "lastHours";
+  private lastBuildsDisplay = "lastHour";
 
   private buildTimeRangeHasChanged = true;
 
@@ -87,7 +87,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       this.showErrorsOnSummaryOnTop = true;
       this.onlyWithDeploymentSelection.select(1);
       this.lastBuildsDisplaySelection.select(0);
-      this.lastBuildsDisplay = "lastHours";
+      this.lastBuildsDisplay = "lastHour";
       this.showAllBuildDeployment = false;
       this.updateFromProject(true);
     }
