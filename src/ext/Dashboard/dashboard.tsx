@@ -122,6 +122,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       buildDefList = allBuildWithRelease;
     }
     
+    console.log("ShowErrorsOnSummaryOnTop: " + this.showErrorsOnSummaryOnTop + " - filterData");
     if(this.showErrorsOnSummaryOnTop) {
       var reOrder = buildDefList;
       buildDefList = reOrder.sort((a, b) => {
@@ -248,7 +249,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     console.log("onOnlyBuildWithDeployments: " + item.text);
     if(item.text !== undefined) {
       let showAll = item.text === "Yes";
-      console.log("showAll: " + showAll);
+      console.log("showAll: " + showAll + " (ShowOnlyBuildWithDeploys)");
       this.showOnlyBuildWithDeployments = showAll;
     } else {
       this.showOnlyBuildWithDeployments = false;
@@ -259,12 +260,15 @@ class CICDDashboard extends React.Component<{}, {}> {
   }
 
   private onErrorsOnSummaryOnTop = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
+    console.log("showErrorsOnSummaryOnTop: " + item.text);
     if(item.id !== undefined) {
       let showAll = item.id === "true";
-      this.showErrorsOnSummaryOnTop= showAll;
+      console.log("showAll: " + showAll + " (showErrorsOnSummaryOnTop)");
+      this.showErrorsOnSummaryOnTop = showAll;
     } else {
       this.showErrorsOnSummaryOnTop = true;
     }
+    console.log("showErrorsOnSummaryOnTop: " + this.showOnlyBuildWithDeployments + " - OnEvent");
     this.refreshUI.value = new Date().toTimeString();
     this.filterData();
   }
