@@ -102,7 +102,7 @@ export function sortBuilds(builds: Array<Build>) {
   });
 }
 
-export function sortBuildReferneces(buildRefs: Array<BuildDefinitionReference>, errorOnTop: boolean) {
+export function sortBuildReferences(buildRefs: Array<BuildDefinitionReference>, errorOnTop: boolean) {
   if(errorOnTop) {
     return buildRefs.sort((a, b) => {
       if(a.latestBuild !== undefined && b.latestBuild !== undefined){

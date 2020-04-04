@@ -3,7 +3,7 @@ import "es6-promise/auto";
 import * as React from "react";
 import * as SDK from "azure-devops-extension-sdk";
 
-import { getBuildDefinitionsV1, getBuildsV1 , getReleasesV1, getProjects, getProject, sortBuilds, sortBuildReferneces } from "./PipelineServices";
+import { getBuildDefinitionsV1, getBuildsV1 , getReleasesV1, getProjects, getProject, sortBuilds, sortBuildReferences } from "./PipelineServices";
 import { dashboardColumns, buildColumns }  from "./tableData";
 
 import { KeywordFilterBarItem } from "azure-devops-ui/TextFilterBarItem";
@@ -118,7 +118,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       buildDefList = allBuildWithRelease;
     }
     
-    buildDefList = sortBuildReferneces(buildDefList, this.showErrorsOnSummaryOnTop);
+    buildDefList = sortBuildReferences(buildDefList, this.showErrorsOnSummaryOnTop);
     this.buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(buildDefList));
   }
 
@@ -206,10 +206,12 @@ class CICDDashboard extends React.Component<{}, {}> {
           if(existingElement !== undefined) {
             let buildIndex = currentResult.indexOf(existingElement);
             if(buildIndex > -1) {
+              console.log("update build")
               currentResult.splice(buildIndex, 0);
+              currentResult.push(newElement);
             }
-            currentResult.push(newElement);
           } else {
+            console.log("Add Build");
             currentResult.push(newElement);
           }
         }
