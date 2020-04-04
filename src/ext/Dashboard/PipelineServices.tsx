@@ -103,6 +103,7 @@ export async function getBuilds(projectName: string, isFirstLoad: boolean, timeR
         break;
     }
   }
+
   if(minDate !== undefined) {
     console.log(projectName + " : Getting Builds from: " + minDate.toDateString() + " - " + minDate.toTimeString());
   }
@@ -125,6 +126,9 @@ export async function getBuilds(projectName: string, isFirstLoad: boolean, timeR
 
   let minResult = await buildClient.getBuilds(projectName, undefined, undefined, undefined, minDate);
   result.push(...minResult);
+
+  console.log(projectName + " : Founds: " + result.length + " Builds");
+
   return result;
 }
 
