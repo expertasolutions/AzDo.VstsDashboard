@@ -242,6 +242,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     }
     this.refreshUI.value = new Date().toTimeString();
     this.filterData();
+    this.filterBuildsData();
   }
 
   private onErrorsOnSummaryOnTop = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
