@@ -35,14 +35,19 @@ class CICDDashboard extends React.Component<{}, {}> {
   private isLoading = new ObservableValue<boolean>(true);
   private selectedTabId = new ObservableValue("summary");
   private refreshUI = new ObservableValue(new Date().toTimeString());
+
   private projectSelection = new DropdownMultiSelection();
   private allDeploymentSelection = new DropdownSelection();
   private errorsOnSummaryTopSelection = new DropdownSelection();
   private onlyWithDeploymentSelection = new DropdownSelection();
+  private lastBuildsDisplaySelection = new DropdownSelection();
+
   private filter: Filter = new Filter();
   private allDeploymentFilter: Filter = new Filter();
   private errorsOnSummaryTopFilter = new Filter();
   private onlyBuildWithDeploymentFilter: Filter = new Filter();
+  private lastBuildsDisplayFilter: Filter = new Filter();
+
   private currentSelectedProjects: Array<string> = new Array<string>();
   private initialProjectName : string = "";
   private extensionVersion : string = "";
@@ -50,6 +55,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   private showAllBuildDeployment = false;
   private showOnlyBuildWithDeployments = false;
   private showErrorsOnSummaryOnTop = true;
+  private lastBuildsDisplay = "lastHours";
 
   constructor(props: {}) {
     super(props);
@@ -264,6 +270,12 @@ class CICDDashboard extends React.Component<{}, {}> {
     this.updateFromProject(true);
   }
 
+  private onLastBuildsDisplaySelected = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
+    if(item.text !== undefined) {
+      console.log(item.id + " onLastBuildDisplaySelected");
+    }
+  }
+
   public async loadProjects() {
     let result = await getProjects();
     this.setState( { projects: result });
@@ -463,14 +475,36 @@ class CICDDashboard extends React.Component<{}, {}> {
                         hideClearAction={true}/>
                 );
 
+                let lastBuildsDisplay = (
+                  <DropdownFilterBarItem
+                    filterItemKey="lastBuildsDisplay"
+                    filter={this.lastBuildsDisplayFilter}
+                    disabled={props.selectedTabId === "summary"}
+                    placeholder="Show Builds from:"
+                    items={[
+                      { id: "lastHour", text: "Last hour"},
+                      { id: "last4Hours", text: "Last 4 hours"},
+                      { id: "last4Hours", text: "Last 8 hours"},
+                      { id: "today", text: "Today"},
+                      { id: "yesterday", text: "Yesterday"},
+                      { id: "lastweek", text: "Last Week"},
+                    ]}
+                    onSelect={this.onLastBuildsDisplaySelected}
+                    selection={this.lastBuildsDisplaySelection}
+                    hideClearAction={true}/>
+                );
+
                 if(props.selectedTabId !== "summary") {
                   errorOnTopFilter = (<div></div>);
+                } else {
+                  lastBuildsDisplay = (<div></div>);
                 }
 
                 return (
                   <FilterBar filter={this.filter}>
                     <KeywordFilterBarItem filterItemKey="pipelineKeyWord" />
                     { errorOnTopFilter }
+                    { lastBuildsDisplay }
                     <DropdownFilterBarItem
                       filterItemKey="onlyWithDeployments"
                       filter={this.onlyBuildWithDeploymentFilter}
