@@ -48,6 +48,10 @@ class CICDDashboard extends React.Component<{}, {}> {
   private initialProjectName : string = "";
   private extensionVersion : string = "";
 
+  private showAllBuildDeployment = false;
+  private showOnlyBuildWithDeployments = false;
+  private showErrorsOnSummaryOnTop = true;
+
   constructor(props: {}) {
     super(props);
 
@@ -61,9 +65,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     builds: Array<Build>(),
     releases: Array<Deployment>(),
     projects: Array<TeamProjectReference>(),
-    showAllBuildDeployment: false,
-    showOnlyBuildWithDeployments: false,
-    showErrorsOnSummaryOnTop: true,
+    showAllBuildDeployment: false
   };
 
   private onFilterReset = async () => {
@@ -73,11 +75,11 @@ class CICDDashboard extends React.Component<{}, {}> {
       let index = this.state.projects.indexOf(prj);
       this.projectSelection.select(index);
       this.allDeploymentSelection.select(1);
-      this.setState({ showOnlyBuildWithDeployments: false });
+      this.showOnlyBuildWithDeployments = false;
       this.errorsOnSummaryTopSelection.select(0);
-      this.setState({ showErrorsOnSummaryOnTop: true });
+      this.showErrorsOnSummaryOnTop = true;
       this.onlyWithDeploymentSelection.select(1);
-      this.setState({ showAllBuildDeployment: false });
+      this.showAllBuildDeployment = false;
       console.log("onFilterReset Called");
       this.updateFromProject(true);
     }
@@ -105,8 +107,8 @@ class CICDDashboard extends React.Component<{}, {}> {
       buildDefList = this.state.buildDefs;
     }
 
-    console.log("ShowOnlyBuildWithDeployments: " + this.state.showOnlyBuildWithDeployments);
-    if(this.state.showOnlyBuildWithDeployments) {
+    console.log("ShowOnlyBuildWithDeployments: " + this.showOnlyBuildWithDeployments);
+    if(this.showOnlyBuildWithDeployments) {
       let allBuildWithRelease = buildDefList.filter(
         b => b.latestCompletedBuild != undefined && this.state.releases.find(r=> 
             r.release.artifacts.find(a=> 
@@ -119,7 +121,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       buildDefList = allBuildWithRelease;
     }
     
-    if(this.state.showErrorsOnSummaryOnTop) {
+    if(this.showErrorsOnSummaryOnTop) {
       var reOrder = buildDefList;
       buildDefList = reOrder.sort((a, b) => {
         if(a.latestBuild !== undefined && b.latestBuild !== undefined){
@@ -246,20 +248,20 @@ class CICDDashboard extends React.Component<{}, {}> {
     if(item.text !== undefined) {
       let showAll = item.text === "Yes";
       console.log("showAll: " + showAll);
-      this.setState({ showOnlyBuildWithDeployments: showAll });
+      this.showOnlyBuildWithDeployments = showAll;
     } else {
-      this.setState({ showOnlyBuildWithDeployments: false });
+      this.showOnlyBuildWithDeployments = false;
     }
-    console.log("ShowOnlyBuildWithDeploys: " + this.state.showOnlyBuildWithDeployments + " - OnEvent");
+    console.log("ShowOnlyBuildWithDeploys: " + this.showOnlyBuildWithDeployments + " - OnEvent");
     this.filterData();
   }
 
   private onErrorsOnSummaryOnTop = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
     if(item.id !== undefined) {
       let showAll = item.id === "true";
-      this.setState({ showErrorsOnSummaryOnTop: showAll });
+      this.showErrorsOnSummaryOnTop= showAll;
     } else {
-      this.setState({ showErrorsOnSummaryOnTop: true });
+      this.showErrorsOnSummaryOnTop = true;
     }
     this.filterData();
   }
@@ -267,9 +269,9 @@ class CICDDashboard extends React.Component<{}, {}> {
   private onAllDeploymentSelected = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
     if(item.text !== undefined) {
       let showAll = item.text === "Yes";
-      this.setState({ showAllBuildDeployment: showAll });
+      this.showAllBuildDeployment = showAll;
     } else {
-      this.setState({ showAllBuildDeployment: false });
+      this.showAllBuildDeployment = false;
     }
     this.filterData();
   }
@@ -465,8 +467,7 @@ class CICDDashboard extends React.Component<{}, {}> {
           </div>
           <div className="page-content-left page-content-right page-content-top">
           <Observer selectedTabId={this.selectedTabId} 
-                    isLoading={this.isLoading}
-                    refreshUI={this.refreshUI}>
+                    isLoading={this.isLoading}>
             {(props: { selectedTabId: string, isLoading: boolean }) => {
                 let errorOnTopFilter = (
                   <DropdownFilterBarItem
