@@ -85,7 +85,7 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   private onFilterChanged = () => {
     this.filterData();
-    //this.filterBuildsData();
+    this.filterBuildsData();
     this.refreshUI.value = new Date().toTimeString();
   }
   

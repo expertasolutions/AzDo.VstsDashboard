@@ -11,7 +11,6 @@ import {
 import {
   CoreRestClient
 } from "azure-devops-extension-api/core"
-import { BuildReference } from "azure-devops-extension-api/Test/Test";
 
 const coreClient = API.getClient(CoreRestClient);
 const buildClient = API.getClient(BuildRestClient);
@@ -42,9 +41,7 @@ export async function getReleases(projectName: string, isFirstLoad: boolean) {
 
   if(!isFirstLoad){
     let now = new Date();
-    console.log(projectName + " : " + now.toDateString() + " - " + now.toTimeString());
     minDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours());
-    console.log(projectName + " : Getting Release from: " + minDate.toDateString() + " - " + minDate.toTimeString());
   }
 
   let continuationToken = 0;
@@ -63,7 +60,6 @@ export async function getReleases(projectName: string, isFirstLoad: boolean) {
     }
     dpl.push(...result);
   } while(result.length > 0);
-  console.log(projectName + " : " + dpl.length + " release founded - IsFirstLoad: " + isFirstLoad);
   return dpl;
 }
 
@@ -93,11 +89,7 @@ export async function getBuilds(projectName: string, isFirstLoad: boolean)  {
     let notStartedResult = await buildClient.getBuilds(projectName, undefined, undefined, undefined, undefined, undefined, undefined, undefined, BuildStatus.NotStarted);   
     let postponedResult = await buildClient.getBuilds(projectName, undefined, undefined, undefined, undefined, undefined, undefined, undefined, BuildStatus.Postponed); 
     let noneResult = await buildClient.getBuilds(projectName, undefined, undefined, undefined, undefined, undefined, undefined, undefined, BuildStatus.None);                                                
-    console.log(projectName + " : " + inProgressResult.length + " Builds (InProgress) Founded");
-    console.log(projectName + " : " + cancellingResult.length + " Builds (Cancelling) Founded");
-    console.log(projectName + " : " + notStartedResult.length + " Builds (NotStarted) Founded");
-    console.log(projectName + " : " + postponedResult.length + " Builds (Postponed) Founded");
-    console.log(projectName + " : " + noneResult.length + " Builds (None) Founded");
+
     result.push(...inProgressResult);
     result.push(...cancellingResult);
     result.push(...notStartedResult);
@@ -108,8 +100,6 @@ export async function getBuilds(projectName: string, isFirstLoad: boolean)  {
 
   let minResult = await buildClient.getBuilds(projectName, undefined, undefined, undefined, minDate);
   result.push(...minResult);
-
-  console.log(projectName + " : " + result.length + " Builds founded - IsFirstLoad: " + isFirstLoad);
   return result;
 }
 
