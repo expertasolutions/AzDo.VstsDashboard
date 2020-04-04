@@ -65,7 +65,8 @@ class CICDDashboard extends React.Component<{}, {}> {
     builds: Array<Build>(),
     releases: Array<Deployment>(),
     projects: Array<TeamProjectReference>(),
-    showAllBuildDeployment: false
+    showAllBuildDeployment: false,
+    refreshUI: new Date().toTimeString()
   };
 
   private onFilterReset = async () => {
@@ -88,7 +89,8 @@ class CICDDashboard extends React.Component<{}, {}> {
   private onFilterChanged = () => {
     this.filterData();
     //this.filterBuildsData();
-    this.refreshUI = new ObservableValue(new Date().toTimeString());
+    this.state.refreshUI = new Date().toTimeString();
+    this.refreshUI = new ObservableValue(this.state.refreshUI);
   }
   
   // BuildDefinition Summary
