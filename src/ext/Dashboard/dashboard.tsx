@@ -195,7 +195,6 @@ class CICDDashboard extends React.Component<{}, {}> {
     // Update Builds Runs list...
     getBuildsV1(this.currentSelectedProjects, firstLoad).then(result => {
       let newResult = new Array<Build>();
-      let currentBuilds = result;
 
       if(!firstLoad && this.state.builds.length > 0) {
         console.log("Not the first load - " + result.length + " new builds");
