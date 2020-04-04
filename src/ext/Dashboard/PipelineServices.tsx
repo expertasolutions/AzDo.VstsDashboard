@@ -182,8 +182,8 @@ export async function getBuildDefinitions(projectName: string, isFirstLoad: bool
   }
 
   let result = await buildClient.getDefinitions(projectName, undefined, undefined, undefined,
-                                              undefined, undefined, undefined,undefined, undefined,
-                                              undefined, minDate, undefined,undefined, true, undefined, 
+                                              undefined, undefined, undefined, minDate, undefined,
+                                              undefined, undefined, undefined,undefined, true, undefined, 
                                               undefined, undefined);
   return result;
 }
