@@ -1,7 +1,6 @@
 import "es6-promise/auto";
 
 import * as React from "react";
-
 import * as SDK from "azure-devops-extension-sdk";
 
 import { getBuildDefinitionsV1, getBuildsV1 , getReleasesV1, getProjects, getProject, sortBuilds, sortBuildReferneces } from "./PipelineServices";
@@ -29,7 +28,7 @@ import { CustomHeader, HeaderTitle, HeaderTitleArea, HeaderTitleRow, TitleSize, 
 import { IListBoxItem } from "azure-devops-ui/ListBox";
 import { Filter, FILTER_CHANGE_EVENT, FILTER_RESET_EVENT } from "azure-devops-ui/Utilities/Filter";
 import { FilterBar } from "azure-devops-ui/FilterBar";
-import { ZeroData, ZeroDataActionType } from "azure-devops-ui/ZeroData";
+import { ZeroData } from "azure-devops-ui/ZeroData";
 import { CommonServiceIds, IProjectPageService } from "azure-devops-extension-api";
 
 class CICDDashboard extends React.Component<{}, {}> {
@@ -56,8 +55,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     super(props);
 
     this.filter = new Filter();
-    //setInterval(()=> this.updateFromProject(false), 10000);
-    
+    setInterval(()=> this.updateFromProject(false), 10000);
   }
 
   state = {
@@ -126,7 +124,6 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   // All Builds
   private filterBuildsData() {
-    /*
     let filterState = this.filter.getState();
 
     let buildList = Array<Build>();
@@ -138,7 +135,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       buildList = this.state.builds;
     }
 
-    if(this.state.showOnlyBuildWithDeployments) {
+    if(this.showOnlyBuildWithDeployments) {
       let allBuildWithRelease = buildList.filter(
         b => this.state.releases.find(r=> 
             r.release.artifacts.find(a=> 
@@ -151,7 +148,6 @@ class CICDDashboard extends React.Component<{}, {}> {
       buildList = allBuildWithRelease;
     }
     this.buildProvider.value = new ArrayItemProvider(buildList);
-    */
   }
 
   private updateFromProject(firstLoad:boolean){ 
