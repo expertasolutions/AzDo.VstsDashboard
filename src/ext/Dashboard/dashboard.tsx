@@ -490,7 +490,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                     filterItemKey="lastBuildsDisplay"
                     filter={this.lastBuildsDisplayFilter}
                     disabled={props.selectedTabId === "summary"}
-                    placeholder="Show Builds from"
+                    placeholder="Show Pipelines from"
                     items={[
                       { id: "lastHour", text: "Last hour"},
                       { id: "last4Hours", text: "Last 4 hours"},
@@ -571,14 +571,13 @@ class CICDDashboard extends React.Component<{}, {}> {
                               } else {
                                 return (
                                   <div>
-                                    <div>{ props.refreshUI }</div>
                                     <Card className="flex-grow bolt-table-card" 
                                         titleProps={{ text: "All pipelines" }} 
                                         contentProps={{ contentPadding: false }}>
                                           <div style={{ marginTop: "16px;", marginBottom: "16px;"}}>
                                               { this.renderTab(props.selectedTabId) }
                                           </div>
-                                  </Card>
+                                    </Card>
                                   </div>
                                 );
                               }

@@ -97,7 +97,7 @@ export async function getBuilds(projectName: string, isFirstLoad: boolean, timeR
         now.setDate(now.getDate()-1);
         minDate = now;
         break;
-      case "lastWeek":
+      case "lastweek":
         now.setDate(now.getDate()-7);
         minDate = now;
         break;
