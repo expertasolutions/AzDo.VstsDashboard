@@ -63,25 +63,50 @@ export async function getReleases(projectName: string, isFirstLoad: boolean) {
   return dpl;
 }
 
-export async function getBuildsV1(projectList: Array<string>, isFirstLoad: boolean) {
+export async function getBuildsV1(projectList: Array<string>, isFirstLoad: boolean, timeRangeLoad: string) {
   let builds = new Array<Build>();
   for(let i=0;i<projectList.length;i++) {
-    let result = await getBuilds(projectList[i], isFirstLoad);
+    let result = await getBuilds(projectList[i], isFirstLoad, timeRangeLoad);
     builds.push(...result);
   }
   return builds;
 }
 
-export async function getBuilds(projectName: string, isFirstLoad: boolean)  {
+export async function getBuilds(projectName: string, isFirstLoad: boolean, timeRangeLoad: string)  {
+  const MS_IN_MIN = 60000;
   let minDate = undefined;
-
-  if(!isFirstLoad){
-    let now = new Date();
-    console.log(projectName + " : " + now.toDateString() + " - " + now.toTimeString());
-    minDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  let now = new Date();
+  console.log(projectName + " : " + now.toDateString() + " - " + now.toTimeString());
+  if(!isFirstLoad) {
+    minDate = new Date(now.valueOf() - 5 * MS_IN_MIN);
+  } else {
+    switch(timeRangeLoad) {
+      case "lastHour":
+        minDate = new Date(now.valueOf() - 60 * MS_IN_MIN);
+        break;
+      case "last4Hours":
+        minDate = new Date(now.valueOf() - 4 * 60 * MS_IN_MIN);
+        break;
+      case "last8Hours":
+        minDate = new Date(now.valueOf() - 8 * 60 * MS_IN_MIN);
+        break;
+      case "today":
+        minDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        break;
+      case "yesterday":
+        now.setDate(now.getDate()-1);
+        minDate = now;
+        break;
+      case "lastWeek":
+        now.setDate(now.getDate()-7);
+        minDate = now;
+        break;
+    }
+  }
+  if(minDate !== undefined) {
     console.log(projectName + " : Getting Builds from: " + minDate.toDateString() + " - " + minDate.toTimeString());
   }
-
+  
   let result = new Array<Build>();
   if(!isFirstLoad) {
     let inProgressResult = await buildClient.getBuilds(projectName, undefined, undefined, undefined, undefined, undefined, undefined, undefined, BuildStatus.InProgress);

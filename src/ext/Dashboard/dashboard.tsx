@@ -57,6 +57,8 @@ class CICDDashboard extends React.Component<{}, {}> {
   private showErrorsOnSummaryOnTop = true;
   private lastBuildsDisplay = "lastHours";
 
+  private buildTimeRangeHasChanged = true;
+
   constructor(props: {}) {
     super(props);
 
@@ -84,6 +86,8 @@ class CICDDashboard extends React.Component<{}, {}> {
       this.errorsOnSummaryTopSelection.select(0);
       this.showErrorsOnSummaryOnTop = true;
       this.onlyWithDeploymentSelection.select(1);
+      this.lastBuildsDisplaySelection.select(0);
+      this.lastBuildsDisplay = "lastHours";
       this.showAllBuildDeployment = false;
       this.updateFromProject(true);
     }
@@ -198,7 +202,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     });
     
     // Update Builds Runs list...
-    getBuildsV1(this.currentSelectedProjects, firstLoad).then(result => {
+    getBuildsV1(this.currentSelectedProjects, this.buildTimeRangeHasChanged, this.lastBuildsDisplay).then(result => {
       let newResult = new Array<Build>();
 
       if(!firstLoad && this.state.builds.length > 0) {
@@ -224,6 +228,7 @@ class CICDDashboard extends React.Component<{}, {}> {
 
       this.setState({ builds: newResult });
       this.refreshUI.value = new Date().toTimeString();
+      this.buildTimeRangeHasChanged = false;
       this.filterBuildsData();
     });
   }
@@ -273,7 +278,11 @@ class CICDDashboard extends React.Component<{}, {}> {
   private onLastBuildsDisplaySelected = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
     if(item.text !== undefined) {
       console.log(item.id + " onLastBuildDisplaySelected");
+      this.lastBuildsDisplay = item.id;
     }
+    this.buildTimeRangeHasChanged = true;
+    this.refreshUI.value = new Date().toTimeString();
+    this.filterData();
   }
 
   public async loadProjects() {
@@ -317,6 +326,7 @@ class CICDDashboard extends React.Component<{}, {}> {
         this.allDeploymentSelection.select(1);
         this.onlyWithDeploymentSelection.select(1);
         this.errorsOnSummaryTopSelection.select(0);
+        this.lastBuildsDisplaySelection.select(0);
 
         this.updateFromProject(true);
         this.filterData();
@@ -480,11 +490,11 @@ class CICDDashboard extends React.Component<{}, {}> {
                     filterItemKey="lastBuildsDisplay"
                     filter={this.lastBuildsDisplayFilter}
                     disabled={props.selectedTabId === "summary"}
-                    placeholder="Show Builds from:"
+                    placeholder="Show Builds from"
                     items={[
                       { id: "lastHour", text: "Last hour"},
                       { id: "last4Hours", text: "Last 4 hours"},
-                      { id: "last4Hours", text: "Last 8 hours"},
+                      { id: "last8Hours", text: "Last 8 hours"},
                       { id: "today", text: "Today"},
                       { id: "yesterday", text: "Yesterday"},
                       { id: "lastweek", text: "Last Week"},
