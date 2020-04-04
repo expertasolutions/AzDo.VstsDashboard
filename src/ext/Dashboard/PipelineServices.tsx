@@ -37,7 +37,6 @@ export async function getReleasesV1(projectList: Array<string>, isFirstLoad: boo
 }
 
 export async function getReleases(projectName: string, isFirstLoad: boolean) {
-  //return new Array<Deployment>();
 
   let minDate = undefined;
 

@@ -81,7 +81,6 @@ class CICDDashboard extends React.Component<{}, {}> {
       this.showErrorsOnSummaryOnTop = true;
       this.onlyWithDeploymentSelection.select(1);
       this.showAllBuildDeployment = false;
-      console.log("onFilterReset Called");
       this.updateFromProject(true);
     }
   }
@@ -108,7 +107,6 @@ class CICDDashboard extends React.Component<{}, {}> {
       buildDefList = this.state.buildDefs;
     }
 
-    console.log("ShowOnlyBuildWithDeployments: " + this.showOnlyBuildWithDeployments + " - filterData");
     if(this.showOnlyBuildWithDeployments) {
       let allBuildWithRelease = buildDefList.filter(
         b => b.latestCompletedBuild != undefined && this.state.releases.find(r=> 
@@ -122,7 +120,6 @@ class CICDDashboard extends React.Component<{}, {}> {
       buildDefList = allBuildWithRelease;
     }
     
-    console.log("ShowErrorsOnSummaryOnTop: " + this.showErrorsOnSummaryOnTop + " - filterData");
     buildDefList = sortBuildReferneces(buildDefList, this.showErrorsOnSummaryOnTop);
     this.buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(buildDefList));
   }
@@ -200,10 +197,10 @@ class CICDDashboard extends React.Component<{}, {}> {
     });
     
     // Update Builds Runs list...
-    //getBuildsV1(this.currentSelectedProjects, firstLoad).then(result => {
-    //  let newResult = new Array<Build>();
-      //let currentBuilds = result;
-      /*
+    getBuildsV1(this.currentSelectedProjects, firstLoad).then(result => {
+      let newResult = new Array<Build>();
+      let currentBuilds = result;
+
       if(!firstLoad && this.state.builds.length > 0) {
         console.log("Not the first load - " + result.length + " new builds");
         let currentResult = this.state.builds;
@@ -211,10 +208,12 @@ class CICDDashboard extends React.Component<{}, {}> {
           let newElement = result[i];
           let existingElement = currentResult.find(x=> x.id === newElement.id);
           if(existingElement !== undefined) {
-            console.log("Builds exist " + existingElement.id);
-            existingElement = newElement;
+            let buildIndex = currentResult.indexOf(existingElement);
+            if(buildIndex > -1) {
+              currentResult.splice(buildIndex, 0);
+            }
+            currentResult.push(newElement);
           } else {
-            console.log("New Builds " + newElement.id);
             currentResult.push(newElement);
           }
         }
@@ -224,37 +223,30 @@ class CICDDashboard extends React.Component<{}, {}> {
       }
       console.log("---- " + newResult.length + " Builds");
       newResult = sortBuilds(result);
-      */
-    //  this.setState({ builds: newResult });
-    //  this.filterBuildsData();
-    //});
-    
+
+      this.setState({ builds: newResult });
+      this.filterBuildsData();
+    });
   }
 
   private onOnlyBuildWithDeployments = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
-    console.log("onOnlyBuildWithDeployments: " + item.text);
     if(item.text !== undefined) {
       let showAll = item.text === "Yes";
-      console.log("showAll: " + showAll + " (ShowOnlyBuildWithDeploys)");
       this.showOnlyBuildWithDeployments = showAll;
     } else {
       this.showOnlyBuildWithDeployments = false;
     }
-    console.log("ShowOnlyBuildWithDeploys: " + this.showOnlyBuildWithDeployments + " - OnEvent");
     this.refreshUI.value = new Date().toTimeString();
     this.filterData();
   }
 
   private onErrorsOnSummaryOnTop = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
-    console.log("showErrorsOnSummaryOnTop: " + item.text);
     if(item.id !== undefined) {
       let showAll = item.id === "true";
-      console.log("showAll: " + showAll + " (showErrorsOnSummaryOnTop)");
       this.showErrorsOnSummaryOnTop = showAll;
     } else {
       this.showErrorsOnSummaryOnTop = true;
     }
-    console.log("showErrorsOnSummaryOnTop: " + this.showOnlyBuildWithDeployments + " - OnEvent");
     this.refreshUI.value = new Date().toTimeString();
     this.filterData();
   }
@@ -276,7 +268,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     let filterState = this.filter.getState();
     filterState.pipelineKeyWord = null;
     this.filter.setState(filterState);
-    //this.updateFromProject();
+    this.updateFromProject(true);
   }
 
   public async loadProjects() {
@@ -316,7 +308,6 @@ class CICDDashboard extends React.Component<{}, {}> {
       if(prj != undefined) {
         let index = this.state.projects.indexOf(prj);
         this.projectSelection.select(index);
-        console.log("initializeState called");
         
         this.allDeploymentSelection.select(1);
         this.onlyWithDeploymentSelection.select(1);
