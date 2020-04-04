@@ -282,7 +282,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     }
     this.buildTimeRangeHasChanged = true;
     this.refreshUI.value = new Date().toTimeString();
-    this.filterData();
+    this.updateFromProject(false);
   }
 
   public async loadProjects() {
