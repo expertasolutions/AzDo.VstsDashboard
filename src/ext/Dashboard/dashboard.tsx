@@ -108,7 +108,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       buildDefList = this.state.buildDefs;
     }
 
-    console.log("ShowOnlyBuildWithDeployments: " + this.showOnlyBuildWithDeployments);
+    console.log("ShowOnlyBuildWithDeployments: " + this.showOnlyBuildWithDeployments + " - filterData");
     if(this.showOnlyBuildWithDeployments) {
       let allBuildWithRelease = buildDefList.filter(
         b => b.latestCompletedBuild != undefined && this.state.releases.find(r=> 
@@ -138,8 +138,6 @@ class CICDDashboard extends React.Component<{}, {}> {
     }
     
     this.buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(buildDefList));
-
-    this.setState({ refreshUI: new Date().toTimeString()} ); 
   }
 
   // All Builds
@@ -256,8 +254,8 @@ class CICDDashboard extends React.Component<{}, {}> {
       this.showOnlyBuildWithDeployments = false;
     }
     console.log("ShowOnlyBuildWithDeploys: " + this.showOnlyBuildWithDeployments + " - OnEvent");
-    //this.filterData();
     this.refreshUI.value = new Date().toTimeString();
+    this.filterData();
   }
 
   private onErrorsOnSummaryOnTop = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
