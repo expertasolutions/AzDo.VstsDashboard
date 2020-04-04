@@ -172,7 +172,26 @@ class CICDDashboard extends React.Component<{}, {}> {
     }
 
     getBuildDefinitionsV1(this.currentSelectedProjects, firstLoad).then(result => {
-      this.setState({ buildDefs: result });
+      let currentDef = this.state.buildDefs;
+      if(firstLoad) {
+        currentDef = result;
+      } else {
+        for(let i=0;i<result.length;i++) {
+          let newDef = result[i];
+          let def = currentDef.find(x=> x.id === newDef.id);
+          if(def !== undefined) {
+            let defIndx = currentDef.indexOf(def, 0);
+            if(defIndx > -1) {
+              currentDef.splice(defIndx, 1);
+            }
+            currentDef.push(newDef);
+          } else {
+            currentDef.push(newDef);
+          }
+        }
+      }
+
+      this.setState({ buildDefs: currentDef });
       this.filterData();
     }).then(()=> {
       SDK.ready().then(()=> { this.isLoading.value = false; });
