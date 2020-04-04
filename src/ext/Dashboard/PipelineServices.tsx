@@ -86,13 +86,13 @@ export async function getBuilds(projectName: string, isFirstLoad: boolean)  {
     console.log(projectName + " : Getting Builds from: " + minDate.toDateString() + " - " + minDate.toTimeString());
   }
 
-  if(isFirstLoad) {
+  if(!isFirstLoad) {
     let inProgressResult = await buildClient.getBuilds(projectName, undefined, undefined, undefined, minDate, 
                                                       undefined, undefined,
                                                       undefined, BuildStatus.InProgress, undefined, undefined,undefined,
                                                       undefined,undefined, undefined,undefined, undefined, undefined,
                                                       undefined,undefined, undefined);
-    console.log(projectName + " : " + inProgressResult.length + " Builds Founded");
+    console.log(projectName + " : " + inProgressResult.length + " Builds (InProgress) Founded");
   }
 
   let result = await buildClient.getBuilds(projectName, undefined, undefined, undefined, minDate, 
