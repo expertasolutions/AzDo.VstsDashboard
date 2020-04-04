@@ -88,7 +88,7 @@ export async function getBuilds(projectName: string, isFirstLoad: boolean)  {
 
   if(!isFirstLoad) {
     let inProgressResult = await buildClient.getBuilds(projectName, undefined, undefined, undefined, undefined, 
-                                                      minDate, undefined,
+                                                      undefined, undefined,
                                                       undefined, BuildStatus.InProgress, undefined, undefined,undefined,
                                                       undefined,undefined, undefined,undefined, undefined, undefined,
                                                       undefined,undefined, undefined);
