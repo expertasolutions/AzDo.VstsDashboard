@@ -113,7 +113,7 @@ export async function getBuilds(projectName: string, isFirstLoad: boolean, timeR
   let notStartedResult = await buildClient.getBuilds(projectName, undefined, undefined, undefined, undefined, undefined, undefined, undefined, BuildStatus.NotStarted);   
   let postponedResult = await buildClient.getBuilds(projectName, undefined, undefined, undefined, undefined, undefined, undefined, undefined, BuildStatus.Postponed); 
   let noneResult = await buildClient.getBuilds(projectName, undefined, undefined, undefined, undefined, undefined, undefined, undefined, BuildStatus.None);                                                
-  let completedResult = await buildClient.getBuilds(projectName, undefined, undefined, undefined, undefined, undefined, undefined, undefined, BuildStatus.Completed);    
+  let completedResult = await buildClient.getBuilds(projectName, undefined, undefined, undefined, minDate);
   
   let result = new Array<Build>();
   result.push(...inProgressResult);
