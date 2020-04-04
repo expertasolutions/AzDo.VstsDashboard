@@ -136,6 +136,24 @@ class CICDDashboard extends React.Component<{}, {}> {
           return 999;
         }
       });
+    } else {
+      buildDefList = buildDefList.sort((a,b) => {
+        if(b.latestBuild !== undefined && a.latestBuild !== undefined) {
+          if(a.latestBuild.id > b.latestBuild.id){
+            return -1;
+          } else if(a.latestBuild.id < b.latestBuild.id) {
+            return 1;
+          } else {
+            return 0;
+          }
+        } else if(b.latestBuild !== undefined && a.latestBuild === undefined) {
+          return 1;
+        } else if(b.latestBuild === undefined && a.latestBuild !== undefined) {
+          return -1;
+        } else {
+          return 0;
+        }
+      });
     }
     
     this.buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(buildDefList));
