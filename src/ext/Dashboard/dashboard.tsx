@@ -1,10 +1,9 @@
 import "es6-promise/auto";
 
 import * as React from "react";
-
 import * as SDK from "azure-devops-extension-sdk";
 
-import { getBuildDefinitionsV1, getBuildsV1 , getReleasesV1, getProjects, getProject } from "./PipelineServices";
+import { getBuildDefinitionsV1, getBuildsV1 , getReleasesV1, getProjects, getProject, sortBuilds, sortBuildReferences } from "./PipelineServices";
 import { dashboardColumns, buildColumns }  from "./tableData";
 
 import { KeywordFilterBarItem } from "azure-devops-ui/TextFilterBarItem";
@@ -18,7 +17,7 @@ import { Page } from "azure-devops-ui/Page";
 
 import { TeamProjectReference } from "azure-devops-extension-api/Core";
 import { BuildDefinitionReference, Build } from "azure-devops-extension-api/Build";
-import { Deployment } from "azure-devops-extension-api/Release";
+import { Deployment, Release } from "azure-devops-extension-api/Release";
 
 import { showRootComponent } from "../../Common";
 import { ArrayItemProvider } from "azure-devops-ui/Utilities/Provider";
@@ -29,30 +28,42 @@ import { CustomHeader, HeaderTitle, HeaderTitleArea, HeaderTitleRow, TitleSize, 
 import { IListBoxItem } from "azure-devops-ui/ListBox";
 import { Filter, FILTER_CHANGE_EVENT, FILTER_RESET_EVENT } from "azure-devops-ui/Utilities/Filter";
 import { FilterBar } from "azure-devops-ui/FilterBar";
-import { ZeroData, ZeroDataActionType } from "azure-devops-ui/ZeroData";
+import { ZeroData } from "azure-devops-ui/ZeroData";
 import { CommonServiceIds, IProjectPageService } from "azure-devops-extension-api";
 
 class CICDDashboard extends React.Component<{}, {}> {
   private isLoading = new ObservableValue<boolean>(true);
   private selectedTabId = new ObservableValue("summary");
+  private refreshUI = new ObservableValue(new Date().toTimeString());
+
   private projectSelection = new DropdownMultiSelection();
   private allDeploymentSelection = new DropdownSelection();
   private errorsOnSummaryTopSelection = new DropdownSelection();
   private onlyWithDeploymentSelection = new DropdownSelection();
+  private lastBuildsDisplaySelection = new DropdownSelection();
+
   private filter: Filter = new Filter();
   private allDeploymentFilter: Filter = new Filter();
   private errorsOnSummaryTopFilter = new Filter();
   private onlyBuildWithDeploymentFilter: Filter = new Filter();
+  private lastBuildsDisplayFilter: Filter = new Filter();
+
   private currentSelectedProjects: Array<string> = new Array<string>();
   private initialProjectName : string = "";
   private extensionVersion : string = "";
+
+  private showAllBuildDeployment = false;
+  private showOnlyBuildWithDeployments = false;
+  private showErrorsOnSummaryOnTop = true;
+  private lastBuildsDisplay = "lastHour";
+
+  private buildTimeRangeHasChanged = true;
 
   constructor(props: {}) {
     super(props);
 
     this.filter = new Filter();
-    setInterval(()=> this.updateFromProject(), 10000);
-    
+    setInterval(()=> this.updateFromProject(false), 10000);
   }
 
   state = {
@@ -61,8 +72,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     releases: Array<Deployment>(),
     projects: Array<TeamProjectReference>(),
     showAllBuildDeployment: false,
-    showOnlyBuildWithDeployments: false,
-    showErrorsOnSummaryOnTop: true
+    refreshUI: new Date().toTimeString()
   };
 
   private onFilterReset = async () => {
@@ -72,20 +82,23 @@ class CICDDashboard extends React.Component<{}, {}> {
       let index = this.state.projects.indexOf(prj);
       this.projectSelection.select(index);
       this.allDeploymentSelection.select(1);
-      this.setState({ showOnlyBuildWithDeployments: false });
+      this.showOnlyBuildWithDeployments = false;
       this.errorsOnSummaryTopSelection.select(0);
-      this.setState({ showErrorsOnSummaryOnTop: true });
+      this.showErrorsOnSummaryOnTop = true;
       this.onlyWithDeploymentSelection.select(1);
-      this.setState({ showAllBuildDeployment: false });
-      this.updateFromProject();
+      this.lastBuildsDisplaySelection.select(0);
+      this.lastBuildsDisplay = "lastHour";
+      this.showAllBuildDeployment = false;
+      this.updateFromProject(true);
     }
   }
 
   private onFilterChanged = () => {
     this.filterData();
     this.filterBuildsData();
-  };
-
+    this.refreshUI.value = new Date().toTimeString();
+  }
+  
   // BuildDefinition Summary
   private filterData() {
     let filterState = this.filter.getState();
@@ -102,7 +115,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       buildDefList = this.state.buildDefs;
     }
 
-    if(this.state.showOnlyBuildWithDeployments) {
+    if(this.showOnlyBuildWithDeployments) {
       let allBuildWithRelease = buildDefList.filter(
         b => b.latestCompletedBuild != undefined && this.state.releases.find(r=> 
             r.release.artifacts.find(a=> 
@@ -115,22 +128,8 @@ class CICDDashboard extends React.Component<{}, {}> {
       buildDefList = allBuildWithRelease;
     }
     
-    if(this.state.showErrorsOnSummaryOnTop) {
-      var reOrder = buildDefList;
-      buildDefList = reOrder.sort((a, b) => {
-        if(a.latestBuild !== undefined && b.latestBuild !== undefined){
-          return b.latestBuild.result - a.latestBuild.result;
-        } else if(a.latestBuild !== undefined && b.latestBuild === undefined) {
-          return a.latestBuild.result;
-        } else if(a.latestBuild === undefined && b.latestBuild !== undefined){
-          return b.latestBuild.result;
-        } else {
-          return 999;
-        }
-      });
-    }
-
-    this.buildReferenceProvider.value = new ArrayItemProvider(buildDefList);
+    buildDefList = sortBuildReferences(buildDefList, this.showErrorsOnSummaryOnTop);
+    this.buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(buildDefList));
   }
 
   // All Builds
@@ -146,7 +145,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       buildList = this.state.builds;
     }
 
-    if(this.state.showOnlyBuildWithDeployments) {
+    if(this.showOnlyBuildWithDeployments) {
       let allBuildWithRelease = buildList.filter(
         b => this.state.releases.find(r=> 
             r.release.artifacts.find(a=> 
@@ -161,7 +160,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     this.buildProvider.value = new ArrayItemProvider(buildList);
   }
 
-  private updateFromProject(){ 
+  private updateFromProject(firstLoad:boolean){ 
     this.currentSelectedProjects = new Array<string>();
 
     for(let i=0;i<this.projectSelection.value.length;i++){
@@ -172,21 +171,85 @@ class CICDDashboard extends React.Component<{}, {}> {
       }
     }
 
-    getBuildDefinitionsV1(this.currentSelectedProjects).then(result => {
-      this.setState({ buildDefs: result });
+    getBuildDefinitionsV1(this.currentSelectedProjects, firstLoad).then(result => {
+      let currentDef = this.state.buildDefs;
+      currentDef = result;
+      /*
+      if(firstLoad) {
+        currentDef = result;
+      } else {
+        for(let i=0;i<result.length;i++) {
+          let newDef = result[i];
+          let def = currentDef.find(x=> x.id === newDef.id);
+          if(def !== undefined) {
+            let defIndx = currentDef.indexOf(def, 0);
+            if(defIndx > -1) {
+              currentDef.splice(defIndx, 1);
+            }
+            currentDef.push(newDef);
+          } else {
+            currentDef.push(newDef);
+          }
+        }
+      }
+      */
+      this.setState({ buildDefs: currentDef });
       this.filterData();
     }).then(()=> {
       SDK.ready().then(()=> { this.isLoading.value = false; });
     });
    
     // Update the Release List
-    getReleasesV1(this.currentSelectedProjects).then(result => {
-      this.setState({releases: result });
+    getReleasesV1(this.currentSelectedProjects, firstLoad).then(result => {
+      let currentReleases = this.state.releases;
+      if(firstLoad) {
+        currentReleases = result;
+      } else {
+        for(let i=0;i<result.length;i++) {
+          let newRelease = result[i];
+          let rel = currentReleases.find(x=> x.id === newRelease.id);
+          if(rel !== undefined) {
+            let relIndex = currentReleases.indexOf(rel, 0);
+            if(relIndex > -1) {
+              currentReleases.splice(relIndex, 1);  
+            }
+            currentReleases.push(newRelease);
+          } else {
+            currentReleases.push(newRelease);
+          }
+        }
+      }
+      this.setState({ releases: currentReleases });
     });
-
+    
     // Update Builds Runs list...
-    getBuildsV1(this.currentSelectedProjects).then(result=> {
-      this.setState({ builds: result });
+    getBuildsV1(this.currentSelectedProjects, this.buildTimeRangeHasChanged, this.lastBuildsDisplay).then(result => {
+      let newResult = new Array<Build>();
+
+      if(!this.buildTimeRangeHasChanged && this.state.builds.length > 0) {
+        let currentResult = this.state.builds;
+        for(let i=0;i<result.length;i++) {
+          let newElement = result[i];
+          let existingElement = currentResult.find(x=> x.id === newElement.id);
+          if(existingElement !== undefined) {
+            let buildIndex = currentResult.indexOf(existingElement, 0);
+            if(buildIndex > -1) {
+              currentResult.splice(buildIndex, 1);
+              currentResult.push(newElement);
+            }
+          } else {
+            currentResult.push(newElement);
+          }
+        }
+        newResult = currentResult;
+      } else {
+        newResult = result;
+      }
+      newResult = sortBuilds(newResult);
+
+      this.setState({ builds: newResult });
+      this.refreshUI.value = new Date().toTimeString();
+      this.buildTimeRangeHasChanged = false;
       this.filterBuildsData();
     });
   }
@@ -194,38 +257,55 @@ class CICDDashboard extends React.Component<{}, {}> {
   private onOnlyBuildWithDeployments = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
     if(item.text !== undefined) {
       let showAll = item.text === "Yes";
-      this.setState({ showOnlyBuildWithDeployments: showAll });
+      this.showOnlyBuildWithDeployments = showAll;
     } else {
-      this.setState({ showOnlyBuildWithDeployments: false });
+      this.showOnlyBuildWithDeployments = false;
     }
-    this.updateFromProject();
+    this.refreshUI.value = new Date().toTimeString();
+    this.filterData();
+    this.filterBuildsData();
   }
 
   private onErrorsOnSummaryOnTop = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
     if(item.id !== undefined) {
       let showAll = item.id === "true";
-      this.setState({ showErrorsOnSummaryOnTop: showAll });
+      this.showErrorsOnSummaryOnTop = showAll;
     } else {
-      this.setState({ showErrorsOnSummaryOnTop: true });
+      this.showErrorsOnSummaryOnTop = true;
     }
-    this.updateFromProject();
+    this.refreshUI.value = new Date().toTimeString();
+    this.filterData();
   }
 
   private onAllDeploymentSelected = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
     if(item.text !== undefined) {
       let showAll = item.text === "Yes";
-      this.setState({ showAllBuildDeployment: showAll });
+      this.showAllBuildDeployment = showAll;
     } else {
-      this.setState({ showAllBuildDeployment: false });
+      this.showAllBuildDeployment = false;
     }
+    this.setState({ showAllBuildDeployment: this.showAllBuildDeployment });
+    this.refreshUI.value = new Date().toTimeString();
+    this.filterData();
   }
 
   private onProjectSelected = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
     // Reset the Pipeline KeyWord only, when TeamProject selection has changed
     let filterState = this.filter.getState();
+    this.buildTimeRangeHasChanged = true;
     filterState.pipelineKeyWord = null;
     this.filter.setState(filterState);
-    this.updateFromProject();
+    this.updateFromProject(true);
+  }
+
+  private onLastBuildsDisplaySelected = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
+    if(item.text !== undefined) {
+      console.log(item.id + " onLastBuildDisplaySelected");
+      this.lastBuildsDisplay = item.id;
+    }
+    this.buildTimeRangeHasChanged = true;
+    this.refreshUI.value = new Date().toTimeString();
+    this.updateFromProject(false);
   }
 
   public async loadProjects() {
@@ -247,7 +327,6 @@ class CICDDashboard extends React.Component<{}, {}> {
   private async initializeState(): Promise<void> {
     await SDK.init();
     //await SDK.ready();
-
     let hostInfo = SDK.getHost();
 
     let extContext = SDK.getExtensionContext();
@@ -257,16 +336,24 @@ class CICDDashboard extends React.Component<{}, {}> {
     let currentProject = await projectService.getProject();
     await this.loadProjects();
 
+    this.setState({ builds: new Array<Build>() });
+    this.setState({ releases: new Array<Deployment>() });
+
     if(currentProject != undefined){
       this.initialProjectName = currentProject.name;
       let prj = this.state.projects.find(x=> x.name === this.initialProjectName);
       if(prj != undefined) {
         let index = this.state.projects.indexOf(prj);
         this.projectSelection.select(index);
-        this.updateFromProject();
+        
         this.allDeploymentSelection.select(1);
         this.onlyWithDeploymentSelection.select(1);
         this.errorsOnSummaryTopSelection.select(0);
+        this.lastBuildsDisplaySelection.select(0);
+
+        this.updateFromProject(true);
+        this.filterData();
+        this.filterBuildsData();
       }
     }
   }
@@ -341,12 +428,12 @@ class CICDDashboard extends React.Component<{}, {}> {
     if(tabId === "summary") {
       if(this.buildReferenceProvider.value.length > 0) {
         return (
-          <Observer itemProvider={this.buildReferenceProvider}>
-            {(observableProps: {itemProvider: ArrayItemProvider<BuildDefinitionReference> }) => 
+          <Observer itemProvider={this.buildReferenceProvider} refreshUI={ this.refreshUI } >
+            {(props: {itemProvider: ArrayItemProvider<BuildDefinitionReference> }) => 
               {
                 return (
                   <Table<BuildDefinitionReference> columns={dashboardColumns} 
-                      itemProvider={observableProps.itemProvider}
+                      itemProvider={props.itemProvider}
                       showLines={true}
                       role="table"/>
                 );
@@ -360,7 +447,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     } else if(tabId === "builds") {
       return (
         <Observer itemProvider={ this.buildProvider }>
-          {(observableProps: {itemProvider: ArrayItemProvider<Build> }) => (
+          {(observableProps: { itemProvider: ArrayItemProvider<Build> }) => (
               <Table<Build> columns={buildColumns} 
                   itemProvider={observableProps.itemProvider}
                   showLines={true}
@@ -403,7 +490,8 @@ class CICDDashboard extends React.Component<{}, {}> {
             {this.renderTabBar()}
           </div>
           <div className="page-content-left page-content-right page-content-top">
-          <Observer selectedTabId={this.selectedTabId} isLoading={this.isLoading}>
+          <Observer selectedTabId={this.selectedTabId} 
+                    isLoading={this.isLoading}>
             {(props: { selectedTabId: string, isLoading: boolean }) => {
                 let errorOnTopFilter = (
                   <DropdownFilterBarItem
@@ -420,14 +508,36 @@ class CICDDashboard extends React.Component<{}, {}> {
                         hideClearAction={true}/>
                 );
 
+                let lastBuildsDisplay = (
+                  <DropdownFilterBarItem
+                    filterItemKey="lastBuildsDisplay"
+                    filter={this.lastBuildsDisplayFilter}
+                    disabled={props.selectedTabId === "summary"}
+                    placeholder="Show Pipelines from"
+                    items={[
+                      { id: "lastHour", text: "Last hour"},
+                      { id: "last4Hours", text: "Last 4 hours"},
+                      { id: "last8Hours", text: "Last 8 hours"},
+                      { id: "today", text: "Today"},
+                      { id: "yesterday", text: "Yesterday"},
+                      { id: "lastweek", text: "Last Week"},
+                    ]}
+                    onSelect={this.onLastBuildsDisplaySelected}
+                    selection={this.lastBuildsDisplaySelection}
+                    hideClearAction={true}/>
+                );
+
                 if(props.selectedTabId !== "summary") {
                   errorOnTopFilter = (<div></div>);
+                } else {
+                  lastBuildsDisplay = (<div></div>);
                 }
 
                 return (
                   <FilterBar filter={this.filter}>
                     <KeywordFilterBarItem filterItemKey="pipelineKeyWord" />
                     { errorOnTopFilter }
+                    { lastBuildsDisplay }
                     <DropdownFilterBarItem
                       filterItemKey="onlyWithDeployments"
                       filter={this.onlyBuildWithDeploymentFilter}
@@ -471,25 +581,27 @@ class CICDDashboard extends React.Component<{}, {}> {
           </div>
           <div className="page-content page-content-top page-content-bottom">
             <DataContext.Provider value={{ state: this.state }}>
-                <Observer isLoading={this.isLoading}> 
+                <Observer isLoading={this.isLoading} refreshUI={this.refreshUI}> 
                   {(props: {isLoading: boolean }) => {
                     if(props.isLoading) {
                       return this.renderFirstLoad();
                     } else {
                       return (
-                        <Observer selectedTabId={this.selectedTabId}>
-                            {(props: { selectedTabId: string }) => {
+                        <Observer selectedTabId={this.selectedTabId} refreshUI={this.refreshUI}>
+                            {(props: { selectedTabId: string, refreshUI: string }) => {
                               if(this.state.buildDefs.length === 0){
                                 return this.renderZeroData(this.selectedTabId.value);
                               } else {
                                 return (
-                                  <Card className="flex-grow bolt-table-card" 
+                                  <div>
+                                    <Card className="flex-grow bolt-table-card" 
                                         titleProps={{ text: "All pipelines" }} 
                                         contentProps={{ contentPadding: false }}>
-                                            <div style={{ marginTop: "16px;", marginBottom: "16px;"}}>
-                                                { this.renderTab(props.selectedTabId) }
-                                            </div>
-                                  </Card>
+                                          <div style={{ marginTop: "16px;", marginBottom: "16px;"}}>
+                                              { this.renderTab(props.selectedTabId) }
+                                          </div>
+                                    </Card>
+                                  </div>
                                 );
                               }
                             }}
