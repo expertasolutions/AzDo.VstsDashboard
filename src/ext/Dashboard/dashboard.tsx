@@ -14,6 +14,7 @@ import { Table } from "azure-devops-ui/Table";
 import { Tab, TabBar, TabSize } from "azure-devops-ui/Tabs";
 import { Surface, SurfaceBackground } from "azure-devops-ui/Surface";
 import { Page } from "azure-devops-ui/Page";
+import { Link } from "azure-devops-ui/Link";
 
 import { TeamProjectReference } from "azure-devops-extension-api/Core";
 import { BuildDefinitionReference, Build } from "azure-devops-extension-api/Build";
@@ -51,6 +52,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   private currentSelectedProjects: Array<string> = new Array<string>();
   private initialProjectName : string = "";
   private extensionVersion : string = "";
+  private releaseNoteVersion: string = "";
 
   private showAllBuildDeployment = false;
   private showOnlyBuildWithDeployments = false;
@@ -331,6 +333,7 @@ class CICDDashboard extends React.Component<{}, {}> {
 
     let extContext = SDK.getExtensionContext();
     this.extensionVersion = "v" + extContext.version;
+    this.releaseNoteVersion = "https://github.com/expertasolutions/VstsDashboard/releases/tag/" + extContext.version;
 
     const projectService = await SDK.getService<IProjectPageService>(CommonServiceIds.ProjectPageService);
     let currentProject = await projectService.getProject();
@@ -482,7 +485,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                 </HeaderTitle>
               </HeaderTitleRow>
               <HeaderDescription>
-                {this.extensionVersion}
+                <Link href={this.releaseNoteVersion} target="_blank">{this.extensionVersion}</Link>
               </HeaderDescription>
             </HeaderTitleArea>
           </CustomHeader>
