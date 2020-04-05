@@ -1,7 +1,7 @@
 
 ### Related to [Issue0100](https://github.com/expertasolutions/VstsDashboard/issues/100)
 
-- Add the link 'make a request' from the dashboard to let users:
+- Add the link 'send a request' from the dashboard to let users:
   - Request a feature
   - Report an issue
   - Ask for questions
