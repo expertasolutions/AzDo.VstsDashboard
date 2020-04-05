@@ -64,10 +64,10 @@ export function renderBuildRef01 (
 export function getPendingBuild(buildRef: BuildDefinitionReference, buildList: Build[]) {
   let currentQueued = buildList.filter(x=> x.definition.id === buildRef.id && (x.status !== BuildStatus.Completed ));
   if(currentQueued.length == 2) {
-    return (<span>&nbsp;-&nbsp;{currentQueued.length} pending build</span>)
+    return (<span>&nbsp;-&nbsp;{currentQueued.length-1} pending build</span>)
   }
   else if(currentQueued.length > 2){
-    return (<span>&nbsp;-&nbsp;{currentQueued.length} pending builds</span>)
+    return (<span>&nbsp;-&nbsp;{currentQueued.length-1} pending builds</span>)
   } else {
     return (<span></span>)
   }
