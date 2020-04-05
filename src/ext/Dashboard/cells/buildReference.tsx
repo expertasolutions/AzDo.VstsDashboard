@@ -41,18 +41,18 @@ export function renderBuildRef01 (
               columnIndex={columnIndex}
               tableColumn={tableColumn}
               key={"col-" + columnIndex}
-              contentClassName="fontWeightSemiBold font-weight-semibold fontSizeM font-size-m scroll-hidden bolt-table-cell-primary">
+              contentClassName="fontSizeM font-size-m scroll-hidden bolt-table-cell-primary">
               <Status {...getBuildDefinitionStatus(tableItem).statusProps}
                       className="icon-large-margin"
                       size={StatusSize.l}/>
               <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
-                <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
+                <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}} className="fontWeightSemiBold font-weight-semibold">
                   <Link href={definitionUrl} target="_blank" className="bolt-table-cell-primary">
                     {tableItem.name}
                   </Link>
                 </div>
                 <div className="font-size-s" style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
-                  {projectName}&nbsp;-&nbsp;{getPendingBuild(tableItem, context.state.builds)}
+                  <span className="fontWeightSemiBold font-weight-semibold">{projectName}</span>&nbsp;-&nbsp;{getPendingBuild(tableItem, context.state.builds)}
                 </div>
               </div>
           </SimpleTableCell>
