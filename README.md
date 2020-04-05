@@ -5,6 +5,8 @@ The intention was to see what's currently happened into the CI/CD pipeline and p
 
 ![CICD_Screencapture](screenshots/CI_CD_Dashboard.png)
 
+### See [Release notes](https://github.com/expertasolutions/ExpertaDevOpsToolSet/releases)
+
 ### **Note**
 The UI of this extension has been develop in occordance of the [Formula Design System](https://developer.microsoft.com/en-ca/azure-devops) provided by microsoft.
 
