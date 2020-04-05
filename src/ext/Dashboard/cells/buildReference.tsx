@@ -52,7 +52,7 @@ export function renderBuildRef01 (
                   </Link>
                 </div>
                 <div className="font-size-s" style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
-                  {projectName}{getPendingBuild(tableItem, context.state.builds)}
+                  {projectName}&nbsp;-&nbsp;{getPendingBuild(tableItem, context.state.builds)}
                 </div>
               </div>
           </SimpleTableCell>
@@ -63,8 +63,11 @@ export function renderBuildRef01 (
 
 export function getPendingBuild(buildRef: BuildDefinitionReference, buildList: Build[]) {
   let currentQueued = buildList.filter(x=> x.status === BuildStatus.InProgress || x.status === BuildStatus.NotStarted);
-  if(currentQueued.length > 1){
-    return (<span>{currentQueued.length} pending</span>)
+  if(currentQueued.length == 2) {
+    return (<span>{currentQueued.length} pending build</span>)
+  }
+  else if(currentQueued.length > 2){
+    return (<span>{currentQueued.length} pending builds</span>)
   } else {
     return (<span></span>)
   }
