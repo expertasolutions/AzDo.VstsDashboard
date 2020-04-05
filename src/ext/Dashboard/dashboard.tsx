@@ -15,6 +15,7 @@ import { Tab, TabBar, TabSize } from "azure-devops-ui/Tabs";
 import { Surface, SurfaceBackground } from "azure-devops-ui/Surface";
 import { Page } from "azure-devops-ui/Page";
 import { Link } from "azure-devops-ui/Link";
+import { Icon } from "azure-devops-ui/Icon";
 
 import { TeamProjectReference } from "azure-devops-extension-api/Core";
 import { BuildDefinitionReference, Build } from "azure-devops-extension-api/Build";
@@ -486,7 +487,7 @@ class CICDDashboard extends React.Component<{}, {}> {
               </HeaderTitleRow>
               <HeaderDescription>
                 <Link href={this.releaseNoteVersion} target="_blank">{this.extensionVersion}</Link>
-                <Link href="https://github.com/expertasolutions/VstsDashboard/issues" target="_blank">make a request</Link>
+                <Icon iconName="FeedbackRequestSolid"/> <Link href="https://github.com/expertasolutions/VstsDashboard/issues" target="_blank">make a request</Link>
               </HeaderDescription>
             </HeaderTitleArea>
           </CustomHeader>
