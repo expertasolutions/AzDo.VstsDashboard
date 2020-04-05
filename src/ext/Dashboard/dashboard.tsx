@@ -486,6 +486,7 @@ class CICDDashboard extends React.Component<{}, {}> {
               </HeaderTitleRow>
               <HeaderDescription>
                 <Link href={this.releaseNoteVersion} target="_blank">{this.extensionVersion}</Link>
+                <Link href="https://github.com/expertasolutions/VstsDashboard/issues" target="_blank">make a request</Link>
               </HeaderDescription>
             </HeaderTitleArea>
           </CustomHeader>
