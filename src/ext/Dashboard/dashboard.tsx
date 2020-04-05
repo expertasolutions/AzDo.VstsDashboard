@@ -7,7 +7,7 @@ import { getBuildDefinitionsV1, getBuildsV1 , getReleasesV1, getProjects, getPro
 import { dashboardColumns, buildColumns }  from "./tableData";
 
 import { KeywordFilterBarItem } from "azure-devops-ui/TextFilterBarItem";
-import { DropdownFilterBarItem, Dropdown } from "azure-devops-ui/Dropdown";
+import { DropdownFilterBarItem } from "azure-devops-ui/Dropdown";
 import { DropdownSelection, DropdownMultiSelection } from "azure-devops-ui/Utilities/DropdownSelection";
 import { Card } from "azure-devops-ui/Card";
 import { Table } from "azure-devops-ui/Table";
@@ -15,10 +15,11 @@ import { Tab, TabBar, TabSize } from "azure-devops-ui/Tabs";
 import { Surface, SurfaceBackground } from "azure-devops-ui/Surface";
 import { Page } from "azure-devops-ui/Page";
 import { Link } from "azure-devops-ui/Link";
+import { Icon } from "azure-devops-ui/Icon";
 
 import { TeamProjectReference } from "azure-devops-extension-api/Core";
 import { BuildDefinitionReference, Build } from "azure-devops-extension-api/Build";
-import { Deployment, Release } from "azure-devops-extension-api/Release";
+import { Deployment } from "azure-devops-extension-api/Release";
 
 import { showRootComponent } from "../../Common";
 import { ArrayItemProvider } from "azure-devops-ui/Utilities/Provider";
@@ -470,7 +471,7 @@ class CICDDashboard extends React.Component<{}, {}> {
             tabSize={TabSize.Tall}>
             <Tab name="Summary" id="summary"/>
             <Tab name="All Runs" id="builds"/>
-          </TabBar>);          
+          </TabBar>);
   }
 
   public render() : JSX.Element {
@@ -485,7 +486,8 @@ class CICDDashboard extends React.Component<{}, {}> {
                 </HeaderTitle>
               </HeaderTitleRow>
               <HeaderDescription>
-                <Link href={this.releaseNoteVersion} target="_blank">{this.extensionVersion}</Link>
+                <Link href={this.releaseNoteVersion} target="_blank" subtle={true}>{this.extensionVersion}</Link>&nbsp;
+                <Icon iconName="FeedbackRequestSolid"/><Link href="https://github.com/expertasolutions/VstsDashboard/issues" target="_blank" subtle={true}>send a request</Link>
               </HeaderDescription>
             </HeaderTitleArea>
           </CustomHeader>

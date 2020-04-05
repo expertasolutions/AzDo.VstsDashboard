@@ -1,10 +1,10 @@
 
-### Related to [Issue0096](https://github.com/expertasolutions/VstsDashboard/issues/96)
+### Related to [Issue0100](https://github.com/expertasolutions/VstsDashboard/issues/100)
 
-- Add the Release notes support for GitHub release from the Azure DevOps Release pipeline
+- Review v1.x.y.z styling
+- Add the link 'send a request' from the dashboard to let users:
+  - Request a feature
+  - Report an issue
+  - Ask for questions
 
-  ![Issue0096](_ReleaseNotes/Issue0096/Issue0096-01.png)
-
-- Add version link to GitHub Release note tag
-
-  ![Issue0096](_ReleaseNotes/Issue0096/Issue0096-02.png)
+  ![Issue0100](_ReleaseNotes/Issue0100/Issue0100-01.png)
