@@ -471,7 +471,7 @@ class CICDDashboard extends React.Component<{}, {}> {
             tabSize={TabSize.Tall}>
             <Tab name="Summary" id="summary"/>
             <Tab name="All Runs" id="builds"/>
-          </TabBar>);          
+          </TabBar>);
   }
 
   public render() : JSX.Element {
@@ -486,8 +486,8 @@ class CICDDashboard extends React.Component<{}, {}> {
                 </HeaderTitle>
               </HeaderTitleRow>
               <HeaderDescription>
-                <Link href={this.releaseNoteVersion} target="_blank">{this.extensionVersion}</Link>&nbsp;-&nbsp;
-                <Icon iconName="FeedbackRequestSolid"/>&nbsp;<Link href="https://github.com/expertasolutions/VstsDashboard/issues" target="_blank">make a request</Link>
+                <Link href={this.releaseNoteVersion} target="_blank" subtle={true}>{this.extensionVersion}</Link>&nbsp;-&nbsp;
+                <Icon iconName="FeedbackRequestSolid"/>&nbsp;<Link href="https://github.com/expertasolutions/VstsDashboard/issues" target="_blank" subtle={true}>make a request</Link>
               </HeaderDescription>
             </HeaderTitleArea>
           </CustomHeader>
