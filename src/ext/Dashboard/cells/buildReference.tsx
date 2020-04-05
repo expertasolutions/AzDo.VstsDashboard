@@ -18,11 +18,12 @@ import {
 import { Ago } from "azure-devops-ui/Ago";
 import { Duration } from "azure-devops-ui/Duration";
 
-import { BuildDefinitionReference } from "azure-devops-extension-api/Build";
+import { BuildDefinitionReference, BuildStatus } from "azure-devops-extension-api/Build";
 import { Status, Statuses, StatusSize } from "azure-devops-ui/Status";
 import { Link } from "azure-devops-ui/Link";
 import { Icon } from "azure-devops-ui/Icon";
 import { DataContext } from "../dataContext";
+import { Build } from "azure-devops-extension-api/Build";
 
 export function renderBuildRef01 (
   rowIndex: number,
@@ -34,24 +35,42 @@ export function renderBuildRef01 (
   let projectName = tableItem.project.name;
 
   return (
-      <SimpleTableCell
-          columnIndex={columnIndex}
-          tableColumn={tableColumn}
-          key={"col-" + columnIndex}
-          contentClassName="fontWeightSemiBold font-weight-semibold fontSizeM font-size-m scroll-hidden bolt-table-cell-primary">
-          <Status {...getBuildDefinitionStatus(tableItem).statusProps}
-                  className="icon-large-margin"
-                  size={StatusSize.l}/>
-          <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
-            <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
-              <Link href={definitionUrl} target="_blank" className="bolt-table-cell-primary">
-                {tableItem.name}
-              </Link>
-            </div>
-            <div className="font-size-s" style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>{projectName}</div>
-          </div>
-    </SimpleTableCell>
+      <DataContext.Consumer>
+        {(context) => (
+          <SimpleTableCell
+              columnIndex={columnIndex}
+              tableColumn={tableColumn}
+              key={"col-" + columnIndex}
+              contentClassName="fontSizeM font-size-m scroll-hidden bolt-table-cell-primary">
+              <Status {...getBuildDefinitionStatus(tableItem).statusProps}
+                      className="icon-large-margin"
+                      size={StatusSize.l}/>
+              <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
+                <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}} className="fontWeightSemiBold font-weight-semibold">
+                  <Link href={definitionUrl} target="_blank" className="bolt-table-cell-primary">
+                    {tableItem.name}
+                  </Link>
+                </div>
+                <div className="font-size-s" style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
+                  <span className="fontWeightSemiBold font-weight-semibold">{projectName}</span>{getPendingBuild(tableItem, context.state.builds)}
+                </div>
+              </div>
+          </SimpleTableCell>
+        )}
+      </DataContext.Consumer>
   );
+}
+
+export function getPendingBuild(buildRef: BuildDefinitionReference, buildList: Build[]) {
+  let currentQueued = buildList.filter(x=> x.definition.id === buildRef.id && (x.status !== BuildStatus.Completed ));
+  if(currentQueued.length == 2) {
+    return (<span>&nbsp;-&nbsp;{currentQueued.length-1} pending build</span>)
+  }
+  else if(currentQueued.length > 2){
+    return (<span>&nbsp;-&nbsp;{currentQueued.length-1} pending builds</span>)
+  } else {
+    return (<span></span>)
+  }
 }
 
 export function renderLastBuild01 (
@@ -176,8 +195,7 @@ export function renderLastBuild02(
           columnIndex={columnIndex}
           tableColumn={tableColumn}
           line1={requestByCtrl}
-          line2={buildTimeCtrl}
-      />
+          line2={buildTimeCtrl} />
   );
 }
 
