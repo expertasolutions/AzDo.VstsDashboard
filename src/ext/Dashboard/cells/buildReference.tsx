@@ -62,7 +62,7 @@ export function renderBuildRef01 (
 }
 
 export function getPendingBuild(buildRef: BuildDefinitionReference, buildList: Build[]) {
-  let currentQueued = buildList.filter(x=> x.status === BuildStatus.InProgress || x.status === BuildStatus.NotStarted);
+  let currentQueued = buildList.filter(x=> x.definition.id === buildRef.id && (x.status === BuildStatus.InProgress || x.status === BuildStatus.NotStarted));
   if(currentQueued.length == 2) {
     return (<span>{currentQueued.length} pending build</span>)
   }
