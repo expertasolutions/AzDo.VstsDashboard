@@ -1,6 +1,6 @@
 
-### Related to [Issue098](https://github.com/expertasolutions/VstsDashboard/issues/98)
+### Related to [Issue093](https://github.com/expertasolutions/VstsDashboard/issues/93)
 
-- Add # of pending builds is currently queued
+- Azure DevOps API query optimization
 
-  ![Issue0098](_ReleaseNotes/Issue0098/Issue0098-01.png)
+  ![Issue0093](_ReleaseNotes/Issue0093/Issue0093-01.png)
