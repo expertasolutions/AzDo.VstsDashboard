@@ -186,5 +186,7 @@ export async function getBuildDefinitions(projectName: string, isFirstLoad: bool
                                               undefined, undefined, undefined, undefined, undefined,
                                               undefined, minDate, undefined,undefined, true, undefined, 
                                               undefined, undefined);
+
+  console.log("getBuildDefinitions: " + projectName + " | " + isFirstLoad + " | " + result.length + " build found");
   return result;
 }
