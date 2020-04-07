@@ -174,9 +174,17 @@ export async function getBuildDefinitionsV1(projectList: Array<string>, isFirstL
 }
 
 export async function getBuildDefinitions(projectName: string, isFirstLoad: boolean) {
+  const MS_IN_MIN = 60000;
+  let minDate = undefined;
+  let now = new Date();
+
+  if(!isFirstLoad) {
+    minDate = new Date(now.valueOf() - 5 * MS_IN_MIN);
+  }
+
   let result = await buildClient.getDefinitions(projectName, undefined, undefined, undefined,
                                               undefined, undefined, undefined, undefined, undefined,
-                                              undefined, undefined, undefined,undefined, true, undefined, 
+                                              undefined, minDate, undefined,undefined, true, undefined, 
                                               undefined, undefined);
   return result;
 }
