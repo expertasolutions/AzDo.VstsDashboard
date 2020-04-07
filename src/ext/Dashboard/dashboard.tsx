@@ -238,13 +238,16 @@ class CICDDashboard extends React.Component<{}, {}> {
             if(buildIndex > -1) {
               currentResult.splice(buildIndex, 1);
               currentResult.push(newElement);
-              
-              let buildDef = this.state.buildDefs.find(x=> x.id === newElement.definition.id);
-              if(buildDef !== undefined) {
-                buildDef.latestBuild = newElement;
-                
-              }
 
+              let buildDefs = this.state.buildDefs;
+              let buildDef = buildDefs.find(x=> x.id === newElement.definition.id);
+              if(buildDef !== undefined) {
+                let buildDefIndex = buildDefs.indexOf(buildDef, 0);
+                if(buildDefIndex > -1) {
+                  buildDefs[buildDefIndex].latestBuild = newElement;
+                  this.setState({ buildDefs: buildDefs });
+                }
+              }
             }
           } else {
             currentResult.push(newElement);
