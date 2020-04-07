@@ -176,7 +176,6 @@ class CICDDashboard extends React.Component<{}, {}> {
 
     getBuildDefinitionsV1(this.currentSelectedProjects, firstLoad).then(result => {
       let currentDef = this.state.buildDefs;
-      currentDef = result;
 
       if(firstLoad) {
         currentDef = result;
