@@ -7,9 +7,8 @@
   "description": "Provide a simple way to view all Builds and Releases on a single page.",
   "categories": ["Azure Pipelines"],
   "targets": [
-    {
-      "id": "Microsoft.VisualStudio.Services"
-    }
+    { "id": "Microsoft.VisualStudio.Services.Cloud" },
+    { "id": "Microsoft.TeamFoundation.Server", "version": "[17.153,)" }
   ],
   "demands": [
     "api-version/5.0"
