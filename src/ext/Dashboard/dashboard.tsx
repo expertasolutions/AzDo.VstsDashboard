@@ -223,6 +223,10 @@ class CICDDashboard extends React.Component<{}, {}> {
     });
     
     // Update Builds Runs list...
+    if(firstLoad) {
+      this.buildTimeRangeHasChanged = true;
+    }
+    
     getBuildsV1(this.currentSelectedProjects, this.buildTimeRangeHasChanged, this.lastBuildsDisplay).then(result => {
       let newResult = new Array<Build>();
 
