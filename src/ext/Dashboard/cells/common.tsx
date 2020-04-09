@@ -251,6 +251,7 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
         let lastDep = lastDeploys.sort(x=> -x.id)[0];
         let envName = lastDep.releaseEnvironment.name;
         let env = lastRelease.find(x => x === envName);
+
         if(env === undefined) {
           let pendingApproval = waitingForApproval(lastDep, lastDep.releaseEnvironment.id);
           let envDepNumber = lastDeploys.length;
@@ -260,7 +261,7 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
           let pillContent = " " + lastDep.releaseEnvironment.name + " ";
           
           if(envDepNumber > 1) {
-            pillContent += "(" + envDepNumber + ")";
+            pillContent += "(" + lastDep.attempt + " on " + envDepNumber + ")";
           }
 
           children.push(
