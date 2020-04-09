@@ -215,7 +215,7 @@ class CICDDashboard extends React.Component<{}, {}> {
               currentReleases[relIndex] = newRelease;
             }
           } else {
-            currentReleases.splice(0, 0, newRelease);ç
+            currentReleases.splice(0, 0, newRelease);
           }
         }
       }
