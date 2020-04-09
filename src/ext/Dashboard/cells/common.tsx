@@ -248,9 +248,11 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
         let dep = releaseDeploys[i];
         let lastDeploys = releaseDeploys.filter(x=> x.releaseEnvironment.name === dep.releaseEnvironment.name);
 
-        let lastDep = lastDeploys.sort(x=> -x.attempt)[0];
-        let envName = lastDep.releaseEnvironment.name;
-        let env = lastRelease.find(x => x === envName);
+        for(let x=0;x<lastDeploys.length;x++) {
+          let lastDep = lastDeploys[x];
+          //let lastDep = lastDeploys.sort(x=> -x.attempt)[0];
+          let envName = lastDep.releaseEnvironment.name;
+          let env = lastRelease.find(x => x === envName);
 
         //if(env === undefined) {
           let pendingApproval = waitingForApproval(lastDep, lastDep.releaseEnvironment.id);
@@ -269,7 +271,7 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
               onClick={() => window.open(lastDep.releaseEnvironment._links.web.href, "_blank") }>
               <Status {...relStatusInfo.statusProps} className="icon-small-margin" size={StatusSize.s} />{pillContent}
             </Pill>)
-        //}
+        }
       }
 
       let all = allRelease;
