@@ -190,6 +190,8 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
   if(build === undefined) {
     return (<div>Not deploy yet</div>);
   }
+
+  releases = releases.sort(x=> -x.id);
   
   //releases = releases.sort(x=> -x.id);
 
@@ -244,10 +246,9 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
 
       for(let i=0;i<releaseDeploys.length;i++) {
         let dep = releaseDeploys[i];
-        let lastDeploys = releaseDeploys.filter(x=> x.releaseEnvironment.name === dep.releaseEnvironment.name)
-                          .sort(x=> -x.attempt);
+        let lastDeploys = releaseDeploys.filter(x=> x.releaseEnvironment.name === dep.releaseEnvironment.name);
 
-        let lastDep = lastDeploys[0];
+        let lastDep = lastDeploys.sort(x=> -x.id)[0];
         let envName = lastDep.releaseEnvironment.name;
         let env = lastRelease.find(x => x === envName);
         if(env === undefined) {
