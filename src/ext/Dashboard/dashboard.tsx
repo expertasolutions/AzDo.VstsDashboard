@@ -220,7 +220,7 @@ class CICDDashboard extends React.Component<{}, {}> {
         }
       }
 
-      this.setState({ releases: currentReleases.sort(x=> -x.id) });
+      this.setState({ releases: currentReleases });
     });
     
     // Update Builds Runs list...

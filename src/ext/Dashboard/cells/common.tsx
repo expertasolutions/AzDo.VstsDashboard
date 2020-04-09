@@ -190,6 +190,8 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
   if(build === undefined) {
     return (<div>Not deploy yet</div>);
   }
+  
+  releases = releases.sort(x=> -x.id);
 
   let deploys = releases.filter(
     x=> x.release.artifacts.find(
@@ -220,7 +222,7 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
           return version.id === build.id.toString();
         }
       ) != null && x.releaseDefinition.name === depName
-    ).sort(x=> -x.id);
+    );
     
     let releaseReferences = Array<ReleaseReference>();
     for(let i=0;i<deploys.length;i++) {
@@ -234,8 +236,6 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
     let children = [];
     let lastRelease = Array<string>();
 
-    releaseReferences = releaseReferences.sort(x=> -x.id);
-
     for(let relRef=0;relRef<releaseReferences.length;relRef++){
       let relRefInfo = releaseReferences[relRef];
       lastRelease = Array<string>();
@@ -244,7 +244,7 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
 
       for(let i=0;i<releaseDeploys.length;i++) {
         let dep = releaseDeploys[i];
-        let lastDeploys = releaseDeploys.filter(x=> x.releaseEnvironment.name === dep.releaseEnvironment.name).sort(x=> -x.id);
+        let lastDeploys = releaseDeploys.filter(x=> x.releaseEnvironment.name === dep.releaseEnvironment.name);
 
         let lastDep = lastDeploys[0];
         let envName = lastDep.releaseEnvironment.name;
