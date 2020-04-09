@@ -234,7 +234,7 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
     let children = [];
     let lastRelease = Array<string>();
 
-    releaseReferences = releaseReferences.sort(x=> -x.id);
+    releaseReferences = releaseReferences.sort((a, b) => b.id - a.id);
 
     for(let relRef=0;relRef<releaseReferences.length;relRef++){
       let relRefInfo = releaseReferences[relRef];
