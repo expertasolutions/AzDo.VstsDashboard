@@ -229,21 +229,26 @@ class CICDDashboard extends React.Component<{}, {}> {
 
     getBuildsV1(this.currentSelectedProjects, this.buildTimeRangeHasChanged, this.lastBuildsDisplay).then(result => {
       let newResult = new Array<Build>();
+      let currentResult = this.state.builds;
 
-      //if(!this.buildTimeRangeHasChanged && this.state.builds.length > 0) {
-        let currentResult = this.state.builds;
+      if(this.buildTimeRangeHasChanged) {
+        currentResult = result;
+      } else {
         for(let i=0;i<result.length;i++) {
           let newElement = result[i];
           let existingElement = currentResult.find(x=> x.id === newElement.id);
+          
           if(existingElement !== undefined) {
             let buildIndex = currentResult.indexOf(existingElement, 0);
+            
             if(buildIndex > -1) {
               currentResult[buildIndex] = newElement;
-
               let buildDefs = this.state.buildDefs;
               let buildDef = buildDefs.find(x=> x.id === newElement.definition.id);
+
               if(buildDef !== undefined && buildDef.latestBuild.id <= newElement.id) {
                 let buildDefIndex = buildDefs.indexOf(buildDef, 0);
+            
                 if(buildDefIndex > -1) {
                   buildDefs[buildDefIndex].latestBuild = newElement;
                   this.setState({ buildDefs: buildDefs });
@@ -254,10 +259,9 @@ class CICDDashboard extends React.Component<{}, {}> {
             currentResult.push(newElement);
           }
         }
-        newResult = currentResult;
-      //} else {
-      //  newResult = result;
-      //}
+      }
+
+      newResult = currentResult;
       newResult = sortBuilds(newResult);
 
       this.setState({ builds: newResult });
