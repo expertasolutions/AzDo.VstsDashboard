@@ -191,10 +191,6 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
     return (<div>Not deploy yet</div>);
   }
 
-  //releases = releases.sort(x=> x.id);
-  
-  //releases = releases.sort(x=> -x.id);
-
   let deploys = releases.filter(
     x=> x.release.artifacts.find(
       a=> {
@@ -285,7 +281,7 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
 
       if(deploys.length > 0) {
         content.push(<div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
-                        <Link href={relRefInfo._links.web.href} target="_blank"><b>{depName}</b> ({relRefInfo.name})</Link>
+                        <Link href={relRefInfo._links.web.href} target="_blank">{relRefInfo.id} <b>{depName}</b> ({relRefInfo.name})</Link>
                         <p><PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{children}</PillGroup></p>
                     </div>);
       }
