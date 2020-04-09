@@ -244,8 +244,9 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
       let releaseDeploys = deploys.filter(x=> x.release.id == relRefInfo.id && x.releaseDefinition.name === depName)
                             .sort((a,b)=> a.releaseEnvironment.id - b.releaseEnvironment.id);
 
-      for(let i=0;i<releaseDeploys.length;i++) {
-        let dep = releaseDeploys[i];
+
+      //for(let i=0;i<releaseDeploys.length;i++) {
+        let dep = releaseDeploys[0];
         let lastDeploys = releaseDeploys.filter(x=> x.releaseEnvironment.name === dep.releaseEnvironment.name);
 
         for(let x=0;x<lastDeploys.length;x++) {
@@ -272,7 +273,7 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
               <Status {...relStatusInfo.statusProps} className="icon-small-margin" size={StatusSize.s} />{pillContent}
             </Pill>)
         }
-      }
+      //}
 
       let all = allRelease;
       if(all === false) {
