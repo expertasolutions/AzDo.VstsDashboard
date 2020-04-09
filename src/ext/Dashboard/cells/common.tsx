@@ -252,7 +252,7 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
         let envName = lastDep.releaseEnvironment.name;
         let env = lastRelease.find(x => x === envName);
 
-        if(env === undefined) {
+        //if(env === undefined) {
           let pendingApproval = waitingForApproval(lastDep, lastDep.releaseEnvironment.id);
           let envDepNumber = lastDeploys.length;
 
@@ -269,7 +269,7 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
               onClick={() => window.open(lastDep.releaseEnvironment._links.web.href, "_blank") }>
               <Status {...relStatusInfo.statusProps} className="icon-small-margin" size={StatusSize.s} />{pillContent}
             </Pill>)
-        }
+        //}
       }
 
       let all = allRelease;
