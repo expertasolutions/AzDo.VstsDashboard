@@ -198,7 +198,7 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
         return version.id === build.id.toString();
       }
     ) != null
-  ).sort(x => -x.id);
+  );
 
   let uniqueRelDef = Array<string>();
   for(let feDep=0;feDep<deploys.length;feDep++){
@@ -220,7 +220,7 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
           return version.id === build.id.toString();
         }
       ) != null && x.releaseDefinition.name === depName
-    ).sort(x => -x.id);
+    );
     
     let releaseReferences = Array<ReleaseReference>();
     for(let i=0;i<deploys.length;i++) {
@@ -249,7 +249,6 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
         let env = lastRelease.find(x => x === envName);
         if(env === undefined) {
           let pendingApproval = waitingForApproval(lastDep, lastDep.releaseEnvironment.id);
-
           let envDepNumber = lastDeploys.length;
 
           lastRelease.push(lastDep.releaseEnvironment.name);
@@ -273,6 +272,7 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
         relRef = releaseReferences.length;
       }
 
+      deploys = deploys.sort(x=> -x.id);
       if(deploys.length > 0) {
         content.push(<div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
                         <Link href={relRefInfo._links.web.href} target="_blank"><b>{depName}</b> ({relRefInfo.name})</Link>
