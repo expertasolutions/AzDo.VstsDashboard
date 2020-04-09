@@ -220,7 +220,7 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
           return version.id === build.id.toString();
         }
       ) != null && x.releaseDefinition.name === depName
-    );
+    ).sort(x => -x.id);
     
     let releaseReferences = Array<ReleaseReference>();
     for(let i=0;i<deploys.length;i++) {
