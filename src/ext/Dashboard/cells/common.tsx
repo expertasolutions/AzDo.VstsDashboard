@@ -246,7 +246,9 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
 
 
       //for(let i=0;i<releaseDeploys.length;i++) {
+        //let dep = releaseDeploys[i];
         let dep = releaseDeploys[0];
+
         let lastDeploys = releaseDeploys.filter(x=> x.releaseEnvironment.name === dep.releaseEnvironment.name);
 
         for(let x=0;x<lastDeploys.length;x++) {
@@ -255,23 +257,24 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
           let envName = lastDep.releaseEnvironment.name;
           let env = lastRelease.find(x => x === envName);
 
-        //if(env === undefined) {
-          let pendingApproval = waitingForApproval(lastDep, lastDep.releaseEnvironment.id);
-          let envDepNumber = lastDeploys.length;
+          if(env === undefined) {
+            let pendingApproval = waitingForApproval(lastDep, lastDep.releaseEnvironment.id);
+            let envDepNumber = lastDeploys.length;
 
-          lastRelease.push(lastDep.releaseEnvironment.name);
-          let relStatusInfo = getReleaseStatus(lastDep, pendingApproval);
-          let pillContent = " " + lastDep.releaseEnvironment.name + " ";
-          
-          if(envDepNumber > 1) {
-            pillContent += "(" + lastDep.attempt + " on " + envDepNumber + ")";
+            lastRelease.push(lastDep.releaseEnvironment.name);
+            let relStatusInfo = getReleaseStatus(lastDep, pendingApproval);
+            let pillContent = " " + lastDep.releaseEnvironment.name + " ";
+            
+            if(envDepNumber > 1) {
+              pillContent += "(" + lastDep.attempt + " on " + envDepNumber + ")";
+            }
+
+            children.push(
+              <Pill color={relStatusInfo.color} variant={PillVariant.colored} 
+                onClick={() => window.open(lastDep.releaseEnvironment._links.web.href, "_blank") }>
+                <Status {...relStatusInfo.statusProps} className="icon-small-margin" size={StatusSize.s} />{pillContent}
+              </Pill>)
           }
-
-          children.push(
-            <Pill color={relStatusInfo.color} variant={PillVariant.colored} 
-              onClick={() => window.open(lastDep.releaseEnvironment._links.web.href, "_blank") }>
-              <Status {...relStatusInfo.statusProps} className="icon-small-margin" size={StatusSize.s} />{pillContent}
-            </Pill>)
         }
       //}
 
