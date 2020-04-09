@@ -186,9 +186,8 @@ class CICDDashboard extends React.Component<{}, {}> {
           if(def !== undefined) {
             let defIndx = currentDef.indexOf(def, 0);
             if(defIndx > -1) {
-              currentDef.splice(defIndx, 1);
+              currentDef[defIndx] = newDef;
             }
-            currentDef.push(newDef);
           } else {
             currentDef.push(newDef);
           }
@@ -213,9 +212,8 @@ class CICDDashboard extends React.Component<{}, {}> {
           if(rel !== undefined) {
             let relIndex = currentReleases.indexOf(rel, 0);
             if(relIndex > -1) {
-              currentReleases.splice(relIndex, 1);  
+              currentReleases[relIndex] = newRelease;
             }
-            currentReleases.push(newRelease);
           } else {
             currentReleases.push(newRelease);
           }
