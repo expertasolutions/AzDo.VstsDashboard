@@ -176,8 +176,7 @@ class CICDDashboard extends React.Component<{}, {}> {
 
     getBuildDefinitionsV1(this.currentSelectedProjects, firstLoad).then(result => {
       let currentDef = this.state.buildDefs;
-      currentDef = result;
-      /*
+
       if(firstLoad) {
         currentDef = result;
       } else {
@@ -187,15 +186,14 @@ class CICDDashboard extends React.Component<{}, {}> {
           if(def !== undefined) {
             let defIndx = currentDef.indexOf(def, 0);
             if(defIndx > -1) {
-              currentDef.splice(defIndx, 1);
+              currentDef[defIndx] = newDef;
             }
-            currentDef.push(newDef);
           } else {
             currentDef.push(newDef);
           }
         }
       }
-      */
+      
       this.setState({ buildDefs: currentDef });
       this.filterData();
     }).then(()=> {
@@ -214,40 +212,57 @@ class CICDDashboard extends React.Component<{}, {}> {
           if(rel !== undefined) {
             let relIndex = currentReleases.indexOf(rel, 0);
             if(relIndex > -1) {
-              currentReleases.splice(relIndex, 1);  
+              currentReleases[relIndex] = newRelease;
             }
-            currentReleases.push(newRelease);
           } else {
-            currentReleases.push(newRelease);
+            currentReleases.splice(0, 0, newRelease);
           }
         }
       }
+
       this.setState({ releases: currentReleases });
     });
     
     // Update Builds Runs list...
+    if(firstLoad) {
+      this.buildTimeRangeHasChanged = true;
+    }
+
     getBuildsV1(this.currentSelectedProjects, this.buildTimeRangeHasChanged, this.lastBuildsDisplay).then(result => {
       let newResult = new Array<Build>();
+      let currentResult = this.state.builds;
 
-      if(!this.buildTimeRangeHasChanged && this.state.builds.length > 0) {
-        let currentResult = this.state.builds;
+      if(this.buildTimeRangeHasChanged) {
+        currentResult = result;
+      } else {
         for(let i=0;i<result.length;i++) {
           let newElement = result[i];
           let existingElement = currentResult.find(x=> x.id === newElement.id);
+          
           if(existingElement !== undefined) {
             let buildIndex = currentResult.indexOf(existingElement, 0);
+            
             if(buildIndex > -1) {
-              currentResult.splice(buildIndex, 1);
-              currentResult.push(newElement);
+              currentResult[buildIndex] = newElement;
+              let buildDefs = this.state.buildDefs;
+              let buildDef = buildDefs.find(x=> x.id === newElement.definition.id);
+
+              if(buildDef !== undefined && buildDef.latestBuild.id <= newElement.id) {
+                let buildDefIndex = buildDefs.indexOf(buildDef, 0);
+            
+                if(buildDefIndex > -1) {
+                  buildDefs[buildDefIndex].latestBuild = newElement;
+                  this.setState({ buildDefs: buildDefs });
+                }
+              }
             }
           } else {
             currentResult.push(newElement);
           }
         }
-        newResult = currentResult;
-      } else {
-        newResult = result;
       }
+
+      newResult = currentResult;
       newResult = sortBuilds(newResult);
 
       this.setState({ builds: newResult });
