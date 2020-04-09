@@ -245,9 +245,9 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
                             .sort((a,b)=> a.releaseEnvironment.id - b.releaseEnvironment.id);
 
 
-      //for(let i=0;i<releaseDeploys.length;i++) {
-        //let dep = releaseDeploys[i];
-        let dep = releaseDeploys[0];
+      for(let i=0;i<releaseDeploys.length;i++) {
+        let dep = releaseDeploys[i];
+        //let dep = releaseDeploys[0];
 
         let lastDeploys = releaseDeploys.filter(x=> x.releaseEnvironment.name === dep.releaseEnvironment.name);
 
@@ -276,7 +276,7 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
               </Pill>)
           }
         }
-      //}
+      }
 
       let all = allRelease;
       if(all === false) {
