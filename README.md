@@ -6,11 +6,8 @@ The intention was to see what's currently happened into the CI/CD pipeline and p
 ![CICD_Screencapture](screenshots/CI_CD_Dashboard.png)
 
 ## Supported versions
-
 - Azure DevOps Services
-- Azure DevOps Server 2019 update 1 (17.153.29207.5) and later
-  
-  For more informations regarding Azure DevOps Server versions, see [Azure DevOps Server build numbers](https://docs.microsoft.com/en-us/azure/devops/release-notes/features-timeline#server-build-numbers)
+- Azure DevOps Server 2019 update 1 (17.153.29207.5) and later - see [Azure DevOps Server build numbers](https://docs.microsoft.com/en-us/azure/devops/release-notes/features-timeline#server-build-numbers)
 
 ## More informations
 - **What's next ?**: You can follow the next features inclusion on our [GitHub project page](https://github.com/expertasolutions/VstsDashboard/issues). If you want to contribute, don't hesitate to jump in it.
