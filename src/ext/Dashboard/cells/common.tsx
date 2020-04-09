@@ -198,7 +198,7 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
         return version.id === build.id.toString();
       }
     ) != null
-  );
+  ).sort(x => -x.id);
 
   let uniqueRelDef = Array<string>();
   for(let feDep=0;feDep<deploys.length;feDep++){
