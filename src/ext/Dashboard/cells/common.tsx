@@ -274,7 +274,6 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
         relRef = releaseReferences.length;
       }
 
-      deploys = deploys.sort(x=> -x.id);
       if(deploys.length > 0) {
         content.push(<div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
                         <Link href={relRefInfo._links.web.href} target="_blank"><b>{depName}</b> ({relRefInfo.name})</Link>
