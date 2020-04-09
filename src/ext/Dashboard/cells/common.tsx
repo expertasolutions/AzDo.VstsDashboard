@@ -264,7 +264,7 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
             let pillContent = " " + lastDep.releaseEnvironment.name + " ";
             
             if(envDepNumber > 1) {
-              pillContent += "(" + lastDep.attempt + " on " + envDepNumber + ")";
+              pillContent += "(" + envDepNumber + ")";
             }
 
             children.push(
@@ -283,7 +283,7 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
 
       if(deploys.length > 0) {
         content.push(<div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
-                        <Link href={relRefInfo._links.web.href} target="_blank">{relRefInfo.id} <b>{depName}</b> ({relRefInfo.name})</Link>
+                        <Link href={relRefInfo._links.web.href} target="_blank"><b>{depName}</b> ({relRefInfo.name})</Link>
                         <p><PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{children}</PillGroup></p>
                     </div>);
       }
