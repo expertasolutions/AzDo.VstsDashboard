@@ -191,7 +191,7 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
     return (<div>Not deploy yet</div>);
   }
 
-  releases = releases.sort(x=> -x.id);
+  releases = releases.sort(x=> x.id);
   
   //releases = releases.sort(x=> -x.id);
 
