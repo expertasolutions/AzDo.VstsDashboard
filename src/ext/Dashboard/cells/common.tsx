@@ -248,7 +248,7 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
         let dep = releaseDeploys[i];
         let lastDeploys = releaseDeploys.filter(x=> x.releaseEnvironment.name === dep.releaseEnvironment.name);
 
-        let lastDep = lastDeploys.sort(x=> -x.id)[0];
+        let lastDep = lastDeploys.sort(x=> -x.attempt)[0];
         let envName = lastDep.releaseEnvironment.name;
         let env = lastRelease.find(x => x === envName);
 
