@@ -36,7 +36,6 @@ export async function getReleasesV1(projectList: Array<string>, isFirstLoad: boo
 }
 
 export async function getReleases(projectName: string, isFirstLoad: boolean) {
-
   let minDate = undefined;
 
   if(!isFirstLoad){
@@ -49,7 +48,7 @@ export async function getReleases(projectName: string, isFirstLoad: boolean) {
 
   let result = new Array<Deployment>();
   do {
-    result = await releaseClient.getDeployments(projectName, undefined, undefined, undefined, minDate, new Date(),
+    result = await releaseClient.getDeployments(projectName, undefined, undefined, undefined, minDate, undefined,
       undefined, undefined, false, undefined, 1000, continuationToken,
       undefined, undefined, undefined, undefined); 
     
