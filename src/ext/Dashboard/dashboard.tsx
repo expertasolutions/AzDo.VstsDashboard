@@ -492,7 +492,7 @@ class CICDDashboard extends React.Component<{}, {}> {
           </TabBar>);
   }
 
-  public screenModeAction() {
+  public screenModeAction = () => {
     console.log("screenMode onclick");
     console.log(this.isFullScreen.value);
     this.isFullScreen.value = !this.isFullScreen.value;
