@@ -502,10 +502,9 @@ class CICDDashboard extends React.Component<{}, {}> {
     return (
       <Observer isFullScreen={this.isFullScreen}>
         {( props: { isFullScreen: boolean }) => {
-
           <Link onClick={()=> {
             console.log("fullscreen onclick: " + new Date().toLocaleTimeString());
-            //console.log(this.isFullScreen);
+            console.log(props.isFullScreen);
             //console.log("out: " + new Date().toLocaleDateString());          
           }}>
             <Icon iconName={iconName} />
