@@ -32,7 +32,6 @@ import { Filter, FILTER_CHANGE_EVENT, FILTER_RESET_EVENT } from "azure-devops-ui
 import { FilterBar } from "azure-devops-ui/FilterBar";
 import { ZeroData } from "azure-devops-ui/ZeroData";
 import { CommonServiceIds, IProjectPageService } from "azure-devops-extension-api";
-import { ListSelection } from "azure-devops-ui/List";
 
 class CICDDashboard extends React.Component<{}, {}> {
   private isLoading = new ObservableValue<boolean>(true);
@@ -542,8 +541,8 @@ class CICDDashboard extends React.Component<{}, {}> {
       <Surface background={SurfaceBackground.neutral}>
         <Page className="pipelines-page flex-grow">
           <Observer isFullScreen={this.isFullScreen}>
-            {(props: { isFullScreen: boolean }) => {
-              this.renderHeader(props.isFullScreen);
+            {(headerProps: { isFullScreen: boolean }) => {
+              this.renderHeader(headerProps.isFullScreen);
             }})
           </Observer>
           <div className="page-content-left page-content-right page-content-top">
