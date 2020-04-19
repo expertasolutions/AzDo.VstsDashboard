@@ -498,19 +498,14 @@ class CICDDashboard extends React.Component<{}, {}> {
     //  iconName = "BackToWindow";
     //}
     console.log("renderOptionsFilterView - " + new Date().toLocaleTimeString());
-
     return (
-      <Observer isFullScreen={this.isFullScreen}>
-        {( props: { isFullScreen: boolean }) => {
-          <Link onClick={()=> {
-            console.log("fullscreen onclick: " + new Date().toLocaleTimeString());
-            console.log(props.isFullScreen);
-            //console.log("out: " + new Date().toLocaleDateString());          
-          }}>
-            <Icon iconName={iconName} />
-          </Link>
-        }}
-      </Observer>
+        <Link onClick={()=> {
+          console.log("fullscreen onclick: " + new Date().toLocaleTimeString());
+          console.log(this.isFullScreen);
+          //console.log("out: " + new Date().toLocaleDateString());          
+        }}>
+          <Icon iconName={iconName} />
+        </Link>
     )
   }
 
@@ -536,8 +531,9 @@ class CICDDashboard extends React.Component<{}, {}> {
           </div>
           <div className="page-content-left page-content-right page-content-top">
           <Observer selectedTabId={this.selectedTabId} 
-                    isLoading={this.isLoading}>
-            {(props: { selectedTabId: string, isLoading: boolean}) => {
+                    isLoading={this.isLoading}
+                    isFullScreen={this.isFullScreen}>
+            {(props: { selectedTabId: string, isLoading: boolean, isFullScreen: boolean }) => {
                 let errorOnTopFilter = (
                   <DropdownFilterBarItem
                         filterItemKey="errorsOnSummaryTop"
