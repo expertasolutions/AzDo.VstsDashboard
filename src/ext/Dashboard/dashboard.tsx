@@ -518,7 +518,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     if(this.isFullScreen !== undefined) {
       isFullScreen = this.isFullScreen.value;
     }
-    
+
     console.log("renderHeader: " + isFullScreen);
     if(!isFullScreen) {
       return (
@@ -549,13 +549,17 @@ class CICDDashboard extends React.Component<{}, {}> {
             {this.renderHeader()}
           </div>
           <div className="page-content-left page-content-right page-content-top">
-            {this.renderTabBar()}
+            <Observer isFullScreen={this.isFullScreen}>
+            {(props: { isFullScreen: boolean }) => {
+              console.log(props.isFullScreen);
+              return this.renderTabBar();
+            }}
+            </Observer>
           </div>
           <div className="page-content-left page-content-right page-content-top">
           <Observer selectedTabId={this.selectedTabId} 
-                    isLoading={this.isLoading}
-                    isFullScreen={this.isFullScreen}>
-            {(props: { selectedTabId: string, isLoading: boolean, isFullScreen: boolean }) => {
+                    isLoading={this.isLoading}>
+            {(props: { selectedTabId: string, isLoading: boolean }) => {
                 let errorOnTopFilter = (
                   <DropdownFilterBarItem
                         filterItemKey="errorsOnSummaryTop"
