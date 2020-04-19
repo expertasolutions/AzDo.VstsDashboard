@@ -492,6 +492,13 @@ class CICDDashboard extends React.Component<{}, {}> {
           </TabBar>);
   }
 
+  public screenModeAction() {
+    console.log("screenMode onclick");
+    console.log(this.isFullScreen.value);
+    this.isFullScreen.value = !this.isFullScreen.value;
+    console.log("updateViewMode: " + this.isFullScreen.value);
+  }
+
   public renderOptionsFilterView() : JSX.Element {
     let iconName = "FullScreen";
     //if(this.isFullScreen.value) {
@@ -500,12 +507,7 @@ class CICDDashboard extends React.Component<{}, {}> {
 
     return (
       <div>
-        <Link onClick={ () => {
-          console.log("screenMode onclick");
-          console.log(this.isFullScreen.value);
-          this.isFullScreen.value = !this.isFullScreen.value;
-          console.log("updateViewMode: " + this.isFullScreen.value);
-        }}>
+        <Link onClick={this.screenModeAction}>
           <Icon iconName={iconName} />
         </Link>
       </div>
