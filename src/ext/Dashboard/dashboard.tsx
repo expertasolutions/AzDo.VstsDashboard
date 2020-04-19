@@ -493,6 +493,7 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   private updateViewMode() {
     this.isFullScreen = !this.isFullScreen;
+    console.log("updateViewMode: " + this.isFullScreen);
   }
 
   public renderOptionsFilterView() : JSX.Element {
