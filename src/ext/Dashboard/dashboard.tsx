@@ -538,14 +538,14 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   public render() : JSX.Element {
     return (
-      <Observer isFullScreen={this.isFullScreen}>
-      {(headerProps: { isFullScreen: boolean }) => {
+      
       <Surface background={SurfaceBackground.neutral}>
         <Page className="pipelines-page flex-grow">
-          
-           
-                {this.renderHeader(headerProps.isFullScreen)}
-             
+          <Observer isFullScreen={this.isLoading}>
+            {(headerProps: { isFullScreen: boolean }) => {
+                this.renderHeader(headerProps.isFullScreen)
+            }})
+          </Observer>
           <div className="page-content-left page-content-right page-content-top">
             {this.renderTabBar()}
           </div>
@@ -676,8 +676,6 @@ class CICDDashboard extends React.Component<{}, {}> {
           </div>
         </Page>
       </Surface>
-       }})
-       </Observer>
     );
   }
 }
