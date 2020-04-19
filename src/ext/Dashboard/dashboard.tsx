@@ -492,6 +492,13 @@ class CICDDashboard extends React.Component<{}, {}> {
           </TabBar>);
   }
 
+  public switchViewMode = () => {
+    console.log("switchViewMode");
+    //console.log(isFullScreen);
+    //this.isFullScreen.value = !this.isFullScreen.value;
+    console.log("updateViewMode: " + this.isFullScreen);
+  }
+
   public renderOptionsFilterView() : JSX.Element {
     let iconName = "FullScreen";
     //if(this.isFullScreen.value) {
@@ -500,16 +507,14 @@ class CICDDashboard extends React.Component<{}, {}> {
     console.log("renderOptionsFilterView - " + new Date().toLocaleTimeString());
 
     return (
-      <div>
-        <Link onClick={()=> {
-          console.log("screenMode onclick");
-          console.log(this.isFullScreen.value);
-          this.isFullScreen.value = !this.isFullScreen.value;
-          console.log("updateViewMode: " + this.isFullScreen.value);
-        }}>
-          <Icon iconName={iconName} />
-        </Link>
-      </div>
+      <Observer isFullScreen={this.isFullScreen}>
+        {( props: { isFullScreen: boolean }) => {
+
+          <Link onClick={this.switchViewMode}>
+            <Icon iconName={iconName} />
+          </Link>
+        }}
+      </Observer>
     )
   }
 
@@ -535,9 +540,8 @@ class CICDDashboard extends React.Component<{}, {}> {
           </div>
           <div className="page-content-left page-content-right page-content-top">
           <Observer selectedTabId={this.selectedTabId} 
-                    isLoading={this.isLoading}
-                    isFullScreen={this.isFullScreen}>
-            {(props: { selectedTabId: string, isLoading: boolean, isFullScreen: boolean }) => {
+                    isLoading={this.isLoading}>
+            {(props: { selectedTabId: string, isLoading: boolean}) => {
                 let errorOnTopFilter = (
                   <DropdownFilterBarItem
                         filterItemKey="errorsOnSummaryTop"
