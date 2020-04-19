@@ -494,6 +494,9 @@ class CICDDashboard extends React.Component<{}, {}> {
   public renderOptionsFilterView() : JSX.Element {
     return (
       <div>
+        <Link onClick={ () => alert('link is clicked') }>
+          <Icon iconName="FullScreen"/>
+        </Link>
         <Button ariaLabel="Enter Fullscren mode" 
                 onClick={ () => alert('fullscreen is cliced') }
                 iconProps={{ iconName: "FullScreen" }} />
