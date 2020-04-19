@@ -513,7 +513,12 @@ class CICDDashboard extends React.Component<{}, {}> {
     )
   }
 
-  public renderHeader(isFullScreen:boolean) : JSX.Element {
+  public renderHeader() : JSX.Element {
+    let isFullScreen = false;
+    if(this.isFullScreen !== undefined) {
+      isFullScreen = this.isFullScreen.value;
+    }
+    
     console.log("renderHeader: " + isFullScreen);
     if(!isFullScreen) {
       return (
@@ -541,7 +546,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       <Surface background={SurfaceBackground.neutral}>
         <Page className="pipelines-page flex-grow">
           <div>
-            {this.renderHeader(false)}
+            {this.renderHeader()}
           </div>
           <div className="page-content-left page-content-right page-content-top">
             {this.renderTabBar()}
