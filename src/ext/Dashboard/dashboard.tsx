@@ -514,29 +514,38 @@ class CICDDashboard extends React.Component<{}, {}> {
     )
   }
 
-  public renderHeader() : JSX.Element {
-    return (
-      <CustomHeader>
-        <HeaderTitleArea>
-          <HeaderTitleRow>
-            <HeaderTitle titleSize={TitleSize.Large}>
-              CI/CD Dashboard
-            </HeaderTitle>
-          </HeaderTitleRow>
-          <HeaderDescription>
-            <Link href={this.releaseNoteVersion} target="_blank" subtle={true}>{this.extensionVersion}</Link>&nbsp;
-            <Icon iconName="FeedbackRequestSolid"/><Link href="https://github.com/expertasolutions/VstsDashboard/issues" target="_blank" subtle={true}>send a request</Link>
-          </HeaderDescription>
-        </HeaderTitleArea>
-      </CustomHeader>
-    );
+  public renderHeader(isFullScreen:boolean) : JSX.Element {
+    console.log("renderHeader: " + isFullScreen);
+    if(!isFullScreen) {
+      return (
+        <CustomHeader>
+          <HeaderTitleArea>
+            <HeaderTitleRow>
+              <HeaderTitle titleSize={TitleSize.Large}>
+                CI/CD Dashboard
+              </HeaderTitle>
+            </HeaderTitleRow>
+            <HeaderDescription>
+              <Link href={this.releaseNoteVersion} target="_blank" subtle={true}>{this.extensionVersion}</Link>&nbsp;
+              <Icon iconName="FeedbackRequestSolid"/><Link href="https://github.com/expertasolutions/VstsDashboard/issues" target="_blank" subtle={true}>send a request</Link>
+            </HeaderDescription>
+          </HeaderTitleArea>
+        </CustomHeader>
+      );
+    } else {
+      return (<div></div>);
+    }
   }
 
   public render() : JSX.Element {
     return (
       <Surface background={SurfaceBackground.neutral}>
         <Page className="pipelines-page flex-grow">
-          {this.renderHeader()}
+          <Observer isFullScreen={this.isFullScreen}>
+            {(props: { isFullScreen: boolean }) => {
+              this.renderHeader(props.isFullScreen);
+            }})
+          </Observer>
           <div className="page-content-left page-content-right page-content-top">
             {this.renderTabBar()}
           </div>
