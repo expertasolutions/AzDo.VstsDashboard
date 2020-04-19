@@ -345,7 +345,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   }
 
   private async initializeState(): Promise<void> {
-    this.isFullScreen.value = false;
+    this.isFullScreen = new ObservableValue(false);
     await SDK.init();
     //await SDK.ready();
     let hostInfo = SDK.getHost();
