@@ -498,16 +498,16 @@ class CICDDashboard extends React.Component<{}, {}> {
   private getViewModeIcon(): string {
     if(this.isFullScreen) {
       return "BackToWindow";
-    } else {
-      return "FullScreen";
     }
+    return "FullScreen";
   }  
 
   public renderOptionsFilterView() : JSX.Element {
+    let iconName = this.getViewModeIcon();
     return (
       <div>
         <Link onClick={ () => this.updateViewMode }>
-          <Icon iconName={this.getViewModeIcon()} />
+          <Icon iconName={iconName} />
         </Link>
       </div>
     )
