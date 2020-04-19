@@ -494,9 +494,9 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   public renderOptionsFilterView() : JSX.Element {
     let iconName = "FullScreen";
-    if(this.isFullScreen.value) {
-      iconName = "BackToWindow";
-    }
+    //if(this.isFullScreen.value) {
+    //  iconName = "BackToWindow";
+    //}
 
     return (
       <div>
