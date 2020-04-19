@@ -16,7 +16,6 @@ import { Surface, SurfaceBackground } from "azure-devops-ui/Surface";
 import { Page } from "azure-devops-ui/Page";
 import { Link } from "azure-devops-ui/Link";
 import { Icon } from "azure-devops-ui/Icon";
-import { Button } from "azure-devops-ui/Button";
 
 import { TeamProjectReference } from "azure-devops-extension-api/Core";
 import { BuildDefinitionReference, Build } from "azure-devops-extension-api/Build";
@@ -38,6 +37,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   private isLoading = new ObservableValue<boolean>(true);
   private selectedTabId = new ObservableValue("summary");
   private refreshUI = new ObservableValue(new Date().toTimeString());
+  private isFullScreen:boolean = false;
 
   private projectSelection = new DropdownMultiSelection();
   private allDeploymentSelection = new DropdownSelection();
@@ -491,15 +491,24 @@ class CICDDashboard extends React.Component<{}, {}> {
           </TabBar>);
   }
 
+  private updateViewMode() {
+    this.isFullScreen = !this.isFullScreen;
+  }
+
+  private getViewModeIcon(): string {
+    if(this.isFullScreen) {
+      return "BackToWindow";
+    } else {
+      return "FullScreen";
+    }
+  }  
+
   public renderOptionsFilterView() : JSX.Element {
     return (
       <div>
-        <Link onClick={ () => alert('link is clicked') }>
-          <Icon iconName="FullScreen"/>
+        <Link onClick={ () => this.updateViewMode }>
+          <Icon iconName={this.getViewModeIcon()} />
         </Link>
-        <Button ariaLabel="Enter Fullscren mode" 
-                onClick={ () => alert('fullscreen is cliced') }
-                iconProps={{ iconName: "FullScreen" }} />
       </div>
     )
   }
