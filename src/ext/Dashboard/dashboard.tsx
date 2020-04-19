@@ -499,17 +499,15 @@ class CICDDashboard extends React.Component<{}, {}> {
       this.isFullScreen = new ObservableValue(false);
     }
 
-    if(this.isFullScreen.value) {
-      iconName = "BackToWindow";
-    }
-
     return (
         <Link onClick={()=> {
           console.log("fullscreen onclick: " + new Date().toLocaleTimeString());
 
           if(this.isFullScreen === undefined) {
+            
             this.isFullScreen = new ObservableValue(false);
           } else {
+            iconName = this.isFullScreen.value ? "BackToWindow" : "FullScreen";
             this.isFullScreen.value = !this.isFullScreen.value;
           }
           console.log(this.isFullScreen.value + " " + iconName);
@@ -541,7 +539,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     return (
       <Surface background={SurfaceBackground.neutral}>
         <Page className="pipelines-page flex-grow">
-          { this.renderHeader() }
+          {this.renderHeader()}
           <div className="page-content-left page-content-right page-content-top">
             {this.renderTabBar()}
           </div>
