@@ -511,7 +511,6 @@ class CICDDashboard extends React.Component<{}, {}> {
             this.isFullScreen.value = !this.isFullScreen.value;
           }
           console.log(this.isFullScreen.value);
-          //console.log("out: " + new Date().toLocaleDateString());          
         }}>
           <Icon iconName={iconName} />
         </Link>
