@@ -16,6 +16,7 @@ import { Surface, SurfaceBackground } from "azure-devops-ui/Surface";
 import { Page } from "azure-devops-ui/Page";
 import { Link } from "azure-devops-ui/Link";
 import { Icon } from "azure-devops-ui/Icon";
+import { Button } from "azure-devops-ui/Button";
 
 import { TeamProjectReference } from "azure-devops-extension-api/Core";
 import { BuildDefinitionReference, Build } from "azure-devops-extension-api/Build";
@@ -493,7 +494,9 @@ class CICDDashboard extends React.Component<{}, {}> {
   public renderOptionsFilterView() : JSX.Element {
     return (
       <div>
-        <Icon iconName="FullScreen" />
+        <Button ariaLabel="Enter Fullscren mode" 
+                onClick={ () => alert('fullscreen is cliced') }
+                iconProps={{ iconName: "FullScreen" }} />
       </div>
     )
   }
