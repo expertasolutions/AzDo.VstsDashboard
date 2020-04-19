@@ -37,7 +37,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   private isLoading = new ObservableValue<boolean>(true);
   private selectedTabId = new ObservableValue("summary");
   private refreshUI = new ObservableValue(new Date().toTimeString());
-  private isFullScreen:boolean = false;
+  private isFullScreen = new ObservableValue<boolean>(false);
 
   private projectSelection = new DropdownMultiSelection();
   private allDeploymentSelection = new DropdownSelection();
@@ -501,8 +501,8 @@ class CICDDashboard extends React.Component<{}, {}> {
       <div>
         <Link onClick={ () => {
           console.log("screenMode onclick");
-          this.isFullScreen = !this.isFullScreen;
-          console.log("updateViewMode: " + this.isFullScreen);
+          this.isFullScreen.value = !this.isFullScreen.value;
+          console.log("updateViewMode: " + this.isFullScreen.value);
         }}>
           <Icon iconName={iconName} />
         </Link>
@@ -532,7 +532,8 @@ class CICDDashboard extends React.Component<{}, {}> {
           </div>
           <div className="page-content-left page-content-right page-content-top">
           <Observer selectedTabId={this.selectedTabId} 
-                    isLoading={this.isLoading}>
+                    isLoading={this.isLoading}
+                    isFullScreen={this.isFullScreen}>
             {(props: { selectedTabId: string, isLoading: boolean }) => {
                 let errorOnTopFilter = (
                   <DropdownFilterBarItem
