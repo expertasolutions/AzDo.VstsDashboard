@@ -492,7 +492,7 @@ class CICDDashboard extends React.Component<{}, {}> {
           </TabBar>);
   }
 
-  public switchViewMode = () => {
+  public switchViewMode = (event: React.MouseEvent<HTMLAnchorElement> | React.KeyboardEvent<HTMLAnchorElement>) => {
     console.log("switchViewMode");
     //console.log(isFullScreen);
     //this.isFullScreen.value = !this.isFullScreen.value;
