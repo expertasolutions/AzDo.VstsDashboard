@@ -493,7 +493,7 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   public renderOptionsFilterView() : JSX.Element {
     let iconName = "FullScreen";
-    if(this.isFullScreen) {
+    if(this.isFullScreen.value) {
       iconName = "BackToWindow";
     }
 
@@ -501,6 +501,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       <div>
         <Link onClick={ () => {
           console.log("screenMode onclick");
+          console.log(this.isFullScreen.value);
           this.isFullScreen.value = !this.isFullScreen.value;
           console.log("updateViewMode: " + this.isFullScreen.value);
         }}>
@@ -534,7 +535,7 @@ class CICDDashboard extends React.Component<{}, {}> {
           <Observer selectedTabId={this.selectedTabId} 
                     isLoading={this.isLoading}
                     isFullScreen={this.isFullScreen}>
-            {(props: { selectedTabId: string, isLoading: boolean }) => {
+            {(props: { selectedTabId: string, isLoading: boolean, isFullScreen: boolean }) => {
                 let errorOnTopFilter = (
                   <DropdownFilterBarItem
                         filterItemKey="errorsOnSummaryTop"
