@@ -492,13 +492,6 @@ class CICDDashboard extends React.Component<{}, {}> {
           </TabBar>);
   }
 
-  public switchViewMode = (event: React.MouseEvent<HTMLAnchorElement> | React.KeyboardEvent<HTMLAnchorElement>) => {
-    console.log("switchViewMode");
-    //console.log(isFullScreen);
-    //this.isFullScreen.value = !this.isFullScreen.value;
-    console.log("updateViewMode: " + this.isFullScreen);
-  }
-
   public renderOptionsFilterView() : JSX.Element {
     let iconName = "FullScreen";
     //if(this.isFullScreen.value) {
@@ -510,7 +503,11 @@ class CICDDashboard extends React.Component<{}, {}> {
       <Observer isFullScreen={this.isFullScreen}>
         {( props: { isFullScreen: boolean }) => {
 
-          <Link onClick={this.switchViewMode}>
+          <Link onClick={()=> {
+            console.log("fullscreen onclick: " + new Date().toLocaleTimeString());
+            console.log(this.isFullScreen);
+            console.log("out: " + new Date().toLocaleDateString());          
+          }}>
             <Icon iconName={iconName} />
           </Link>
         }}
