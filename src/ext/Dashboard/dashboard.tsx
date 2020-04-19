@@ -506,7 +506,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     return (
         <Link onClick={()=> {
           console.log("fullscreen onclick: " + new Date().toLocaleTimeString());
-          
+
           if(this.isFullScreen === undefined) {
             this.isFullScreen = new ObservableValue(false);
           } else {
@@ -519,7 +519,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     )
   }
 
-  public renderHeader() :JSX.Element {
+  public renderHeader() : JSX.Element {
     return (
       <CustomHeader>
         <HeaderTitleArea>
@@ -541,7 +541,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     return (
       <Surface background={SurfaceBackground.neutral}>
         <Page className="pipelines-page flex-grow">
-          {{ this.renderHeader() }}
+          { this.renderHeader() }
           <div className="page-content-left page-content-right page-content-top">
             {this.renderTabBar()}
           </div>
