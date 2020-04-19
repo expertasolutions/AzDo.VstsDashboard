@@ -502,38 +502,46 @@ class CICDDashboard extends React.Component<{}, {}> {
     if(this.isFullScreen.value) {
       iconName = "BackToWindow";
     }
+
     return (
         <Link onClick={()=> {
           console.log("fullscreen onclick: " + new Date().toLocaleTimeString());
+          
           if(this.isFullScreen === undefined) {
             this.isFullScreen = new ObservableValue(false);
           } else {
             this.isFullScreen.value = !this.isFullScreen.value;
           }
-          console.log(this.isFullScreen.value);
+          console.log(this.isFullScreen.value + " " + iconName);
         }}>
           <Icon iconName={iconName} />
         </Link>
     )
   }
 
+  public renderHeader() :JSX.Element {
+    return (
+      <CustomHeader>
+        <HeaderTitleArea>
+          <HeaderTitleRow>
+            <HeaderTitle titleSize={TitleSize.Large}>
+              CI/CD Dashboard
+            </HeaderTitle>
+          </HeaderTitleRow>
+          <HeaderDescription>
+            <Link href={this.releaseNoteVersion} target="_blank" subtle={true}>{this.extensionVersion}</Link>&nbsp;
+            <Icon iconName="FeedbackRequestSolid"/><Link href="https://github.com/expertasolutions/VstsDashboard/issues" target="_blank" subtle={true}>send a request</Link>
+          </HeaderDescription>
+        </HeaderTitleArea>
+      </CustomHeader>
+    );
+  }
+
   public render() : JSX.Element {
     return (
       <Surface background={SurfaceBackground.neutral}>
         <Page className="pipelines-page flex-grow">
-          <CustomHeader>
-            <HeaderTitleArea>
-              <HeaderTitleRow>
-                <HeaderTitle titleSize={TitleSize.Large}>
-                  CI/CD Dashboard
-                </HeaderTitle>
-              </HeaderTitleRow>
-              <HeaderDescription>
-                <Link href={this.releaseNoteVersion} target="_blank" subtle={true}>{this.extensionVersion}</Link>&nbsp;
-                <Icon iconName="FeedbackRequestSolid"/><Link href="https://github.com/expertasolutions/VstsDashboard/issues" target="_blank" subtle={true}>send a request</Link>
-              </HeaderDescription>
-            </HeaderTitleArea>
-          </CustomHeader>
+          {{ this.renderHeader() }}
           <div className="page-content-left page-content-right page-content-top">
             {this.renderTabBar()}
           </div>
