@@ -32,6 +32,7 @@ import { Filter, FILTER_CHANGE_EVENT, FILTER_RESET_EVENT } from "azure-devops-ui
 import { FilterBar } from "azure-devops-ui/FilterBar";
 import { ZeroData } from "azure-devops-ui/ZeroData";
 import { CommonServiceIds, IProjectPageService } from "azure-devops-extension-api";
+import { ListSelection } from "azure-devops-ui/List";
 
 class CICDDashboard extends React.Component<{}, {}> {
   private isLoading = new ObservableValue<boolean>(true);
@@ -494,9 +495,13 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   public renderOptionsFilterView() : JSX.Element {
     let iconName = "FullScreen";
-    //if(this.isFullScreen.value) {
-    //  iconName = "BackToWindow";
-    //}
+    if(this.isFullScreen === undefined) {
+      this.isFullScreen = new ObservableValue(false);
+    }
+
+    if(this.isFullScreen.value) {
+      iconName = "BackToWindow";
+    }
     return (
         <Link onClick={()=> {
           console.log("fullscreen onclick: " + new Date().toLocaleTimeString());
