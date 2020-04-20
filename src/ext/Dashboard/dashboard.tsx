@@ -481,8 +481,8 @@ class CICDDashboard extends React.Component<{}, {}> {
     }
   }
 
-  public renderTabBar() : JSX.Element {
-    console.log("renderTabBar");
+  public renderTabBar(isFullScreen: boolean) : JSX.Element {
+    console.log("renderTabBar " + isFullScreen);
     return (<TabBar
             onSelectedTabChanged={this.onSelectedTabChanged}
             selectedTabId={this.selectedTabId}
@@ -514,8 +514,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     );
   }
 
-  public renderHeader() : JSX.Element {
-    let isFullScreen = false;
+  public renderHeader(isFullScreen:boolean) : JSX.Element {
     if(this.isFullScreen !== undefined) {
       isFullScreen = this.isFullScreen.value;
     }
@@ -547,13 +546,16 @@ class CICDDashboard extends React.Component<{}, {}> {
       <Surface background={SurfaceBackground.neutral}>
         <Page className="pipelines-page flex-grow">
           <div>
-            {this.renderHeader()}
+          <Observer isFullScreen={this.isFullScreen}>
+            {(props: { isFullScreen: boolean }) => {
+              return this.renderHeader(props.isFullScreen);
+            }}
+            </Observer>
           </div>
           <div className="page-content-left page-content-right page-content-top">
             <Observer isFullScreen={this.isFullScreen}>
             {(props: { isFullScreen: boolean }) => {
-              console.log(props.isFullScreen);
-              return this.renderTabBar();
+              return this.renderTabBar(props.isFullScreen);
             }}
             </Observer>
           </div>
