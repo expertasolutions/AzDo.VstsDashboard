@@ -543,7 +543,7 @@ class CICDDashboard extends React.Component<{}, {}> {
         <Page className="pipelines-page flex-grow">
           { this.renderHeader() }
           <div className="page-content-left page-content-right page-content-top">
-          <Observer isFullScreen={this.isFullScreen}>
+          <Observer isFullScreen={isFullScreen}>
             {(props: { isFullScreen: boolean }) => {
               return this.renderTabBar();
             }}
@@ -551,7 +551,7 @@ class CICDDashboard extends React.Component<{}, {}> {
           </div>
           <div className="page-content-left page-content-right page-content-top">
           <Observer selectedTabId={this.selectedTabId} 
-                    isLoading={this.isLoading} isFullScreen={this.isFullScreen}>
+                    isLoading={this.isLoading} isFullScreen={isFullScreen}>
             {(props: { selectedTabId: string, isLoading: boolean, isFullScreen: boolean }) => {
                 let errorOnTopFilter = (
                   <DropdownFilterBarItem
