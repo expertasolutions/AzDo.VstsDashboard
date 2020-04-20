@@ -538,6 +538,18 @@ class CICDDashboard extends React.Component<{}, {}> {
       <Surface background={SurfaceBackground.neutral}>
         <Page className="pipelines-page flex-grow">
           { this.renderHeader() }
+          <div>
+            <Link onClick={()=> {
+              console.log("onclick " + this.isFullScreen);
+              let isFullScreen = this.state.isFullScreen;
+              this.setState({ isFullScreen: !isFullScreen });
+              this.refreshUI.value = new Date().toTimeString();
+              let iconName = this.state.isFullScreen ? "BackToWindow" : "FullScreen";
+              console.log(this.state.isFullScreen + " " + iconName);
+            }}>
+              <Icon iconName="FullScreen" />
+            </Link>
+          </div>
           <div className="page-content-left page-content-right page-content-top">
               { this.renderTabBar() }
           </div>
