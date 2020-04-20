@@ -34,18 +34,17 @@ import { FilterBar } from "azure-devops-ui/FilterBar";
 import { ZeroData } from "azure-devops-ui/ZeroData";
 import { CommonServiceIds, IProjectPageService } from "azure-devops-extension-api";
 
-var _isFullScreen: boolean = false;
-const isFullScreen = new ObservableValue<boolean>(_isFullScreen);
-
+const isFullScreen = new ObservableValue<boolean>(false);
 const tabBarCommands: IHeaderCommandBarItem[] = [
   {
     ariaLabel: "Screen Mode",
     id: "screenMode",
     onActivate: () => {
       isFullScreen.value = !isFullScreen.value;
+      console.log(isFullScreen.value);
     },
     iconProps: {
-      iconName: ( _isFullScreen ? "BackToWindow" : "FullScreen")
+      iconName: ( isFullScreen.value ? "BackToWindow" : "FullScreen")
     },
     important: true,
     subtle: true,
