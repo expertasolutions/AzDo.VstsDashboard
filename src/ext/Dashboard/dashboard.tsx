@@ -34,7 +34,17 @@ import { FilterBar } from "azure-devops-ui/FilterBar";
 import { ZeroData } from "azure-devops-ui/ZeroData";
 import { CommonServiceIds, IProjectPageService, IHostPageLayoutService } from "azure-devops-extension-api";
 
-class CICDDashboard extends React.Component<{}, {}> {
+interface IHubContentState {
+  buildDefs: Array<BuildDefinitionReference>,
+  builds: Array<Build>,
+  releases: Array<Deployment>,
+  projects: Array<TeamProjectReference>,
+  showAllBuildDeployment: boolean,
+  refreshUI: string,
+  fullScreenMode : boolean
+}
+
+class CICDDashboard extends React.Component<{}, IHubContentState> {
   private isLoading = new ObservableValue<boolean>(true);
   
   private selectedTabId = new ObservableValue("summary");
@@ -68,17 +78,17 @@ class CICDDashboard extends React.Component<{}, {}> {
     super(props);
     this.filter = new Filter();
     setInterval(()=> this.updateFromProject(false), 10000);
-  }
 
-  state = {
-    buildDefs: Array<BuildDefinitionReference>(),
-    builds: Array<Build>(),
-    releases: Array<Deployment>(),
-    projects: Array<TeamProjectReference>(),
-    showAllBuildDeployment: false,
-    refreshUI: new Date().toTimeString(),
-    fullScreenMode : false
-  };
+    this.state = {
+      buildDefs: Array<BuildDefinitionReference>(),
+      builds: Array<Build>(),
+      releases: Array<Deployment>(),
+      projects: Array<TeamProjectReference>(),
+      showAllBuildDeployment: false,
+      refreshUI: new Date().toTimeString(),
+      fullScreenMode : false
+    };
+  }
 
   private onFilterReset = async () => {
     let nam = this.initialProjectName;
@@ -548,7 +558,7 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   public renderOptionsFilterView() : JSX.Element {
     //let itm = this.tabBarCommandsTest;
-    return (<HeaderCommandBar items={this.tabBarCommandsTest} /> );
+    return <HeaderCommandBar items={this.tabBarCommandsTest} />;
   }
 
   public renderHeader() : JSX.Element {
