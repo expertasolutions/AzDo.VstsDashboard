@@ -64,14 +64,14 @@ class CICDDashboard extends React.Component<{}, {}> {
   private isFullScreen = false;
   private buildTimeRangeHasChanged = true;
 
-  private tabBarCommands: IHeaderCommandBarItem[] = [
+  tabBarCommands: IHeaderCommandBarItem[] = [
     {
       ariaLabel: "Screen Mode",
       id: "screenMode",
       onActivate: () => {
         alert('Screen Mode');
-        let currentValue = this.state.isFullScreen;
-        this.setState({ isFullScreen: !currentValue });
+        //let currentValue = this.state.isFullScreen;
+        //this.setState({ isFullScreen: !currentValue });
       },
       iconProps: {
         iconName: "FullScreen"
