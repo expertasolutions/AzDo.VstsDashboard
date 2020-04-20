@@ -482,6 +482,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   }
 
   public renderTabBar() : JSX.Element {
+    console.log("renderTabBar");
     return (<TabBar
             onSelectedTabChanged={this.onSelectedTabChanged}
             selectedTabId={this.selectedTabId}
@@ -677,7 +678,6 @@ class CICDDashboard extends React.Component<{}, {}> {
                     }
                   }}
                 </Observer>
-                
             </DataContext.Provider>
           </div>
         </Page>
