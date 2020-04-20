@@ -493,6 +493,7 @@ class CICDDashboard extends React.Component<{}, {}> {
           </TabBar>);
   }
 
+  /*
   private tabBarCommands(): IHeaderCommandBarItem[] {
     return [
       {
@@ -510,6 +511,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       }
     ];
   }  
+  */
 
   private tabBarCommandsTest: IHeaderCommandBarItem[] = 
     [
