@@ -492,22 +492,11 @@ class CICDDashboard extends React.Component<{}, {}> {
           </TabBar>);
   }
 
-  public screenModeChanged = (event: React.MouseEvent<HTMLAnchorElement> | React.KeyboardEvent<HTMLAnchorElement>) => {
-    console.log("screenModeChanged");
-    console.log(this.isFullScreen.value);
-  }
-
   public renderOptionsFilterView() : JSX.Element {
     let iconName = "FullScreen";
-    if(this.isFullScreen === undefined) {
-      this.isFullScreen = new ObservableValue(false);
-    }
 
     return (
         <div>
-          <Link onClick={this.screenModeChanged}>
-            test
-          </Link>
           <Link onClick={()=> {
             if(this.isFullScreen === undefined) {
               this.isFullScreen = new ObservableValue(false);
@@ -525,10 +514,6 @@ class CICDDashboard extends React.Component<{}, {}> {
   }
 
   public renderHeader(isFullScreen:boolean) : JSX.Element {
-    if(this.isFullScreen !== undefined) {
-      isFullScreen = this.isFullScreen.value;
-    }
-
     console.log("renderHeader: " + isFullScreen);
     if(!isFullScreen) {
       return (
