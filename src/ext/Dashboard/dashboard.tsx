@@ -67,7 +67,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     super(props);
 
     this.filter = new Filter();
-    //setInterval(()=> this.updateFromProject(false), 10000);
+    setInterval(()=> this.updateFromProject(false), 10000);
   }
 
   state = {
@@ -504,7 +504,7 @@ class CICDDashboard extends React.Component<{}, {}> {
             this.isFullScreen = new ObservableValue(false);
           } else {
             this.isFullScreen.value = !this.isFullScreen.value;
-            this.refreshUI.value = new Date().toLocaleTimeString();
+            this.refreshUI.value = new Date().toTimeString();
             iconName = this.isFullScreen.value ? "BackToWindow" : "FullScreen";
           }
           console.log(this.isFullScreen.value + " " + iconName);
