@@ -492,6 +492,10 @@ class CICDDashboard extends React.Component<{}, {}> {
           </TabBar>);
   }
 
+  public screenModeChanged = () => {
+
+  }
+
   public renderOptionsFilterView() : JSX.Element {
     let iconName = "FullScreen";
     if(this.isFullScreen === undefined) {
@@ -499,18 +503,23 @@ class CICDDashboard extends React.Component<{}, {}> {
     }
 
     return (
-        <Link onClick={()=> {
-          if(this.isFullScreen === undefined) {
-            this.isFullScreen = new ObservableValue(false);
-          } else {
-            this.isFullScreen.value = !this.isFullScreen.value;
-            this.refreshUI.value = new Date().toTimeString();
-            iconName = this.isFullScreen.value ? "BackToWindow" : "FullScreen";
-          }
-          console.log(this.isFullScreen.value + " " + iconName);
-        }}>
-          <Icon iconName={iconName} />-{iconName}
-        </Link>
+        <div>
+          <Link onClick={this.screenModeChanged}>
+            test
+          </Link>
+          <Link onClick={()=> {
+            if(this.isFullScreen === undefined) {
+              this.isFullScreen = new ObservableValue(false);
+            } else {
+              this.isFullScreen.value = !this.isFullScreen.value;
+              this.refreshUI.value = new Date().toTimeString();
+              iconName = this.isFullScreen.value ? "BackToWindow" : "FullScreen";
+            }
+            console.log(this.isFullScreen.value + " " + iconName);
+          }}>
+            <Icon iconName={iconName} />-{iconName}
+          </Link>
+        </div>
     );
   }
 
