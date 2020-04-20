@@ -492,8 +492,9 @@ class CICDDashboard extends React.Component<{}, {}> {
           </TabBar>);
   }
 
-  public screenModeChanged = () => {
+  public screenModeChanged = (event: React.MouseEvent<HTMLAnchorElement> | React.KeyboardEvent<HTMLAnchorElement>) => {
     console.log("screenModeChanged");
+    console.log(this.isFullScreen.value);
   }
 
   public renderOptionsFilterView() : JSX.Element {
@@ -517,7 +518,7 @@ class CICDDashboard extends React.Component<{}, {}> {
             }
             console.log(this.isFullScreen.value + " " + iconName);
           }}>
-            <Icon iconName={iconName} />-{iconName}
+            <Icon iconName={iconName} />
           </Link>
         </div>
     );
