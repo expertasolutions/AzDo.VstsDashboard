@@ -545,8 +545,8 @@ class CICDDashboard extends React.Component<{}, {}> {
   }
 
   public renderOptionsFilterView() : JSX.Element {
-    let itm = this.tabBarCommandsTest;
-    return (<HeaderCommandBar items={itm} /> );
+    //let itm = this.tabBarCommandsTest;
+    return (<HeaderCommandBar items={this.tabBarCommandsTest} /> );
   }
 
   public renderHeader() : JSX.Element {
