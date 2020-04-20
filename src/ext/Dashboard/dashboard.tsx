@@ -509,7 +509,24 @@ class CICDDashboard extends React.Component<{}, {}> {
         tooltipProps: { text: "Screen mode"}
       }
     ];
-  }
+  }  
+
+  private tabBarCommandsTest: IHeaderCommandBarItem[] = 
+    [
+      {
+        ariaLabel: this.state.fullScreenMode ? "Exit full screen mode" : "Enter full screen mode",
+        id: "screenMode",
+        onActivate: () => {
+          this.onToggleFullScreenMode();
+        },
+        iconProps: {
+          iconName: this.state.fullScreenMode ? "BackToWindow" : "FullScreen"
+        },
+        important: true,
+        subtle: true,
+        tooltipProps: { text: "Screen mode"}
+      }
+    ];
 
   private async initializeFullScreenState() {
     const layoutService = await SDK.getService<IHostPageLayoutService>(CommonServiceIds.HostPageLayoutService);
@@ -528,7 +545,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   }
 
   public renderOptionsFilterView() : JSX.Element {
-    let itm = this.tabBarCommands();
+    let itm = this.tabBarCommandsTest;
     return (<HeaderCommandBar items={itm} /> );
   }
 
