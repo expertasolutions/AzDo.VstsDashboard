@@ -41,8 +41,7 @@ const tabBarCommands: IHeaderCommandBarItem[] = [
     onActivate: () => {
       alert('Screen Mode' + _testLouis);
       _testLouis = "patate " + new Date().toLocaleTimeString();
-      //let currentValue = this.state.isFullScreen;
-      //this.setState({ isFullScreen: !currentValue });
+      _isFullScreen = !_isFullScreen;
     },
     iconProps: {
       iconName: "FullScreen"
@@ -53,6 +52,7 @@ const tabBarCommands: IHeaderCommandBarItem[] = [
   }
 ];
 
+var _isFullScreen: boolean = false;
 var _testLouis: string = "TestLouis";
 
 class CICDDashboard extends React.Component<{}, {}> {
@@ -514,12 +514,12 @@ class CICDDashboard extends React.Component<{}, {}> {
   }
 
   public renderOptionsFilterView() : JSX.Element {
-    return (<HeaderCommandBar items={this.tabBarCommands} /> );
+    return (<HeaderCommandBar items={tabBarCommands} /> );
   }
 
   public renderHeader() : JSX.Element {
-    console.log("renderHeader: " + this.state.isFullScreen + " - " + this.isFullScreen);
-    if(!this.state.isFullScreen) {
+    console.log("renderHeader: " + _isFullScreen);
+    if(!_isFullScreen) {
       return (
         <CustomHeader>
           <HeaderTitleArea>
