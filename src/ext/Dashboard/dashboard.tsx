@@ -508,9 +508,9 @@ class CICDDashboard extends React.Component<{}, {}> {
           }
           console.log(this.isFullScreen.value + " " + iconName);
         }}>
-          <Icon iconName={iconName} />
+          <Icon iconName={iconName} />-{iconName}
         </Link>
-    )
+    );
   }
 
   public renderHeader() : JSX.Element {
