@@ -80,10 +80,10 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
     setInterval(()=> this.updateFromProject(false), 10000);
 
     this.state = {
-      buildDefs: Array<BuildDefinitionReference>(),
-      builds: Array<Build>(),
-      releases: Array<Deployment>(),
-      projects: Array<TeamProjectReference>(),
+      buildDefs: new Array<BuildDefinitionReference>(),
+      builds: new Array<Build>(),
+      releases: new Array<Deployment>(),
+      projects: new Array<TeamProjectReference>(),
       showAllBuildDeployment: false,
       refreshUI: new Date().toTimeString(),
       fullScreenMode : false
