@@ -60,6 +60,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   private showErrorsOnSummaryOnTop = true;
   private lastBuildsDisplay = "lastHour";
 
+  private isFullScreen = false;
   private buildTimeRangeHasChanged = true;
 
   constructor(props: {}) {
@@ -355,7 +356,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     const projectService = await SDK.getService<IProjectPageService>(CommonServiceIds.ProjectPageService);
     let currentProject = await projectService.getProject();
     await this.loadProjects();
-    
+
     this.setState({ isFullScreen: false, releases: new Array<Deployment>(), builds: new Array<Build>() });
 
     if(currentProject != undefined){
@@ -496,6 +497,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     return (
         <div>
           <Link onClick={()=> {
+            console.log("onclick " + this.isFullScreen);
             let isFullScreen = this.state.isFullScreen;
             this.setState({ isFullScreen: !isFullScreen });
             this.refreshUI.value = new Date().toTimeString();
@@ -509,7 +511,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   }
 
   public renderHeader() : JSX.Element {
-    console.log("renderHeader: " + this.state.isFullScreen);
+    console.log("renderHeader: " + this.state.isFullScreen + " - " + this.isFullScreen);
     if(!this.state.isFullScreen) {
       return (
         <CustomHeader>
