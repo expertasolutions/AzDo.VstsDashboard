@@ -41,8 +41,6 @@ const tabBarCommands: IHeaderCommandBarItem[] = [
     ariaLabel: "Screen Mode",
     id: "screenMode",
     onActivate: () => {
-      alert('Screen Mode' + _testLouis);
-      _testLouis = "patate " + new Date().toLocaleTimeString();
       _isFullScreen = !_isFullScreen;
     },
     iconProps: {
@@ -53,8 +51,6 @@ const tabBarCommands: IHeaderCommandBarItem[] = [
     tooltipProps: { text: "Screen mode"}
   }
 ];
-
-var _testLouis: string = "TestLouis";
 
 class CICDDashboard extends React.Component<{}, {}> {
   private isLoading = new ObservableValue<boolean>(true);
