@@ -67,19 +67,19 @@ class CICDDashboard extends React.Component<{}, {}> {
   constructor(props: {}) {
     super(props);
 
+    this.state = {
+      buildDefs: Array<BuildDefinitionReference>(),
+      builds: Array<Build>(),
+      releases: Array<Deployment>(),
+      projects: Array<TeamProjectReference>(),
+      showAllBuildDeployment: false,
+      refreshUI: new Date().toTimeString(),
+      fullScreenMode : false
+    };
+
     this.filter = new Filter();
     setInterval(()=> this.updateFromProject(false), 10000);
   }
-
-  state = {
-    buildDefs: Array<BuildDefinitionReference>(),
-    builds: Array<Build>(),
-    releases: Array<Deployment>(),
-    projects: Array<TeamProjectReference>(),
-    showAllBuildDeployment: false,
-    refreshUI: new Date().toTimeString(),
-    fullScreenMode : false
-  };
 
   private onFilterReset = async () => {
     let nam = this.initialProjectName;
