@@ -510,6 +510,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   }
 
   public renderHeader() : JSX.Element {
+    console.log("renderHeader: " + this.state.isFullScreen);
     if(!this.state.isFullScreen) {
       return (
         <CustomHeader>
