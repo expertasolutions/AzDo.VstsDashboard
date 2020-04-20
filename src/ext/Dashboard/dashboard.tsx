@@ -16,6 +16,7 @@ import { Surface, SurfaceBackground } from "azure-devops-ui/Surface";
 import { Page } from "azure-devops-ui/Page";
 import { Link } from "azure-devops-ui/Link";
 import { Icon } from "azure-devops-ui/Icon";
+import { IHeaderCommandBarItem, HeaderCommandBar } from 'azure-devops-ui/HeaderCommandBar';
 
 import { TeamProjectReference } from "azure-devops-extension-api/Core";
 import { BuildDefinitionReference, Build } from "azure-devops-extension-api/Build";
@@ -32,6 +33,22 @@ import { Filter, FILTER_CHANGE_EVENT, FILTER_RESET_EVENT } from "azure-devops-ui
 import { FilterBar } from "azure-devops-ui/FilterBar";
 import { ZeroData } from "azure-devops-ui/ZeroData";
 import { CommonServiceIds, IProjectPageService } from "azure-devops-extension-api";
+
+const tabBarCommands: IHeaderCommandBarItem[] = [
+  {
+    ariaLabel: "Screen Mode",
+    id: "screenMode",
+    onActivate: () => {
+      alert('Screen Mode')
+    },
+    iconProps: {
+      iconName: "FullScreen"
+    },
+    important: true,
+    subtle: true,
+    tooltipProps: { text: "Screen mode"}
+  }
+];
 
 class CICDDashboard extends React.Component<{}, {}> {
   private isLoading = new ObservableValue<boolean>(true);
@@ -492,22 +509,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   }
 
   public renderOptionsFilterView() : JSX.Element {
-    let iconName = "FullScreen";
-
-    return (
-        <div>
-          <Link onClick={()=> {
-            console.log("onclick " + this.isFullScreen);
-            let isFullScreen = this.state.isFullScreen;
-            this.setState({ isFullScreen: !isFullScreen });
-            this.refreshUI.value = new Date().toTimeString();
-            iconName = this.state.isFullScreen ? "BackToWindow" : "FullScreen";
-            console.log(this.state.isFullScreen + " " + iconName);
-          }}>
-            <Icon iconName={iconName} />
-          </Link>
-        </div>
-    );
+    return (<HeaderCommandBar items={tabBarCommands} /> );
   }
 
   public renderHeader() : JSX.Element {
@@ -538,18 +540,6 @@ class CICDDashboard extends React.Component<{}, {}> {
       <Surface background={SurfaceBackground.neutral}>
         <Page className="pipelines-page flex-grow">
           { this.renderHeader() }
-          <div>
-            <Link onClick={()=> {
-              console.log("onclick " + this.isFullScreen);
-              let isFullScreen = this.state.isFullScreen;
-              this.setState({ isFullScreen: !isFullScreen });
-              this.refreshUI.value = new Date().toTimeString();
-              let iconName = this.state.isFullScreen ? "BackToWindow" : "FullScreen";
-              console.log(this.state.isFullScreen + " " + iconName);
-            }}>
-              <Icon iconName="FullScreen" />
-            </Link>
-          </div>
           <div className="page-content-left page-content-right page-content-top">
               { this.renderTabBar() }
           </div>
