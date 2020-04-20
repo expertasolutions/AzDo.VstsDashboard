@@ -32,7 +32,9 @@ import { IListBoxItem } from "azure-devops-ui/ListBox";
 import { Filter, FILTER_CHANGE_EVENT, FILTER_RESET_EVENT } from "azure-devops-ui/Utilities/Filter";
 import { FilterBar } from "azure-devops-ui/FilterBar";
 import { ZeroData } from "azure-devops-ui/ZeroData";
-import { CommonServiceIds, IProjectPageService } from "azure-devops-extension-api";
+import { CommonServiceIds, IProjectPageService, IHostPageLayoutService } from "azure-devops-extension-api";
+
+let layoutService : IHostPageLayoutService;
 
 const isFullScreen = new ObservableValue<boolean>(false);
 const tabBarCommands: IHeaderCommandBarItem[] = [
@@ -41,6 +43,7 @@ const tabBarCommands: IHeaderCommandBarItem[] = [
     id: "screenMode",
     onActivate: () => {
       isFullScreen.value = !isFullScreen.value;
+      layoutService.setFullScreenMode(isFullScreen.value);
       console.log(isFullScreen.value);
     },
     iconProps: {
@@ -367,6 +370,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     await SDK.init();
     //await SDK.ready();
     let hostInfo = SDK.getHost();
+    layoutService = await SDK.getService<IHostPageLayoutService>(CommonServiceIds.HostPageLayoutService);
 
     let extContext = SDK.getExtensionContext();
     this.extensionVersion = "v" + extContext.version;
@@ -538,7 +542,6 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   public render() : JSX.Element {
     return (
-      <div id="testlouis">
       <Surface background={SurfaceBackground.neutral}>
         <Page className="pipelines-page flex-grow">
         <Observer isFullScreen={isFullScreen}>
@@ -678,7 +681,6 @@ class CICDDashboard extends React.Component<{}, {}> {
           </div>
         </Page>
       </Surface>
-      </div>
     );
   }
 }
