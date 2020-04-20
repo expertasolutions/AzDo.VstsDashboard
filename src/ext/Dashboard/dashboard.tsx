@@ -34,6 +34,27 @@ import { FilterBar } from "azure-devops-ui/FilterBar";
 import { ZeroData } from "azure-devops-ui/ZeroData";
 import { CommonServiceIds, IProjectPageService } from "azure-devops-extension-api";
 
+const tabBarCommands: IHeaderCommandBarItem[] = [
+  {
+    ariaLabel: "Screen Mode",
+    id: "screenMode",
+    onActivate: () => {
+      alert('Screen Mode' + _testLouis);
+      _testLouis = "patate " + new Date().toLocaleTimeString();
+      //let currentValue = this.state.isFullScreen;
+      //this.setState({ isFullScreen: !currentValue });
+    },
+    iconProps: {
+      iconName: "FullScreen"
+    },
+    important: true,
+    subtle: true,
+    tooltipProps: { text: "Screen mode"}
+  }
+];
+
+var _testLouis: string = "TestLouis";
+
 class CICDDashboard extends React.Component<{}, {}> {
   private isLoading = new ObservableValue<boolean>(true);
   private selectedTabId = new ObservableValue("summary");
@@ -63,24 +84,6 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   private isFullScreen = false;
   private buildTimeRangeHasChanged = true;
-
-  tabBarCommands: IHeaderCommandBarItem[] = [
-    {
-      ariaLabel: "Screen Mode",
-      id: "screenMode",
-      onActivate: () => {
-        alert('Screen Mode');
-        //let currentValue = this.state.isFullScreen;
-        //this.setState({ isFullScreen: !currentValue });
-      },
-      iconProps: {
-        iconName: "FullScreen"
-      },
-      important: true,
-      subtle: true,
-      tooltipProps: { text: "Screen mode"}
-    }
-  ];
 
   constructor(props: {}) {
     super(props);
