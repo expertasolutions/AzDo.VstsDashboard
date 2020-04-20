@@ -493,7 +493,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   }
 
   public screenModeChanged = () => {
-
+    console.log("screenModeChanged");
   }
 
   public renderOptionsFilterView() : JSX.Element {
