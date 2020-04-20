@@ -43,8 +43,10 @@ const tabBarCommands: IHeaderCommandBarItem[] = [
     onActivate: () => {
       _isFullScreen = !_isFullScreen;
       var elm = document.getElementById("testlouis");
-      alert(elm);s
-      elm?.style.setProperty("backgroundColor"," blue");
+      alert(elm);
+      if(elm) {
+        elm.style.backgroundColor = "blue";
+      }
     },
     iconProps: {
       iconName: ( _isFullScreen ? "BackToWindow" : "FullScreen")
