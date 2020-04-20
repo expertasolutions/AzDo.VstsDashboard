@@ -34,9 +34,6 @@ import { FilterBar } from "azure-devops-ui/FilterBar";
 import { ZeroData } from "azure-devops-ui/ZeroData";
 import { CommonServiceIds, IProjectPageService, IHostPageLayoutService } from "azure-devops-extension-api";
 
-let layoutService : IHostPageLayoutService;
-const isFullScreen = new ObservableValue<boolean>(false);
-
 class CICDDashboard extends React.Component<{}, {}> {
   private isLoading = new ObservableValue<boolean>(true);
   
@@ -80,7 +77,8 @@ class CICDDashboard extends React.Component<{}, {}> {
     releases: Array<Deployment>(),
     projects: Array<TeamProjectReference>(),
     showAllBuildDeployment: false,
-    refreshUI: new Date().toTimeString()
+    refreshUI: new Date().toTimeString(),
+    fullScreenMode : false
   };
 
   private onFilterReset = async () => {
@@ -350,9 +348,9 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   private async initializeState(): Promise<void> {
     await SDK.init();
+    this.initializeFullScreenState();
     //await SDK.ready();
     let hostInfo = SDK.getHost();
-    layoutService = await SDK.getService<IHostPageLayoutService>(CommonServiceIds.HostPageLayoutService);
 
     let extContext = SDK.getExtensionContext();
     this.extensionVersion = "v" + extContext.version;
@@ -498,14 +496,13 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   private tabBarCommands: IHeaderCommandBarItem[] = [
     {
-      ariaLabel: isFullScreen.value  ? "Exit full screen mode" : "Enter full screen mode",
+      ariaLabel: this.state.fullScreenMode ? "Exit full screen mode" : "Enter full screen mode",
       id: "screenMode",
       onActivate: () => {
-        isFullScreen.value = !isFullScreen.value;
-        layoutService.setFullScreenMode(isFullScreen.value);
+        this.onToggleFullScreenMode();
       },
       iconProps: {
-        iconName: isFullScreen.value ? "BackToWindow" : "FullScreen"
+        iconName: this.state.fullScreenMode ? "BackToWindow" : "FullScreen"
       },
       important: true,
       subtle: true,
@@ -513,12 +510,28 @@ class CICDDashboard extends React.Component<{}, {}> {
     }
   ];
 
+  private async initializeFullScreenState() {
+    const layoutService = await SDK.getService<IHostPageLayoutService>(CommonServiceIds.HostPageLayoutService);
+    const fullScreenMode = await layoutService.getFullScreenMode();
+    if (fullScreenMode !== this.state.fullScreenMode) {
+        this.setState({ fullScreenMode });
+    }
+  }
+
+  private async onToggleFullScreenMode(): Promise<void> {
+      const fullScreenMode = !this.state.fullScreenMode;
+      this.setState({ fullScreenMode });
+
+      const layoutService = await SDK.getService<IHostPageLayoutService>(CommonServiceIds.HostPageLayoutService);
+      layoutService.setFullScreenMode(fullScreenMode);
+  }
+
   public renderOptionsFilterView() : JSX.Element {
     return (<HeaderCommandBar items={this.tabBarCommands} /> );
   }
 
   public renderHeader() : JSX.Element {
-    if(!isFullScreen.value) {
+    if(!this.state.fullScreenMode) {
       return (
         <CustomHeader>
           <HeaderTitleArea>
@@ -543,22 +556,14 @@ class CICDDashboard extends React.Component<{}, {}> {
     return (
       <Surface background={SurfaceBackground.neutral}>
         <Page className="pipelines-page flex-grow">
-        <Observer isFullScreen={isFullScreen}>
-            {(props: { isFullScreen: boolean }) => {
-              return this.renderHeader();
-            }}
-          </Observer>
+          {this.renderHeader()}
           <div className="page-content-left page-content-right page-content-top">
-          <Observer isFullScreen={isFullScreen}>
-            {(props: { isFullScreen: boolean }) => {
-              return this.renderTabBar();
-            }}
-            </Observer>
+            {this.renderTabBar()}
           </div>
           <div className="page-content-left page-content-right page-content-top">
           <Observer selectedTabId={this.selectedTabId} 
-                    isLoading={this.isLoading} isFullScreen={isFullScreen}>
-            {(props: { selectedTabId: string, isLoading: boolean, isFullScreen: boolean }) => {
+                    isLoading={this.isLoading}>
+            {(props: { selectedTabId: string, isLoading: boolean}) => {
                 let errorOnTopFilter = (
                   <DropdownFilterBarItem
                         filterItemKey="errorsOnSummaryTop"
