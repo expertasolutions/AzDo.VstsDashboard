@@ -37,7 +37,6 @@ class CICDDashboard extends React.Component<{}, {}> {
   private isLoading = new ObservableValue<boolean>(true);
   private selectedTabId = new ObservableValue("summary");
   private refreshUI = new ObservableValue(new Date().toTimeString());
-  private isFullScreen = new ObservableValue<boolean>(false);
 
   private projectSelection = new DropdownMultiSelection();
   private allDeploymentSelection = new DropdownSelection();
@@ -76,7 +75,8 @@ class CICDDashboard extends React.Component<{}, {}> {
     releases: Array<Deployment>(),
     projects: Array<TeamProjectReference>(),
     showAllBuildDeployment: false,
-    refreshUI: new Date().toTimeString()
+    refreshUI: new Date().toTimeString(),
+    isFullScreen: false
   };
 
   private onFilterReset = async () => {
@@ -198,7 +198,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       this.setState({ buildDefs: currentDef });
       this.filterData();
     }).then(()=> {
-      SDK.ready().then(()=> { this.isLoading.value = false; this.isFullScreen.value = false; });
+      SDK.ready().then(()=> { this.isLoading.value = false; });
     });
    
     // Update the Release List
@@ -480,8 +480,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     }
   }
 
-  public renderTabBar(isFullScreen: boolean) : JSX.Element {
-    console.log("renderTabBar " + isFullScreen);
+  public renderTabBar() : JSX.Element {
     return (<TabBar
             onSelectedTabChanged={this.onSelectedTabChanged}
             selectedTabId={this.selectedTabId}
@@ -498,14 +497,11 @@ class CICDDashboard extends React.Component<{}, {}> {
     return (
         <div>
           <Link onClick={()=> {
-            if(this.isFullScreen === undefined) {
-              this.isFullScreen = new ObservableValue(false);
-            } else {
-              this.isFullScreen.value = !this.isFullScreen.value;
-              this.refreshUI.value = new Date().toTimeString();
-              iconName = this.isFullScreen.value ? "BackToWindow" : "FullScreen";
-            }
-            console.log(this.isFullScreen.value + " " + iconName);
+            let isFullScreen = this.state.isFullScreen;
+            this.setState({ isFullScreen: !isFullScreen });
+            this.refreshUI.value = new Date().toTimeString();
+            iconName = this.state.isFullScreen ? "BackToWindow" : "FullScreen";
+            console.log(this.state.isFullScreen + " " + iconName);
           }}>
             <Icon iconName={iconName} />
           </Link>
@@ -513,9 +509,8 @@ class CICDDashboard extends React.Component<{}, {}> {
     );
   }
 
-  public renderHeader(isFullScreen:boolean) : JSX.Element {
-    console.log("renderHeader: " + isFullScreen);
-    if(!isFullScreen) {
+  public renderHeader() : JSX.Element {
+    if(!this.state.isFullScreen) {
       return (
         <CustomHeader>
           <HeaderTitleArea>
@@ -540,19 +535,9 @@ class CICDDashboard extends React.Component<{}, {}> {
     return (
       <Surface background={SurfaceBackground.neutral}>
         <Page className="pipelines-page flex-grow">
-          <div>
-          <Observer isFullScreen={this.isFullScreen}>
-            {(props: { isFullScreen: boolean }) => {
-              return this.renderHeader(props.isFullScreen);
-            }}
-            </Observer>
-          </div>
+          { this.renderHeader() }
           <div className="page-content-left page-content-right page-content-top">
-            <Observer isFullScreen={this.isFullScreen}>
-            {(props: { isFullScreen: boolean }) => {
-              return this.renderTabBar(props.isFullScreen);
-            }}
-            </Observer>
+              { this.renderTabBar() }
           </div>
           <div className="page-content-left page-content-right page-content-top">
           <Observer selectedTabId={this.selectedTabId} 
