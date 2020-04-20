@@ -58,6 +58,7 @@ var _testLouis: string = "TestLouis";
 
 class CICDDashboard extends React.Component<{}, {}> {
   private isLoading = new ObservableValue<boolean>(true);
+  private isFullScreen = new ObservableValue<boolean>(_isFullScreen);
   private selectedTabId = new ObservableValue("summary");
   private refreshUI = new ObservableValue(new Date().toTimeString());
 
@@ -549,8 +550,8 @@ class CICDDashboard extends React.Component<{}, {}> {
           </div>
           <div className="page-content-left page-content-right page-content-top">
           <Observer selectedTabId={this.selectedTabId} 
-                    isLoading={this.isLoading}>
-            {(props: { selectedTabId: string, isLoading: boolean }) => {
+                    isLoading={this.isLoading} isFullScreen={this.isFullScreen}>
+            {(props: { selectedTabId: string, isLoading: boolean, isFullScreen: boolean }) => {
                 let errorOnTopFilter = (
                   <DropdownFilterBarItem
                         filterItemKey="errorsOnSummaryTop"
