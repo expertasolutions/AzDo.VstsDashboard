@@ -66,20 +66,19 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   constructor(props: {}) {
     super(props);
-
-    this.state = {
-      buildDefs: Array<BuildDefinitionReference>(),
-      builds: Array<Build>(),
-      releases: Array<Deployment>(),
-      projects: Array<TeamProjectReference>(),
-      showAllBuildDeployment: false,
-      refreshUI: new Date().toTimeString(),
-      fullScreenMode : false
-    };
-
     this.filter = new Filter();
     setInterval(()=> this.updateFromProject(false), 10000);
   }
+
+  state = {
+    buildDefs: Array<BuildDefinitionReference>(),
+    builds: Array<Build>(),
+    releases: Array<Deployment>(),
+    projects: Array<TeamProjectReference>(),
+    showAllBuildDeployment: false,
+    refreshUI: new Date().toTimeString(),
+    fullScreenMode : false
+  };
 
   private onFilterReset = async () => {
     let nam = this.initialProjectName;
@@ -494,21 +493,23 @@ class CICDDashboard extends React.Component<{}, {}> {
           </TabBar>);
   }
 
-  private tabBarCommands: IHeaderCommandBarItem[] = [
-    {
-      ariaLabel: this.state.fullScreenMode ? "Exit full screen mode" : "Enter full screen mode",
-      id: "screenMode",
-      onActivate: () => {
-        this.onToggleFullScreenMode();
-      },
-      iconProps: {
-        iconName: this.state.fullScreenMode ? "BackToWindow" : "FullScreen"
-      },
-      important: true,
-      subtle: true,
-      tooltipProps: { text: "Screen mode"}
-    }
-  ];
+  private tabBarCommands(): IHeaderCommandBarItem[] {
+    return [
+      {
+        ariaLabel: this.state.fullScreenMode ? "Exit full screen mode" : "Enter full screen mode",
+        id: "screenMode",
+        onActivate: () => {
+          this.onToggleFullScreenMode();
+        },
+        iconProps: {
+          iconName: this.state.fullScreenMode ? "BackToWindow" : "FullScreen"
+        },
+        important: true,
+        subtle: true,
+        tooltipProps: { text: "Screen mode"}
+      }
+    ];
+  }
 
   private async initializeFullScreenState() {
     const layoutService = await SDK.getService<IHostPageLayoutService>(CommonServiceIds.HostPageLayoutService);
