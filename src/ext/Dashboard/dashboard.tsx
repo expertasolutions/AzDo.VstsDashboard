@@ -37,17 +37,16 @@ import { CommonServiceIds, IProjectPageService, IHostPageLayoutService } from "a
 let layoutService : IHostPageLayoutService;
 
 const isFullScreen = new ObservableValue<boolean>(false);
-const tabBarCommands: IHeaderCommandBarItem[] = [
+let tabBarCommands: IHeaderCommandBarItem[] = [
   {
     ariaLabel: "Screen Mode",
     id: "screenMode",
     onActivate: () => {
       isFullScreen.value = !isFullScreen.value;
       layoutService.setFullScreenMode(isFullScreen.value);
-      console.log(isFullScreen.value);
     },
     iconProps: {
-      iconName: ( isFullScreen.value ? "BackToWindow" : "FullScreen")
+      iconName: isFullScreen.value ? "BackToWindow" : "FullScreen"
     },
     important: true,
     subtle: true,
