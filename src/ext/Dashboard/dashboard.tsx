@@ -360,6 +360,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   public componentWillMount() {
     this.filter.unsubscribe(this.onFilterChanged, FILTER_CHANGE_EVENT);
     this.filter.unsubscribe(this.onFilterReset, FILTER_RESET_EVENT);
+
   }
 
   private async initializeState(): Promise<void> {
@@ -540,7 +541,11 @@ class CICDDashboard extends React.Component<{}, {}> {
       <div id="testlouis">
       <Surface background={SurfaceBackground.neutral}>
         <Page className="pipelines-page flex-grow">
-          { this.renderHeader() }
+        <Observer isFullScreen={isFullScreen}>
+            {(props: { isFullScreen: boolean }) => {
+              return this.renderHeader();
+            }}
+          </Observer>
           <div className="page-content-left page-content-right page-content-top">
           <Observer isFullScreen={isFullScreen}>
             {(props: { isFullScreen: boolean }) => {
