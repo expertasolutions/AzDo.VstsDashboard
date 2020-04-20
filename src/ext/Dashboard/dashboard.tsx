@@ -355,9 +355,8 @@ class CICDDashboard extends React.Component<{}, {}> {
     const projectService = await SDK.getService<IProjectPageService>(CommonServiceIds.ProjectPageService);
     let currentProject = await projectService.getProject();
     await this.loadProjects();
-
-    this.setState({ builds: new Array<Build>() });
-    this.setState({ releases: new Array<Deployment>() });
+    
+    this.setState({ isFullScreen: false, releases: new Array<Deployment>(), builds: new Array<Build>() });
 
     if(currentProject != undefined){
       this.initialProjectName = currentProject.name;
@@ -648,9 +647,9 @@ class CICDDashboard extends React.Component<{}, {}> {
                                     <Card className="flex-grow bolt-table-card" 
                                         titleProps={{ text: "All pipelines" }} 
                                         contentProps={{ contentPadding: false }}>
-                                          <div style={{ marginTop: "16px;", marginBottom: "16px;"}}>
-                                              { this.renderTab(props.selectedTabId) }
-                                          </div>
+                                      <div style={{ marginTop: "16px;", marginBottom: "16px;"}}>
+                                          { this.renderTab(props.selectedTabId) }
+                                      </div>
                                     </Card>
                                   </div>
                                 );
