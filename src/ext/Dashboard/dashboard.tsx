@@ -41,12 +41,10 @@ const tabBarCommands: IHeaderCommandBarItem[] = [
     ariaLabel: "Screen Mode",
     id: "screenMode",
     onActivate: () => {
-      var elm = document.getElementById('testlouis');
-      if(elm === null || elm === undefined) {
-        alert('testlouis not found');
-      }
-      elm.style.backgroundColor = "blue";
-      //_isFullScreen = !_isFullScreen;
+      _isFullScreen = !_isFullScreen;
+      var elm = document.getElementById("testlouis");
+      alert(elm);s
+      elm?.style.setProperty("backgroundColor"," blue");
     },
     iconProps: {
       iconName: ( _isFullScreen ? "BackToWindow" : "FullScreen")
