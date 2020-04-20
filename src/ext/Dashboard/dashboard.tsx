@@ -35,24 +35,7 @@ import { ZeroData } from "azure-devops-ui/ZeroData";
 import { CommonServiceIds, IProjectPageService, IHostPageLayoutService } from "azure-devops-extension-api";
 
 let layoutService : IHostPageLayoutService;
-
 const isFullScreen = new ObservableValue<boolean>(false);
-let tabBarCommands: IHeaderCommandBarItem[] = [
-  {
-    ariaLabel: isFullScreen.value  ? "Exit full screen mode" : "Enter full screen mode",
-    id: "screenMode",
-    onActivate: () => {
-      isFullScreen.value = !isFullScreen.value;
-      layoutService.setFullScreenMode(isFullScreen.value);
-    },
-    iconProps: {
-      iconName: isFullScreen.value ? "BackToWindow" : "FullScreen"
-    },
-    important: true,
-    subtle: true,
-    tooltipProps: { text: "Screen mode"}
-  }
-];
 
 class CICDDashboard extends React.Component<{}, {}> {
   private isLoading = new ObservableValue<boolean>(true);
@@ -513,8 +496,25 @@ class CICDDashboard extends React.Component<{}, {}> {
           </TabBar>);
   }
 
+  private tabBarCommands: IHeaderCommandBarItem[] = [
+    {
+      ariaLabel: isFullScreen.value  ? "Exit full screen mode" : "Enter full screen mode",
+      id: "screenMode",
+      onActivate: () => {
+        isFullScreen.value = !isFullScreen.value;
+        layoutService.setFullScreenMode(isFullScreen.value);
+      },
+      iconProps: {
+        iconName: isFullScreen.value ? "BackToWindow" : "FullScreen"
+      },
+      important: true,
+      subtle: true,
+      tooltipProps: { text: "Screen mode"}
+    }
+  ];
+
   public renderOptionsFilterView() : JSX.Element {
-    return (<HeaderCommandBar items={tabBarCommands} /> );
+    return (<HeaderCommandBar items={this.tabBarCommands} /> );
   }
 
   public renderHeader() : JSX.Element {
