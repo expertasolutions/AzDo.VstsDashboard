@@ -41,7 +41,12 @@ const tabBarCommands: IHeaderCommandBarItem[] = [
     ariaLabel: "Screen Mode",
     id: "screenMode",
     onActivate: () => {
-      _isFullScreen = !_isFullScreen;
+      var elm = document.getElementById('testlouis');
+      if(elm === null || elm === undefined) {
+        alert('testlouis not found');
+      }
+      elm.style.backgroundColor = "blue";
+      //_isFullScreen = !_isFullScreen;
     },
     iconProps: {
       iconName: ( _isFullScreen ? "BackToWindow" : "FullScreen")
@@ -547,7 +552,7 @@ class CICDDashboard extends React.Component<{}, {}> {
             }}
             </Observer>
           </div>
-          <div className="page-content-left page-content-right page-content-top">
+          <div id="testlouis" className="page-content-left page-content-right page-content-top">
           <Observer selectedTabId={this.selectedTabId} 
                     isLoading={this.isLoading} isFullScreen={this.isFullScreen}>
             {(props: { selectedTabId: string, isLoading: boolean, isFullScreen: boolean }) => {
