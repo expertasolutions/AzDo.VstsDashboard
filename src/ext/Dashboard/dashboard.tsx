@@ -35,25 +35,14 @@ import { ZeroData } from "azure-devops-ui/ZeroData";
 import { CommonServiceIds, IProjectPageService } from "azure-devops-extension-api";
 
 var _isFullScreen: boolean = false;
+const isFullScreen = new ObservableValue<boolean>(_isFullScreen);
 
 const tabBarCommands: IHeaderCommandBarItem[] = [
   {
     ariaLabel: "Screen Mode",
     id: "screenMode",
     onActivate: () => {
-      _isFullScreen = !_isFullScreen;
-      var elm = document.getElementById("testlouis");
-      if(elm && _isFullScreen) {
-        elm.style.backgroundColor = "blue";
-        elm.style.position = "absolute";
-        elm.style.width = "100%";
-        elm.style.height = "100%";
-      } else if(elm && !_isFullScreen) {
-        elm.style.backgroundColor = "transparent"
-        elm.style.position = "relative";
-        elm.style.width = "100%";
-        elm.style.height = "100%";
-      }
+      isFullScreen.value = !isFullScreen.value;
     },
     iconProps: {
       iconName: ( _isFullScreen ? "BackToWindow" : "FullScreen")
@@ -66,7 +55,7 @@ const tabBarCommands: IHeaderCommandBarItem[] = [
 
 class CICDDashboard extends React.Component<{}, {}> {
   private isLoading = new ObservableValue<boolean>(true);
-  private isFullScreen = new ObservableValue<boolean>(_isFullScreen);
+  
   private selectedTabId = new ObservableValue("summary");
   private refreshUI = new ObservableValue(new Date().toTimeString());
 
