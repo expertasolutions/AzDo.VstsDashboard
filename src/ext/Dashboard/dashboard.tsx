@@ -34,6 +34,8 @@ import { FilterBar } from "azure-devops-ui/FilterBar";
 import { ZeroData } from "azure-devops-ui/ZeroData";
 import { CommonServiceIds, IProjectPageService } from "azure-devops-extension-api";
 
+var _isFullScreen: boolean = false;
+
 const tabBarCommands: IHeaderCommandBarItem[] = [
   {
     ariaLabel: "Screen Mode",
@@ -44,7 +46,7 @@ const tabBarCommands: IHeaderCommandBarItem[] = [
       _isFullScreen = !_isFullScreen;
     },
     iconProps: {
-      iconName: "FullScreen"
+      iconName: ( _isFullScreen ? "BackToWindow" : "FullScreen")
     },
     important: true,
     subtle: true,
@@ -52,7 +54,6 @@ const tabBarCommands: IHeaderCommandBarItem[] = [
   }
 ];
 
-var _isFullScreen: boolean = false;
 var _testLouis: string = "TestLouis";
 
 class CICDDashboard extends React.Component<{}, {}> {
@@ -82,7 +83,6 @@ class CICDDashboard extends React.Component<{}, {}> {
   private showErrorsOnSummaryOnTop = true;
   private lastBuildsDisplay = "lastHour";
 
-  private isFullScreen = false;
   private buildTimeRangeHasChanged = true;
 
   constructor(props: {}) {
@@ -98,8 +98,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     releases: Array<Deployment>(),
     projects: Array<TeamProjectReference>(),
     showAllBuildDeployment: false,
-    refreshUI: new Date().toTimeString(),
-    isFullScreen: false
+    refreshUI: new Date().toTimeString()
   };
 
   private onFilterReset = async () => {
@@ -379,7 +378,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     let currentProject = await projectService.getProject();
     await this.loadProjects();
 
-    this.setState({ isFullScreen: false, releases: new Array<Deployment>(), builds: new Array<Build>() });
+    this.setState({ releases: new Array<Deployment>(), builds: new Array<Build>() });
 
     if(currentProject != undefined){
       this.initialProjectName = currentProject.name;
