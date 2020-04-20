@@ -67,7 +67,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     super(props);
 
     this.filter = new Filter();
-    setInterval(()=> this.updateFromProject(false), 10000);
+    //setInterval(()=> this.updateFromProject(false), 10000);
   }
 
   state = {
@@ -198,7 +198,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       this.setState({ buildDefs: currentDef });
       this.filterData();
     }).then(()=> {
-      SDK.ready().then(()=> { this.isLoading.value = false; });
+      SDK.ready().then(()=> { this.isLoading.value = false; this.isFullScreen.value = false; });
     });
    
     // Update the Release List
@@ -344,7 +344,6 @@ class CICDDashboard extends React.Component<{}, {}> {
   }
 
   private async initializeState(): Promise<void> {
-    this.isFullScreen = new ObservableValue(false);
     await SDK.init();
     //await SDK.ready();
     let hostInfo = SDK.getHost();
