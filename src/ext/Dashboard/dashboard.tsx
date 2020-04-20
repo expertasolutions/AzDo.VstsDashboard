@@ -39,7 +39,7 @@ let layoutService : IHostPageLayoutService;
 const isFullScreen = new ObservableValue<boolean>(false);
 let tabBarCommands: IHeaderCommandBarItem[] = [
   {
-    ariaLabel: "Screen Mode",
+    ariaLabel: isFullScreen.value  ? "Exit full screen mode" : "Enter full screen mode",
     id: "screenMode",
     onActivate: () => {
       isFullScreen.value = !isFullScreen.value;
