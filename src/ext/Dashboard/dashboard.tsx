@@ -43,9 +43,16 @@ const tabBarCommands: IHeaderCommandBarItem[] = [
     onActivate: () => {
       _isFullScreen = !_isFullScreen;
       var elm = document.getElementById("testlouis");
-      alert(elm);
-      if(elm) {
+      if(elm && _isFullScreen) {
         elm.style.backgroundColor = "blue";
+        elm.style.position = "absolute";
+        elm.style.width = "100%";
+        elm.style.height = "100%";
+      } else if(elm && !_isFullScreen) {
+        elm.style.backgroundColor = "transparent"
+        elm.style.position = "relative";
+        elm.style.width = "100%";
+        elm.style.height = "100%";
       }
     },
     iconProps: {
@@ -542,6 +549,7 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   public render() : JSX.Element {
     return (
+      <div id="testlouis">
       <Surface background={SurfaceBackground.neutral}>
         <Page className="pipelines-page flex-grow">
           { this.renderHeader() }
@@ -552,7 +560,7 @@ class CICDDashboard extends React.Component<{}, {}> {
             }}
             </Observer>
           </div>
-          <div id="testlouis" className="page-content-left page-content-right page-content-top">
+          <div className="page-content-left page-content-right page-content-top">
           <Observer selectedTabId={this.selectedTabId} 
                     isLoading={this.isLoading} isFullScreen={this.isFullScreen}>
             {(props: { selectedTabId: string, isLoading: boolean, isFullScreen: boolean }) => {
@@ -677,6 +685,7 @@ class CICDDashboard extends React.Component<{}, {}> {
           </div>
         </Page>
       </Surface>
+      </div>
     );
   }
 }
