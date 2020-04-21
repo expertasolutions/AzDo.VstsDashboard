@@ -118,7 +118,7 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
   private filterData() {
     let filterState = this.filter.getState();
 
-    let buildDefList = Array<BuildDefinitionReference>();
+    let buildDefList = new Array<BuildDefinitionReference>();
 
     if(filterState.pipelineKeyWord !== undefined && filterState.pipelineKeyWord !== null && filterState.pipelineKeyWord.value !== "") {
       let pipelineFilterText = filterState.pipelineKeyWord.value.toLowerCase();
