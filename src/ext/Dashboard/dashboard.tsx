@@ -76,8 +76,6 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
 
   constructor(props: {}) {
     super(props);
-    this.filter = new Filter();
-
     this.state = {
       buildDefs: new Array<BuildDefinitionReference>(),
       builds: new Array<Build>(),
@@ -87,7 +85,7 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
       refreshUI: new Date().toTimeString(),
       fullScreenMode : false
     };
-
+    //this.filter = new Filter();
     //setInterval(()=> this.updateFromProject(false), 10000);
   }
 
