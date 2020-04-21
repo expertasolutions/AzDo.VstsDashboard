@@ -559,6 +559,7 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
   public item: any;
 
   public renderOptionsFilterView() : JSX.Element {
+    console.log("renderOptionsFilterView");
     //let itm = this.tabBarCommandsTest;
     let itm = [
       {
