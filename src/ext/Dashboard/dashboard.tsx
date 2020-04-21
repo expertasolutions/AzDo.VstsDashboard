@@ -532,6 +532,7 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
           </TabBar>);
   }
 
+  /*
   public tabBarCommands(): IHeaderCommandBarItem[] {
     return [
       {
@@ -549,13 +550,14 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
       }
     ];
   }  
+  */
 
   private async initializeFullScreenState() {
     const layoutService = await SDK.getService<IHostPageLayoutService>(CommonServiceIds.HostPageLayoutService);
     const fullScreenMode = await layoutService.getFullScreenMode();
-    if (fullScreenMode !== this.state.fullScreenMode) {
+    //if (fullScreenMode !== this.state.fullScreenMode) {
         this.setState({ fullScreenMode });
-    }
+    //}
   }
 
   private async onToggleFullScreenMode(): Promise<void> {
@@ -592,7 +594,8 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
   }
 
   public renderHeader() : JSX.Element {
-    if(!this.state.fullScreenMode) {
+    let isFullScreen = this.state.fullScreenMode !== undefined ? this.state.fullScreenMode : false;
+    if(!isFullScreen) {
       return (
         <CustomHeader>
           <HeaderTitleArea>
