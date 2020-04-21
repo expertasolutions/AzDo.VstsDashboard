@@ -35,12 +35,12 @@ import { ZeroData } from "azure-devops-ui/ZeroData";
 import { CommonServiceIds, IProjectPageService, IHostPageLayoutService } from "azure-devops-extension-api";
 
 interface IHubContentState {
-  buildDefs: Array<BuildDefinitionReference>,
+  //buildDefs: Array<BuildDefinitionReference>,
   builds: Array<Build>,
   releases: Array<Deployment>,
   projects: Array<TeamProjectReference>,
   showAllBuildDeployment: boolean,
-  refreshUI: string,
+  //refreshUI: string,
   fullScreenMode : boolean
 }
 
@@ -77,15 +77,15 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
   constructor(props: {}) {
     super(props);
     this.state = {
-      buildDefs: new Array<BuildDefinitionReference>(),
+      //buildDefs: new Array<BuildDefinitionReference>(),
       builds: new Array<Build>(),
       releases: new Array<Deployment>(),
       projects: new Array<TeamProjectReference>(),
       showAllBuildDeployment: false,
-      refreshUI: new Date().toTimeString(),
+      //refreshUI: new Date().toTimeString(),
       fullScreenMode : false
     };
-    //this.filter = new Filter();
+    this.filter = new Filter();
     //setInterval(()=> this.updateFromProject(false), 10000);
   }
 
@@ -319,7 +319,7 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
     } else {
       this.showAllBuildDeployment = false;
     }
-    this.setState({ showAllBuildDeployment: this.showAllBuildDeployment });
+    //this.setState({ showAllBuildDeployment: this.showAllBuildDeployment });
     this.refreshUI.value = new Date().toTimeString();
     this.filterData();
   }
@@ -399,20 +399,22 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
     */
   }
 
-  private buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(this.state.buildDefs));
-  private buildProvider = new ObservableValue<ArrayItemProvider<Build>>(new ArrayItemProvider(this.state.builds));
+  //private buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(this.state.buildDefs));
+  //private buildProvider = new ObservableValue<ArrayItemProvider<Build>>(new ArrayItemProvider(this.state.builds));
 
   private onSelectedTabChanged = (newTabId: string) => {
     this.selectedTabId.value = newTabId;
   }
 
   private async getProjectUrl(projectName:string) {
+    /*
     let prj = this.state.projects.find(x=> x.name === projectName);
     if(prj === undefined){
       return "http://perdu.com";
     }
     let prjDetail = await getProject(projectName);
     return prjDetail._links.web.href;
+    */
   }
 
   private renderFirstLoad() : JSX.Element {
@@ -431,7 +433,7 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
   }
 
   private renderZeroData(tabId: string) : JSX.Element {
-    if(this.currentSelectedProjects.length === 0){
+    //if(this.currentSelectedProjects.length === 0){
       return (<div className="flex-center">
           <ZeroData
             primaryText="No Team Project selected"
@@ -444,7 +446,8 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
             imagePath="https://cdn.vsassets.io/ext/ms.vss-build-web/pipelines/Content/no-builds.G8i4mxU5f17yTzxc.png"
           />
         </div>);
-    }
+    //}
+    /*
     else if(this.buildReferenceProvider.value.length === 0){
       return (
         <div className="flex-center">
@@ -463,10 +466,12 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
     } else {
       return (<div></div>);
     }
+    */
   }
 
   private renderTab(tabId: string) : JSX.Element {
     if(tabId === "summary") {
+      /*
       if(this.buildReferenceProvider.value.length > 0) {
         return (
           <Observer itemProvider={this.buildReferenceProvider} refreshUI={ this.refreshUI } >
@@ -485,8 +490,11 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
       } else {
         return (<div></div>)
       }
+      */
+     return (<div></div>);
     } else if(tabId === "builds") {
       return (
+        /*
         <Observer itemProvider={ this.buildProvider }>
           {(observableProps: { itemProvider: ArrayItemProvider<Build> }) => (
               <Table<Build> columns={buildColumns} 
@@ -495,6 +503,8 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
                   role="table"/>
           )}
         </Observer>
+        */
+       <div></div>
       )
     } else {
       return (<div></div>);
@@ -652,6 +662,7 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
                       onSelect={this.onAllDeploymentSelected}
                       selection={this.allDeploymentSelection}
                       hideClearAction={true}/>
+                      
                     <DropdownFilterBarItem
                       filterItemKey="teamProjectId"
                       filter={this.filter}
@@ -681,9 +692,9 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
                       return (
                         <Observer selectedTabId={this.selectedTabId} refreshUI={this.refreshUI}>
                             {(props: { selectedTabId: string, refreshUI: string }) => {
-                              if(this.state.buildDefs === undefined || this.state.buildDefs.length === 0){
-                                return this.renderZeroData(this.selectedTabId.value);
-                              } else {
+                              //if(this.state.buildDefs === undefined || this.state.buildDefs.length === 0){
+                              //  return this.renderZeroData(this.selectedTabId.value);
+                              //} else {
                                 return (
                                   <div>
                                     <Card className="flex-grow bolt-table-card" 
@@ -695,7 +706,7 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
                                     </Card>
                                   </div>
                                 );
-                              }
+                              //}
                             }}
                           </Observer>
                       )
