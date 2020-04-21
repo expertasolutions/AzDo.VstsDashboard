@@ -89,6 +89,16 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
     //setInterval(()=> this.updateFromProject(false), 10000);
   }
 
+  state = {
+    //buildDefs: new Array<BuildDefinitionReference>(),
+    builds: new Array<Build>(),
+    releases: new Array<Deployment>(),
+    projects: new Array<TeamProjectReference>(),
+    showAllBuildDeployment: false,
+    //refreshUI: new Date().toTimeString(),
+    fullScreenMode : false
+  };
+
   private onFilterReset = async () => {
     let nam = this.initialProjectName;
     let prj = this.state.projects.find(x=> x.name === nam);
