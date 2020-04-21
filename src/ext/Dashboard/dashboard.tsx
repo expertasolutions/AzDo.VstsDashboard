@@ -683,7 +683,7 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
                       return (
                         <Observer selectedTabId={this.selectedTabId} refreshUI={this.refreshUI}>
                             {(props: { selectedTabId: string, refreshUI: string }) => {
-                              if(this.state.buildDefs.length === 0){
+                              if(this.state.buildDefs === undefined || this.state.buildDefs.length === 0){
                                 return this.renderZeroData(this.selectedTabId.value);
                               } else {
                                 return (
