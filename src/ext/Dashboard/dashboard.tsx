@@ -556,6 +556,8 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
       layoutService.setFullScreenMode(fullScreenMode);
   }
 
+  public item: any;
+
   public renderOptionsFilterView() : JSX.Element {
     //let itm = this.tabBarCommandsTest;
     let itm = [
@@ -573,7 +575,8 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
         tooltipProps: { text: "Screen mode"}
       }
     ];
-    return <HeaderCommandBar items={itm} />;
+    this.item = itm;
+    return <HeaderCommandBar items={this.item} />;
   }
 
   public renderHeader() : JSX.Element {
