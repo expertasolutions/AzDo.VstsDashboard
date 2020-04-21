@@ -570,16 +570,17 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
 
   public renderOptionsFilterView() : JSX.Element {
     console.log("renderOptionsFilterView");
+    let isFullScreen = this.state.fullScreenMode !== undefined ? this.state.fullScreenMode : false;
     //let itm = this.tabBarCommandsTest;
     let itm = [
       {
-        ariaLabel: this.state.fullScreenMode ? "Exit full screen mode" : "Enter full screen mode",
+        ariaLabel: isFullScreen ? "Exit full screen mode" : "Enter full screen mode",
         id: "screenMode",
         onActivate: () => {
           this.onToggleFullScreenMode();
         },
         iconProps: {
-          iconName: this.state.fullScreenMode ? "BackToWindow" : "FullScreen"
+          iconName: isFullScreen ? "BackToWindow" : "FullScreen"
         },
         important: true,
         subtle: true,
