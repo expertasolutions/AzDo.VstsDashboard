@@ -39,12 +39,12 @@ interface IHubContentState {
   builds: Array<Build>,
   releases: Array<Deployment>,
   projects: Array<TeamProjectReference>,
-  showAllBuildDeployment: boolean,
+  showAllBuildDeployment: false,
   //refreshUI: string,
-  fullScreenMode : boolean
+  fullScreenMode : false
 }
 
-class CICDDashboard extends React.Component<{}, IHubContentState> {
+class CICDDashboard extends React.Component<{}, {}> {
   private isLoading = new ObservableValue<boolean>(true);
   
   private selectedTabId = new ObservableValue("summary");
@@ -558,7 +558,7 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
     const layoutService = await SDK.getService<IHostPageLayoutService>(CommonServiceIds.HostPageLayoutService);
     const fullScreenMode = await layoutService.getFullScreenMode();
     //if (fullScreenMode !== this.state.fullScreenMode) {
-        this.setState({ fullScreenMode });
+        this.setState({ fullScreenMode: false });
     //}
   }
 
@@ -575,24 +575,29 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
   public renderOptionsFilterView() : JSX.Element {
     console.log("renderOptionsFilterView");
     let isFullScreen = this.state.fullScreenMode !== undefined ? this.state.fullScreenMode : false;
+    try {
     //let itm = this.tabBarCommandsTest;
-    let itm = [
-      {
-        ariaLabel: isFullScreen ? "Exit full screen mode" : "Enter full screen mode",
-        id: "screenMode",
-        onActivate: () => {
-          this.onToggleFullScreenMode();
-        },
-        iconProps: {
-          iconName: isFullScreen ? "BackToWindow" : "FullScreen"
-        },
-        important: true,
-        subtle: true,
-        tooltipProps: { text: "Screen mode"}
-      }
-    ];
-    this.item = itm;
-    return <HeaderCommandBar items={this.item} />;
+      let itm = [
+        {
+          ariaLabel: isFullScreen ? "Exit full screen mode" : "Enter full screen mode",
+          id: "screenMode",
+          onActivate: () => {
+            this.onToggleFullScreenMode();
+          },
+          iconProps: {
+            iconName: isFullScreen ? "BackToWindow" : "FullScreen"
+          },
+          important: true,
+          subtle: true,
+          tooltipProps: { text: "Screen mode"}
+        }
+      ];
+      this.item = itm;
+      return <HeaderCommandBar items={this.item} />;
+    } catch(err) {
+      throw err;
+    }
+    return <div></div>;
   }
 
   public renderHeader() : JSX.Element {
