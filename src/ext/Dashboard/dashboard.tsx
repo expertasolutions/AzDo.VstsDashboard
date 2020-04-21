@@ -77,7 +77,6 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
   constructor(props: {}) {
     super(props);
     this.filter = new Filter();
-    setInterval(()=> this.updateFromProject(false), 10000);
 
     this.state = {
       buildDefs: new Array<BuildDefinitionReference>(),
@@ -88,17 +87,9 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
       refreshUI: new Date().toTimeString(),
       fullScreenMode : false
     };
-  }
 
-  state = {
-    buildDefs: new Array<BuildDefinitionReference>(),
-    builds: new Array<Build>(),
-    releases: new Array<Deployment>(),
-    projects: new Array<TeamProjectReference>(),
-    showAllBuildDeployment: false,
-    refreshUI: new Date().toTimeString(),
-    fullScreenMode : false
-  };
+    //setInterval(()=> this.updateFromProject(false), 10000);
+  }
 
   private onFilterReset = async () => {
     let nam = this.initialProjectName;
@@ -126,6 +117,7 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
   
   // BuildDefinition Summary
   private filterData() {
+    /*
     let filterState = this.filter.getState();
 
     let buildDefList = new Array<BuildDefinitionReference>();
@@ -155,10 +147,12 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
     
     buildDefList = sortBuildReferences(buildDefList, this.showErrorsOnSummaryOnTop);
     this.buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(buildDefList));
+    */
   }
 
   // All Builds
   private filterBuildsData() {
+    /*
     let filterState = this.filter.getState();
 
     let buildList = Array<Build>();
@@ -183,9 +177,11 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
       buildList = allBuildWithRelease;
     }
     this.buildProvider.value = new ArrayItemProvider(buildList);
+    */
   }
 
   private updateFromProject(firstLoad:boolean){ 
+    /*
     this.currentSelectedProjects = new Array<string>();
 
     for(let i=0;i<this.projectSelection.value.length;i++){
@@ -292,6 +288,7 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
       this.buildTimeRangeHasChanged = false;
       this.filterBuildsData();
     });
+    */
   }
 
   private onOnlyBuildWithDeployments = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
@@ -349,8 +346,10 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
   }
 
   public async loadProjects() {
+    /*
     let result = await getProjects();
     this.setState( { projects: result });
+    */
   }
 
   public componentDidMount() {
@@ -375,6 +374,7 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
     this.extensionVersion = "v" + extContext.version;
     this.releaseNoteVersion = "https://github.com/expertasolutions/VstsDashboard/releases/tag/" + extContext.version;
 
+    /*
     const projectService = await SDK.getService<IProjectPageService>(CommonServiceIds.ProjectPageService);
     let currentProject = await projectService.getProject();
     await this.loadProjects();
@@ -398,6 +398,7 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
         this.filterBuildsData();
       }
     }
+    */
   }
 
   private buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(this.state.buildDefs));
