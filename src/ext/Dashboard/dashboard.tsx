@@ -619,8 +619,9 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
               } else {
                 console.log("not ok");
               }
-              let isFullScreen = context.state !== undefined ? context.state.fullScreenMode : false;
-              console.log(isFullScreen);
+              context.state.fullScreenMode = !context.state.fullScreenMode;
+              console.log(context.state.fullScreenMode);
+              this.setState({ fullScreenMode: context.state.fullScreenMode });
             }}>
               <Icon iconName="FullScreen"/>
             </Link>
