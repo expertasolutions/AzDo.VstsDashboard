@@ -614,6 +614,11 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
         <DataContext.Consumer>
           {(context) => (
             <Link onClick={()=> {
+              if(context.state !== undefined) {
+                console.log("ok");
+              } else {
+                console.log("not ok");
+              }
               let isFullScreen = context.state !== undefined ? context.state.fullScreenMode : false;
               console.log(isFullScreen);
             }}>
