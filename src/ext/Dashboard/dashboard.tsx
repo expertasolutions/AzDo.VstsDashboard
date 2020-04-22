@@ -599,9 +599,13 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
     console.log("IsFullScreen: " + isFullScreenIn);
     try {
       return (
-        <Link onClick={()=> {
+        <Link onClick={async ()=> {
           isFullScreen.value = !isFullScreen.value;
           console.log(isFullScreen.value);
+
+          const layoutService = await SDK.getService<IHostPageLayoutService>(CommonServiceIds.HostPageLayoutService);
+          layoutService.setFullScreenMode(isFullScreen.value);
+          
         }}>
           <Icon iconName={isFullScreen.value ? "BackToWindow": "FullScreen"}/>
         </Link>
@@ -644,8 +648,7 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
             {this.renderTabBar()}
           </div>
           <div className="page-content-left page-content-right page-content-top">
-          <Observer selectedTabId={this.selectedTabId} 
-                    isLoading={this.isLoading}>
+          <Observer selectedTabId={this.selectedTabId} isLoading={this.isLoading}>
             {(props: { selectedTabId: string, isLoading: boolean}) => {
                 let errorOnTopFilter = (
                   <DropdownFilterBarItem
