@@ -45,6 +45,8 @@ interface IHubContentState {
   fullScreenMode : boolean
 }
 
+const isFullScreen = new ObservableValue(false);
+
 class CICDDashboard extends React.Component<{}, IHubContentState> {
   private isLoading = new ObservableValue<boolean>(true);
   
@@ -587,8 +589,8 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
     } else {
       console.log("state is ok");
     }
-    let isFullScreen = this.state !== undefined ? this.state.fullScreenMode : false;
-    console.log("IsFullScreen: " + isFullScreen);
+    let isFullScreenIn = this.state !== undefined ? this.state.fullScreenMode : false;
+    console.log("IsFullScreen: " + isFullScreenIn);
     try {
       /*
       let itm = [
@@ -619,8 +621,10 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
               } else {
                 console.log("not ok");
               }
+              isFullScreen.value = !isFullScreen.value;
               context.state.fullScreenMode = !context.state.fullScreenMode;
-              console.log(context.state.fullScreenMode);
+              console.log(context.state.fullScreenMode + " - " + isFullScreen.value);
+
             }}>
               <Icon iconName={context.state.fullScreenMode ? "BackToWindow": "FullScreen"}/>
             </Link>
