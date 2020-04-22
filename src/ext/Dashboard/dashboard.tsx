@@ -132,6 +132,7 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
 
   private isFullScreenValueChanged = () => {
     console.log("isFullScreenValueChanged to " + isFullScreen.value);
+    this.setState({ fullScreenMode: isFullScreen.value });
   }
 
   // BuildDefinition Summary
