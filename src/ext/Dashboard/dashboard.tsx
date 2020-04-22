@@ -502,7 +502,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       <div>
         <Link href="https://github.com/expertasolutions/VstsDashboard/issues/new" target="_blank">
           <Icon iconName="FeedbackRequestSolid" size={IconSize.medium}/>
-        </Link>&nbsp;&nbsp;
+        </Link>&nbsp;&nbsp;&nbsp;&nbsp;
         <Link onClick={async ()=> {
           isFullScreen.value = !isFullScreen.value;
           const layoutService = await SDK.getService<IHostPageLayoutService>(CommonServiceIds.HostPageLayoutService);
