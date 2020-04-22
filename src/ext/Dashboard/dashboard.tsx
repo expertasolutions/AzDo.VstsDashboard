@@ -501,7 +501,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   public renderOptionsFilterView() : JSX.Element {
     return (
       <div>
-        <Link href="https://github.com/expertasolutions/VstsDashboard/issues" target="_blank" subtle={true}>
+        <Link href="https://github.com/expertasolutions/VstsDashboard/issues/new" target="_blank" subtle={true}>
           <Icon iconName="FeedbackRequestSolid"/>
         </Link>
         <Link onClick={async ()=> {
