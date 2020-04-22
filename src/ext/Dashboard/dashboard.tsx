@@ -16,8 +16,6 @@ import { Surface, SurfaceBackground } from "azure-devops-ui/Surface";
 import { Page } from "azure-devops-ui/Page";
 import { Link } from "azure-devops-ui/Link";
 import { Icon } from "azure-devops-ui/Icon";
-import { Header } from "azure-devops-ui/Header";
-import { IHeaderCommandBarItem, HeaderCommandBar } from 'azure-devops-ui/HeaderCommandBar';
 
 import { TeamProjectReference } from "azure-devops-extension-api/Core";
 import { BuildDefinitionReference, Build } from "azure-devops-extension-api/Build";
@@ -109,7 +107,6 @@ class CICDDashboard extends React.Component<{}, {}> {
   }
 
   private isFullScreenValueChanged = () => {
-    console.log("isFullScreenValueChanged to " + isFullScreen.value);
     this.setState({ fullScreenMode: isFullScreen.value });
   }
 
@@ -329,7 +326,6 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   private onLastBuildsDisplaySelected = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
     if(item.text !== undefined) {
-      console.log(item.id + " onLastBuildDisplaySelected");
       this.lastBuildsDisplay = item.id;
     }
     this.buildTimeRangeHasChanged = true;
@@ -503,24 +499,11 @@ class CICDDashboard extends React.Component<{}, {}> {
   }
 
   public renderOptionsFilterView() : JSX.Element {
-    // CODE_REVIEW: Review this
-    console.log("renderOptionsFilterView");
-    if(this.state === undefined){
-      console.log("state is undefined");
-    } else {
-      console.log("state is ok");
-    }
-    let isFullScreenIn = this.state !== undefined ? this.state.fullScreenMode : false;
-    console.log("IsFullScreen: " + isFullScreenIn);
-
     return (
       <Link onClick={async ()=> {
         isFullScreen.value = !isFullScreen.value;
-        console.log(isFullScreen.value);
-
         const layoutService = await SDK.getService<IHostPageLayoutService>(CommonServiceIds.HostPageLayoutService);
         layoutService.setFullScreenMode(isFullScreen.value);
-
       }}>
         <Icon iconName={isFullScreen.value ? "BackToWindow": "FullScreen"}/>
       </Link>
