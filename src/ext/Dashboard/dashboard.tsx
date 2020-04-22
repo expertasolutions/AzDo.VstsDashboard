@@ -655,11 +655,7 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
         <Page className="pipelines-page flex-grow">
           {this.renderHeader()}
           <div className="page-content-left page-content-right page-content-top">
-            <Observer isFullScreen={isFullScreen}>
-              {( props: { isFullScreen: boolean }) => {
-                return this.renderTabBar();
-              }})
-            </Observer>
+            {this.renderTabBar()}
           </div>
           <div className="page-content-left page-content-right page-content-top">
           <Observer selectedTabId={this.selectedTabId} 
