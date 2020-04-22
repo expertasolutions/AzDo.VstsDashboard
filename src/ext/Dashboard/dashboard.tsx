@@ -92,7 +92,7 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
     this.filter = new Filter();
     //setInterval(()=> this.updateFromProject(false), 10000);
   }
-
+/*
   state = {
     //buildDefs: new Array<BuildDefinitionReference>(),
     builds: new Array<Build>(),
@@ -102,7 +102,7 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
     //refreshUI: new Date().toTimeString(),
     fullScreenMode : false
   };
-
+*/
   private onFilterReset = async () => {
     let nam = this.initialProjectName;
     let prj = this.state.projects.find(x=> x.name === nam);
@@ -529,6 +529,8 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
     console.log("renderTabBar");
     if(this.state === undefined){
       console.log("state is undefined");
+    } else {
+      console.log("state is ok");
     }
     return (<TabBar
             onSelectedTabChanged={this.onSelectedTabChanged}
@@ -610,7 +612,9 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
       return (
         <Link onClick={()=> {
           let isFullScreen = this.state !== undefined ? this.state.fullScreenMode : false;
+          
           console.log(isFullScreen);
+          
         }}>
           <Icon iconName="FullScreen"/>
         </Link>
