@@ -571,11 +571,9 @@ class CICDDashboard extends React.Component<{}, {}> {
       layoutService.setFullScreenMode(fullScreenMode);
   }
 
-  public item: any;
-
   public renderOptionsFilterView() : JSX.Element {
     console.log("renderOptionsFilterView");
-    let isFullScreen = this.state.fullScreenMode !== undefined ? this.state.fullScreenMode : false;
+    let isFullScreen = this.state !== undefined ? this.state.fullScreenMode : false;
     console.log("IsFullScreen: " + isFullScreen);
     try {
       /*
