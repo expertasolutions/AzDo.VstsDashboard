@@ -35,19 +35,9 @@ import { FilterBar } from "azure-devops-ui/FilterBar";
 import { ZeroData } from "azure-devops-ui/ZeroData";
 import { CommonServiceIds, IProjectPageService, IHostPageLayoutService } from "azure-devops-extension-api";
 
-interface IHubContentState {
-  //buildDefs: Array<BuildDefinitionReference>,
-  builds: Array<Build>,
-  releases: Array<Deployment>,
-  projects: Array<TeamProjectReference>,
-  showAllBuildDeployment: boolean,
-  //refreshUI: string,
-  fullScreenMode : boolean
-}
-
 const isFullScreen = new ObservableValue(false);
 
-class CICDDashboard extends React.Component<{}, IHubContentState> {
+class CICDDashboard extends React.Component<{}, {}> {
   private isLoading = new ObservableValue<boolean>(true);
   
   private selectedTabId = new ObservableValue("summary");
@@ -80,32 +70,20 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
   constructor(props: {}) {
     super(props);
     
-    this.state = {
-      //buildDefs: new Array<BuildDefinitionReference>(),
-      builds: new Array<Build>(),
-      releases: new Array<Deployment>(),
-      projects: new Array<TeamProjectReference>(),
-      showAllBuildDeployment: false,
-      //refreshUI: new Date().toTimeString(),
-      fullScreenMode : false
-    };
-
-    console.log("in constructor");
-    
     this.filter = new Filter();
     //setInterval(()=> this.updateFromProject(false), 10000);
   }
-/*
+
   state = {
-    //buildDefs: new Array<BuildDefinitionReference>(),
+    buildDefs: new Array<BuildDefinitionReference>(),
     builds: new Array<Build>(),
     releases: new Array<Deployment>(),
     projects: new Array<TeamProjectReference>(),
     showAllBuildDeployment: false,
-    //refreshUI: new Date().toTimeString(),
-    fullScreenMode : false
+    refreshUI: new Date().toTimeString(),
+    fullScreenMode: false
   };
-*/
+
   private onFilterReset = async () => {
     let nam = this.initialProjectName;
     let prj = this.state.projects.find(x=> x.name === nam);
@@ -137,7 +115,6 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
 
   // BuildDefinition Summary
   private filterData() {
-    /*
     let filterState = this.filter.getState();
 
     let buildDefList = new Array<BuildDefinitionReference>();
@@ -167,12 +144,10 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
     
     buildDefList = sortBuildReferences(buildDefList, this.showErrorsOnSummaryOnTop);
     this.buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(buildDefList));
-    */
   }
 
   // All Builds
   private filterBuildsData() {
-    /*
     let filterState = this.filter.getState();
 
     let buildList = Array<Build>();
@@ -197,11 +172,9 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
       buildList = allBuildWithRelease;
     }
     this.buildProvider.value = new ArrayItemProvider(buildList);
-    */
   }
 
   private updateFromProject(firstLoad:boolean){ 
-    /*
     this.currentSelectedProjects = new Array<string>();
 
     for(let i=0;i<this.projectSelection.value.length;i++){
@@ -308,7 +281,6 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
       this.buildTimeRangeHasChanged = false;
       this.filterBuildsData();
     });
-    */
   }
 
   private onOnlyBuildWithDeployments = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
@@ -341,7 +313,7 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
     } else {
       this.showAllBuildDeployment = false;
     }
-    //this.setState({ showAllBuildDeployment: this.showAllBuildDeployment });
+    this.setState({ showAllBuildDeployment: this.showAllBuildDeployment });
     this.refreshUI.value = new Date().toTimeString();
     this.filterData();
   }
@@ -366,10 +338,8 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
   }
 
   public async loadProjects() {
-    /*
     let result = await getProjects();
     this.setState( { projects: result });
-    */
   }
 
   public componentDidMount() {
@@ -387,7 +357,6 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
 
   private async initializeState(): Promise<void> {
     await SDK.init();
-    this.initializeFullScreenState();
     //await SDK.ready();
     let hostInfo = SDK.getHost();
 
@@ -395,7 +364,6 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
     this.extensionVersion = "v" + extContext.version;
     this.releaseNoteVersion = "https://github.com/expertasolutions/VstsDashboard/releases/tag/" + extContext.version;
 
-    /*
     const projectService = await SDK.getService<IProjectPageService>(CommonServiceIds.ProjectPageService);
     let currentProject = await projectService.getProject();
     await this.loadProjects();
@@ -419,25 +387,22 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
         this.filterBuildsData();
       }
     }
-    */
   }
 
-  //private buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(this.state.buildDefs));
-  //private buildProvider = new ObservableValue<ArrayItemProvider<Build>>(new ArrayItemProvider(this.state.builds));
+  private buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(this.state.buildDefs));
+  private buildProvider = new ObservableValue<ArrayItemProvider<Build>>(new ArrayItemProvider(this.state.builds));
 
   private onSelectedTabChanged = (newTabId: string) => {
     this.selectedTabId.value = newTabId;
   }
 
   private async getProjectUrl(projectName:string) {
-    /*
     let prj = this.state.projects.find(x=> x.name === projectName);
     if(prj === undefined){
       return "http://perdu.com";
     }
     let prjDetail = await getProject(projectName);
     return prjDetail._links.web.href;
-    */
   }
 
   private renderFirstLoad() : JSX.Element {
@@ -456,7 +421,7 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
   }
 
   private renderZeroData(tabId: string) : JSX.Element {
-    //if(this.currentSelectedProjects.length === 0){
+    if(this.currentSelectedProjects.length === 0){
       return (<div className="flex-center">
           <ZeroData
             primaryText="No Team Project selected"
@@ -469,8 +434,7 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
             imagePath="https://cdn.vsassets.io/ext/ms.vss-build-web/pipelines/Content/no-builds.G8i4mxU5f17yTzxc.png"
           />
         </div>);
-    //}
-    /*
+    }
     else if(this.buildReferenceProvider.value.length === 0){
       return (
         <div className="flex-center">
@@ -489,12 +453,10 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
     } else {
       return (<div></div>);
     }
-    */
   }
 
   private renderTab(tabId: string) : JSX.Element {
     if(tabId === "summary") {
-      /*
       if(this.buildReferenceProvider.value.length > 0) {
         return (
           <Observer itemProvider={this.buildReferenceProvider} refreshUI={ this.refreshUI } >
@@ -511,13 +473,10 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
           </Observer>
         )
       } else {
-        return (<div></div>)
+        return this.renderZeroData(tabId);
       }
-      */
-     return (<div></div>);
     } else if(tabId === "builds") {
       return (
-        /*
         <Observer itemProvider={ this.buildProvider }>
           {(observableProps: { itemProvider: ArrayItemProvider<Build> }) => (
               <Table<Build> columns={buildColumns} 
@@ -526,69 +485,25 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
                   role="table"/>
           )}
         </Observer>
-        */
-       <div></div>
       )
     } else {
-      return (<div></div>);
+      return this.renderZeroData(tabId);
     }
   }
 
   public renderTabBar() : JSX.Element {
-    console.log("renderTabBar");
-    if(this.state === undefined){
-      console.log("state is undefined");
-    } else {
-      console.log("state is ok");
-    }
     return (<TabBar
             onSelectedTabChanged={this.onSelectedTabChanged}
             selectedTabId={this.selectedTabId}
             tabSize={TabSize.Tall}
             renderAdditionalContent={this.renderOptionsFilterView}>
-            
             <Tab name="Summary" id="summary"/>
             <Tab name="All Runs" id="builds"/>
           </TabBar>);
   }
 
-  /*
-  public tabBarCommands(): IHeaderCommandBarItem[] {
-    return [
-      {
-        ariaLabel: this.state.fullScreenMode ? "Exit full screen mode" : "Enter full screen mode",
-        id: "screenMode",
-        onActivate: () => {
-          this.onToggleFullScreenMode();
-        },
-        iconProps: {
-          iconName: this.state.fullScreenMode ? "BackToWindow" : "FullScreen"
-        },
-        important: true,
-        subtle: true,
-        tooltipProps: { text: "Screen mode"}
-      }
-    ];
-  } 
-  */
-
-  private async initializeFullScreenState() {
-    const layoutService = await SDK.getService<IHostPageLayoutService>(CommonServiceIds.HostPageLayoutService);
-    const fullScreenMode = await layoutService.getFullScreenMode();
-    //if (fullScreenMode !== this.state.fullScreenMode) {
-        this.setState({ fullScreenMode: false });
-    //}
-  }
-
-  private async onToggleFullScreenMode(): Promise<void> {
-      const fullScreenMode = !this.state.fullScreenMode;
-      this.setState({ fullScreenMode });
-
-      const layoutService = await SDK.getService<IHostPageLayoutService>(CommonServiceIds.HostPageLayoutService);
-      layoutService.setFullScreenMode(fullScreenMode);
-  }
-
   public renderOptionsFilterView() : JSX.Element {
+    // CODE_REVIEW: Review this
     console.log("renderOptionsFilterView");
     if(this.state === undefined){
       console.log("state is undefined");
@@ -597,28 +512,23 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
     }
     let isFullScreenIn = this.state !== undefined ? this.state.fullScreenMode : false;
     console.log("IsFullScreen: " + isFullScreenIn);
-    try {
-      return (
-        <Link onClick={async ()=> {
-          isFullScreen.value = !isFullScreen.value;
-          console.log(isFullScreen.value);
 
-          const layoutService = await SDK.getService<IHostPageLayoutService>(CommonServiceIds.HostPageLayoutService);
-          layoutService.setFullScreenMode(isFullScreen.value);
-          
-        }}>
-          <Icon iconName={isFullScreen.value ? "BackToWindow": "FullScreen"}/>
-        </Link>
-      );
-    } catch(err) {
-      throw err;
-    }
-    return <div></div>;
+    return (
+      <Link onClick={async ()=> {
+        isFullScreen.value = !isFullScreen.value;
+        console.log(isFullScreen.value);
+
+        const layoutService = await SDK.getService<IHostPageLayoutService>(CommonServiceIds.HostPageLayoutService);
+        layoutService.setFullScreenMode(isFullScreen.value);
+
+      }}>
+        <Icon iconName={isFullScreen.value ? "BackToWindow": "FullScreen"}/>
+      </Link>
+    );
   }
 
   public renderHeader() : JSX.Element {
-    let isFullScreen = this.state.fullScreenMode !== undefined ? this.state.fullScreenMode : false;
-    if(!isFullScreen) {
+    if(!isFullScreen.value) {
       return (
         <CustomHeader>
           <HeaderTitleArea>
@@ -747,9 +657,9 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
                       return (
                         <Observer selectedTabId={this.selectedTabId} refreshUI={this.refreshUI}>
                             {(props: { selectedTabId: string, refreshUI: string }) => {
-                              //if(this.state.buildDefs === undefined || this.state.buildDefs.length === 0){
-                              //  return this.renderZeroData(this.selectedTabId.value);
-                              //} else {
+                              if(this.state.buildDefs === undefined || this.state.buildDefs.length === 0){
+                                return this.renderZeroData(this.selectedTabId.value);
+                              } else {
                                 return (
                                   <div>
                                     <Card className="flex-grow bolt-table-card" 
@@ -761,7 +671,7 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
                                     </Card>
                                   </div>
                                 );
-                              //}
+                              }
                             }}
                           </Observer>
                       )
