@@ -552,7 +552,7 @@ class CICDDashboard extends React.Component<{}, {}> {
         tooltipProps: { text: "Screen mode"}
       }
     ];
-  }  
+  } 
   */
 
   private async initializeFullScreenState() {
@@ -597,7 +597,12 @@ class CICDDashboard extends React.Component<{}, {}> {
       */
       //return <HeaderCommandBar items={this.item} />;
       return (
-        <Link><Icon iconName="FullScreen"/></Link>
+        <Link onClick={()=> {
+          let isFullScreen = this.state !== undefined ? this.state.fullScreenMode : false;
+          console.log(isFullScreen);
+        }}>
+          <Icon iconName="FullScreen"/>
+        </Link>
       );
     } catch(err) {
       throw err;
