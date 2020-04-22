@@ -129,7 +129,11 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
     this.filterBuildsData();
     this.refreshUI.value = new Date().toTimeString();
   }
-  
+
+  private isFullScreenValueChanged = () => {
+    console.log("isFullScreenValueChanged to " + isFullScreen.value);
+  }
+
   // BuildDefinition Summary
   private filterData() {
     /*
@@ -371,12 +375,13 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
     this.initializeState();    
     this.filter.subscribe(this.onFilterChanged, FILTER_CHANGE_EVENT);
     this.filter.subscribe(this.onFilterReset, FILTER_RESET_EVENT);
+    isFullScreen.subscribe(this.isFullScreenValueChanged);
   }
 
   public componentWillMount() {
     this.filter.unsubscribe(this.onFilterChanged, FILTER_CHANGE_EVENT);
     this.filter.unsubscribe(this.onFilterReset, FILTER_RESET_EVENT);
-
+    isFullScreen.unsubscribe(this.isFullScreenValueChanged);
   }
 
   private async initializeState(): Promise<void> {
@@ -592,26 +597,6 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
     let isFullScreenIn = this.state !== undefined ? this.state.fullScreenMode : false;
     console.log("IsFullScreen: " + isFullScreenIn);
     try {
-      /*
-      let itm = [
-        {
-          ariaLabel: isFullScreen ? "Exit full screen mode" : "Enter full screen mode",
-          id: "screenMode",
-          onActivate: () => {
-            this.onToggleFullScreenMode();
-          },
-          iconProps: {
-            iconName: isFullScreen ? "BackToWindow" : "FullScreen"
-          },
-          important: true,
-          subtle: true,
-          tooltipProps: { text: "Screen mode"}
-        }
-      ];
-      this.item = itm;
-      console.log("Item: " + itm.length);
-      */
-      //return <HeaderCommandBar items={this.item} />;
       return (
         <Link onClick={()=> {
           isFullScreen.value = !isFullScreen.value;
