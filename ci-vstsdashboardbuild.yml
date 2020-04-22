@@ -3,9 +3,11 @@ name: VstsDashboard-v1.$(date:yy)$(DayOfYear)$(rev:.r)-$(Build.SourceBranchName)
 trigger:
 - master
 - Issue*
+- Delivery*
 
 pr:
 - master
+- Delivery*
 
 pool:
   vmImage: 'vs2017-win2016'
