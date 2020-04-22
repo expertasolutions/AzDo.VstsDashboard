@@ -15,7 +15,7 @@ import { Tab, TabBar, TabSize } from "azure-devops-ui/Tabs";
 import { Surface, SurfaceBackground } from "azure-devops-ui/Surface";
 import { Page } from "azure-devops-ui/Page";
 import { Link } from "azure-devops-ui/Link";
-import { Icon } from "azure-devops-ui/Icon";
+import { Icon, IconSize } from "azure-devops-ui/Icon";
 
 import { TeamProjectReference } from "azure-devops-extension-api/Core";
 import { BuildDefinitionReference, Build } from "azure-devops-extension-api/Build";
@@ -67,9 +67,8 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   constructor(props: {}) {
     super(props);
-    
     this.filter = new Filter();
-    //setInterval(()=> this.updateFromProject(false), 10000);
+    setInterval(()=> this.updateFromProject(false), 10000);
   }
 
   state = {
@@ -502,14 +501,14 @@ class CICDDashboard extends React.Component<{}, {}> {
     return (
       <div>
         <Link href="https://github.com/expertasolutions/VstsDashboard/issues/new" target="_blank">
-          <Icon iconName="FeedbackRequestSolid"/>
-        </Link>&nbsp;
+          <Icon iconName="FeedbackRequestSolid" size={IconSize.medium}/>
+        </Link>
         <Link onClick={async ()=> {
           isFullScreen.value = !isFullScreen.value;
           const layoutService = await SDK.getService<IHostPageLayoutService>(CommonServiceIds.HostPageLayoutService);
           layoutService.setFullScreenMode(isFullScreen.value);
         }}>
-          <Icon iconName={isFullScreen.value ? "BackToWindow": "FullScreen"}/>
+          <Icon iconName={isFullScreen.value ? "BackToWindow": "FullScreen"} size={IconSize.medium}/>
         </Link>
       </div>
     );
