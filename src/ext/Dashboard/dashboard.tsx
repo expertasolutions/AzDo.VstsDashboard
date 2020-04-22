@@ -16,6 +16,7 @@ import { Surface, SurfaceBackground } from "azure-devops-ui/Surface";
 import { Page } from "azure-devops-ui/Page";
 import { Link } from "azure-devops-ui/Link";
 import { Icon } from "azure-devops-ui/Icon";
+import { Header } from "azure-devops-ui/Header";
 import { IHeaderCommandBarItem, HeaderCommandBar } from 'azure-devops-ui/HeaderCommandBar';
 
 import { TeamProjectReference } from "azure-devops-extension-api/Core";
@@ -610,14 +611,18 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
       */
       //return <HeaderCommandBar items={this.item} />;
       return (
-        <Link onClick={()=> {
-          let isFullScreen = this.state !== undefined ? this.state.fullScreenMode : false;
-          
-          console.log(isFullScreen);
-          
-        }}>
-          <Icon iconName="FullScreen"/>
-        </Link>
+        <DataContext.Consumer>
+          {(context) => (
+            <Link onClick={()=> {
+              let isFullScreen = context.state !== undefined ? context.state.fullScreenMode : false;
+              
+              console.log(isFullScreen);
+              
+            }}>
+              <Icon iconName="FullScreen"/>
+            </Link>
+          )}
+        </DataContext.Consumer>
       );
     } catch(err) {
       throw err;
@@ -654,7 +659,9 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
         <Page className="pipelines-page flex-grow">
           {this.renderHeader()}
           <div className="page-content-left page-content-right page-content-top">
-            {this.renderTabBar()}
+            <DataContext.Provider value={{ state: this.state }}>
+              {this.renderTabBar()}
+            </DataContext.Provider>
           </div>
           <div className="page-content-left page-content-right page-content-top">
           <Observer selectedTabId={this.selectedTabId} 
