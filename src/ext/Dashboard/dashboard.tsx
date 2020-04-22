@@ -524,6 +524,9 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
   }
 
   public renderTabBar() : JSX.Element {
+    if(this.state === undefined){
+      console.log("state is undefined");
+    }
     return (<TabBar
             onSelectedTabChanged={this.onSelectedTabChanged}
             selectedTabId={this.selectedTabId}
