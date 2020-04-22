@@ -39,12 +39,12 @@ interface IHubContentState {
   builds: Array<Build>,
   releases: Array<Deployment>,
   projects: Array<TeamProjectReference>,
-  showAllBuildDeployment: false,
+  showAllBuildDeployment: boolean,
   //refreshUI: string,
-  fullScreenMode : false
+  fullScreenMode : boolean
 }
 
-class CICDDashboard extends React.Component<{}, {}> {
+class CICDDashboard extends React.Component<{}, IHubContentState> {
   private isLoading = new ObservableValue<boolean>(true);
   
   private selectedTabId = new ObservableValue("summary");
@@ -76,7 +76,7 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   constructor(props: {}) {
     super(props);
-    /*
+    
     this.state = {
       //buildDefs: new Array<BuildDefinitionReference>(),
       builds: new Array<Build>(),
@@ -86,11 +86,11 @@ class CICDDashboard extends React.Component<{}, {}> {
       //refreshUI: new Date().toTimeString(),
       fullScreenMode : false
     };
-    */
+    
     this.filter = new Filter();
     //setInterval(()=> this.updateFromProject(false), 10000);
   }
-
+/*
   state = {
     //buildDefs: new Array<BuildDefinitionReference>(),
     builds: new Array<Build>(),
@@ -100,7 +100,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     //refreshUI: new Date().toTimeString(),
     fullScreenMode : false
   };
-
+*/
   private onFilterReset = async () => {
     let nam = this.initialProjectName;
     let prj = this.state.projects.find(x=> x.name === nam);
@@ -573,6 +573,9 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   public renderOptionsFilterView() : JSX.Element {
     console.log("renderOptionsFilterView");
+    if(this.state === undefined){
+      console.log("state is undefined");
+    }
     let isFullScreen = this.state !== undefined ? this.state.fullScreenMode : false;
     console.log("IsFullScreen: " + isFullScreen);
     try {
