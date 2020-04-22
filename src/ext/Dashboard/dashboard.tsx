@@ -613,23 +613,16 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
       */
       //return <HeaderCommandBar items={this.item} />;
       return (
-        <DataContext.Consumer>
-          {(context) => (
-            <Link onClick={()=> {
-              if(context.state !== undefined) {
-                console.log("ok");
-              } else {
-                console.log("not ok");
-              }
-              isFullScreen.value = !isFullScreen.value;
-              context.state.fullScreenMode = !context.state.fullScreenMode;
-              console.log(context.state.fullScreenMode + " - " + isFullScreen.value);
-
-            }}>
-              <Icon iconName={context.state.fullScreenMode ? "BackToWindow": "FullScreen"}/>
-            </Link>
-          )}
-        </DataContext.Consumer>
+        <Link onClick={()=> {
+          isFullScreen.value = !isFullScreen.value;
+          console.log(isFullScreen.value);
+        }}>
+          <Observer isFullScreen={isFullScreen}>
+            {( props: { isFullScreen: boolean }) => {
+              <Icon iconName={props.isFullScreen ? "BackToWindow": "FullScreen"}/>
+            }}
+          </Observer>
+        </Link>
       );
     } catch(err) {
       throw err;
