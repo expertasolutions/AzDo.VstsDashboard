@@ -524,12 +524,18 @@ class CICDDashboard extends React.Component<{}, {}> {
   }
 
   public renderTabBar() : JSX.Element {
-    //renderAdditionalContent={this.renderOptionsFilterView}
+    try {
+      let additionalItems = this.renderOptionsFilterView();
+      console.log("additionalItems: " + JSON.stringify(additionalItems));
+    } catch(err) {
+      console.log("renderTabError: " + err);
+    }
+    //renderAdditionalContent={additionalItems}>
     return (<TabBar
             onSelectedTabChanged={this.onSelectedTabChanged}
             selectedTabId={this.selectedTabId}
-            tabSize={TabSize.Tall}
-            >
+            tabSize={TabSize.Tall}>
+            
             <Tab name="Summary" id="summary"/>
             <Tab name="All Runs" id="builds"/>
           </TabBar>);
@@ -576,8 +582,8 @@ class CICDDashboard extends React.Component<{}, {}> {
   public renderOptionsFilterView() : JSX.Element {
     console.log("renderOptionsFilterView");
     let isFullScreen = this.state.fullScreenMode !== undefined ? this.state.fullScreenMode : false;
+    console.log("IsFullScreen: " + isFullScreen);
     try {
-    //let itm = this.tabBarCommandsTest;
       let itm = [
         {
           ariaLabel: isFullScreen ? "Exit full screen mode" : "Enter full screen mode",
@@ -594,6 +600,7 @@ class CICDDashboard extends React.Component<{}, {}> {
         }
       ];
       this.item = itm;
+      console.log("Item: " + itm.length);
       return <HeaderCommandBar items={this.item} />;
     } catch(err) {
       throw err;
