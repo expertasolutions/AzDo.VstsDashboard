@@ -621,7 +621,6 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
               }
               context.state.fullScreenMode = !context.state.fullScreenMode;
               console.log(context.state.fullScreenMode);
-              this.setState({ fullScreenMode: context.state.fullScreenMode });
             }}>
               <Icon iconName={context.state.fullScreenMode ? "BackToWindow": "FullScreen"}/>
             </Link>
