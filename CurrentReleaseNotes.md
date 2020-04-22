@@ -1,4 +1,5 @@
 ## Related Issues
 
 - ### [Issue0109](https://github.com/expertasolutions/VstsDashboard/issues/109)
-  - Add full screen mode
+  - Add fullscreen capability
+  - Move 'send a request' at the same level of 'fullscreen' mode options

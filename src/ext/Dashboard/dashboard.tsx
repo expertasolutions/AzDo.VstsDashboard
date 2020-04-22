@@ -500,13 +500,18 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   public renderOptionsFilterView() : JSX.Element {
     return (
-      <Link onClick={async ()=> {
-        isFullScreen.value = !isFullScreen.value;
-        const layoutService = await SDK.getService<IHostPageLayoutService>(CommonServiceIds.HostPageLayoutService);
-        layoutService.setFullScreenMode(isFullScreen.value);
-      }}>
-        <Icon iconName={isFullScreen.value ? "BackToWindow": "FullScreen"}/>
-      </Link>
+      <div>
+        <Link href="https://github.com/expertasolutions/VstsDashboard/issues" target="_blank" subtle={true}>
+          <Icon iconName="FeedbackRequestSolid"/>
+        </Link>
+        <Link onClick={async ()=> {
+          isFullScreen.value = !isFullScreen.value;
+          const layoutService = await SDK.getService<IHostPageLayoutService>(CommonServiceIds.HostPageLayoutService);
+          layoutService.setFullScreenMode(isFullScreen.value);
+        }}>
+          <Icon iconName={isFullScreen.value ? "BackToWindow": "FullScreen"}/>
+        </Link>
+      </div>
     );
   }
 
@@ -522,7 +527,6 @@ class CICDDashboard extends React.Component<{}, {}> {
             </HeaderTitleRow>
             <HeaderDescription>
               <Link href={this.releaseNoteVersion} target="_blank" subtle={true}>{this.extensionVersion}</Link>&nbsp;
-              <Icon iconName="FeedbackRequestSolid"/><Link href="https://github.com/expertasolutions/VstsDashboard/issues" target="_blank" subtle={true}>send a request</Link>
             </HeaderDescription>
           </HeaderTitleArea>
         </CustomHeader>
