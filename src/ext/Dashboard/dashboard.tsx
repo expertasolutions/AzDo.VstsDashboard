@@ -617,11 +617,7 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
           isFullScreen.value = !isFullScreen.value;
           console.log(isFullScreen.value);
         }}>
-          <Observer isFullScreen={isFullScreen}>
-            {( props: { isFullScreen: boolean }) => {
-              <Icon iconName={props.isFullScreen ? "BackToWindow": "FullScreen"}/>
-            }}
-          </Observer>
+          <Icon iconName={isFullScreen.value ? "BackToWindow": "FullScreen"}/>
         </Link>
       );
     } catch(err) {
@@ -659,9 +655,11 @@ class CICDDashboard extends React.Component<{}, IHubContentState> {
         <Page className="pipelines-page flex-grow">
           {this.renderHeader()}
           <div className="page-content-left page-content-right page-content-top">
-            <DataContext.Provider value={{ state: this.state }}>
-              {this.renderTabBar()}
-            </DataContext.Provider>
+            <Observer isFullScreen={isFullScreen}>
+              {( props: { isFullScreen: boolean }) => {
+                return this.renderTabBar();
+              }})
+            </Observer>
           </div>
           <div className="page-content-left page-content-right page-content-top">
           <Observer selectedTabId={this.selectedTabId} 
