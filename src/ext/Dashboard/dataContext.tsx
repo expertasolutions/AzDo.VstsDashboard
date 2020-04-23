@@ -6,11 +6,12 @@ import { Deployment } from "azure-devops-extension-api/Release";
 export const DataContext = React.createContext(
   {  
     state: {
-      buildDefs: Array<BuildDefinitionReference>(),
+      //buildDefs: Array<BuildDefinitionReference>(),
       builds: Array<Build>(),
       releases: Array<Deployment>(),
       projects: Array<TeamProjectReference>(),
-      showAllBuildDeployment: false
+      showAllBuildDeployment: false,
+      fullScreenMode: false
     }
   }
 );

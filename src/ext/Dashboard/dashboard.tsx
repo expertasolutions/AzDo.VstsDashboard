@@ -15,7 +15,7 @@ import { Tab, TabBar, TabSize } from "azure-devops-ui/Tabs";
 import { Surface, SurfaceBackground } from "azure-devops-ui/Surface";
 import { Page } from "azure-devops-ui/Page";
 import { Link } from "azure-devops-ui/Link";
-import { Icon } from "azure-devops-ui/Icon";
+import { Icon, IconSize } from "azure-devops-ui/Icon";
 
 import { TeamProjectReference } from "azure-devops-extension-api/Core";
 import { BuildDefinitionReference, Build } from "azure-devops-extension-api/Build";
@@ -31,10 +31,13 @@ import { IListBoxItem } from "azure-devops-ui/ListBox";
 import { Filter, FILTER_CHANGE_EVENT, FILTER_RESET_EVENT } from "azure-devops-ui/Utilities/Filter";
 import { FilterBar } from "azure-devops-ui/FilterBar";
 import { ZeroData } from "azure-devops-ui/ZeroData";
-import { CommonServiceIds, IProjectPageService } from "azure-devops-extension-api";
+import { CommonServiceIds, IProjectPageService, IHostPageLayoutService } from "azure-devops-extension-api";
+
+const isFullScreen = new ObservableValue(false);
 
 class CICDDashboard extends React.Component<{}, {}> {
   private isLoading = new ObservableValue<boolean>(true);
+  
   private selectedTabId = new ObservableValue("summary");
   private refreshUI = new ObservableValue(new Date().toTimeString());
 
@@ -64,18 +67,18 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   constructor(props: {}) {
     super(props);
-
     this.filter = new Filter();
     setInterval(()=> this.updateFromProject(false), 10000);
   }
 
   state = {
-    buildDefs: Array<BuildDefinitionReference>(),
-    builds: Array<Build>(),
-    releases: Array<Deployment>(),
-    projects: Array<TeamProjectReference>(),
+    buildDefs: new Array<BuildDefinitionReference>(),
+    builds: new Array<Build>(),
+    releases: new Array<Deployment>(),
+    projects: new Array<TeamProjectReference>(),
     showAllBuildDeployment: false,
-    refreshUI: new Date().toTimeString()
+    refreshUI: new Date().toTimeString(),
+    fullScreenMode: false
   };
 
   private onFilterReset = async () => {
@@ -101,12 +104,16 @@ class CICDDashboard extends React.Component<{}, {}> {
     this.filterBuildsData();
     this.refreshUI.value = new Date().toTimeString();
   }
-  
+
+  private isFullScreenValueChanged = () => {
+    this.setState({ fullScreenMode: isFullScreen.value });
+  }
+
   // BuildDefinition Summary
   private filterData() {
     let filterState = this.filter.getState();
 
-    let buildDefList = Array<BuildDefinitionReference>();
+    let buildDefList = new Array<BuildDefinitionReference>();
 
     if(filterState.pipelineKeyWord !== undefined && filterState.pipelineKeyWord !== null && filterState.pipelineKeyWord.value !== "") {
       let pipelineFilterText = filterState.pipelineKeyWord.value.toLowerCase();
@@ -318,7 +325,6 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   private onLastBuildsDisplaySelected = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
     if(item.text !== undefined) {
-      console.log(item.id + " onLastBuildDisplaySelected");
       this.lastBuildsDisplay = item.id;
     }
     this.buildTimeRangeHasChanged = true;
@@ -335,11 +341,13 @@ class CICDDashboard extends React.Component<{}, {}> {
     this.initializeState();    
     this.filter.subscribe(this.onFilterChanged, FILTER_CHANGE_EVENT);
     this.filter.subscribe(this.onFilterReset, FILTER_RESET_EVENT);
+    isFullScreen.subscribe(this.isFullScreenValueChanged);
   }
 
   public componentWillMount() {
     this.filter.unsubscribe(this.onFilterChanged, FILTER_CHANGE_EVENT);
     this.filter.unsubscribe(this.onFilterReset, FILTER_RESET_EVENT);
+    isFullScreen.unsubscribe(this.isFullScreenValueChanged);
   }
 
   private async initializeState(): Promise<void> {
@@ -355,8 +363,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     let currentProject = await projectService.getProject();
     await this.loadProjects();
 
-    this.setState({ builds: new Array<Build>() });
-    this.setState({ releases: new Array<Deployment>() });
+    this.setState({ releases: new Array<Deployment>(), builds: new Array<Build>() });
 
     if(currentProject != undefined){
       this.initialProjectName = currentProject.name;
@@ -461,7 +468,7 @@ class CICDDashboard extends React.Component<{}, {}> {
           </Observer>
         )
       } else {
-        return (<div></div>)
+        return this.renderZeroData(tabId);
       }
     } else if(tabId === "builds") {
       return (
@@ -475,7 +482,7 @@ class CICDDashboard extends React.Component<{}, {}> {
         </Observer>
       )
     } else {
-      return (<div></div>);
+      return this.renderZeroData(tabId);
     }
   }
 
@@ -483,36 +490,62 @@ class CICDDashboard extends React.Component<{}, {}> {
     return (<TabBar
             onSelectedTabChanged={this.onSelectedTabChanged}
             selectedTabId={this.selectedTabId}
-            tabSize={TabSize.Tall}>
+            tabSize={TabSize.Tall}
+            renderAdditionalContent={this.renderOptionsFilterView}>
             <Tab name="Summary" id="summary"/>
             <Tab name="All Runs" id="builds"/>
           </TabBar>);
+  }
+
+  public renderOptionsFilterView() : JSX.Element {
+    return (
+      <div>
+        <Link href="https://github.com/expertasolutions/VstsDashboard/issues/new" target="_blank">
+          <Icon iconName="FeedbackRequestSolid" size={IconSize.medium}/>
+        </Link>&nbsp;&nbsp;&nbsp;
+        <Link onClick={async ()=> {
+          isFullScreen.value = !isFullScreen.value;
+          const layoutService = await SDK.getService<IHostPageLayoutService>(CommonServiceIds.HostPageLayoutService);
+          layoutService.setFullScreenMode(isFullScreen.value);
+        }} >
+          <Icon iconName={isFullScreen.value ? "BackToWindow": "FullScreen"} size={IconSize.medium}/>
+        </Link>
+      </div>
+    );
+  }
+
+  public renderHeader() : JSX.Element {
+    if(!isFullScreen.value) {
+      return (
+        <CustomHeader>
+          <HeaderTitleArea>
+            <HeaderTitleRow>
+              <HeaderTitle titleSize={TitleSize.Large}>
+                CI/CD Dashboard
+              </HeaderTitle>
+            </HeaderTitleRow>
+            <HeaderDescription>
+              <Link href={this.releaseNoteVersion} target="_blank" subtle={true}>{this.extensionVersion}</Link>&nbsp;
+            </HeaderDescription>
+          </HeaderTitleArea>
+        </CustomHeader>
+      );
+    } else {
+      return (<div></div>);
+    }
   }
 
   public render() : JSX.Element {
     return (
       <Surface background={SurfaceBackground.neutral}>
         <Page className="pipelines-page flex-grow">
-          <CustomHeader>
-            <HeaderTitleArea>
-              <HeaderTitleRow>
-                <HeaderTitle titleSize={TitleSize.Large}>
-                  CI/CD Dashboard
-                </HeaderTitle>
-              </HeaderTitleRow>
-              <HeaderDescription>
-                <Link href={this.releaseNoteVersion} target="_blank" subtle={true}>{this.extensionVersion}</Link>&nbsp;
-                <Icon iconName="FeedbackRequestSolid"/><Link href="https://github.com/expertasolutions/VstsDashboard/issues" target="_blank" subtle={true}>send a request</Link>
-              </HeaderDescription>
-            </HeaderTitleArea>
-          </CustomHeader>
+          {this.renderHeader()}
           <div className="page-content-left page-content-right page-content-top">
             {this.renderTabBar()}
           </div>
           <div className="page-content-left page-content-right page-content-top">
-          <Observer selectedTabId={this.selectedTabId} 
-                    isLoading={this.isLoading}>
-            {(props: { selectedTabId: string, isLoading: boolean }) => {
+          <Observer selectedTabId={this.selectedTabId} isLoading={this.isLoading}>
+            {(props: { selectedTabId: string, isLoading: boolean}) => {
                 let errorOnTopFilter = (
                   <DropdownFilterBarItem
                         filterItemKey="errorsOnSummaryTop"
@@ -580,6 +613,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                       onSelect={this.onAllDeploymentSelected}
                       selection={this.allDeploymentSelection}
                       hideClearAction={true}/>
+                      
                     <DropdownFilterBarItem
                       filterItemKey="teamProjectId"
                       filter={this.filter}
@@ -609,7 +643,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                       return (
                         <Observer selectedTabId={this.selectedTabId} refreshUI={this.refreshUI}>
                             {(props: { selectedTabId: string, refreshUI: string }) => {
-                              if(this.state.buildDefs.length === 0){
+                              if(this.state.buildDefs === undefined || this.state.buildDefs.length === 0){
                                 return this.renderZeroData(this.selectedTabId.value);
                               } else {
                                 return (
@@ -617,9 +651,9 @@ class CICDDashboard extends React.Component<{}, {}> {
                                     <Card className="flex-grow bolt-table-card" 
                                         titleProps={{ text: "All pipelines" }} 
                                         contentProps={{ contentPadding: false }}>
-                                          <div style={{ marginTop: "16px;", marginBottom: "16px;"}}>
-                                              { this.renderTab(props.selectedTabId) }
-                                          </div>
+                                      <div style={{ marginTop: "16px;", marginBottom: "16px;"}}>
+                                          { this.renderTab(props.selectedTabId) }
+                                      </div>
                                     </Card>
                                   </div>
                                 );
@@ -630,7 +664,6 @@ class CICDDashboard extends React.Component<{}, {}> {
                     }
                   }}
                 </Observer>
-                
             </DataContext.Provider>
           </div>
         </Page>
