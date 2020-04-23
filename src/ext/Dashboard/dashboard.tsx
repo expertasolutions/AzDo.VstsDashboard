@@ -36,6 +36,7 @@ import { CommonServiceIds, IProjectPageService, IHostPageLayoutService } from "a
 
 const isFullScreen = new ObservableValue(false);
 
+const buildNeverQueued = new ObservableValue(0);
 const buildInPending = new ObservableValue(0);
 const buildInProgress = new ObservableValue(0);
 const buildSucceeded = new ObservableValue(0);
@@ -146,6 +147,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     }
 
     // Get Build Reference Status
+    buildNeverQueued.value = this.getBuildStatusCount(BuildStatus.None, BuildResult.None);
     buildInPending.value = this.getBuildStatusCount(BuildStatus.NotStarted, BuildResult.None);
     buildInProgress.value = this.getBuildStatusCount(BuildStatus.InProgress, BuildResult.None);
     buildSucceeded.value = this.getBuildStatusCount(BuildStatus.Completed, BuildResult.Succeeded);
@@ -512,8 +514,11 @@ class CICDDashboard extends React.Component<{}, {}> {
   }
 
   private getBuildStatusCount(statusToFind:BuildStatus, resultToFind:BuildResult) {
-    if(statusToFind === BuildStatus.InProgress || statusToFind === BuildStatus.NotStarted) {
-      return this.state.buildDefs.filter(x=> x.latestBuild !== undefined && x.latestBuild.status === statusToFind).length;
+    if(statusToFind === BuildStatus.None && resultToFind === BuildResult.None){
+      return this.state.buildDefs.filter(x=> x.latestCompletedBuild === undefined && x.latestBuild === undefined).length;
+    }
+    else if(statusToFind === BuildStatus.InProgress || statusToFind === BuildStatus.NotStarted) {
+      return this.state.builds.filter(x=> x.status === statusToFind).length;
     } else if(statusToFind === BuildStatus.None) {
       return this.state.buildDefs.filter(x=> x.latestBuild !== undefined && x.latestBuild.result == resultToFind).length;
     }
@@ -523,6 +528,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   public renderOptionsFilterView() : JSX.Element {
     return (
       <div>
+        <span className="font-size-s">{buildNeverQueued.value} <Status {...Statuses.Queued} size={StatusSize.m}/></span>&nbsp;&nbsp;
         <span className="font-size-s">{buildInPending.value} <Status {...Statuses.Waiting} size={StatusSize.m}/></span>&nbsp;&nbsp;
         <span className="font-size-s">{buildInProgress.value} <Status {...Statuses.Running} size={StatusSize.m}/></span>&nbsp;&nbsp;
         <span className="font-size-s">{buildSucceeded.value} <Status {...Statuses.Success} size={StatusSize.m}/></span>&nbsp;&nbsp;
