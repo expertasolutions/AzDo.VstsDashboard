@@ -234,29 +234,45 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
     let children = [];
     let lastRelease = Array<string>();
 
+    releaseReferences = releaseReferences.sort((a, b) => b.id - a.id);
+
     for(let relRef=0;relRef<releaseReferences.length;relRef++){
       let relRefInfo = releaseReferences[relRef];
       lastRelease = Array<string>();
       let releaseDeploys = deploys.filter(x=> x.release.id == relRefInfo.id && x.releaseDefinition.name === depName)
                             .sort((a,b)=> a.releaseEnvironment.id - b.releaseEnvironment.id);
 
+
       for(let i=0;i<releaseDeploys.length;i++) {
         let dep = releaseDeploys[i];
-        let lastDeploys = releaseDeploys.filter(x=> x.releaseEnvironment.name === dep.releaseEnvironment.name).sort(x=> x.id);
+        //let dep = releaseDeploys[0];
 
-        let lastDep = lastDeploys[0];
-        let envName = lastDep.releaseEnvironment.name;
-        let env = lastRelease.find(x => x === envName);
-        if(env === undefined) {
-          let pendingApproval = waitingForApproval(lastDep, lastDep.releaseEnvironment.id);
+        let lastDeploys = releaseDeploys.filter(x=> x.releaseEnvironment.name === dep.releaseEnvironment.name);
 
-          lastRelease.push(lastDep.releaseEnvironment.name);
-          let relStatusInfo = getReleaseStatus(lastDep, pendingApproval);
-          children.push(
-            <Pill color={relStatusInfo.color} variant={PillVariant.colored} 
-              onClick={() => window.open(lastDep.releaseEnvironment._links.web.href, "_blank") }>
-              <Status {...relStatusInfo.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{lastDep.releaseEnvironment.name}
-            </Pill>)
+        for(let x=0;x<lastDeploys.length;x++) {
+          let lastDep = lastDeploys[x];
+          //let lastDep = lastDeploys.sort(x=> -x.attempt)[0];
+          let envName = lastDep.releaseEnvironment.name;
+          let env = lastRelease.find(x => x === envName);
+
+          if(env === undefined) {
+            let pendingApproval = waitingForApproval(lastDep, lastDep.releaseEnvironment.id);
+            let envDepNumber = lastDeploys.length;
+
+            lastRelease.push(lastDep.releaseEnvironment.name);
+            let relStatusInfo = getReleaseStatus(lastDep, pendingApproval);
+            let pillContent = " " + lastDep.releaseEnvironment.name + " ";
+            
+            if(envDepNumber > 1) {
+              pillContent += "(" + envDepNumber + ")";
+            }
+
+            children.push(
+              <Pill color={relStatusInfo.color} variant={PillVariant.colored} 
+                onClick={() => window.open(lastDep.releaseEnvironment._links.web.href, "_blank") }>
+                <Status {...relStatusInfo.statusProps} className="icon-small-margin" size={StatusSize.s} />{pillContent}
+              </Pill>)
+          }
         }
       }
 
