@@ -19,7 +19,7 @@ import { Icon, IconSize } from "azure-devops-ui/Icon";
 import { Status, Statuses, StatusSize } from "azure-devops-ui/Status";
 
 import { TeamProjectReference } from "azure-devops-extension-api/Core";
-import { BuildDefinitionReference, Build, BuildStatus } from "azure-devops-extension-api/Build";
+import { BuildDefinitionReference, Build, BuildStatus, BuildResult } from "azure-devops-extension-api/Build";
 import { Deployment } from "azure-devops-extension-api/Release";
 
 import { showRootComponent } from "../../Common";
@@ -35,6 +35,11 @@ import { ZeroData } from "azure-devops-ui/ZeroData";
 import { CommonServiceIds, IProjectPageService, IHostPageLayoutService } from "azure-devops-extension-api";
 
 const isFullScreen = new ObservableValue(false);
+
+const buildInProgress = new ObservableValue(0);
+const buildSucceeded = new ObservableValue(0);
+const buildInWarning = new ObservableValue(0);
+const buildInError = new ObservableValue(0);
 
 class CICDDashboard extends React.Component<{}, {}> {
   private isLoading = new ObservableValue<boolean>(true);
@@ -139,6 +144,11 @@ class CICDDashboard extends React.Component<{}, {}> {
       buildDefList = allBuildWithRelease;
     }
     
+    buildInProgress.value = this.getBuildStatusCount(BuildStatus.InProgress, BuildResult.None);
+    buildSucceeded.value = this.getBuildStatusCount(BuildStatus.Completed, BuildResult.Succeeded);
+    buildInWarning.value = this.getBuildStatusCount(BuildStatus.Completed, BuildResult.PartiallySucceeded);
+    buildInError.value = this.getBuildStatusCount(BuildStatus.Completed, BuildResult.Failed);
+
     buildDefList = sortBuildReferences(buildDefList, this.showErrorsOnSummaryOnTop);
     this.buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(buildDefList));
   }
@@ -498,20 +508,17 @@ class CICDDashboard extends React.Component<{}, {}> {
           </TabBar>);
   }
 
-  private getBuildStatusCount(statusToFind:BuildStatus) {
-    return this.state.buildDefs.find(x=> x.latestBuild.status === BuildStatus.InProgress);
+  private getBuildStatusCount(statusToFind:BuildStatus, resultToFind:BuildResult) {
+    return this.state.buildDefs.filter(x=> x.latestBuild.status === statusToFind && x.latestBuild.result == resultToFind).length;
   }
 
   public renderOptionsFilterView() : JSX.Element {
-
-    let inProgressCount = 0;//this.getBuildStatusCount(BuildStatus.InProgress);
-
     return (
       <div>
-        <span className="font-size-s">{inProgressCount} <Status {...Statuses.Running} size={StatusSize.m}/></span>&nbsp;&nbsp;
-        <span className="font-size-s">0 <Status {...Statuses.Success} size={StatusSize.m}/></span>&nbsp;&nbsp;
-        <span className="font-size-s">0 <Status {...Statuses.Warning} size={StatusSize.m}/></span>&nbsp;&nbsp;
-        <span className="font-size-s">0 <Status {...Statuses.Failed} size={StatusSize.m}/></span>&nbsp;|&nbsp;&nbsp;
+        <span className="font-size-s">{buildInProgress.value} <Status {...Statuses.Running} size={StatusSize.m}/></span>&nbsp;&nbsp;
+        <span className="font-size-s">{buildSucceeded.value} <Status {...Statuses.Success} size={StatusSize.m}/></span>&nbsp;&nbsp;
+        <span className="font-size-s">{buildInWarning.value} <Status {...Statuses.Warning} size={StatusSize.m}/></span>&nbsp;&nbsp;
+        <span className="font-size-s">{buildInError.value} <Status {...Statuses.Failed} size={StatusSize.m}/></span>&nbsp;|&nbsp;&nbsp;
         <Link href="https://github.com/expertasolutions/VstsDashboard/issues/new" target="_blank">
           <Icon iconName="FeedbackRequestSolid" size={IconSize.medium}/>
         </Link>&nbsp;&nbsp;&nbsp;
