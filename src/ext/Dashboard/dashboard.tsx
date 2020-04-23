@@ -146,7 +146,6 @@ class CICDDashboard extends React.Component<{}, {}> {
       buildDefList = allBuildWithRelease;
     }
 
-    /*
     // Get Build Reference Status
     buildNeverQueued.value = this.getBuildStatusCount(BuildStatus.None, BuildResult.None);
     buildInPending.value = this.getBuildStatusCount(BuildStatus.NotStarted, BuildResult.None);
@@ -154,7 +153,6 @@ class CICDDashboard extends React.Component<{}, {}> {
     buildSucceeded.value = this.getBuildStatusCount(BuildStatus.Completed, BuildResult.Succeeded);
     buildInWarning.value = this.getBuildStatusCount(BuildStatus.Completed, BuildResult.PartiallySucceeded);
     buildInError.value = this.getBuildStatusCount(BuildStatus.Completed, BuildResult.Failed);
-    */
 
     buildDefList = sortBuildReferences(buildDefList, this.showErrorsOnSummaryOnTop);
     this.buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(buildDefList));
