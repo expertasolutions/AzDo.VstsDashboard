@@ -5,4 +5,8 @@
   - Move 'send a request' from the header to the same level of 'fullscreen' mode option
   - 'Send a request' icon redirect directly to GitHub project new issue page
 
+- ### [Issue0115](https://github.com/expertasolutions/VstsDashboard/Delivery-20April-01/issues/115)
+  - Add Build Pipeline Reference Status by Pipeline
+  - Initial loading show data once everythings is load (Build & Release data)
+
 #### All these issues are part of the milestone [Delivery-20April-01](https://github.com/expertasolutions/VstsDashboard/milestone/2)
