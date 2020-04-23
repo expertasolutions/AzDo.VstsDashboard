@@ -517,6 +517,11 @@ class CICDDashboard extends React.Component<{}, {}> {
   }
 
   private getBuildStatusCount(statusToFind:BuildStatus, resultToFind:BuildResult) {
+    if(statusToFind === BuildStatus.InProgress) {
+      return this.state.buildDefs.filter(x=> x.latestBuild !== undefined && x.latestBuild.status === statusToFind).length;
+    } else if(statusToFind === BuildStatus.None) {
+      return this.state.buildDefs.filter(x=> x.latestBuild !== undefined && x.latestBuild.result == resultToFind).length;
+    }
     return this.state.buildDefs.filter(x=> x.latestBuild !== undefined && x.latestBuild.status === statusToFind && x.latestBuild.result == resultToFind).length;
   }
 
