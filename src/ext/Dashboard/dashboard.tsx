@@ -527,7 +527,7 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   public renderOptionsFilterView() : JSX.Element {
     return (
-      <div>
+      <div className="vertical-align:middle;">
         <span className="font-size-s">{buildNeverQueued.value} <Status {...Statuses.Queued} size={StatusSize.m}/></span>&nbsp;&nbsp;
         <span className="font-size-s">{buildInPending.value} <Status {...Statuses.Waiting} size={StatusSize.m}/></span>&nbsp;&nbsp;
         <span className="font-size-s">{buildInProgress.value} <Status {...Statuses.Running} size={StatusSize.m}/></span>&nbsp;&nbsp;
