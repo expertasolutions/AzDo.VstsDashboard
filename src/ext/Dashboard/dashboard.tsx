@@ -144,7 +144,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       buildDefList = allBuildWithRelease;
     }
     
-    buildInProgress.value = this.getBuildStatusCount(BuildStatus.InProgress, BuildResult.None);
+    buildInProgress.value = 0;//this.getBuildStatusCount(BuildStatus.InProgress, BuildResult.None);
     buildSucceeded.value = 0;//this.getBuildStatusCount(BuildStatus.None, BuildResult.Succeeded);
     buildInWarning.value = 0;//this.getBuildStatusCount(BuildStatus.None, BuildResult.PartiallySucceeded);
     buildInError.value = 0;//this.getBuildStatusCount(BuildStatus.None, BuildResult.Failed);
