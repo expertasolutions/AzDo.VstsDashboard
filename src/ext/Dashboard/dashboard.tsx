@@ -501,13 +501,13 @@ class CICDDashboard extends React.Component<{}, {}> {
   public renderOptionsFilterView() : JSX.Element {
     return (
       <div>
-        <span>0 <Status {...Statuses.Queued} size={StatusSize.s}/></span>&nbsp;&nbsp;
-        <span>0 <Status {...Statuses.Waiting} size={StatusSize.s}/></span>&nbsp;&nbsp;
-        <span>0 <Status {...Statuses.Running} size={StatusSize.s}/></span>&nbsp;&nbsp;
-        <span>0 <Status {...Statuses.Failed} size={StatusSize.s}/></span>&nbsp;&nbsp;
-        <span>0 <Status {...Statuses.Warning} size={StatusSize.s}/></span>&nbsp;&nbsp;
-        <span>0 <Status {...Statuses.Success} size={StatusSize.s}/></span>&nbsp;&nbsp;
-        &nbsp;|&nbsp;
+        <span className="font-size-s">0 <Status {...Statuses.Queued} size={StatusSize.s}/></span>&nbsp;&nbsp;
+        <span className="font-size-s">0 <Status {...Statuses.Waiting} size={StatusSize.s}/></span>&nbsp;&nbsp;
+        <span className="font-size-s">0 <Status {...Statuses.Running} size={StatusSize.s}/></span>&nbsp;&nbsp;
+        <span className="font-size-s">0 <Status {...Statuses.Failed} size={StatusSize.s}/></span>&nbsp;&nbsp;
+        <span className="font-size-s">0 <Status {...Statuses.Warning} size={StatusSize.s}/></span>&nbsp;&nbsp;
+        <span className="font-size-s">0 <Status {...Statuses.Success} size={StatusSize.s}/></span>&nbsp;
+        &nbsp;|&nbsp;&nbsp;
         <Link href="https://github.com/expertasolutions/VstsDashboard/issues/new" target="_blank">
           <Icon iconName="FeedbackRequestSolid" size={IconSize.medium}/>
         </Link>&nbsp;&nbsp;&nbsp;
