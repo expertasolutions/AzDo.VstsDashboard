@@ -16,6 +16,7 @@ import { Surface, SurfaceBackground } from "azure-devops-ui/Surface";
 import { Page } from "azure-devops-ui/Page";
 import { Link } from "azure-devops-ui/Link";
 import { Icon, IconSize } from "azure-devops-ui/Icon";
+import { Status, IStatusProps, Statuses, StatusSize } from "azure-devops-ui/Status";
 
 import { TeamProjectReference } from "azure-devops-extension-api/Core";
 import { BuildDefinitionReference, Build } from "azure-devops-extension-api/Build";
@@ -500,6 +501,12 @@ class CICDDashboard extends React.Component<{}, {}> {
   public renderOptionsFilterView() : JSX.Element {
     return (
       <div>
+        <div>
+          <span>0 <Status {...Statuses.Waiting}/></span>&nbsp;&nbsp;
+          <span>0 <Status {...Statuses.Running}/></span>&nbsp;&nbsp;
+          <span>0 <Status {...Statuses.Warning}/></span>&nbsp;&nbsp;
+          <span>0 <Status {...Statuses.Failed}/></span>&nbsp;&nbsp;
+        </div>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
         <Link href="https://github.com/expertasolutions/VstsDashboard/issues/new" target="_blank">
           <Icon iconName="FeedbackRequestSolid" size={IconSize.medium}/>
         </Link>&nbsp;&nbsp;&nbsp;
