@@ -145,9 +145,9 @@ class CICDDashboard extends React.Component<{}, {}> {
     }
     
     buildInProgress.value = this.getBuildStatusCount(BuildStatus.InProgress, BuildResult.None);
-    buildSucceeded.value = this.getBuildStatusCount(BuildStatus.Completed, BuildResult.Succeeded);
-    buildInWarning.value = this.getBuildStatusCount(BuildStatus.Completed, BuildResult.PartiallySucceeded);
-    buildInError.value = this.getBuildStatusCount(BuildStatus.Completed, BuildResult.Failed);
+    buildSucceeded.value = 0;//this.getBuildStatusCount(BuildStatus.None, BuildResult.Succeeded);
+    buildInWarning.value = 0;//this.getBuildStatusCount(BuildStatus.None, BuildResult.PartiallySucceeded);
+    buildInError.value = 0;//this.getBuildStatusCount(BuildStatus.None, BuildResult.Failed);
 
     buildDefList = sortBuildReferences(buildDefList, this.showErrorsOnSummaryOnTop);
     this.buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(buildDefList));
