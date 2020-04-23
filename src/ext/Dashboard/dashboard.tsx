@@ -16,10 +16,10 @@ import { Surface, SurfaceBackground } from "azure-devops-ui/Surface";
 import { Page } from "azure-devops-ui/Page";
 import { Link } from "azure-devops-ui/Link";
 import { Icon, IconSize } from "azure-devops-ui/Icon";
-import { Status, IStatusProps, Statuses, StatusSize } from "azure-devops-ui/Status";
+import { Status, Statuses, StatusSize } from "azure-devops-ui/Status";
 
 import { TeamProjectReference } from "azure-devops-extension-api/Core";
-import { BuildDefinitionReference, Build } from "azure-devops-extension-api/Build";
+import { BuildDefinitionReference, Build, BuildStatus } from "azure-devops-extension-api/Build";
 import { Deployment } from "azure-devops-extension-api/Release";
 
 import { showRootComponent } from "../../Common";
@@ -498,10 +498,17 @@ class CICDDashboard extends React.Component<{}, {}> {
           </TabBar>);
   }
 
+  private getBuildStatusCount(statusToFind:BuildStatus) {
+    return this.state.buildDefs.find(x=> x.latestBuild.status === BuildStatus.InProgress);
+  }
+
   public renderOptionsFilterView() : JSX.Element {
+
+    let inProgressCount = this.getBuildStatusCount(BuildStatus.InProgress);
+
     return (
       <div>
-        <span className="font-size-s">0 <Status {...Statuses.Running} size={StatusSize.m}/></span>&nbsp;&nbsp;
+        <span className="font-size-s">{inProgressCount} <Status {...Statuses.Running} size={StatusSize.m}/></span>&nbsp;&nbsp;
         <span className="font-size-s">0 <Status {...Statuses.Success} size={StatusSize.m}/></span>&nbsp;&nbsp;
         <span className="font-size-s">0 <Status {...Statuses.Warning} size={StatusSize.m}/></span>&nbsp;&nbsp;
         <span className="font-size-s">0 <Status {...Statuses.Failed} size={StatusSize.m}/></span>&nbsp;|&nbsp;&nbsp;
