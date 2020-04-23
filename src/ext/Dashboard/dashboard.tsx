@@ -504,7 +504,7 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   public renderOptionsFilterView() : JSX.Element {
 
-    let inProgressCount = this.getBuildStatusCount(BuildStatus.InProgress);
+    let inProgressCount = 0;//this.getBuildStatusCount(BuildStatus.InProgress);
 
     return (
       <div>
