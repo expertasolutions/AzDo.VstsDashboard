@@ -212,34 +212,8 @@ class CICDDashboard extends React.Component<{}, {}> {
                               }));
 
     this.setState({ buildDefs: newBuildDef });
-    
-    // Update the Release List
-    let newReleases = await (getReleasesV1(this.currentSelectedProjects, firstLoad)
-                          .then(result => {
-                            let currentReleases = this.state.releases;
-                            if(firstLoad) {
-                              currentReleases = result;
-                            } else {
-                              for(let i=0;i<result.length;i++) {
-                                let newRelease = result[i];
-                                let rel = currentReleases.find(x=> x.id === newRelease.id);
-                                if(rel !== undefined) {
-                                  let relIndex = currentReleases.indexOf(rel, 0);
-                                  if(relIndex > -1) {
-                                    currentReleases[relIndex] = newRelease;
-                                  }
-                                } else {
-                                  currentReleases.splice(0, 0, newRelease);
-                                }
-                              }
-                            }
-                            return currentReleases;
-                          }));
-    
-    // Update Builds Runs list...
-    if(firstLoad) {
-      this.buildTimeRangeHasChanged = true;
-    }
+    this.filterData();
+    SDK.ready().then(()=> { this.isLoading.value = false; });
 
     let newBuilds = await (getBuildsV1(this.currentSelectedProjects, this.buildTimeRangeHasChanged, this.lastBuildsDisplay)
                               .then(result => {
@@ -283,8 +257,8 @@ class CICDDashboard extends React.Component<{}, {}> {
     this.refreshUI.value = new Date().toTimeString();
     this.buildTimeRangeHasChanged = false;
 
-    this.setState({ builds: newBuilds, releases: newReleases });
-    
+    this.setState({ builds: newBuilds });
+
     // Get Build Reference Status
     buildNeverQueued.value = this.getBuildStatusCount(BuildStatus.None, BuildResult.None);
     buildInPending.value = this.getBuildStatusCount(BuildStatus.NotStarted, BuildResult.None);
@@ -293,10 +267,35 @@ class CICDDashboard extends React.Component<{}, {}> {
     buildInWarning.value = this.getBuildStatusCount(BuildStatus.Completed, BuildResult.PartiallySucceeded);
     buildInError.value = this.getBuildStatusCount(BuildStatus.Completed, BuildResult.Failed);
 
-    this.filterData();
     this.filterBuildsData();
-    SDK.ready().then(()=> { this.isLoading.value = false; });
+        // Update the Release List
+        let newReleases = await (getReleasesV1(this.currentSelectedProjects, firstLoad)
+        .then(result => {
+          let currentReleases = this.state.releases;
+          if(firstLoad) {
+            currentReleases = result;
+          } else {
+            for(let i=0;i<result.length;i++) {
+              let newRelease = result[i];
+              let rel = currentReleases.find(x=> x.id === newRelease.id);
+              if(rel !== undefined) {
+                let relIndex = currentReleases.indexOf(rel, 0);
+                if(relIndex > -1) {
+                  currentReleases[relIndex] = newRelease;
+                }
+              } else {
+                currentReleases.splice(0, 0, newRelease);
+              }
+            }
+          }
+          return currentReleases;
+        }));
 
+    // Update Builds Runs list...
+    if(firstLoad) {
+      this.buildTimeRangeHasChanged = true;
+    }
+    this.setState({ releases: newReleases });
   }
 
   private onOnlyBuildWithDeployments = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
