@@ -144,6 +144,14 @@ class CICDDashboard extends React.Component<{}, {}> {
       buildDefList = allBuildWithRelease;
     }
     
+    try {
+      let inProgress = this.getBuildStatusCount(BuildStatus.InProgress, BuildResult.None);
+      console.log("InProgress: " + inProgress);
+    }
+    catch(err){
+      console.log(err);
+    }
+
     buildInProgress.value = 0;//this.getBuildStatusCount(BuildStatus.InProgress, BuildResult.None);
     buildSucceeded.value = 0;//this.getBuildStatusCount(BuildStatus.None, BuildResult.Succeeded);
     buildInWarning.value = 0;//this.getBuildStatusCount(BuildStatus.None, BuildResult.PartiallySucceeded);
@@ -509,7 +517,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   }
 
   private getBuildStatusCount(statusToFind:BuildStatus, resultToFind:BuildResult) {
-    return this.state.buildDefs.filter(x=> x.latestBuild.status === statusToFind && x.latestBuild.result == resultToFind).length;
+    return this.state.buildDefs.filter(x=> x.latestBuild !== undefined && x.latestBuild.status === statusToFind && x.latestBuild.result == resultToFind).length;
   }
 
   public renderOptionsFilterView() : JSX.Element {
