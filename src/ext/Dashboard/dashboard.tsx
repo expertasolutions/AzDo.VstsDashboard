@@ -528,12 +528,12 @@ class CICDDashboard extends React.Component<{}, {}> {
   public renderOptionsFilterView() : JSX.Element {
     return (
       <div>
-        <span style={{ verticalAlign: "middle" }} className="font-size-s">{buildNeverQueued.value} <Status {...Statuses.Queued} size={StatusSize.m}/></span>&nbsp;&nbsp;
-        <span style={{ verticalAlign: "middle" }} className="font-size-s">{buildInPending.value} <Status {...Statuses.Waiting} size={StatusSize.m}/></span>&nbsp;&nbsp;
-        <span style={{ verticalAlign: "middle" }} className="font-size-s">{buildInProgress.value} <Status {...Statuses.Running} size={StatusSize.m}/></span>&nbsp;&nbsp;
-        <span style={{ verticalAlign: "middle" }} className="font-size-s">{buildSucceeded.value} <Status {...Statuses.Success} size={StatusSize.m}/></span>&nbsp;&nbsp;
-        <span style={{ verticalAlign: "middle" }} className="font-size-s">{buildInWarning.value} <Status {...Statuses.Warning} size={StatusSize.m}/></span>&nbsp;&nbsp;
-        <span style={{ verticalAlign: "middle" }} className="font-size-s">{buildInError.value} <Status {...Statuses.Failed} size={StatusSize.m}/></span>&nbsp;&nbsp;|&nbsp;&nbsp;
+        <span className="font-size-m"><Status {...Statuses.Queued} size={StatusSize.m}/>&nbsp;{buildNeverQueued.value}</span>&nbsp;&nbsp;
+        <span className="font-size-m"><Status {...Statuses.Waiting} size={StatusSize.m}/>&nbsp;{buildInPending.value}</span>&nbsp;&nbsp;
+        <span className="font-size-m"><Status {...Statuses.Running} size={StatusSize.m}/>&nbsp;{buildInProgress.value}</span>&nbsp;&nbsp;
+        <span className="font-size-m"><Status {...Statuses.Success} size={StatusSize.m}/>&nbsp;{buildSucceeded.value}</span>&nbsp;&nbsp;
+        <span className="font-size-m"><Status {...Statuses.Warning} size={StatusSize.m}/>&nbsp;{buildInWarning.value}</span>&nbsp;&nbsp;
+        <span className="font-size-m"><Status {...Statuses.Failed} size={StatusSize.m}/>&nbsp;{buildInError.value}</span>&nbsp;&nbsp;|&nbsp;&nbsp;
         <Link href="https://github.com/expertasolutions/VstsDashboard/issues/new" target="_blank">
           <Icon iconName="FeedbackRequestSolid" size={IconSize.medium}/>
         </Link>&nbsp;&nbsp;&nbsp;
