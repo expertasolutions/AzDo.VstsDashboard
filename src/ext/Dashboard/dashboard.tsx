@@ -178,7 +178,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     this.buildProvider.value = new ArrayItemProvider(buildList);
   }
 
-  private async updateFromProject(firstLoad:boolean){ 
+  private updateFromProject(firstLoad:boolean){ 
     this.currentSelectedProjects = new Array<string>();
 
     for(let i=0;i<this.projectSelection.value.length;i++){
@@ -189,113 +189,110 @@ class CICDDashboard extends React.Component<{}, {}> {
       }
     }
 
-    let newBuildDef = await (getBuildDefinitionsV1(this.currentSelectedProjects, firstLoad)
-                              .then(result => {
-                                let currentDef = this.state.buildDefs;
-                                if(firstLoad) {
-                                  currentDef = result;
-                                } else {
-                                  for(let i=0;i<result.length;i++) {
-                                    let newDef = result[i];
-                                    let def = currentDef.find(x=> x.id === newDef.id);
-                                    if(def !== undefined) {
-                                      let defIndx = currentDef.indexOf(def, 0);
-                                      if(defIndx > -1) {
-                                        currentDef[defIndx] = newDef;
-                                      }
-                                    } else {
-                                      currentDef.push(newDef);
-                                    }
-                                  }
-                                }
-                                return currentDef;
-                              }));
+    getBuildDefinitionsV1(this.currentSelectedProjects, firstLoad).then(result => {
+      let currentDef = this.state.buildDefs;
 
-    this.setState({ buildDefs: newBuildDef });
-    this.filterData();
-    SDK.ready().then(()=> { this.isLoading.value = false; });
-
-    let newBuilds = await (getBuildsV1(this.currentSelectedProjects, this.buildTimeRangeHasChanged, this.lastBuildsDisplay)
-                              .then(result => {
-                                  let newResult = new Array<Build>();
-                                  let currentResult = this.state.builds;
-
-                                  if(this.buildTimeRangeHasChanged) {
-                                    currentResult = result;
-                                  } else {
-                                    for(let i=0;i<result.length;i++) {
-                                      let newElement = result[i];
-                                      let existingElement = currentResult.find(x=> x.id === newElement.id);
-                                      
-                                      if(existingElement !== undefined) {
-                                        let buildIndex = currentResult.indexOf(existingElement, 0);
-                                        
-                                        if(buildIndex > -1) {
-                                          currentResult[buildIndex] = newElement;
-                                          let buildDefs = this.state.buildDefs;
-                                          let buildDef = buildDefs.find(x=> x.id === newElement.definition.id);
-
-                                          if(buildDef !== undefined && buildDef.latestBuild.id <= newElement.id) {
-                                            let buildDefIndex = buildDefs.indexOf(buildDef, 0);
-                                        
-                                            if(buildDefIndex > -1) {
-                                              buildDefs[buildDefIndex].latestBuild = newElement;
-                                              this.setState({ buildDefs: buildDefs });
-                                            }
-                                          }
-                                        }
-                                      } else {
-                                        currentResult.push(newElement);
-                                      }
-                                    }
-                                  }
-                                  newResult = currentResult;
-                                  newResult = sortBuilds(newResult);
-                                  return newResult;
-                                }));
-    
-    this.refreshUI.value = new Date().toTimeString();
-    this.buildTimeRangeHasChanged = false;
-
-    this.setState({ builds: newBuilds });
-
-    // Get Build Reference Status
-    buildNeverQueued.value = this.getBuildStatusCount(BuildStatus.None, BuildResult.None);
-    buildInPending.value = this.getBuildStatusCount(BuildStatus.NotStarted, BuildResult.None);
-    buildInProgress.value = this.getBuildStatusCount(BuildStatus.InProgress, BuildResult.None);
-    buildSucceeded.value = this.getBuildStatusCount(BuildStatus.Completed, BuildResult.Succeeded);
-    buildInWarning.value = this.getBuildStatusCount(BuildStatus.Completed, BuildResult.PartiallySucceeded);
-    buildInError.value = this.getBuildStatusCount(BuildStatus.Completed, BuildResult.Failed);
-
-    this.filterBuildsData();
-        // Update the Release List
-        let newReleases = await (getReleasesV1(this.currentSelectedProjects, firstLoad)
-        .then(result => {
-          let currentReleases = this.state.releases;
-          if(firstLoad) {
-            currentReleases = result;
-          } else {
-            for(let i=0;i<result.length;i++) {
-              let newRelease = result[i];
-              let rel = currentReleases.find(x=> x.id === newRelease.id);
-              if(rel !== undefined) {
-                let relIndex = currentReleases.indexOf(rel, 0);
-                if(relIndex > -1) {
-                  currentReleases[relIndex] = newRelease;
-                }
-              } else {
-                currentReleases.splice(0, 0, newRelease);
-              }
+      if(firstLoad) {
+        currentDef = result;
+      } else {
+        for(let i=0;i<result.length;i++) {
+          let newDef = result[i];
+          let def = currentDef.find(x=> x.id === newDef.id);
+          if(def !== undefined) {
+            let defIndx = currentDef.indexOf(def, 0);
+            if(defIndx > -1) {
+              currentDef[defIndx] = newDef;
             }
+          } else {
+            currentDef.push(newDef);
           }
-          return currentReleases;
-        }));
-
+        }
+      }
+      
+      this.setState({ buildDefs: currentDef });
+      this.filterData();
+    }).then(()=> {
+      SDK.ready().then(()=> { this.isLoading.value = false; });
+    });
+   
+    // Update the Release List
+    getReleasesV1(this.currentSelectedProjects, firstLoad).then(result => {
+      let currentReleases = this.state.releases;
+      if(firstLoad) {
+        currentReleases = result;
+      } else {
+        for(let i=0;i<result.length;i++) {
+          let newRelease = result[i];
+          let rel = currentReleases.find(x=> x.id === newRelease.id);
+          if(rel !== undefined) {
+            let relIndex = currentReleases.indexOf(rel, 0);
+            if(relIndex > -1) {
+              currentReleases[relIndex] = newRelease;
+            }
+          } else {
+            currentReleases.splice(0, 0, newRelease);
+          }
+        }
+      }
+      this.setState({ releases: currentReleases });
+    });
+    
     // Update Builds Runs list...
     if(firstLoad) {
       this.buildTimeRangeHasChanged = true;
     }
-    this.setState({ releases: newReleases });
+
+    getBuildsV1(this.currentSelectedProjects, this.buildTimeRangeHasChanged, this.lastBuildsDisplay).then(result => {
+      let newResult = new Array<Build>();
+      let currentResult = this.state.builds;
+
+      if(this.buildTimeRangeHasChanged) {
+        currentResult = result;
+      } else {
+        for(let i=0;i<result.length;i++) {
+          let newElement = result[i];
+          let existingElement = currentResult.find(x=> x.id === newElement.id);
+          
+          if(existingElement !== undefined) {
+            let buildIndex = currentResult.indexOf(existingElement, 0);
+            
+            if(buildIndex > -1) {
+              currentResult[buildIndex] = newElement;
+              let buildDefs = this.state.buildDefs;
+              let buildDef = buildDefs.find(x=> x.id === newElement.definition.id);
+
+              if(buildDef !== undefined && buildDef.latestBuild.id <= newElement.id) {
+                let buildDefIndex = buildDefs.indexOf(buildDef, 0);
+            
+                if(buildDefIndex > -1) {
+                  buildDefs[buildDefIndex].latestBuild = newElement;
+                  this.setState({ buildDefs: buildDefs });
+                }
+              }
+            }
+          } else {
+            currentResult.push(newElement);
+          }
+        }
+      }
+
+      newResult = currentResult;
+      newResult = sortBuilds(newResult);
+
+      this.setState({ builds: newResult });
+      this.refreshUI.value = new Date().toTimeString();
+      this.buildTimeRangeHasChanged = false;
+
+      // Get Build Reference Status
+      buildNeverQueued.value = this.getBuildStatusCount(BuildStatus.None, BuildResult.None);
+      buildInPending.value = this.getBuildStatusCount(BuildStatus.NotStarted, BuildResult.None);
+      buildInProgress.value = this.getBuildStatusCount(BuildStatus.InProgress, BuildResult.None);
+      buildSucceeded.value = this.getBuildStatusCount(BuildStatus.Completed, BuildResult.Succeeded);
+      buildInWarning.value = this.getBuildStatusCount(BuildStatus.Completed, BuildResult.PartiallySucceeded);
+      buildInError.value = this.getBuildStatusCount(BuildStatus.Completed, BuildResult.Failed);
+
+      this.filterBuildsData();
+    });
   }
 
   private onOnlyBuildWithDeployments = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
