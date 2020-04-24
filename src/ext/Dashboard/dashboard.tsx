@@ -472,7 +472,7 @@ class CICDDashboard extends React.Component<{}, {}> {
             primaryText="No builds has been runs from a while for the selected Team Projects"
             secondaryText={
               <span>
-                Make sure yours teams is working ;)
+                If it's not an holiday, are you sure that your team is working ? ;)
               </span>
             }
             imageAltText="No builds has been runs from a while..."
@@ -506,20 +506,16 @@ class CICDDashboard extends React.Component<{}, {}> {
         return this.renderZeroData(tabId);
       }
     } else if(tabId === "builds") {
-      if(this.buildProvider.value.length > 0) {
-        return (
-          <Observer itemProvider={ this.buildProvider }>
-            {(observableProps: { itemProvider: ArrayItemProvider<Build> }) => (
-                <Table<Build> columns={buildColumns} 
-                    itemProvider={observableProps.itemProvider}
-                    showLines={true}
-                    role="table"/>
-            )}
-          </Observer>
-        );
-      } else {
-        return this.renderZeroData(tabId);
-      }
+      return (
+        <Observer itemProvider={ this.buildProvider }>
+          {(observableProps: { itemProvider: ArrayItemProvider<Build> }) => (
+              <Table<Build> columns={buildColumns} 
+                  itemProvider={observableProps.itemProvider}
+                  showLines={true}
+                  role="table"/>
+          )}
+        </Observer>
+      );
     } else {
       return this.renderZeroData(tabId);
     }
@@ -709,6 +705,8 @@ class CICDDashboard extends React.Component<{}, {}> {
                         <Observer selectedTabId={this.selectedTabId} refreshUI={this.refreshUI}>
                             {(props: { selectedTabId: string, refreshUI: string }) => {
                               if(this.state.buildDefs === undefined || this.state.buildDefs.length === 0){
+                                return this.renderZeroData(this.selectedTabId.value);
+                              } else if(this.state.buildDefs.length > 0 && this.state.builds.length === 0) {
                                 return this.renderZeroData(this.selectedTabId.value);
                               } else {
                                 return (
