@@ -264,7 +264,6 @@ class CICDDashboard extends React.Component<{}, {}> {
         for(let i=0;i<result.length;i++) {
           let newElement = result[i];
           let existingElement = currentResult.find(x=> x.id === newElement.id);
-          
           if(existingElement !== undefined) {
             let buildIndex = currentResult.indexOf(existingElement, 0);
             if(buildIndex > -1) {
