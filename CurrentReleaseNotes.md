@@ -13,5 +13,6 @@
   - Move 'Duration' field on the same line of pipeline 'start time'
   - Review columns width on 'Summary' and 'All Runs' views
   - Rename 'Failure/Partial on top' 'Cancelled/Failed/Partial on top'
+  - Interval change from 10sec to 7.5sec
 
 #### All these issues are part of the milestone [Delivery-20April-01](https://github.com/expertasolutions/VstsDashboard/milestone/2)
