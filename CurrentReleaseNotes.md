@@ -25,5 +25,6 @@
 
   - On '***All Runs***' view:
     - Add the link to the Build Definition Reference
+    - Add a 'Zero Data' message when no builds is present
 
 #### All these issues are part of the milestone [Delivery-20April-01](https://github.com/expertasolutions/VstsDashboard/milestone/2)

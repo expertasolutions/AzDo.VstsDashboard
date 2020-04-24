@@ -465,6 +465,21 @@ class CICDDashboard extends React.Component<{}, {}> {
           />
         </div>
       );
+    } else if(tabId === "AllRuns") {
+      return (
+        <div className="flex-center">
+          <ZeroData
+            primaryText="No builds has been runs from a while for the selected Team Projects"
+            secondaryText={
+              <span>
+                Make sure yours teams is working ;)
+              </span>
+            }
+            imageAltText="No builds has been runs from a while..."
+            imagePath="https://ms.gallerycdn.vsassets.io/extensions/ms/vss-releasemanagement-web/18.166.0.311329757/1586412473334/release-landing/zerodata-release-management-new.png"
+          />
+        </div>
+      );
     } else {
       return (<div></div>);
     }
@@ -491,16 +506,20 @@ class CICDDashboard extends React.Component<{}, {}> {
         return this.renderZeroData(tabId);
       }
     } else if(tabId === "builds") {
-      return (
-        <Observer itemProvider={ this.buildProvider }>
-          {(observableProps: { itemProvider: ArrayItemProvider<Build> }) => (
-              <Table<Build> columns={buildColumns} 
-                  itemProvider={observableProps.itemProvider}
-                  showLines={true}
-                  role="table"/>
-          )}
-        </Observer>
-      )
+      if(this.buildProvider.value.length > 0) {
+        return (
+          <Observer itemProvider={ this.buildProvider }>
+            {(observableProps: { itemProvider: ArrayItemProvider<Build> }) => (
+                <Table<Build> columns={buildColumns} 
+                    itemProvider={observableProps.itemProvider}
+                    showLines={true}
+                    role="table"/>
+            )}
+          </Observer>
+        );
+      } else {
+        return this.renderZeroData(tabId);
+      }
     } else {
       return this.renderZeroData(tabId);
     }
