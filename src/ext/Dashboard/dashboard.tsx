@@ -37,6 +37,7 @@ import { CommonServiceIds, IProjectPageService, IHostPageLayoutService } from "a
 const isFullScreen = new ObservableValue(false);
 
 const buildNeverQueued = new ObservableValue(0);
+const buildCancelled = new ObservableValue(0);
 const buildInPending = new ObservableValue(0);
 const buildInProgress = new ObservableValue(0);
 const buildSucceeded = new ObservableValue(0);
@@ -287,6 +288,7 @@ class CICDDashboard extends React.Component<{}, {}> {
 
       // Get Build Reference Status
       buildNeverQueued.value = this.getBuildStatusCount(BuildStatus.None, BuildResult.None);
+      buildCancelled.value = this.getBuildStatusCount(BuildStatus.None, BuildResult.Canceled);
       buildInPending.value = this.getBuildStatusCount(BuildStatus.NotStarted, BuildResult.None);
       buildInProgress.value = this.getBuildStatusCount(BuildStatus.InProgress, BuildResult.None);
       buildSucceeded.value = this.getBuildStatusCount(BuildStatus.Completed, BuildResult.Succeeded);
@@ -533,6 +535,7 @@ class CICDDashboard extends React.Component<{}, {}> {
         <span className="font-size-m"><Status {...Statuses.Queued} size={StatusSize.m}/>&nbsp;{buildNeverQueued.value}</span>&nbsp;&nbsp;
         <span className="font-size-m"><Status {...Statuses.Waiting} size={StatusSize.m}/>&nbsp;{buildInPending.value}</span>&nbsp;&nbsp;
         <span className="font-size-m"><Status {...Statuses.Running} size={StatusSize.m}/>&nbsp;{buildInProgress.value}</span>&nbsp;&nbsp;
+        <span className="font-size-m"><Status {...Statuses.Canceled} size={StatusSize.m}/>&nbsp;{buildNeverQueued.value}</span>&nbsp;&nbsp;
         <span className="font-size-m"><Status {...Statuses.Success} size={StatusSize.m}/>&nbsp;{buildSucceeded.value}</span>&nbsp;&nbsp;
         <span className="font-size-m"><Status {...Statuses.Warning} size={StatusSize.m}/>&nbsp;{buildInWarning.value}</span>&nbsp;&nbsp;
         <span className="font-size-m"><Status {...Statuses.Failed} size={StatusSize.m}/>&nbsp;{buildInError.value}</span>&nbsp;&nbsp;|&nbsp;&nbsp;
