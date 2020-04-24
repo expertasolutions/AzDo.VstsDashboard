@@ -285,14 +285,13 @@ class CICDDashboard extends React.Component<{}, {}> {
         }
       }
 
-      newResult = currentResult;
-      newResult = sortBuilds(newResult);
+      currentResult = sortBuilds(currentResult);
 
       // Get Build Reference Status
-      buildInPending.value = this.getActiveBuildStatusCount(BuildStatus.NotStarted, newResult);
-      buildInProgress.value = this.getActiveBuildStatusCount(BuildStatus.InProgress, newResult);
+      buildInPending.value = this.getActiveBuildStatusCount(BuildStatus.NotStarted, currentResult);
+      buildInProgress.value = this.getActiveBuildStatusCount(BuildStatus.InProgress, currentResult);
 
-      this.setState({ builds: newResult });
+      this.setState({ builds: currentResult });
       this.refreshUI.value = new Date().toTimeString();
       this.buildTimeRangeHasChanged = false;
 
