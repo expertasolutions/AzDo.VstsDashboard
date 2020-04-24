@@ -214,13 +214,11 @@ class CICDDashboard extends React.Component<{}, {}> {
       this.buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(currentDef));
 
       // Get Build Reference Status
-      buildNeverQueued.value = this.getBuildStatusCount(BuildStatus.None, BuildResult.None);
-      buildCancelled.value = this.getBuildStatusCount(BuildStatus.None, BuildResult.Canceled);
-      buildInPending.value = this.getBuildStatusCount(BuildStatus.NotStarted, BuildResult.None);
-      buildInProgress.value = this.getBuildStatusCount(BuildStatus.InProgress, BuildResult.None);
-      buildSucceeded.value = this.getBuildStatusCount(BuildStatus.Completed, BuildResult.Succeeded);
-      buildInWarning.value = this.getBuildStatusCount(BuildStatus.Completed, BuildResult.PartiallySucceeded);
-      buildInError.value = this.getBuildStatusCount(BuildStatus.Completed, BuildResult.Failed);
+      buildNeverQueued.value = this.getCompletedBuildStatusCount(BuildStatus.None, BuildResult.None);
+      buildCancelled.value = this.getCompletedBuildStatusCount(BuildStatus.None, BuildResult.Canceled);
+      buildSucceeded.value = this.getCompletedBuildStatusCount(BuildStatus.Completed, BuildResult.Succeeded);
+      buildInWarning.value = this.getCompletedBuildStatusCount(BuildStatus.Completed, BuildResult.PartiallySucceeded);
+      buildInError.value = this.getCompletedBuildStatusCount(BuildStatus.Completed, BuildResult.Failed);
 
       this.filterData();
     }).then(()=> {
@@ -289,13 +287,13 @@ class CICDDashboard extends React.Component<{}, {}> {
       newResult = currentResult;
       newResult = sortBuilds(newResult);
 
+      // Get Build Reference Status
+      buildInPending.value = this.getActiveBuildStatusCount(BuildStatus.NotStarted, newResult);
+      buildInProgress.value = this.getActiveBuildStatusCount(BuildStatus.InProgress, newResult);
+
       this.setState({ builds: newResult });
       this.refreshUI.value = new Date().toTimeString();
       this.buildTimeRangeHasChanged = false;
-
-      // Get Build Reference Status
-      buildInPending.value = this.getBuildStatusCount(BuildStatus.NotStarted, BuildResult.None);
-      buildInProgress.value = this.getBuildStatusCount(BuildStatus.InProgress, BuildResult.None);
 
       this.filterBuildsData();
     });
@@ -519,7 +517,14 @@ class CICDDashboard extends React.Component<{}, {}> {
           </TabBar>);
   }
 
-  private getBuildStatusCount(statusToFind:BuildStatus, resultToFind:BuildResult) {
+  private getActiveBuildStatusCount(statusToFind:BuildStatus, builds:Array<Build>) {
+    if(statusToFind === BuildStatus.InProgress || statusToFind === BuildStatus.NotStarted) {
+      return builds.filter(x=> x.status === statusToFind).length;
+    }
+    return 0;
+  }
+
+  private getCompletedBuildStatusCount(statusToFind:BuildStatus, resultToFind:BuildResult) {
     if(statusToFind === BuildStatus.None && resultToFind === BuildResult.None){
       return this.state.buildDefs.filter(x=> x.latestCompletedBuild === undefined && x.latestBuild === undefined).length;
     }
