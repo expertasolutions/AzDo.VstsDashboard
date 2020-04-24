@@ -706,7 +706,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                             {(props: { selectedTabId: string, refreshUI: string }) => {
                               if(this.state.buildDefs === undefined || this.state.buildDefs.length === 0){
                                 return this.renderZeroData(this.selectedTabId.value);
-                              } else if(this.state.buildDefs.length > 0 && this.state.builds.length === 0) {
+                              } else if(this.state.buildDefs.length > 0 && this.state.builds.length === 0 && props.selectedTabId === "builds") {
                                 return this.renderZeroData(this.selectedTabId.value);
                               } else {
                                 return (
