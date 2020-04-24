@@ -12,11 +12,18 @@
   - Add Build Pipeline Reference Status by Pipeline
   - Initial loading show data once everythings is load (Build & Release data)
 
-- ### Other changes
-  - Move 'Duration' field on the same line of pipeline 'start time'
-  - Review columns width on 'Summary' and 'All Runs' views
-  - Rename 'Failure/Partial on top' 'Cancelled/Failed/Partial on top'
-  - Interval change from 10sec to 7.5sec
-  - In 'Summary' view, sometime Pipeline wasn't properly showed on top when in 'Pending/Running' status
+- ### Un Issued changes
+
+  - ***Globally***:
+    - Move 'Duration' field on the same line of pipeline 'start time'
+    - Review columns width on 'Summary' and 'All Runs' views
+    - Interval change from 10sec to 7.5sec
+
+  - On '***Summary***' view':
+    - 'Failure/Partial on top' dropdownlist has been renamed to 'Cancelled/Failed/Partial on top'
+    - Fix the problems of Pipeline wasn't properly showed on top when in 'Pending/Running' status
+
+  - On '***All Runs***' view:
+    - Add the link to the Build Definition Reference
 
 #### All these issues are part of the milestone [Delivery-20April-01](https://github.com/expertasolutions/VstsDashboard/milestone/2)
