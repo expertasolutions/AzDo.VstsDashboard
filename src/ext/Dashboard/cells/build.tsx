@@ -29,7 +29,7 @@ export function getBuildStatus(build: Build) : IStatusIndicatorData {
 
 function getBuildDefinitionUrl(buildDefs: BuildDefinitionReference[], buildDefId: number) {
   let buildDefRef = buildDefs.find(x=> x.id === buildDefId);
-  return buildDefRef?._links.web.href;
+  return buildDefRef ? buildDefRef._links.web.href : "#";
 }
 
 export function renderBuildStatus (
