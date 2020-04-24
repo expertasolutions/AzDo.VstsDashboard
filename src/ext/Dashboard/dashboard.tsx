@@ -255,35 +255,30 @@ class CICDDashboard extends React.Component<{}, {}> {
     getBuildsV1(this.currentSelectedProjects, this.buildTimeRangeHasChanged, this.lastBuildsDisplay).then(result => {
       let currentResult = this.state.builds;
 
-      //if(this.buildTimeRangeHasChanged) {
-      //  currentResult = result;
-      //} else {
-        //currentResult = this.state.builds;
-        for(let i=0;i<result.length;i++) {
-          let newElement = result[i];
-          let existingElement = currentResult.find(x=> x.id === newElement.id);
-          if(existingElement !== undefined) {
-            let buildIndex = currentResult.indexOf(existingElement, 0);
-            if(buildIndex > -1) {
-              currentResult[buildIndex] = newElement;
-              let buildDefs = this.state.buildDefs;
-              let buildDef = buildDefs.find(x=> x.id === newElement.definition.id);
-              if(buildDef !== undefined && buildDef.latestBuild.id <= newElement.id) {
-                let buildDefIndex = buildDefs.indexOf(buildDef, 0);
-            
-                if(buildDefIndex > -1) {
-                  buildDefs[buildDefIndex].latestBuild = newElement;
-                  let newbuildDef = sortBuildReferences(this.state.buildDefs, this.showErrorsOnSummaryOnTop);
-                  this.setState({ buildDefs: newbuildDef });
-                  this.filterData();
-                }
+      for(let i=0;i<result.length;i++) {
+        let newElement = result[i];
+        let existingElement = currentResult.find(x=> x.id === newElement.id);
+        if(existingElement !== undefined) {
+          let buildIndex = currentResult.indexOf(existingElement, 0);
+          if(buildIndex > -1) {
+            currentResult[buildIndex] = newElement;
+            let buildDefs = this.state.buildDefs;
+            let buildDef = buildDefs.find(x=> x.id === newElement.definition.id);
+            if(buildDef !== undefined && buildDef.latestBuild.id <= newElement.id) {
+              let buildDefIndex = buildDefs.indexOf(buildDef, 0);
+          
+              if(buildDefIndex > -1) {
+                buildDefs[buildDefIndex].latestBuild = newElement;
+                let newbuildDef = sortBuildReferences(this.state.buildDefs, this.showErrorsOnSummaryOnTop);
+                this.setState({ buildDefs: newbuildDef });
+                this.filterData();
               }
             }
-          } else {
-            currentResult.push(newElement);
           }
+        } else {
+          currentResult.push(newElement);
         }
-      //}
+      }
 
       currentResult = sortBuilds(currentResult);
 
