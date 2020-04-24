@@ -77,7 +77,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   constructor(props: {}) {
     super(props);
     this.filter = new Filter();
-    setInterval(()=> this.updateFromProject(false), 10000);
+    setInterval(()=> this.updateFromProject(false), 7500);
   }
 
   state = {
@@ -213,6 +213,16 @@ class CICDDashboard extends React.Component<{}, {}> {
 
       this.setState({ buildDefs: currentDef });
       this.buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(currentDef));
+
+      // Get Build Reference Status
+      buildNeverQueued.value = this.getBuildStatusCount(BuildStatus.None, BuildResult.None);
+      buildCancelled.value = this.getBuildStatusCount(BuildStatus.None, BuildResult.Canceled);
+      buildInPending.value = this.getBuildStatusCount(BuildStatus.NotStarted, BuildResult.None);
+      buildInProgress.value = this.getBuildStatusCount(BuildStatus.InProgress, BuildResult.None);
+      buildSucceeded.value = this.getBuildStatusCount(BuildStatus.Completed, BuildResult.Succeeded);
+      buildInWarning.value = this.getBuildStatusCount(BuildStatus.Completed, BuildResult.PartiallySucceeded);
+      buildInError.value = this.getBuildStatusCount(BuildStatus.Completed, BuildResult.Failed);
+
       this.filterData();
     }).then(()=> {
       SDK.ready().then(()=> { this.isLoading.value = false; });
@@ -287,13 +297,8 @@ class CICDDashboard extends React.Component<{}, {}> {
       this.buildTimeRangeHasChanged = false;
 
       // Get Build Reference Status
-      buildNeverQueued.value = this.getBuildStatusCount(BuildStatus.None, BuildResult.None);
-      buildCancelled.value = this.getBuildStatusCount(BuildStatus.None, BuildResult.Canceled);
       buildInPending.value = this.getBuildStatusCount(BuildStatus.NotStarted, BuildResult.None);
       buildInProgress.value = this.getBuildStatusCount(BuildStatus.InProgress, BuildResult.None);
-      buildSucceeded.value = this.getBuildStatusCount(BuildStatus.Completed, BuildResult.Succeeded);
-      buildInWarning.value = this.getBuildStatusCount(BuildStatus.Completed, BuildResult.PartiallySucceeded);
-      buildInError.value = this.getBuildStatusCount(BuildStatus.Completed, BuildResult.Failed);
 
       this.filterBuildsData();
     });
