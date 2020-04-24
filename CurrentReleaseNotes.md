@@ -17,7 +17,6 @@
   - ***Globally***:
     - Move 'Duration' field on the same line of pipeline 'start time'
     - Review columns width on 'Summary' and 'All Runs' views
-    - Interval change from 10sec to 7.5sec
 
   - On '***Summary***' view':
     - 'Failure/Partial on top' dropdownlist has been renamed to 'Cancelled/Failed/Partial on top'

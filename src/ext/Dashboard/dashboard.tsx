@@ -77,7 +77,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   constructor(props: {}) {
     super(props);
     this.filter = new Filter();
-    setInterval(()=> this.updateFromProject(false), 7500);
+    setInterval(()=> this.updateFromProject(false), 10000);
   }
 
   state = {
