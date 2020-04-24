@@ -353,6 +353,7 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   public async loadProjects() {
     let result = await getProjects();
+    console.log("projects: " + JSON.stringify(result));
     this.setState( { projects: result });
   }
 
@@ -374,7 +375,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     //await SDK.ready();
     let hostInfo = SDK.getHost();
     console.log("HostInfo: " + JSON.stringify(hostInfo));
-    
+
     let extContext = SDK.getExtensionContext();
     if(extContext !== undefined) {
       console.log("extContext: " + JSON.stringify(extContext));
@@ -393,7 +394,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     if(currentProject === undefined) {
       console.log("CurrentProject is undefined");
     } else {
-      console.log("CurrentProject: " + currentProject);
+      console.log("CurrentProject: " + JSON.stringify(currentProject));
     }
 
     await this.loadProjects();
