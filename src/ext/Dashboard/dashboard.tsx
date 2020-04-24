@@ -373,7 +373,8 @@ class CICDDashboard extends React.Component<{}, {}> {
     await SDK.init();
     //await SDK.ready();
     let hostInfo = SDK.getHost();
-
+    console.log("HostInfo: " + JSON.stringify(hostInfo));
+    
     let extContext = SDK.getExtensionContext();
     if(extContext !== undefined) {
       console.log("extContext: " + JSON.stringify(extContext));
