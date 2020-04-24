@@ -3,9 +3,9 @@
 - ### [Issue0109](https://github.com/expertasolutions/VstsDashboard/Delivery-20April-01/issues/109)
   - Add fullscreen capability
   
-    [Issue0109-01](_ReleaseNotes/Delivery200430/Issue0109/Issue0109-01.png)
+    ![Issue0109-01](_ReleaseNotes/Delivery200430/Issue0109/Issue0109-01.png)
 
-    [Issue0109-02](_ReleaseNotes/Delivery200430/Issue0109/Issue0109-02.png)
+    ![Issue0109-02](_ReleaseNotes/Delivery200430/Issue0109/Issue0109-02.png)
 
 - ### [Issue0113](https://github.com/expertasolutions/VstsDashboard/Delivery-20April-01/issues/113)
   - On 'All Runs', Fix the duplication of two differents status for the same build run.
@@ -13,7 +13,7 @@
 - ### [Issue0115](https://github.com/expertasolutions/VstsDashboard/Delivery-20April-01/issues/115)
   - Add Build Pipeline Reference Status by Pipeline
 
-    [Issue0115-01](_ReleaseNotes/Delivery200430/Issue0115/Issue0115-01.png)
+    ![Issue0115-01](_ReleaseNotes/Delivery200430/Issue0115/Issue0115-01.png)
 
 - ### Un Issued changes
 
