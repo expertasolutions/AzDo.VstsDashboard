@@ -9,7 +9,6 @@ import { Pill, PillVariant } from "azure-devops-ui/Pill";
 import { PillGroup, PillGroupOverflow } from "azure-devops-ui/PillGroup";
 import { Build } from "azure-devops-extension-api/Build";
 import { Link } from "azure-devops-ui/Link";
-import { findDOMNode } from "react-dom";
 
 const lightGreen: IColor = {
   red: 204,
