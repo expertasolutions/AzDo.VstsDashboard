@@ -16,9 +16,10 @@ import { Surface, SurfaceBackground } from "azure-devops-ui/Surface";
 import { Page } from "azure-devops-ui/Page";
 import { Link } from "azure-devops-ui/Link";
 import { Icon, IconSize } from "azure-devops-ui/Icon";
+import { Status, Statuses, StatusSize } from "azure-devops-ui/Status";
 
 import { TeamProjectReference } from "azure-devops-extension-api/Core";
-import { BuildDefinitionReference, Build } from "azure-devops-extension-api/Build";
+import { BuildDefinitionReference, Build, BuildStatus, BuildResult } from "azure-devops-extension-api/Build";
 import { Deployment } from "azure-devops-extension-api/Release";
 
 import { showRootComponent } from "../../Common";
@@ -34,6 +35,14 @@ import { ZeroData } from "azure-devops-ui/ZeroData";
 import { CommonServiceIds, IProjectPageService, IHostPageLayoutService } from "azure-devops-extension-api";
 
 const isFullScreen = new ObservableValue(false);
+
+const buildNeverQueued = new ObservableValue(0);
+const buildCancelled = new ObservableValue(0);
+const buildInPending = new ObservableValue(0);
+const buildInProgress = new ObservableValue(0);
+const buildSucceeded = new ObservableValue(0);
+const buildInWarning = new ObservableValue(0);
+const buildInError = new ObservableValue(0);
 
 class CICDDashboard extends React.Component<{}, {}> {
   private isLoading = new ObservableValue<boolean>(true);
@@ -68,7 +77,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   constructor(props: {}) {
     super(props);
     this.filter = new Filter();
-    setInterval(()=> this.updateFromProject(false), 10000);
+    setInterval(()=> this.updateFromProject(false), 7500);
   }
 
   state = {
@@ -137,7 +146,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       );
       buildDefList = allBuildWithRelease;
     }
-    
+
     buildDefList = sortBuildReferences(buildDefList, this.showErrorsOnSummaryOnTop);
     this.buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(buildDefList));
   }
@@ -199,9 +208,21 @@ class CICDDashboard extends React.Component<{}, {}> {
             currentDef.push(newDef);
           }
         }
+        currentDef = sortBuildReferences(currentDef, this.showErrorsOnSummaryOnTop);
       }
-      
+
       this.setState({ buildDefs: currentDef });
+      this.buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(currentDef));
+
+      // Get Build Reference Status
+      buildNeverQueued.value = this.getBuildStatusCount(BuildStatus.None, BuildResult.None);
+      buildCancelled.value = this.getBuildStatusCount(BuildStatus.None, BuildResult.Canceled);
+      buildInPending.value = this.getBuildStatusCount(BuildStatus.NotStarted, BuildResult.None);
+      buildInProgress.value = this.getBuildStatusCount(BuildStatus.InProgress, BuildResult.None);
+      buildSucceeded.value = this.getBuildStatusCount(BuildStatus.Completed, BuildResult.Succeeded);
+      buildInWarning.value = this.getBuildStatusCount(BuildStatus.Completed, BuildResult.PartiallySucceeded);
+      buildInError.value = this.getBuildStatusCount(BuildStatus.Completed, BuildResult.Failed);
+
       this.filterData();
     }).then(()=> {
       SDK.ready().then(()=> { this.isLoading.value = false; });
@@ -226,7 +247,6 @@ class CICDDashboard extends React.Component<{}, {}> {
           }
         }
       }
-
       this.setState({ releases: currentReleases });
     });
     
@@ -275,6 +295,11 @@ class CICDDashboard extends React.Component<{}, {}> {
       this.setState({ builds: newResult });
       this.refreshUI.value = new Date().toTimeString();
       this.buildTimeRangeHasChanged = false;
+
+      // Get Build Reference Status
+      buildInPending.value = this.getBuildStatusCount(BuildStatus.NotStarted, BuildResult.None);
+      buildInProgress.value = this.getBuildStatusCount(BuildStatus.InProgress, BuildResult.None);
+
       this.filterBuildsData();
     });
   }
@@ -497,9 +522,28 @@ class CICDDashboard extends React.Component<{}, {}> {
           </TabBar>);
   }
 
+  private getBuildStatusCount(statusToFind:BuildStatus, resultToFind:BuildResult) {
+    if(statusToFind === BuildStatus.None && resultToFind === BuildResult.None){
+      return this.state.buildDefs.filter(x=> x.latestCompletedBuild === undefined && x.latestBuild === undefined).length;
+    }
+    else if(statusToFind === BuildStatus.InProgress || statusToFind === BuildStatus.NotStarted) {
+      return this.state.builds.filter(x=> x.status === statusToFind).length;
+    } else if(statusToFind === BuildStatus.None) {
+      return this.state.buildDefs.filter(x=> x.latestBuild !== undefined && x.latestBuild.result == resultToFind).length;
+    }
+    return this.state.buildDefs.filter(x=> x.latestBuild !== undefined && x.latestBuild.status === statusToFind && x.latestBuild.result == resultToFind).length;
+  }
+
   public renderOptionsFilterView() : JSX.Element {
     return (
       <div>
+        <span className="font-size-m"><Status {...Statuses.Queued} size={StatusSize.m}/>&nbsp;{buildNeverQueued.value}</span>&nbsp;&nbsp;
+        <span className="font-size-m"><Status {...Statuses.Canceled} size={StatusSize.m}/>&nbsp;{buildCancelled.value}</span>&nbsp;&nbsp;
+        <span className="font-size-m"><Status {...Statuses.Waiting} size={StatusSize.m}/>&nbsp;{buildInPending.value}</span>&nbsp;&nbsp;
+        <span className="font-size-m"><Status {...Statuses.Running} size={StatusSize.m}/>&nbsp;{buildInProgress.value}</span>&nbsp;&nbsp;
+        <span className="font-size-m"><Status {...Statuses.Success} size={StatusSize.m}/>&nbsp;{buildSucceeded.value}</span>&nbsp;&nbsp;
+        <span className="font-size-m"><Status {...Statuses.Warning} size={StatusSize.m}/>&nbsp;{buildInWarning.value}</span>&nbsp;&nbsp;
+        <span className="font-size-m"><Status {...Statuses.Failed} size={StatusSize.m}/>&nbsp;{buildInError.value}</span>&nbsp;&nbsp;|&nbsp;&nbsp;
         <Link href="https://github.com/expertasolutions/VstsDashboard/issues/new" target="_blank">
           <Icon iconName="FeedbackRequestSolid" size={IconSize.medium}/>
         </Link>&nbsp;&nbsp;&nbsp;
@@ -552,7 +596,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                         filter={this.errorsOnSummaryTopFilter}
                         disabled={props.selectedTabId !== "summary"}
                         items={[
-                          { id:"true", text: "Failure/Partial on top"},
+                          { id:"true", text: "Cancelled/Failed/Partial on top"},
                           { id:"false", text: "By Queue date"}
                         ]}
                         placeholder="Status order"
