@@ -17,6 +17,8 @@ const buildClient = API.getClient(BuildRestClient);
 const releaseClient = API.getClient(ReleaseRestClient);
 
 export async function getProjects() {
+  console.log("PipelineService.getProjects");
+  coreClient.request
   let result = await coreClient.getProjects();
   return result.sort((a,b) => a.name.localeCompare(b.name) );
 }

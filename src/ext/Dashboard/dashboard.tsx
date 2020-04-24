@@ -388,6 +388,8 @@ class CICDDashboard extends React.Component<{}, {}> {
     const projectService = await SDK.getService<IProjectPageService>(CommonServiceIds.ProjectPageService);
     if(projectService === undefined) {
       console.log("ProjectService is undefined");
+    } else {
+      console.log("ProjectService: " + JSON.stringify(projectService));
     }
 
     let currentProject = await projectService.getProject();
