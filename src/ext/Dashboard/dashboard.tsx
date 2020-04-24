@@ -465,7 +465,7 @@ class CICDDashboard extends React.Component<{}, {}> {
           />
         </div>
       );
-    } else if(tabId === "AllRuns") {
+    } else if(tabId === "builds") {
       return (
         <div className="flex-center">
           <ZeroData
