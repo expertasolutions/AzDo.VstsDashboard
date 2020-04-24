@@ -533,9 +533,9 @@ class CICDDashboard extends React.Component<{}, {}> {
     return (
       <div>
         <span className="font-size-m"><Status {...Statuses.Queued} size={StatusSize.m}/>&nbsp;{buildNeverQueued.value}</span>&nbsp;&nbsp;
+        <span className="font-size-m"><Status {...Statuses.Canceled} size={StatusSize.m}/>&nbsp;{buildCancelled.value}</span>&nbsp;&nbsp;
         <span className="font-size-m"><Status {...Statuses.Waiting} size={StatusSize.m}/>&nbsp;{buildInPending.value}</span>&nbsp;&nbsp;
         <span className="font-size-m"><Status {...Statuses.Running} size={StatusSize.m}/>&nbsp;{buildInProgress.value}</span>&nbsp;&nbsp;
-        <span className="font-size-m"><Status {...Statuses.Canceled} size={StatusSize.m}/>&nbsp;{buildNeverQueued.value}</span>&nbsp;&nbsp;
         <span className="font-size-m"><Status {...Statuses.Success} size={StatusSize.m}/>&nbsp;{buildSucceeded.value}</span>&nbsp;&nbsp;
         <span className="font-size-m"><Status {...Statuses.Warning} size={StatusSize.m}/>&nbsp;{buildInWarning.value}</span>&nbsp;&nbsp;
         <span className="font-size-m"><Status {...Statuses.Failed} size={StatusSize.m}/>&nbsp;{buildInError.value}</span>&nbsp;&nbsp;|&nbsp;&nbsp;
