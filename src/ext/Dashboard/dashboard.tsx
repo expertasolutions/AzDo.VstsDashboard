@@ -207,11 +207,11 @@ class CICDDashboard extends React.Component<{}, {}> {
             currentDef.push(newDef);
           }
         }
+        currentDef = sortBuildReferences(currentDef, this.showErrorsOnSummaryOnTop);
       }
-      
-      currentDef = sortBuildReferences(currentDef, this.showErrorsOnSummaryOnTop);
 
       this.setState({ buildDefs: currentDef });
+      this.buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(buildDefList));
       this.filterData();
     }).then(()=> {
       SDK.ready().then(()=> { this.isLoading.value = false; });
