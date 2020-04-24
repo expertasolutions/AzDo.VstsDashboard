@@ -59,7 +59,7 @@ export function renderBuildStatus (
                   <div className="font-size-s" style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>{projectName}</div>
               </div>
         </SimpleTableCell>
-      )
+      )}
     </DataContext.Consumer>
   );
 }
