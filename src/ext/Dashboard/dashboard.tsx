@@ -468,7 +468,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       return (
         <div className="flex-center">
           <ZeroData
-            primaryText="No builds has been runs from a while for the selected Team Projects"
+            primaryText="No build has been runs from a while for the selected Team Projects"
             secondaryText={
               <span>
                 If it's not an holiday, are you sure that your team is working ? ;)
