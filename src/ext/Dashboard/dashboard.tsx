@@ -211,7 +211,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       }
 
       this.setState({ buildDefs: currentDef });
-      this.buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(buildDefList));
+      this.buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(currentDef));
       this.filterData();
     }).then(()=> {
       SDK.ready().then(()=> { this.isLoading.value = false; });
