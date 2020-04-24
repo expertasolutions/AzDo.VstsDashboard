@@ -374,30 +374,13 @@ class CICDDashboard extends React.Component<{}, {}> {
     await SDK.init();
     //await SDK.ready();
     let hostInfo = SDK.getHost();
-    console.log("HostInfo: " + JSON.stringify(hostInfo));
 
     let extContext = SDK.getExtensionContext();
-    if(extContext !== undefined) {
-      console.log("extContext: " + JSON.stringify(extContext));
-      this.extensionVersion = "v" + extContext.version;
-      this.releaseNoteVersion = "https://github.com/expertasolutions/VstsDashboard/releases/tag/" + extContext.version;
-    } else {
-      console.log("TFS not supported");
-    }
+    this.extensionVersion = "v" + extContext.version;
+    this.releaseNoteVersion = "https://github.com/expertasolutions/VstsDashboard/releases/tag/" + extContext.version;
 
     const projectService = await SDK.getService<IProjectPageService>(CommonServiceIds.ProjectPageService);
-    if(projectService === undefined) {
-      console.log("ProjectService is undefined");
-    } else {
-      console.log("ProjectService: " + JSON.stringify(projectService));
-    }
-
     let currentProject = await projectService.getProject();
-    if(currentProject === undefined) {
-      console.log("CurrentProject is undefined");
-    } else {
-      console.log("CurrentProject: " + JSON.stringify(currentProject));
-    }
 
     await this.loadProjects();
 
