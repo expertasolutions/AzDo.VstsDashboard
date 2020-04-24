@@ -6,7 +6,7 @@
   - 'Send a request' icon redirect directly to GitHub project new issue page
 
 - ### [Issue0113](https://github.com/expertasolutions/VstsDashboard/Delivery-20April-01/issues/113)
-  - Fix the build duplication with two differents status
+  - On 'All Runs', Fix the duplication of two differents status for the same build run.
 
 - ### [Issue0115](https://github.com/expertasolutions/VstsDashboard/Delivery-20April-01/issues/115)
   - Add Build Pipeline Reference Status by Pipeline
