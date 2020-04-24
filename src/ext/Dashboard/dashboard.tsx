@@ -275,6 +275,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                   buildDefs[buildDefIndex].latestBuild = newElement;
                   let newbuildDef = sortBuildReferences(this.state.buildDefs, this.showErrorsOnSummaryOnTop);
                   this.setState({ buildDefs: newbuildDef });
+                  this.filterData();
                 }
               }
             }
