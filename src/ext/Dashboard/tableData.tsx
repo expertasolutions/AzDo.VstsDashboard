@@ -41,7 +41,7 @@ export const buildColumns : ITableColumn<Build>[] = [
   },
   {
     id: "BuildInfo01",
-    name: "Build # | Branch/commit", 
+    name: "Build # | Branch & commit", 
     onSize: buildOnSize,
     renderCell: renderBuildInfo01Cell,
     width: new ObservableValue(-25),
