@@ -9,4 +9,8 @@
   - Add Build Pipeline Reference Status by Pipeline
   - Initial loading show data once everythings is load (Build & Release data)
 
+- ### Other changes
+  - Move 'Duration' field on the same line of pipeline 'start time'
+  - Review columns width on 'Summary' and 'All Runs' views
+
 #### All these issues are part of the milestone [Delivery-20April-01](https://github.com/expertasolutions/VstsDashboard/milestone/2)
