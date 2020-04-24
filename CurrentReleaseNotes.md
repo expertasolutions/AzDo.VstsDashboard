@@ -17,5 +17,6 @@
   - Review columns width on 'Summary' and 'All Runs' views
   - Rename 'Failure/Partial on top' 'Cancelled/Failed/Partial on top'
   - Interval change from 10sec to 7.5sec
+  - In 'Summary' view, sometime Pipeline wasn't properly showed on top when in 'Pending/Running' status
 
 #### All these issues are part of the milestone [Delivery-20April-01](https://github.com/expertasolutions/VstsDashboard/milestone/2)
