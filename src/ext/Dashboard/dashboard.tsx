@@ -253,12 +253,12 @@ class CICDDashboard extends React.Component<{}, {}> {
     }
 
     getBuildsV1(this.currentSelectedProjects, this.buildTimeRangeHasChanged, this.lastBuildsDisplay).then(result => {
-      let currentResult = new Array<Build>();
+      let currentResult = this.state.builds;
 
-      if(this.buildTimeRangeHasChanged) {
-        currentResult = result;
-      } else {
-        currentResult = this.state.builds;
+      //if(this.buildTimeRangeHasChanged) {
+      //  currentResult = result;
+      //} else {
+        //currentResult = this.state.builds;
         for(let i=0;i<result.length;i++) {
           let newElement = result[i];
           let existingElement = currentResult.find(x=> x.id === newElement.id);
@@ -283,7 +283,7 @@ class CICDDashboard extends React.Component<{}, {}> {
             currentResult.push(newElement);
           }
         }
-      }
+      //}
 
       currentResult = sortBuilds(currentResult);
 
