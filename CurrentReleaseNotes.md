@@ -25,5 +25,6 @@
   - On '***All Runs***' view:
     - Add the link to the Build Definition Reference
     - Add a 'Zero Data' message when no builds is present
+    - When a Team project is unselected, related build are removed from the view
 
-#### All these issues are part of the milestone [Delivery-20April-01](https://github.com/expertasolutions/VstsDashboard/milestone/2)
+#### All these issues are part of the milestone [Delivery-200430](https://github.com/expertasolutions/VstsDashboard/milestone/2)
