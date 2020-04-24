@@ -591,7 +591,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                         filter={this.errorsOnSummaryTopFilter}
                         disabled={props.selectedTabId !== "summary"}
                         items={[
-                          { id:"true", text: "Failure/Partial on top"},
+                          { id:"true", text: "Cancelled/Failed/Partial on top"},
                           { id:"false", text: "By Queue date"}
                         ]}
                         placeholder="Status order"
