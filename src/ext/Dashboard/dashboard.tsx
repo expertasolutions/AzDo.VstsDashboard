@@ -77,7 +77,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   constructor(props: {}) {
     super(props);
     this.filter = new Filter();
-    setInterval(()=> this.updateFromProject(false), 7500);
+    setInterval(()=> this.updateFromProject(false), 10000);
   }
 
   state = {
@@ -208,20 +208,17 @@ class CICDDashboard extends React.Component<{}, {}> {
             currentDef.push(newDef);
           }
         }
-        currentDef = sortBuildReferences(currentDef, this.showErrorsOnSummaryOnTop);
       }
 
       this.setState({ buildDefs: currentDef });
       this.buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(currentDef));
 
       // Get Build Reference Status
-      buildNeverQueued.value = this.getBuildStatusCount(BuildStatus.None, BuildResult.None);
-      buildCancelled.value = this.getBuildStatusCount(BuildStatus.None, BuildResult.Canceled);
-      buildInPending.value = this.getBuildStatusCount(BuildStatus.NotStarted, BuildResult.None);
-      buildInProgress.value = this.getBuildStatusCount(BuildStatus.InProgress, BuildResult.None);
-      buildSucceeded.value = this.getBuildStatusCount(BuildStatus.Completed, BuildResult.Succeeded);
-      buildInWarning.value = this.getBuildStatusCount(BuildStatus.Completed, BuildResult.PartiallySucceeded);
-      buildInError.value = this.getBuildStatusCount(BuildStatus.Completed, BuildResult.Failed);
+      buildNeverQueued.value = this.getCompletedBuildStatusCount(BuildStatus.None, BuildResult.None);
+      buildCancelled.value = this.getCompletedBuildStatusCount(BuildStatus.None, BuildResult.Canceled);
+      buildSucceeded.value = this.getCompletedBuildStatusCount(BuildStatus.Completed, BuildResult.Succeeded);
+      buildInWarning.value = this.getCompletedBuildStatusCount(BuildStatus.Completed, BuildResult.PartiallySucceeded);
+      buildInError.value = this.getCompletedBuildStatusCount(BuildStatus.Completed, BuildResult.Failed);
 
       this.filterData();
     }).then(()=> {
@@ -256,49 +253,42 @@ class CICDDashboard extends React.Component<{}, {}> {
     }
 
     getBuildsV1(this.currentSelectedProjects, this.buildTimeRangeHasChanged, this.lastBuildsDisplay).then(result => {
-      let newResult = new Array<Build>();
       let currentResult = this.state.builds;
 
-      if(this.buildTimeRangeHasChanged) {
-        currentResult = result;
-      } else {
-        for(let i=0;i<result.length;i++) {
-          let newElement = result[i];
-          let existingElement = currentResult.find(x=> x.id === newElement.id);
+      for(let i=0;i<result.length;i++) {
+        let newElement = result[i];
+        let existingElement = currentResult.find(x=> x.id === newElement.id);
+        if(existingElement !== undefined) {
+          let buildIndex = currentResult.indexOf(existingElement, 0);
+          if(buildIndex > -1) {
+            currentResult[buildIndex] = newElement;
+            let buildDefs = this.state.buildDefs;
+            let buildDef = buildDefs.find(x=> x.id === newElement.definition.id);
+            if(buildDef !== undefined && buildDef.latestBuild.id <= newElement.id) {
+              let buildDefIndex = buildDefs.indexOf(buildDef, 0);
           
-          if(existingElement !== undefined) {
-            let buildIndex = currentResult.indexOf(existingElement, 0);
-            
-            if(buildIndex > -1) {
-              currentResult[buildIndex] = newElement;
-              let buildDefs = this.state.buildDefs;
-              let buildDef = buildDefs.find(x=> x.id === newElement.definition.id);
-
-              if(buildDef !== undefined && buildDef.latestBuild.id <= newElement.id) {
-                let buildDefIndex = buildDefs.indexOf(buildDef, 0);
-            
-                if(buildDefIndex > -1) {
-                  buildDefs[buildDefIndex].latestBuild = newElement;
-                  this.setState({ buildDefs: buildDefs });
-                }
+              if(buildDefIndex > -1) {
+                buildDefs[buildDefIndex].latestBuild = newElement;
+                let newbuildDef = sortBuildReferences(this.state.buildDefs, this.showErrorsOnSummaryOnTop);
+                this.setState({ buildDefs: newbuildDef });
+                this.filterData();
               }
             }
-          } else {
-            currentResult.push(newElement);
           }
+        } else {
+          currentResult.push(newElement);
         }
       }
 
-      newResult = currentResult;
-      newResult = sortBuilds(newResult);
-
-      this.setState({ builds: newResult });
-      this.refreshUI.value = new Date().toTimeString();
-      this.buildTimeRangeHasChanged = false;
+      currentResult = sortBuilds(currentResult);
 
       // Get Build Reference Status
-      buildInPending.value = this.getBuildStatusCount(BuildStatus.NotStarted, BuildResult.None);
-      buildInProgress.value = this.getBuildStatusCount(BuildStatus.InProgress, BuildResult.None);
+      buildInPending.value = this.getActiveBuildStatusCount(BuildStatus.NotStarted, currentResult);
+      buildInProgress.value = this.getActiveBuildStatusCount(BuildStatus.InProgress, currentResult);
+
+      this.setState({ builds: currentResult });
+      this.refreshUI.value = new Date().toTimeString();
+      this.buildTimeRangeHasChanged = false;
 
       this.filterBuildsData();
     });
@@ -345,6 +335,10 @@ class CICDDashboard extends React.Component<{}, {}> {
     this.buildTimeRangeHasChanged = true;
     filterState.pipelineKeyWord = null;
     this.filter.setState(filterState);
+
+    this.setState({ builds: new Array<Build>() });
+    this.buildProvider.value = new ArrayItemProvider(this.state.builds);
+    
     this.updateFromProject(true);
   }
 
@@ -470,6 +464,21 @@ class CICDDashboard extends React.Component<{}, {}> {
           />
         </div>
       );
+    } else if(tabId === "builds" && this.buildProvider.value.length === 0) {
+      return (
+        <div className="flex-center">
+          <ZeroData
+            primaryText="No builds has been runs from a while for the selected Team Projects"
+            secondaryText={
+              <span>
+                If it's not an holiday, are you sure that your team is working ? ;)
+              </span>
+            }
+            imageAltText="No builds has been runs from a while..."
+            imagePath="https://ms.gallerycdn.vsassets.io/extensions/ms/vss-releasemanagement-web/18.166.0.311329757/1586412473334/release-landing/zerodata-release-management-new.png"
+          />
+        </div>
+      );
     } else {
       return (<div></div>);
     }
@@ -505,7 +514,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                   role="table"/>
           )}
         </Observer>
-      )
+      );
     } else {
       return this.renderZeroData(tabId);
     }
@@ -522,7 +531,14 @@ class CICDDashboard extends React.Component<{}, {}> {
           </TabBar>);
   }
 
-  private getBuildStatusCount(statusToFind:BuildStatus, resultToFind:BuildResult) {
+  private getActiveBuildStatusCount(statusToFind:BuildStatus, builds:Array<Build>) {
+    if(statusToFind === BuildStatus.InProgress || statusToFind === BuildStatus.NotStarted) {
+      return builds.filter(x=> x.status === statusToFind).length;
+    }
+    return 0;
+  }
+
+  private getCompletedBuildStatusCount(statusToFind:BuildStatus, resultToFind:BuildResult) {
     if(statusToFind === BuildStatus.None && resultToFind === BuildResult.None){
       return this.state.buildDefs.filter(x=> x.latestCompletedBuild === undefined && x.latestBuild === undefined).length;
     }
@@ -688,6 +704,8 @@ class CICDDashboard extends React.Component<{}, {}> {
                         <Observer selectedTabId={this.selectedTabId} refreshUI={this.refreshUI}>
                             {(props: { selectedTabId: string, refreshUI: string }) => {
                               if(this.state.buildDefs === undefined || this.state.buildDefs.length === 0){
+                                return this.renderZeroData(this.selectedTabId.value);
+                              } else if(this.state.buildDefs.length > 0 && this.state.builds.length === 0 && props.selectedTabId === "builds") {
                                 return this.renderZeroData(this.selectedTabId.value);
                               } else {
                                 return (

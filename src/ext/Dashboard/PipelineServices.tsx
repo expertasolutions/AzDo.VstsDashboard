@@ -113,7 +113,6 @@ export async function getBuilds(projectName: string, isFirstLoad: boolean, timeR
   result.push(...inProgressResult);
   result.push(...cancellingResult);
   result.push(...notStartedResult);
-  result.push(...notStartedResult);
   result.push(...postponedResult);
   result.push(...noneResult);
   result.push(...completedResult);
