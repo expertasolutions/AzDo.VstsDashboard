@@ -1,35 +1,14 @@
 ## Issues fixes
 
-- ### [Issue0109](https://github.com/expertasolutions/VstsDashboard/Delivery-20April-01/issues/109)
-  - Add fullscreen capability
-  
-    ![Issue0109-01](_ReleaseNotes/Delivery200430/Issue0109/Issue0109-01.png)
+- ### [Issue0107](https://github.com/expertasolutions/VstsDashboard/issues/107)
+  - According to the use of npm [azure-devops-extension-api](https://github.com/Microsoft/azure-devops-extension-api) module, there no possibility to use back this extension with the capability to choose which 'api-version' the module make request to the Azure DevOps Rest API call. The 'api-version' is currently hard-coded in the [azure-devops-extension-api](https://github.com/Microsoft/azure-devops-extension-api) node module. To make it work with previous version, I should need to downgrade the current 'azure-devops-extension-api' package, which I don't want to do, because in the moment I want to make sure to make it works properly on the current Azure DevOps Server and Azure DevOps online service.
+  - Assign a minimal demand to api-version >= 5.1 to only support Azure DevOps Online and Azure DevOps Server higher than version 17.153.*. For more inforamtion about Azure DevOps Server version, please refer to this [version list](https://docs.microsoft.com/en-us/azure/devops/release-notes/features-timeline#server-build-numbers)
 
-    ![Issue0109-02](_ReleaseNotes/Delivery200430/Issue0109/Issue0109-02.png)
+- ### Other changes
+  - UI display fix when no data is found.
 
-- ### [Issue0113](https://github.com/expertasolutions/VstsDashboard/Delivery-20April-01/issues/113)
-  - On 'All Runs', Fix the duplication of two differents status for the same build run.
+- ### Packages Dependencies update
+  - Update [azure-devops-extension-api](https://github.com/Microsoft/azure-devops-extension-api) from 1.150.0 to 1.153.2
+  - Npm audit fix, reducing the number vulnerabilities from 39500 to 322
 
-- ### [Issue0115](https://github.com/expertasolutions/VstsDashboard/Delivery-20April-01/issues/115)
-  - Add Build Pipeline Reference Status by Pipeline
-
-    ![Issue0115-01](_ReleaseNotes/Delivery200430/Issue0115/Issue0115-01.png)
-
-- ### Un Issued changes
-
-  - ***Globally***:
-    - Move 'Duration' field on the same line of pipeline 'start time'
-    - Review columns width on 'Summary' and 'All Runs' views
-    - Move 'send a request' from the header to the same level of 'fullscreen' mode option
-    - 'Send a request' icon redirect directly to GitHub project new issue page
-
-  - On '***Summary***' view':
-    - 'Failure/Partial on top' dropdownlist has been renamed to 'Cancelled/Failed/Partial on top'
-    - Fix the problems of Pipeline wasn't properly showed on top when in 'Pending/Running' status
-
-  - On '***All Runs***' view:
-    - Add the link to the Build Definition Reference
-    - Add a 'Zero Data' message when no builds is present
-    - When a Team project is unselected, related build are removed from the view
-
-#### All these issues are part of the milestone [Delivery-200430](https://github.com/expertasolutions/VstsDashboard/milestone/2)
+#### All these issues are part of the milestone [Delivery-200507](https://github.com/expertasolutions/VstsDashboard/milestone/3)

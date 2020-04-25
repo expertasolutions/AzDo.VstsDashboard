@@ -1,7 +1,7 @@
 {
   "name": "vstsdashboard",
   "version": "1.0.0",
-  "description": "## Objectives",
+  "description": "CI/CD Dashboard for Azure DevOps Service / Server",
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -13,12 +13,12 @@
     "build": "npm run compile"
   },
   "keywords": [],
-  "author": "",
+  "author": "Solutions Experta Inc",
   "license": "ISC",
   "dependencies": {
-    "azure-devops-extension-api": "^1.150.0",
+    "azure-devops-extension-api": "1.153.2",
     "azure-devops-extension-sdk": "^2.0.11",
-    "azure-devops-ui": "^2.164.0",
+    "azure-devops-ui": "2.164.0",
     "es6-promise": "^4.2.8",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
@@ -31,7 +31,7 @@
     "copy-webpack-plugin": "^4.5.4",
     "css-loader": "~1.0.0",
     "file-loader": "~2.0.0",
-    "node-sass": "~4.12.0",
+    "node-sass": "^4.14.0",
     "rimraf": "~2.6.2",
     "sass-loader": "~7.1.0",
     "style-loader": "~0.23.1",

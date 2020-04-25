@@ -353,6 +353,7 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   public async loadProjects() {
     let result = await getProjects();
+    console.log("projects: " + JSON.stringify(result));
     this.setState( { projects: result });
   }
 
@@ -380,6 +381,7 @@ class CICDDashboard extends React.Component<{}, {}> {
 
     const projectService = await SDK.getService<IProjectPageService>(CommonServiceIds.ProjectPageService);
     let currentProject = await projectService.getProject();
+
     await this.loadProjects();
 
     this.setState({ releases: new Array<Deployment>(), builds: new Array<Build>() });
@@ -453,7 +455,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       return (
         <div className="flex-center">
           <ZeroData
-            primaryText="No Pipeline definitions exists for the selected Team Projects"
+            primaryText="No Pipeline definitions founds"
             secondaryText={
               <span>
                 You will have to create Pipeline definitions to see CI/CD builds and releases status
@@ -468,7 +470,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       return (
         <div className="flex-center">
           <ZeroData
-            primaryText="No builds has been runs from a while for the selected Team Projects"
+            primaryText="No build has been runs from a while for the selected Team Projects"
             secondaryText={
               <span>
                 If it's not an holiday, are you sure that your team is working ? ;)
@@ -706,6 +708,8 @@ class CICDDashboard extends React.Component<{}, {}> {
                               if(this.state.buildDefs === undefined || this.state.buildDefs.length === 0){
                                 return this.renderZeroData(this.selectedTabId.value);
                               } else if(this.state.buildDefs.length > 0 && this.state.builds.length === 0 && props.selectedTabId === "builds") {
+                                return this.renderZeroData(this.selectedTabId.value);
+                              } else if(this.buildReferenceProvider.value.length === 0) {
                                 return this.renderZeroData(this.selectedTabId.value);
                               } else {
                                 return (
