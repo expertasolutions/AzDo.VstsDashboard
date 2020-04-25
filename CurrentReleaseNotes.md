@@ -6,6 +6,5 @@
 
 - Dependencies Package update
   - [azure-devops-extension-api](https://github.com/Microsoft/azure-devops-extension-api) from 1.150.0 to 1.153.2
-  - [azure-devops-ui](https://www.npmjs.com/package/azure-devops-ui) from 2.164.0 to 2.164.2
 
 #### All these issues are part of the milestone [Delivery-200507](https://github.com/expertasolutions/VstsDashboard/milestone/3)
