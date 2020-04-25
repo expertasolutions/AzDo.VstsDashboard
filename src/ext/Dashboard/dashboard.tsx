@@ -455,7 +455,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       return (
         <div className="flex-center">
           <ZeroData
-            primaryText="No Pipeline definitions exists for the selected Team Projects"
+            primaryText="No Pipeline definitions founds"
             secondaryText={
               <span>
                 You will have to create Pipeline definitions to see CI/CD builds and releases status
@@ -708,6 +708,8 @@ class CICDDashboard extends React.Component<{}, {}> {
                               if(this.state.buildDefs === undefined || this.state.buildDefs.length === 0){
                                 return this.renderZeroData(this.selectedTabId.value);
                               } else if(this.state.buildDefs.length > 0 && this.state.builds.length === 0 && props.selectedTabId === "builds") {
+                                return this.renderZeroData(this.selectedTabId.value);
+                              } else if(this.buildReferenceProvider.value.length > 0) {
                                 return this.renderZeroData(this.selectedTabId.value);
                               } else {
                                 return (
