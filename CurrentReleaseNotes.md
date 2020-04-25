@@ -9,5 +9,6 @@
 
 ### Dependencies Package update
   - Update [azure-devops-extension-api](https://github.com/Microsoft/azure-devops-extension-api) from 1.150.0 to 1.153.2
+  - Npm audit fix, reducing the number vulnerabilities from 39500 to 322
 
 #### All these issues are part of the milestone [Delivery-200507](https://github.com/expertasolutions/VstsDashboard/milestone/3)
