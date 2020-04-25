@@ -29,13 +29,13 @@ steps:
   inputs:
     displayName: 'Use Node CLI for Azure DevOps (tfx-cli): v0.6.x'
 
-- task: Npm@5
+- task: Npm@1
   displayName: 'Install Dependencies'
   inputs:
     command: ci
     verbose: false
 
-- task: Npm@5
+- task: Npm@1
   displayName: 'Compile extension'
   inputs:
     command: custom
