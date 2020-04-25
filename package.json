@@ -16,7 +16,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "azure-devops-extension-api": "^1.150.0",
+    "azure-devops-extension-api": "^1.143.0",
     "azure-devops-extension-sdk": "^2.0.11",
     "azure-devops-ui": "^2.164.0",
     "es6-promise": "^4.2.8",
