@@ -7,7 +7,7 @@
 - ### Other changes
   - UI display fix when no data is found.
 
-### Dependencies Package update
+- ### Packages Dependencies update
   - Update [azure-devops-extension-api](https://github.com/Microsoft/azure-devops-extension-api) from 1.150.0 to 1.153.2
   - Npm audit fix, reducing the number vulnerabilities from 39500 to 322
 
