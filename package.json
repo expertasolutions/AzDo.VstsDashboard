@@ -13,7 +13,7 @@
     "build": "npm run compile"
   },
   "keywords": [],
-  "author": "",
+  "author": "Solutions Experta Inc",
   "license": "ISC",
   "dependencies": {
     "azure-devops-extension-api": "1.150.0",
