@@ -57,9 +57,9 @@ export function renderBuildRef01 (
     }
   }
 
-  let currentRunningBuildCtrl = <div></div>;
+  let currentRunningBuildCtrl = (<div></div>);
 
-  if(lastBuild !== undefined) {
+  if(lastBuild !== undefined && lastBuild.status !== BuildStatus.Completed) {
     currentRunningBuildCtrl = (
       <div>
         <Icon iconName="Build" /><Link href={buildUrl} target="_blank">{lastBuild.buildNumber}</Link>
