@@ -62,9 +62,9 @@ export function renderBuildRef01 (
 
     if(lastBuild !== undefined && lastBuild.status !== BuildStatus.Completed) {
       currentRunningBuildCtrl = (
-        <div>
-          <Icon iconName="Build" /><Link href={buildUrl} target="_blank">{lastBuild.buildNumber}</Link>
-          <Icon iconName="BranchMerge"/>&nbsp;<Link href={branchUrl} target="_blank">{branchName}</Link>
+        <div className="font-size-s" style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
+          <Icon iconName="Build" /><Link href={buildUrl} target="_blank">{lastBuild.buildNumber}</Link>&nbsp;
+          <Icon iconName="BranchMerge"/>&nbsp;<Link href={branchUrl} target="_blank">{branchName}</Link>&nbsp;
           <Icon iconName="BranchCommit" /><Link href={commitUrl} target="blank">{lastBuild.sourceVersion.substr(0, 7)}</Link>
         </div>
       );
