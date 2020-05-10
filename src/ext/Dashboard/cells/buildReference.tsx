@@ -144,7 +144,6 @@ export function renderLastBuild01 (
 }
 
 function renderPendingBuild(buildRef:BuildDefinitionReference, buildList: Build[]) {
-
   let currentQueued = buildList.filter(x=> x.definition.id === buildRef.id && (x.status !== BuildStatus.Completed ));
   let currentRunningBuildCtrl = [];
 
