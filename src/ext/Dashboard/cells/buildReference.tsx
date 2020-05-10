@@ -173,7 +173,7 @@ function renderPendingBuild(lastBuild: Build) {
           <div style={{ textIndent: "15px"}}>
             <Status {...getBuildDefinitionStatusNew(lastBuild).statusProps} className="icon-small-margin" size={StatusSize.s}/>
             <div>
-              <Link href={buildUrl} target="_blank">{lastBuild.buildNumber}</Link>
+              <Link href={buildUrl} target="_blank">{lastBuild.buildNumber}</Link>&nbsp;
             </div>
             <div>
               <Icon iconName="BranchMerge"/>&nbsp;<Link href={branchUrl} target="_blank">{branchName}</Link>&nbsp;
