@@ -5,7 +5,7 @@
   - Assign a minimal demand to api-version >= 5.1 to only support Azure DevOps Online and Azure DevOps Server higher than version 17.153.*. For more inforamtion about Azure DevOps Server version, please refer to this [version list](https://docs.microsoft.com/en-us/azure/devops/release-notes/features-timeline#server-build-numbers)
 
 - ### [Issue0117](https://github.com/expertasolutions/VstsDashboard/issues/117)
-  - more to come
+  - Column 'Last Run' has been renamed to "Last completed'
 
 - ### [Issue0126](https://github.com/expertasolutions/VstsDashboard/issues/126)
   - Convert Classic Release Pipeline to CI/CD Yaml Pipeline
