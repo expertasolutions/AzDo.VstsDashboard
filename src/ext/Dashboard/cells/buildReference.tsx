@@ -82,7 +82,7 @@ export function renderBuildRef01 (
               columnIndex={columnIndex}
               tableColumn={tableColumn}
               key={"col-" + columnIndex}
-              contentClassName="fontSizeM font-size-m scroll-hidden bolt-table-cell-primary">
+              contentClassName="fontSizeM font-size-m scroll-hidden">
               <Status {...getBuildDefinitionStatusNew(lastBuild).statusProps}
                       className="icon-large-margin"
                       size={StatusSize.l}/>
