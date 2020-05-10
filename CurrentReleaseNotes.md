@@ -7,6 +7,9 @@
 - ### [Issue0117](https://github.com/expertasolutions/VstsDashboard/issues/117)
   - more to come
 
+- ### [Issue0126](https://github.com/expertasolutions/VstsDashboard/issues/126)
+  - Convert Classic Release Pipeline to CI/CD Yaml Pipeline
+
 - ### Other changes
   - UI display fix when no data is found.
 
