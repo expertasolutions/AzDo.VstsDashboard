@@ -177,7 +177,7 @@ function renderPendingBuild(buildRef:BuildDefinitionReference, buildList: Build[
         currentRunningBuildCtrl.push(
           <div className="font-size-s" style={{whiteSpace: "nowrap", marginBottom: "10px", overflow: "hidden", textOverflow: "ellipsis"}}>
             <div className="fontWeightSemiBold font-weight-semibold" style={{ marginBottom: "5px"}}>Current runs</div>
-            <div style={{ textIndent: "15px"}}>
+            <div>
               <div>
                 <Status {...getBuildDefinitionStatusNew(lastBuild).statusProps} className="icon-small-margin" size={StatusSize.s}/>&nbsp;
                 <Link href={buildUrl} target="_blank">{lastBuild.buildNumber}</Link>&nbsp;
