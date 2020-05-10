@@ -128,16 +128,20 @@ export function renderLastBuild01 (
     }
   }
   return (
-    <div>
-      <TwoLineTableCell
-        key={"col-" + columnIndex}
-        columnIndex={columnIndex}
-        tableColumn={tableColumn}
-        line1={contentRow1}
-        line2={contentRow2}
-      />
-      {currentRunningBuild}
-    </div>
+    <DataContext.Consumer>
+      {(context) => (
+        <div>
+          <TwoLineTableCell
+            key={"col-" + columnIndex}
+            columnIndex={columnIndex}
+            tableColumn={tableColumn}
+            line1={contentRow1}
+            line2={contentRow2}
+          />
+          {currentRunningBuild}
+        </div>
+      )}
+    </DataContext.Consumer>
   )
 }
 
@@ -165,7 +169,7 @@ function renderPendingBuild(lastBuild: Build) {
         commitUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl/changeset/" + lastBuild.sourceVersion;
       }
     }
-    
+
 
     if(lastBuild !== undefined && lastBuild.status !== BuildStatus.Completed) {
       currentRunningBuildCtrl = (
