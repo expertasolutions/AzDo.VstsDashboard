@@ -86,7 +86,6 @@ export function renderLastBuild01 (
 
   let currentRunningBuild = renderPendingBuild(tableItem.latestBuild);
 
-
   if(lastBuild != undefined) {
     let branchName = lastBuild.sourceBranch.replace('refs/heads/','');
     let branchUrl = lastBuild.repository.url;
@@ -139,7 +138,6 @@ export function renderLastBuild01 (
         line2={contentRow2}
       />
     </div>
-    
   )
 }
 
@@ -191,7 +189,7 @@ export function renderLastBuild02(
   tableColumn: ITableColumn<BuildDefinitionReference>,
   tableItem: BuildDefinitionReference
 ): JSX.Element {
-  let lastBuildRun = tableItem.latestBuild;
+  let lastBuildRun = tableItem.latestCompletedBuild;
 
   let requestByCtrl = (<div></div>);
   let buildTimeCtrl = (<div></div>);
