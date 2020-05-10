@@ -62,7 +62,7 @@ export function renderBuildRef01 (
 
     if(lastBuild !== undefined && lastBuild.status !== BuildStatus.Completed) {
       currentRunningBuildCtrl = (
-        <div className="font-size-s" style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
+        <div className="font-size-s table-cell-primary" style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
           <div>
             <Icon iconName="Build" />&nbsp;<Link href={buildUrl} target="_blank">{lastBuild.buildNumber}</Link>
           </div>
