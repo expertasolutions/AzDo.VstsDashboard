@@ -73,6 +73,7 @@ export function renderBuildInfo01Cell(
   let lastBuild = tableItem;
   let contentRow1 = (<div>Not found</div>);
   let contentRow2 = (<div></div>);
+  
 
   if(lastBuild !== undefined) {
     let branchName = lastBuild.sourceBranch.replace('refs/heads/','');
