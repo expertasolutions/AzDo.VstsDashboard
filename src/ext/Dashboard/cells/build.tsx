@@ -74,7 +74,7 @@ export function renderBuildInfo01Cell(
   let contentRow1 = (<div>Not found</div>);
   let contentRow2 = (<div></div>);
 
-  if(lastBuild != undefined) {
+  if(lastBuild !== undefined) {
     let branchName = lastBuild.sourceBranch.replace('refs/heads/','');
     let branchUrl = lastBuild.repository.url;
     let commitUrl = lastBuild.repository.url;
