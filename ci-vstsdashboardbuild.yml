@@ -9,6 +9,10 @@ pr:
 - master
 - Delivery*
 
+variables:
+  - group: CorpVault
+  - group: CommunityVariables
+
 stages:
 - stage: Build
   jobs:
