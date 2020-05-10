@@ -111,7 +111,7 @@ export function renderLastBuild01 (
     contentRow1 = (<div className="font-size-s" style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
                     <Status {...getBuildDefinitionStatusNew(lastBuild).statusProps}
                       className="icon-large-margin"
-                      size={StatusSize.s}/>&nbsp;<Link href={buildUrl} target="_blank">{lastBuild.buildNumber}</Link>
+                      size={StatusSize.s}/><Link href={buildUrl} target="_blank">{lastBuild.buildNumber}</Link>
                   </div>);
 
     if(lastBuild.sourceVersion !== undefined) {
