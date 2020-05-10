@@ -108,19 +108,19 @@ export function renderLastBuild01 (
       }
     }
 
-    contentRow1 = (<div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
+    contentRow1 = (<div className="font-size-s" style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
                     <Status {...getBuildDefinitionStatusNew(lastBuild).statusProps}
                       className="icon-large-margin"
                       size={StatusSize.s}/>&nbsp;<Link href={buildUrl} target="_blank">{lastBuild.buildNumber}</Link>
                   </div>);
 
     if(lastBuild.sourceVersion !== undefined) {
-      contentRow2 = (<div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
+      contentRow2 = (<div className="font-size-s" style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
                       <Icon iconName="BranchMerge"/>&nbsp;<Link href={branchUrl} target="_blank">{branchName}</Link>
                       <Icon iconName="BranchCommit" /><Link href={commitUrl} target="blank">{lastBuild.sourceVersion.substr(0, 7)}</Link>
                     </div>);
     } else {
-      contentRow2 = (<div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
+      contentRow2 = (<div className="font-size-s" style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
                         <Icon iconName="BranchMerge"/>&nbsp;<Link href={branchUrl} target="_blank">{branchName}</Link>
                         <Icon iconName="BranchCommit" />Not found
                       </div>);
