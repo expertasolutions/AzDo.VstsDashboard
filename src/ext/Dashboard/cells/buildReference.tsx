@@ -92,10 +92,10 @@ export function renderBuildRef01 (
                     {tableItem.name}
                   </Link>
                 </div>
-                {currentRunningBuildCtrl}                
                 <div className="font-size-s" style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
                   <span className="fontWeightSemiBold font-weight-semibold">{projectName}</span>{getPendingBuild(tableItem, context.state.builds)}
                 </div>
+                {currentRunningBuildCtrl}
               </div>
           </SimpleTableCell>
         )}
