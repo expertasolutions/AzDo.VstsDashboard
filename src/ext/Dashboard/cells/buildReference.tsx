@@ -94,11 +94,10 @@ export function renderLastBuild01 (
       branchUrl = lastBuild.repository.url + "?version=GB" + branchName + "&_a=contents";
       commitUrl = lastBuild.repository.url + "/commit/" + lastBuild.sourceVersion;
     }
-    else if(lastBuild.repository.type === "GitHub"){
+    else if(lastBuild.repository.type === "GitHub") {
       branchUrl = "https://github.com/" + lastBuild.repository.id + "/tree/" + branchName;
       commitUrl = lastBuild._links.sourceVersionDisplayUri.href;
     } else if(lastBuild.repository.type === "TfsVersionControl") {
-
       if(lastBuild.sourceBranch.indexOf("$/") == 0) {
         branchUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl?path=" + lastBuild.sourceBranch;
         commitUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl/changeset/" + lastBuild.sourceVersion;
@@ -110,7 +109,7 @@ export function renderLastBuild01 (
 
     contentRow1 = (<div className="font-size-s" style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
                     <Status {...getBuildDefinitionStatusNew(lastBuild).statusProps}
-                      className="icon-large-margin"
+                      className="icon-small-margin"
                       size={StatusSize.s}/><Link href={buildUrl} target="_blank">{lastBuild.buildNumber}</Link>
                   </div>);
 
