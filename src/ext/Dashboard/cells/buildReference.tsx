@@ -171,8 +171,8 @@ function renderPendingBuild(lastBuild: Build) {
         <div className="font-size-s" style={{whiteSpace: "nowrap", marginBottom: "10px", overflow: "hidden", textOverflow: "ellipsis"}}>
           <div className="fontWeightSemiBold font-weight-semibold">Current runs</div>
           <div style={{ textIndent: "15px"}}>
-            <Status {...getBuildDefinitionStatusNew(lastBuild).statusProps} className="icon-small-margin" size={StatusSize.s}/>
             <div>
+              <Status {...getBuildDefinitionStatusNew(lastBuild).statusProps} className="icon-small-margin" size={StatusSize.s}/>&nbsp;
               <Link href={buildUrl} target="_blank">{lastBuild.buildNumber}</Link>&nbsp;
             </div>
             <div>
