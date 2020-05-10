@@ -6,6 +6,7 @@
 
 - ### [Issue0117](https://github.com/expertasolutions/VstsDashboard/issues/117)
   - Column 'Last Run' has been renamed to "Last completed'
+  - Add Pipeline status on "Last completed" build column
 
 - ### [Issue0126](https://github.com/expertasolutions/VstsDashboard/issues/126)
   - Convert Classic Release Pipeline to CI/CD Yaml Pipeline
