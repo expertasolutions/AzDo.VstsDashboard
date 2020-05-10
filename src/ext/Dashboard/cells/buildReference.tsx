@@ -129,7 +129,6 @@ export function renderLastBuild01 (
   }
   return (
     <div>
-      {currentRunningBuild}
       <TwoLineTableCell
         key={"col-" + columnIndex}
         columnIndex={columnIndex}
@@ -137,6 +136,7 @@ export function renderLastBuild01 (
         line1={contentRow1}
         line2={contentRow2}
       />
+      {currentRunningBuild}
     </div>
   )
 }
