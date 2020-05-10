@@ -136,57 +136,63 @@ export function renderLastBuild01 (
             line1={contentRow1}
             line2={contentRow2}
           />
-          {renderPendingBuild(tableItem.latestBuild)}
+          {renderPendingBuild(tableItem, context.state.builds)}
         </div>
       )}
     </DataContext.Consumer>
   )
 }
 
-function renderPendingBuild(lastBuild: Build) {
-  let currentRunningBuildCtrl = (<div></div>);
-  if(lastBuild !== undefined) {
-    let branchName = lastBuild.sourceBranch.replace('refs/heads/','');
-    let branchUrl = lastBuild.repository.url;
-    let commitUrl = lastBuild.repository.url;
-    let buildUrl = lastBuild._links.web.href + "&view=logs";
+function renderPendingBuild(buildRef:BuildDefinitionReference, buildList: Build[]) {
 
-    if(lastBuild.repository.type === "TfsGit"){
-      branchUrl = lastBuild.repository.url + "?version=GB" + branchName + "&_a=contents";
-      commitUrl = lastBuild.repository.url + "/commit/" + lastBuild.sourceVersion;
-    }
-    else if(lastBuild.repository.type === "GitHub") {
-      branchUrl = "https://github.com/" + lastBuild.repository.id + "/tree/" + branchName;
-      commitUrl = lastBuild._links.sourceVersionDisplayUri.href;
-    } else if(lastBuild.repository.type === "TfsVersionControl") {
-      if(lastBuild.sourceBranch.indexOf("$/") == 0) {
-        branchUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl?path=" + lastBuild.sourceBranch;
-        commitUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl/changeset/" + lastBuild.sourceVersion;
-      } else {
-        branchUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl/shelveset?ss=" + lastBuild.sourceBranch;
-        commitUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl/changeset/" + lastBuild.sourceVersion;
+  let currentQueued = buildList.filter(x=> x.definition.id === buildRef.id && (x.status !== BuildStatus.Completed ));
+  let currentRunningBuildCtrl = [];
+
+  for(let i=0;i<currentQueued.length;i++) {
+    let lastBuild = currentQueued[i];
+    if(lastBuild !== undefined) {
+      let branchName = lastBuild.sourceBranch.replace('refs/heads/','');
+      let branchUrl = lastBuild.repository.url;
+      let commitUrl = lastBuild.repository.url;
+      let buildUrl = lastBuild._links.web.href + "&view=logs";
+
+      if(lastBuild.repository.type === "TfsGit"){
+        branchUrl = lastBuild.repository.url + "?version=GB" + branchName + "&_a=contents";
+        commitUrl = lastBuild.repository.url + "/commit/" + lastBuild.sourceVersion;
       }
-    }
+      else if(lastBuild.repository.type === "GitHub") {
+        branchUrl = "https://github.com/" + lastBuild.repository.id + "/tree/" + branchName;
+        commitUrl = lastBuild._links.sourceVersionDisplayUri.href;
+      } else if(lastBuild.repository.type === "TfsVersionControl") {
+        if(lastBuild.sourceBranch.indexOf("$/") == 0) {
+          branchUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl?path=" + lastBuild.sourceBranch;
+          commitUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl/changeset/" + lastBuild.sourceVersion;
+        } else {
+          branchUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl/shelveset?ss=" + lastBuild.sourceBranch;
+          commitUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl/changeset/" + lastBuild.sourceVersion;
+        }
+      }
 
-
-    if(lastBuild !== undefined && lastBuild.status !== BuildStatus.Completed) {
-      currentRunningBuildCtrl = (
-        <div className="font-size-s" style={{whiteSpace: "nowrap", marginBottom: "10px", overflow: "hidden", textOverflow: "ellipsis"}}>
-          <div className="fontWeightSemiBold font-weight-semibold" style={{ marginBottom: "5px"}}>Current runs</div>
-          <div style={{ textIndent: "15px"}}>
-            <div>
-              <Status {...getBuildDefinitionStatusNew(lastBuild).statusProps} className="icon-small-margin" size={StatusSize.s}/>&nbsp;
-              <Link href={buildUrl} target="_blank">{lastBuild.buildNumber}</Link>&nbsp;
-            </div>
-            <div>
-              <Icon iconName="BranchMerge"/>&nbsp;<Link href={branchUrl} target="_blank">{branchName}</Link>&nbsp;
-              <Icon iconName="BranchCommit" /><Link href={commitUrl} target="blank">{lastBuild.sourceVersion.substr(0, 7)}</Link>
+      if(lastBuild !== undefined && lastBuild.status !== BuildStatus.Completed) {
+        currentRunningBuildCtrl.push(
+          <div className="font-size-s" style={{whiteSpace: "nowrap", marginBottom: "10px", overflow: "hidden", textOverflow: "ellipsis"}}>
+            <div className="fontWeightSemiBold font-weight-semibold" style={{ marginBottom: "5px"}}>Current runs</div>
+            <div style={{ textIndent: "15px"}}>
+              <div>
+                <Status {...getBuildDefinitionStatusNew(lastBuild).statusProps} className="icon-small-margin" size={StatusSize.s}/>&nbsp;
+                <Link href={buildUrl} target="_blank">{lastBuild.buildNumber}</Link>&nbsp;
+              </div>
+              <div>
+                <Icon iconName="BranchMerge"/>&nbsp;<Link href={branchUrl} target="_blank">{branchName}</Link>&nbsp;
+                <Icon iconName="BranchCommit" /><Link href={commitUrl} target="blank">{lastBuild.sourceVersion.substr(0, 7)}</Link>
+              </div>
             </div>
           </div>
-        </div>
-      );
+        );
+      }
     }
   }
+
   return currentRunningBuildCtrl;
 }
 
