@@ -168,15 +168,17 @@ function renderPendingBuild(lastBuild: Build) {
 
     if(lastBuild !== undefined && lastBuild.status !== BuildStatus.Completed) {
       currentRunningBuildCtrl = (
-        <div className="font-size-s" style={{whiteSpace: "nowrap", marginBottom: "5px", overflow: "hidden", textOverflow: "ellipsis", textIndent: "15px"}}>
+        <div className="font-size-s" style={{whiteSpace: "nowrap", marginBottom: "10px", overflow: "hidden", textOverflow: "ellipsis"}}>
           <div className="fontWeightSemiBold font-weight-semibold">Current runs</div>
-          <div>
-            <Status {...getBuildDefinitionStatusNew(lastBuild).statusProps}
-              className="icon-small-margin" size={StatusSize.s}/>&nbsp;<Link href={buildUrl} target="_blank">{lastBuild.buildNumber}</Link>
-          </div>
-          <div>
-            <Icon iconName="BranchMerge"/>&nbsp;<Link href={branchUrl} target="_blank">{branchName}</Link>&nbsp;
-            <Icon iconName="BranchCommit" /><Link href={commitUrl} target="blank">{lastBuild.sourceVersion.substr(0, 7)}</Link>
+          <div style={{ textIndent: "15px"}}>
+            <Status {...getBuildDefinitionStatusNew(lastBuild).statusProps} className="icon-small-margin" size={StatusSize.s}/>
+            <div>
+              <Link href={buildUrl} target="_blank">{lastBuild.buildNumber}</Link>
+            </div>
+            <div>
+              <Icon iconName="BranchMerge"/>&nbsp;<Link href={branchUrl} target="_blank">{branchName}</Link>&nbsp;
+              <Icon iconName="BranchCommit" /><Link href={commitUrl} target="blank">{lastBuild.sourceVersion.substr(0, 7)}</Link>
+            </div>
           </div>
         </div>
       );
