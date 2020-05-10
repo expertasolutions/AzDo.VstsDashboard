@@ -172,7 +172,7 @@ function renderPendingBuild(lastBuild: Build) {
     if(lastBuild !== undefined && lastBuild.status !== BuildStatus.Completed) {
       currentRunningBuildCtrl = (
         <div className="font-size-s" style={{whiteSpace: "nowrap", marginBottom: "10px", overflow: "hidden", textOverflow: "ellipsis"}}>
-          <div className="fontWeightSemiBold font-weight-semibold">Current runs</div>
+          <div className="fontWeightSemiBold font-weight-semibold" style={{ marginBottom: "5px"}}>Current runs</div>
           <div style={{ textIndent: "15px"}}>
             <div>
               <Status {...getBuildDefinitionStatusNew(lastBuild).statusProps} className="icon-small-margin" size={StatusSize.s}/>&nbsp;
