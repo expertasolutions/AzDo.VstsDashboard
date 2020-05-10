@@ -84,8 +84,6 @@ export function renderLastBuild01 (
   let contentRow1 = (<div>Not found</div>);
   let contentRow2 = (<div></div>);
 
-  let currentRunningBuild = renderPendingBuild(tableItem.latestBuild);
-
   if(lastBuild != undefined) {
     let branchName = lastBuild.sourceBranch.replace('refs/heads/','');
     let branchUrl = lastBuild.repository.url;
@@ -138,7 +136,7 @@ export function renderLastBuild01 (
             line1={contentRow1}
             line2={contentRow2}
           />
-          {currentRunningBuild}
+          {renderPendingBuild(tableItem.latestBuild)}
         </div>
       )}
     </DataContext.Consumer>
