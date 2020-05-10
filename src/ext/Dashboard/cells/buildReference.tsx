@@ -165,6 +165,7 @@ function renderPendingBuild(lastBuild: Build) {
         commitUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl/changeset/" + lastBuild.sourceVersion;
       }
     }
+    
 
     if(lastBuild !== undefined && lastBuild.status !== BuildStatus.Completed) {
       currentRunningBuildCtrl = (
