@@ -168,7 +168,7 @@ function renderPendingBuild(lastBuild: Build) {
 
     if(lastBuild !== undefined && lastBuild.status !== BuildStatus.Completed) {
       currentRunningBuildCtrl = (
-        <div className="font-size-s" style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", textIndent: "15px"}}>
+        <div className="font-size-s" style={{whiteSpace: "nowrap", marginBottom: "5px", overflow: "hidden", textOverflow: "ellipsis", textIndent: "15px"}}>
           <div className="fontWeightSemiBold font-weight-semibold">Current running pipeline</div>
           <div>
             <Status {...getBuildDefinitionStatusNew(lastBuild).statusProps}
