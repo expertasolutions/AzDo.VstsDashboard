@@ -33,6 +33,7 @@ export function renderBuildRef01 (
 ): JSX.Element {
   let definitionUrl = tableItem._links.web.href;
   let projectName = tableItem.project.name;
+  let latestBuild = tableItem.latestBuild;
 
   return (
       <DataContext.Consumer>
@@ -42,7 +43,7 @@ export function renderBuildRef01 (
               tableColumn={tableColumn}
               key={"col-" + columnIndex}
               contentClassName="fontSizeM font-size-m scroll-hidden bolt-table-cell-primary">
-              <Status {...getBuildDefinitionStatus(tableItem).statusProps}
+              <Status {...getBuildDefinitionStatusNew(latestBuild).statusProps}
                       className="icon-large-margin"
                       size={StatusSize.l}/>
               <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
@@ -79,7 +80,7 @@ export function renderLastBuild01 (
   tableColumn: ITableColumn<BuildDefinitionReference>,
   tableItem: BuildDefinitionReference
 ) {
-  let lastBuild = tableItem.latestBuild;
+  let lastBuild = tableItem.latestCompletedBuild;
   let contentRow1 = (<div>Not found</div>);
   let contentRow2 = (<div></div>);
 
@@ -108,6 +109,9 @@ export function renderLastBuild01 (
     }
 
     contentRow1 = (<div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
+                    <Status {...getBuildDefinitionStatusNew(lastBuild).statusProps}
+                      className="icon-large-margin"
+                      size={StatusSize.l}/>
                     <Icon iconName="Build"/>&nbsp;<Link href={buildUrl} target="_blank">{lastBuild.buildNumber}</Link>
                   </div>);
 
@@ -231,6 +235,19 @@ function getBuildDefinitionStatus(buildDefItem: BuildDefinitionReference) : ISta
   let lastBuild = buildDefItem.latestBuild;
   if(lastBuild != undefined) {
     return getPipelineIndicator(lastBuild.result, lastBuild.status);
+  } 
+  return indicatorData;
+}
+
+function getBuildDefinitionStatusNew(buildElement: Build) : IStatusIndicatorData {
+  const indicatorData: IStatusIndicatorData = {
+    label: "NA",
+    statusProps: { ...Statuses.Queued, ariaLabel: "None" },
+    color: lightGray
+  };
+  
+  if(buildElement != undefined) {
+    return getPipelineIndicator(buildElement.result, buildElement.status);
   } 
   return indicatorData;
 }
