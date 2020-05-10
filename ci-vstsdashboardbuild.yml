@@ -66,3 +66,78 @@ stages:
 
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Artifact: drop'
+
+- stage: ExpertaPrivatePreview
+  dependsOn: Build
+  jobs:
+  - deployment: DeployExtension
+    pool:
+      vmImage: macOS-latest
+      demands: npm
+    environment: ExpertaPrivatePreview
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: _pipelineTemplates/extension-deploy.yml
+            parameters:
+              publisherId: ExpertaPreview
+              extensionId: pvprCICDDashboard
+              extensionName: 'Private Preview - CI/CD Dashboard'
+              updateTasksId: true
+              extensionVisibility: privatepreview
+              shareWith: experta
+              releaseNoteAction: create
+              releaseNoteVersion: '$(build.fullVersion)'
+              releasenoteDisplayName: 'Create Draft Release Note'
+              releaseNoteIsDraft: true
+
+- stage: ExpertaPrivate
+  dependsOn: ExpertaPrivatePreview
+  condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
+  jobs:
+  - deployment: DeployExtension
+    pool:
+      vmImage: macOS-latest
+      demands: npm
+    environment: ExpertaPrivate
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: _pipelineTemplates/extension-deploy.yml
+            parameters:
+              publisherId: ExpertaPreview
+              extensionId: prCICDDashboard
+              extensionName: 'Private - CI/CD Dashboard'
+              updateTasksId: true
+              extensionVisibility: private
+              shareWith: experta
+              releaseNoteAction: edit
+              releaseNoteVersion: '$(build.fullVersion)'
+              releasenoteDisplayName: 'Update Draft to Pre-Release notes'
+              releaseNoteIsPreRelease: true
+
+- stage: ExpertaPublicMarketplace
+  dependsOn: ExpertaPrivate
+  condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
+  jobs:
+  - deployment: DeployExtension
+    pool:
+      vmImage: macOS-latest
+      demands: npm
+    environment: ExpertaPublicMarketplace
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: _pipelineTemplates/extension-deploy.yml
+            parameters:
+              publisherId: experta
+              extensionId: azurednszonemanager
+              extensionName: 'CI/CD Dashboard'
+              extensionVisibility: public
+              shareWith: experta
+              releaseNoteAction: edit
+              releaseNoteVersion: '$(build.fullVersion)'
+              releasenoteDisplayName: 'Update Pre-Release to Release notes'
