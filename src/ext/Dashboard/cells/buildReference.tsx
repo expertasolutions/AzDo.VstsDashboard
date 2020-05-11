@@ -173,7 +173,7 @@ function renderPendingBuild(buildRef:BuildDefinitionReference, buildList: Build[
 
       if(lastBuild !== undefined && lastBuild.status !== BuildStatus.Completed) {
         currentRunningBuildCtrl.push(
-            <div>
+            <div style={{ marginBottom: "5px"}}>
               <div>
                 <Status {...getBuildDefinitionStatusNew(lastBuild).statusProps} className="icon-small-margin" size={StatusSize.s}/>&nbsp;
                 <Link href={buildUrl} target="_blank">{lastBuild.buildNumber}</Link>&nbsp;
