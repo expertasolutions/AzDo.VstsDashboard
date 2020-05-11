@@ -173,7 +173,7 @@ function renderPendingBuild(buildRef:BuildDefinitionReference, buildList: Build[
         }
       }
 
-      let clockCtrl = (<Icon iconName="Clock"/>);
+      let clockCtrl = (<span><Icon iconName="Clock"/>Waiting...</span>);
       //let clockCtrl = (<Duration startDate={lastBuildRun.startTime} endDate={lastBuildRun.finishTime} />);
 
       if(lastBuild !== undefined && lastBuild.status !== BuildStatus.Completed) {
