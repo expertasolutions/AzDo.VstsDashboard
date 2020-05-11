@@ -148,7 +148,7 @@ function renderPendingBuild(buildRef:BuildDefinitionReference, buildList: Build[
   let currentRunningBuildCtrl = [];
   for(let i=0;i<currentQueued.length;i++) {
     let lastBuild = currentQueued[i];
-    
+
     if(lastBuild !== undefined) {
       let branchName = lastBuild.sourceBranch.replace('refs/heads/','');
       let branchUrl = lastBuild.repository.url;
@@ -175,11 +175,11 @@ function renderPendingBuild(buildRef:BuildDefinitionReference, buildList: Build[
       if(lastBuild !== undefined && lastBuild.status !== BuildStatus.Completed) {
         currentRunningBuildCtrl.push(
             <div style={{ marginBottom: "5px"}}>
-              <div>
+              <div style={{marginLeft: "10px"}}>
                 <Status {...getBuildDefinitionStatusNew(lastBuild).statusProps} className="icon-small-margin" size={StatusSize.s}/>&nbsp;
                 <Link href={buildUrl} target="_blank">{lastBuild.buildNumber}</Link>&nbsp;
               </div>
-              <div>
+              <div style={{marginLeft: "10px"}}>
                 <Icon iconName="BranchMerge"/>&nbsp;<Link href={branchUrl} target="_blank">{branchName}</Link>&nbsp;
                 <Icon iconName="BranchCommit" /><Link href={commitUrl} target="blank">{lastBuild.sourceVersion.substr(0, 7)}</Link>
               </div>
