@@ -71,6 +71,35 @@ export async function getBuildsV1(projectList: Array<string>, isFirstLoad: boole
   return builds;
 }
 
+export function getMinTimeFromNow(timeRangeLoad: string) {
+  const MS_IN_MIN = 60000;
+  let minDate = undefined;
+  let now = new Date();
+  switch(timeRangeLoad) {
+    case "lastHour":
+      minDate = new Date(now.valueOf() - 60 * MS_IN_MIN);
+      break;
+    case "last4Hours":
+      minDate = new Date(now.valueOf() - 4 * 60 * MS_IN_MIN);
+      break;
+    case "last8Hours":
+      minDate = new Date(now.valueOf() - 8 * 60 * MS_IN_MIN);
+      break;
+    case "today":
+      minDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      break;
+    case "yesterday":
+      now.setDate(now.getDate()-1);
+      minDate = now;
+      break;
+    case "lastweek":
+      now.setDate(now.getDate()-7);
+      minDate = now;
+      break;
+  }
+  return minDate;
+}
+
 export async function getBuilds(projectName: string, isFirstLoad: boolean, timeRangeLoad: string)  {
   const MS_IN_MIN = 60000;
   let minDate = undefined;
@@ -78,28 +107,7 @@ export async function getBuilds(projectName: string, isFirstLoad: boolean, timeR
   if(!isFirstLoad) {
     minDate = new Date(now.valueOf() - 5 * MS_IN_MIN);
   } else {
-    switch(timeRangeLoad) {
-      case "lastHour":
-        minDate = new Date(now.valueOf() - 60 * MS_IN_MIN);
-        break;
-      case "last4Hours":
-        minDate = new Date(now.valueOf() - 4 * 60 * MS_IN_MIN);
-        break;
-      case "last8Hours":
-        minDate = new Date(now.valueOf() - 8 * 60 * MS_IN_MIN);
-        break;
-      case "today":
-        minDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-        break;
-      case "yesterday":
-        now.setDate(now.getDate()-1);
-        minDate = now;
-        break;
-      case "lastweek":
-        now.setDate(now.getDate()-7);
-        minDate = now;
-        break;
-    }
+    minDate = getMinTimeFromNow(timeRangeLoad);
   }
 
   let inProgressResult = await buildClient.getBuilds(projectName, undefined, undefined, undefined, undefined, undefined, undefined, undefined, BuildStatus.InProgress);
