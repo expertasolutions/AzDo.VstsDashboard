@@ -178,7 +178,7 @@ function renderPendingBuild(buildRef:BuildDefinitionReference, buildList: Build[
         clockCtrl = (<span><Icon iconName="Clock"/>&nbsp;<Duration startDate={lastBuild.startTime} endDate={lastBuild.finishTime} /></span>);
       }
       if(lastBuild !== undefined && lastBuild.status !== BuildStatus.Completed) {
-        let requestByCtrl = (<div className="font-size-s"><Icon iconName="People"/>&nbsp;{lastBuild.requestedFor!.displayName}</div>);
+        let requestByCtrl = (<span className="font-size-s"><Icon iconName="People"/>&nbsp;{lastBuild.requestedFor!.displayName}</span>);
         currentRunningBuildCtrl.push(
             <div style={{ marginBottom: "5px"}}>
               <div style={{marginLeft: "10px"}}>
