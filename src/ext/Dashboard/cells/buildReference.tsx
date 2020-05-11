@@ -178,6 +178,7 @@ function renderPendingBuild(buildRef:BuildDefinitionReference, buildList: Build[
         clockCtrl = (<span><Icon iconName="Clock"/>&nbsp;<Duration startDate={lastBuild.startTime} endDate={lastBuild.finishTime} /></span>);
       }
       if(lastBuild !== undefined && lastBuild.status !== BuildStatus.Completed) {
+        let requestByCtrl = (<div className="font-size-s"><Icon iconName="People"/>&nbsp;{lastBuild.requestedFor!.displayName}</div>);
         currentRunningBuildCtrl.push(
             <div style={{ marginBottom: "5px"}}>
               <div style={{marginLeft: "10px"}}>
@@ -187,7 +188,7 @@ function renderPendingBuild(buildRef:BuildDefinitionReference, buildList: Build[
               <div style={{marginLeft: "10px"}}>
                 <Icon iconName="BranchMerge"/>&nbsp;<Link href={branchUrl} target="_blank">{branchName}</Link>&nbsp;
                 <Icon iconName="BranchCommit" /><Link href={commitUrl} target="blank">{lastBuild.sourceVersion.substr(0, 7)}</Link>&nbsp;
-                {clockCtrl}
+                {clockCtrl}&nbsp;{requestByCtrl}
               </div>
             </div>
         );
