@@ -190,7 +190,7 @@ function renderPendingBuild(buildRef:BuildDefinitionReference, buildList: Build[
 
   if(currentRunningBuildCtrl.length > 0) {
     return (
-      <div className="font-size-s" style={{whiteSpace: "nowrap", marginBottom: "10px", overflow: "hidden", textOverflow: "ellipsis"}}>
+      <div className="font-size-s" style={{whiteSpace: "nowrap",marginTop: "10px", marginBottom: "10px", overflow: "hidden", textOverflow: "ellipsis"}}>
         <div className="fontWeightSemiBold font-weight-semibold" style={{ marginBottom: "5px"}}>Current runs</div>
         {currentRunningBuildCtrl}
       </div>
