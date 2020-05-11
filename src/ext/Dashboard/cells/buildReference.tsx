@@ -6,7 +6,8 @@ import {
   IStatusIndicatorData,
   getPipelineIndicator,
   getReleaseTagFromBuild,
-  lightGray
+  lightGray,
+  waitingForApproval
 } from "./common";
 
 import {
@@ -33,6 +34,7 @@ export function renderBuildRef01 (
 ): JSX.Element {
   let definitionUrl = tableItem._links.web.href;
   let projectName = tableItem.project.name;
+  let lastBuild = tableItem.latestBuild;
 
   return (
       <DataContext.Consumer>
@@ -41,8 +43,8 @@ export function renderBuildRef01 (
               columnIndex={columnIndex}
               tableColumn={tableColumn}
               key={"col-" + columnIndex}
-              contentClassName="fontSizeM font-size-m scroll-hidden bolt-table-cell-primary">
-              <Status {...getBuildDefinitionStatus(tableItem).statusProps}
+              contentClassName="fontSizeM font-size-m scroll-hidden">
+              <Status {...getBuildDefinitionStatusNew(lastBuild).statusProps}
                       className="icon-large-margin"
                       size={StatusSize.l}/>
               <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
@@ -79,7 +81,7 @@ export function renderLastBuild01 (
   tableColumn: ITableColumn<BuildDefinitionReference>,
   tableItem: BuildDefinitionReference
 ) {
-  let lastBuild = tableItem.latestBuild;
+  let lastBuild = tableItem.latestCompletedBuild;
   let contentRow1 = (<div>Not found</div>);
   let contentRow2 = (<div></div>);
 
@@ -93,11 +95,10 @@ export function renderLastBuild01 (
       branchUrl = lastBuild.repository.url + "?version=GB" + branchName + "&_a=contents";
       commitUrl = lastBuild.repository.url + "/commit/" + lastBuild.sourceVersion;
     }
-    else if(lastBuild.repository.type === "GitHub"){
+    else if(lastBuild.repository.type === "GitHub") {
       branchUrl = "https://github.com/" + lastBuild.repository.id + "/tree/" + branchName;
       commitUrl = lastBuild._links.sourceVersionDisplayUri.href;
     } else if(lastBuild.repository.type === "TfsVersionControl") {
-
       if(lastBuild.sourceBranch.indexOf("$/") == 0) {
         branchUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl?path=" + lastBuild.sourceBranch;
         commitUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl/changeset/" + lastBuild.sourceVersion;
@@ -107,31 +108,103 @@ export function renderLastBuild01 (
       }
     }
 
-    contentRow1 = (<div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
-                    <Icon iconName="Build"/>&nbsp;<Link href={buildUrl} target="_blank">{lastBuild.buildNumber}</Link>
+    contentRow1 = (<div className="font-size-m" style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
+                    <Status {...getBuildDefinitionStatusNew(lastBuild).statusProps}
+                      className="icon-small-margin"
+                      size={StatusSize.s}/>&nbsp;<Link href={buildUrl} target="_blank">{lastBuild.buildNumber}</Link>
                   </div>);
 
     if(lastBuild.sourceVersion !== undefined) {
-      contentRow2 = (<div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
+      contentRow2 = (<div className="font-size-m" style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
                       <Icon iconName="BranchMerge"/>&nbsp;<Link href={branchUrl} target="_blank">{branchName}</Link>
                       <Icon iconName="BranchCommit" /><Link href={commitUrl} target="blank">{lastBuild.sourceVersion.substr(0, 7)}</Link>
                     </div>);
     } else {
-      contentRow2 = (<div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
+      contentRow2 = (<div className="font-size-m" style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
                         <Icon iconName="BranchMerge"/>&nbsp;<Link href={branchUrl} target="_blank">{branchName}</Link>
                         <Icon iconName="BranchCommit" />Not found
                       </div>);
     }
   }
+
+  let firstRow = (<div>{contentRow1}{contentRow2}</div>);
+
   return (
-    <TwoLineTableCell
-      key={"col-" + columnIndex}
-      columnIndex={columnIndex}
-      tableColumn={tableColumn}
-      line1={contentRow1}
-      line2={contentRow2}
-    />
+    <DataContext.Consumer>
+      {(context) => (
+          <TwoLineTableCell
+            key={"col-" + columnIndex}
+            columnIndex={columnIndex}
+            tableColumn={tableColumn}
+            line1={firstRow}
+            line2={renderPendingBuild(tableItem, context.state.builds)}
+          />
+      )}
+    </DataContext.Consumer>
   )
+}
+
+function renderPendingBuild(buildRef:BuildDefinitionReference, buildList: Build[]) {
+  let currentQueued = buildList.filter(x=> x.definition.id === buildRef.id && (x.status !== BuildStatus.Completed )).sort((a,b) => a.id-b.id);
+  let currentRunningBuildCtrl = [];
+  for(let i=0;i<currentQueued.length;i++) {
+    let lastBuild = currentQueued[i];
+
+    if(lastBuild !== undefined) {
+      let branchName = lastBuild.sourceBranch.replace('refs/heads/','');
+      let branchUrl = lastBuild.repository.url;
+      let commitUrl = lastBuild.repository.url;
+      let buildUrl = lastBuild._links.web.href + "&view=logs";
+
+      if(lastBuild.repository.type === "TfsGit"){
+        branchUrl = lastBuild.repository.url + "?version=GB" + branchName + "&_a=contents";
+        commitUrl = lastBuild.repository.url + "/commit/" + lastBuild.sourceVersion;
+      }
+      else if(lastBuild.repository.type === "GitHub") {
+        branchUrl = "https://github.com/" + lastBuild.repository.id + "/tree/" + branchName;
+        commitUrl = lastBuild._links.sourceVersionDisplayUri.href;
+      } else if(lastBuild.repository.type === "TfsVersionControl") {
+        if(lastBuild.sourceBranch.indexOf("$/") == 0) {
+          branchUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl?path=" + lastBuild.sourceBranch;
+          commitUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl/changeset/" + lastBuild.sourceVersion;
+        } else {
+          branchUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl/shelveset?ss=" + lastBuild.sourceBranch;
+          commitUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl/changeset/" + lastBuild.sourceVersion;
+        }
+      }
+
+      let clockCtrl = (<span><Icon iconName="Clock"/>&nbsp;Waiting...</span>);
+      if(lastBuild.startTime !== undefined) {
+        clockCtrl = (<span><Icon iconName="Clock"/>&nbsp;<Duration startDate={lastBuild.startTime} endDate={lastBuild.finishTime} /></span>);
+      }
+      if(lastBuild !== undefined && lastBuild.status !== BuildStatus.Completed) {
+        let requestByCtrl = (<span className="font-size-s"><Icon iconName="People"/>&nbsp;{lastBuild.requestedFor!.displayName}</span>);
+        currentRunningBuildCtrl.push(
+            <div style={{ marginBottom: "5px"}}>
+              <div style={{marginLeft: "10px"}}>
+                <Status {...getBuildDefinitionStatusNew(lastBuild).statusProps} className="icon-small-margin" size={StatusSize.s}/>&nbsp;
+                <Link href={buildUrl} target="_blank">{lastBuild.buildNumber}</Link>&nbsp;
+              </div>
+              <div style={{marginLeft: "10px"}}>
+                <Icon iconName="BranchMerge"/>&nbsp;<Link href={branchUrl} target="_blank">{branchName}</Link>&nbsp;
+                <Icon iconName="BranchCommit" /><Link href={commitUrl} target="blank">{lastBuild.sourceVersion.substr(0, 7)}</Link>&nbsp;
+                {requestByCtrl}&nbsp;{clockCtrl}
+              </div>
+            </div>
+        );
+      }
+    }
+  }
+
+  if(currentRunningBuildCtrl.length > 0) {
+    return (
+      <div className="font-size-s" style={{whiteSpace: "nowrap",marginTop: "10px", marginBottom: "10px", overflow: "hidden", textOverflow: "ellipsis"}}>
+        <div className="fontWeightSemiBold font-weight-semibold" style={{ marginBottom: "5px"}}>Current runs</div>
+        {currentRunningBuildCtrl}
+      </div>
+    );
+  }
+  return (<div></div>);
 }
 
 export function renderLastBuild02(
@@ -140,7 +213,7 @@ export function renderLastBuild02(
   tableColumn: ITableColumn<BuildDefinitionReference>,
   tableItem: BuildDefinitionReference
 ): JSX.Element {
-  let lastBuildRun = tableItem.latestBuild;
+  let lastBuildRun = tableItem.latestCompletedBuild;
 
   let requestByCtrl = (<div></div>);
   let buildTimeCtrl = (<div></div>);
@@ -231,6 +304,19 @@ function getBuildDefinitionStatus(buildDefItem: BuildDefinitionReference) : ISta
   let lastBuild = buildDefItem.latestBuild;
   if(lastBuild != undefined) {
     return getPipelineIndicator(lastBuild.result, lastBuild.status);
+  } 
+  return indicatorData;
+}
+
+function getBuildDefinitionStatusNew(buildElement: Build) : IStatusIndicatorData {
+  const indicatorData: IStatusIndicatorData = {
+    label: "NA",
+    statusProps: { ...Statuses.Queued, ariaLabel: "None" },
+    color: lightGray
+  };
+  
+  if(buildElement != undefined) {
+    return getPipelineIndicator(buildElement.result, buildElement.status);
   } 
   return indicatorData;
 }
