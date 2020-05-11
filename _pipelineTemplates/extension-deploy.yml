@@ -1,0 +1,62 @@
+parameters:
+- name: publisherId
+  type: string
+- name: extensionId
+  type: string
+- name: extensionName
+  type: string
+- name: updateTasksId
+  type: boolean
+  default: false
+- name: extensionVisibility
+  type: string
+- name: shareWith
+  type: string
+- name: releaseNoteAction
+  type: string
+- name: releaseNoteVersion
+  type: string
+- name: releaseNoteDisplayName
+  type: string
+- name: releaseNoteIsDraft
+  type: boolean
+  default: false
+- name: releaseNoteIsPreRelease
+  type: boolean
+  default: false
+
+steps:
+  - task: VersionExtractor@5
+    name: build
+    displayName: 'Version extractor digit'
+    inputs:
+      stringToAnalyze: '$(build.buildnumber)'
+  - task: TfxInstaller@2
+    displayName: 'Use Node CLI for Azure DevOps (tfx-cli): v0.6.x'
+  - task: PublishAzureDevOpsExtension@2
+    displayName: 'Publish Extension'
+    inputs:
+      connectedServiceName: 'ExpertaSolutions Marketplace (Community)'
+      fileType: vsix
+      vsixFile: '$(Pipeline.Workspace)/drop/experta.cicd-dashboard-*.vsix'
+      publisherId: ${{ parameters.publisherId }}
+      extensionId: ${{ parameters.extensionId }}
+      extensionName: ${{ parameters.extensionName }}
+      updateTasksVersion: false
+      updateTasksId: ${{ parameters.updateTasksId }}
+      extensionVisibility: ${{ parameters.extensionVisibility }}
+      extensionPricing: free
+      shareWith: ${{ parameters.shareWith }}
+  - task: GitHubRelease@1
+    displayName: ${{ parameters.releaseNoteDisplayName }}
+    condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
+    inputs:
+      gitHubConnection: ExpertaSolutionsGitHub
+      action: ${{ parameters.releaseNoteAction }}
+      tagSource: userSpecifiedTag
+      tag: ${{ parameters.releaseNoteVersion }}
+      title: ${{ parameters.releaseNoteVersion }}
+      releaseNotesFilePath: '$(Pipeline.Workspace)/drop/CurrentReleaseNotes.md'
+      isDraft: ${{ parameters.releaseNoteIsDraft }}
+      isPreRelease: ${{ parameters.releaseNoteIsPreRelease }}
+      addChangeLog: false
