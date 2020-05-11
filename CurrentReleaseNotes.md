@@ -9,6 +9,8 @@
   - Add Pipeline status on "Build # | Branch & commit" build column
   - Cumulate running/pending pipeline runs when multiple runs at the same times
 
+    ![Issue0117-01](_ReleaseNotes/Delivery200507/Issue0117/Issue0117-01.png)
+
 - ### [Issue0126](https://github.com/expertasolutions/VstsDashboard/issues/126)
   - Convert Classic Release Pipeline to CI/CD Yaml Pipeline
 
