@@ -134,7 +134,7 @@ stages:
           - template: _pipelineTemplates/extension-deploy.yml
             parameters:
               publisherId: experta
-              extensionId: azurednszonemanager
+              extensionId: cicd-dashboard
               extensionName: 'CI/CD Dashboard'
               extensionVisibility: public
               shareWith: experta
