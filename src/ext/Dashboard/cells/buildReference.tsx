@@ -6,7 +6,8 @@ import {
   IStatusIndicatorData,
   getPipelineIndicator,
   getReleaseTagFromBuild,
-  lightGray
+  lightGray,
+  waitingForApproval
 } from "./common";
 
 import {
@@ -172,6 +173,9 @@ function renderPendingBuild(buildRef:BuildDefinitionReference, buildList: Build[
         }
       }
 
+      let clockCtrl = (<Icon iconName="Clock"/>);
+      //let clockCtrl = (<Duration startDate={lastBuildRun.startTime} endDate={lastBuildRun.finishTime} />);
+
       if(lastBuild !== undefined && lastBuild.status !== BuildStatus.Completed) {
         currentRunningBuildCtrl.push(
             <div style={{ marginBottom: "5px"}}>
@@ -182,7 +186,7 @@ function renderPendingBuild(buildRef:BuildDefinitionReference, buildList: Build[
               <div style={{marginLeft: "10px"}}>
                 <Icon iconName="BranchMerge"/>&nbsp;<Link href={branchUrl} target="_blank">{branchName}</Link>&nbsp;
                 <Icon iconName="BranchCommit" /><Link href={commitUrl} target="blank">{lastBuild.sourceVersion.substr(0, 7)}</Link>&nbps;
-                <Icon iconName="Clock"/>&nbsp;Waiting...
+                {clockCtrl}
               </div>
             </div>
         );
