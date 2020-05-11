@@ -125,19 +125,19 @@ export function renderLastBuild01 (
                       </div>);
     }
   }
+
+  let firstRow = (<div>{contentRow1}{contentRow2}</div>);
+
   return (
     <DataContext.Consumer>
       {(context) => (
-        <div>
           <TwoLineTableCell
             key={"col-" + columnIndex}
             columnIndex={columnIndex}
             tableColumn={tableColumn}
-            line1={contentRow1}
-            line2={contentRow2}
+            line1={firstRow}
+            line2={renderPendingBuild(tableItem, context.state.builds)}
           />
-          {renderPendingBuild(tableItem, context.state.builds)}
-        </div>
       )}
     </DataContext.Consumer>
   )
