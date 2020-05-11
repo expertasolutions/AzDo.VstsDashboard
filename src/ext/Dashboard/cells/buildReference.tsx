@@ -148,6 +148,7 @@ function renderPendingBuild(buildRef:BuildDefinitionReference, buildList: Build[
   let currentRunningBuildCtrl = [];
   for(let i=0;i<currentQueued.length;i++) {
     let lastBuild = currentQueued[i];
+    
     if(lastBuild !== undefined) {
       let branchName = lastBuild.sourceBranch.replace('refs/heads/','');
       let branchUrl = lastBuild.repository.url;
