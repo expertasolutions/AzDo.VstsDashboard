@@ -1,8 +1,9 @@
 ## Issues fixes
 
 - ### [Issue0141](https://github.com/expertasolutions/VstsDashboard/issues/141)
-  - Bug fixing, that randomly hang and made the entire extensions crash
+  - Projects selection now set to be store as user perferences in Azure DevOps/Azure DevOps Server
+  - The scope "vso.extension.data_write" as been added to store extension data. Don't forget to Authorize the Extension permissions.
 
-  ![Issue0133-01](_ReleaseNotes/ReleaseAugust2020/Issue0141/Issue0141-01.png)
+  ![Issue0141-01](_ReleaseNotes/ReleaseAugust2020/Issue0141/Issue0141-01.png)
 
 #### All these issues are part of the milestone [ReleaseAugust2020](https://github.com/expertasolutions/VstsDashboard/milestone/5)
