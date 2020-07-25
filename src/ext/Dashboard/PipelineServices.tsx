@@ -32,7 +32,7 @@ export async function setUserPreferences(projectList: Array<string>) : Promise<a
   var newDoc = {
     projectList : JSON.stringify(projectList)
   };
-
+  console.log("setUserPreferences.createDocumentByName");
   let result = await extClient.createDocumentByName(newDoc, "ExpertaSolutionsInc", "cicd-dashboard", "User", "user", "default");
   console.log(JSON.stringify(result));
   console.log("Doc Id: " + result.id);

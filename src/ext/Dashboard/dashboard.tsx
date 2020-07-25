@@ -211,7 +211,9 @@ class CICDDashboard extends React.Component<{}, {}> {
     }
 
     try {
-      getAllUserPreferences();
+      if(firstLoad) {
+        getAllUserPreferences();
+      }
     } catch {
       console.log("err with getAllUserPreferences()");
     }
