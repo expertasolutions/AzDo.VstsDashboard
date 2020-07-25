@@ -30,7 +30,7 @@ export async function getProject(projectName: string) {
 }
 
 export async function setUserProjectsListPref(projectList: Array<string>, extensionContext: any, collectionName: string) : Promise<any> {
-  let currentDocument = await getAllUserPreferences(extensionContext, collectionName);
+  let currentDocument = await getUserPreferences(extensionContext, collectionName);
   let result: any;
   if(currentDocument === undefined) {
     var newDoc = {
@@ -53,7 +53,7 @@ export async function setUserProjectsListPref(projectList: Array<string>, extens
   return result;
 }
 
-export async function getAllUserPreferences(extensionContext: any, collectionName: string) : Promise<any> {
+export async function getUserPreferences(extensionContext: any, collectionName: string) : Promise<any> {
   let results = await extClient.getDocumentsByName(extensionContext.publisherId, extensionContext.extensionId, "User", "Me", collectionName);
   let userPrefs = results.find(x=> x.docName === "UserPreferences");
   console.log("---- ListDocuments ------ ");

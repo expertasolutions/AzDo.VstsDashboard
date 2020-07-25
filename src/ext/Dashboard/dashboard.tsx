@@ -13,7 +13,7 @@ import {
 , sortBuildReferences
 , getMinTimeFromNow
 , setUserProjectsListPref
-, getAllUserPreferences
+, getUserPreferences
 } from "./PipelineServices";
 
 import { dashboardColumns, buildColumns }  from "./tableData";
@@ -210,12 +210,6 @@ class CICDDashboard extends React.Component<{}, {}> {
       }
     } catch {
       console.log("err with setUserPreferences");
-    }
-
-    try {
-      getAllUserPreferences(this.extContext, this.hostInfo.name);
-    } catch {
-      console.log("err with getAllUserPreferences()");
     }
     /************ Preferences storage tests ***********/
 
@@ -423,8 +417,23 @@ class CICDDashboard extends React.Component<{}, {}> {
       let prj = this.state.projects.find(x=> x.name === this.initialProjectName);
       if(prj != undefined) {
         let index = this.state.projects.indexOf(prj);
+
+        // Load the UserPreferences here !
+
+        // If no UsersPreferences is set...
         this.projectSelection.select(index);
-        
+
+        // Select Projectlist from the UserPreferences
+        let userPreferences = await getUserPreferences(this.extContext, this.hostInfo);
+        for(let i=0;i<userPreferences.selectedProjects;i++) {
+          let pr = this.state.projects.find(x=> x.name === userPreferences.selectedProjects[i]);
+          if(pr !== undefined) {
+            let idx = this.state.projects.indexOf(pr);
+            this.projectSelection.select(idx);
+          }
+        }
+        //
+
         this.allDeploymentSelection.select(1);
         this.onlyWithDeploymentSelection.select(1);
         this.errorsOnSummaryTopSelection.select(0);
