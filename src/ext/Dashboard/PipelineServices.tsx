@@ -29,19 +29,19 @@ export async function getProject(projectName: string) {
   return result;
 }
 
-export async function setUserPreferences(projectList: Array<string>, extensionContext: any) : Promise<any> {
+export async function setUserPreferences(projectList: Array<string>, extensionContext: any, collectionName: string) : Promise<any> {
   var newDoc = {
     projectList : JSON.stringify(projectList)
   };
   console.log("setUserPreferences.createDocumentByName");
-  let result = await extClient.createDocumentByName(newDoc, extensionContext.publisherId, extensionContext.extensionId, "User", "Me", "experta");
+  let result = await extClient.createDocumentByName(newDoc, extensionContext.publisherId, extensionContext.extensionId, "User", "Me", collectionName);
   console.log(JSON.stringify(result));
   console.log("Doc Id: " + result.id);
   return result;
 }
 
-export async function getAllUserPreferences(extensionContext: any) : Promise<any> {
-  let results = await extClient.getDocumentsByName(extensionContext.publisherId, extensionContext.extensionId, "User", "Me", "experta");
+export async function getAllUserPreferences(extensionContext: any, collectionName: string) : Promise<any> {
+  let results = await extClient.getDocumentsByName(extensionContext.publisherId, extensionContext.extensionId, "User", "Me", collectionName);
   console.log("---- ListDocuments ------ ");
   console.log(JSON.stringify(results));
   console.log("---- END ListDocuments ----");

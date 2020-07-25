@@ -206,7 +206,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     /************ Preferences storage tests ***********/
     if(firstLoad) {
       try {
-        setUserPreferences(this.currentSelectedProjects, this.extContext);
+        setUserPreferences(this.currentSelectedProjects, this.extContext, this.hostInfo.name);
       } catch {
         console.log("err with setUserPreferences");
       }
@@ -214,7 +214,7 @@ class CICDDashboard extends React.Component<{}, {}> {
 
     try {
       if(firstLoad) {
-        getAllUserPreferences(this.extContext);
+        getAllUserPreferences(this.extContext, this.hostInfo.name);
       }
     } catch {
       console.log("err with getAllUserPreferences()");
