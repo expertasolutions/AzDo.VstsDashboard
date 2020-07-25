@@ -33,14 +33,14 @@ export async function setUserPreferences(projectList: Array<string>) : Promise<a
     projectList : JSON.stringify(projectList)
   };
   console.log("setUserPreferences.createDocumentByName");
-  let result = await extClient.createDocumentByName(newDoc, "ExpertaPreview", "Private Preview - CI/CD Dashboard", "User", "Me", "experta");
+  let result = await extClient.createDocumentByName(newDoc, "ExpertaPreview", "pvprCICDDashboard", "User", "Me", "experta");
   console.log(JSON.stringify(result));
   console.log("Doc Id: " + result.id);
   return result;
 }
 
 export async function getAllUserPreferences() : Promise<any> {
-  let results = await extClient.getDocumentsByName("ExpertaPreview", "Private Preview - CI/CD Dashboard", "User", "Me", "experta");
+  let results = await extClient.getDocumentsByName("ExpertaPreview", "pvprCICDDashboard", "User", "Me", "experta");
   console.log("---- ListDocuments ------ ");
   console.log(JSON.stringify(results));
   console.log("---- END ListDocuments ----");
