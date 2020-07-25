@@ -55,11 +55,7 @@ export async function setUserProjectsListPref(projectList: Array<string>, extens
 
 export async function getUserPreferences(extensionContext: any, collectionName: string) : Promise<any> {
   let results = await extClient.getDocumentsByName(extensionContext.publisherId, extensionContext.extensionId, "User", "Me", collectionName);
-  let userPrefs = results.find(x=> x.docName === "UserPreferences");
-  console.log("---- getUserPreferences ------ ");
-  console.log(userPrefs);
-  console.log("---- END getUserPreferences ----");
-  return userPrefs;
+  return results.find(x=> x.docName === "UserPreferences");
 }
 
 export async function getReleasesV1(projectList: Array<string>, isFirstLoad: boolean){
