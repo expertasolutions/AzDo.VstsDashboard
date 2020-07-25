@@ -30,11 +30,24 @@ export async function getProject(projectName: string) {
 }
 
 export async function setUserProjectsListPref(projectList: Array<string>, extensionContext: any, collectionName: string) : Promise<any> {
-  var newDoc = {
-    projectList : JSON.stringify(projectList)
-  };
-  console.log("setUserPreferences.createDocumentByName");
-  let result = await extClient.createDocumentByName(newDoc, extensionContext.publisherId, extensionContext.extensionId, "User", "Me", collectionName);
+  let currentDocument = await getAllUserPreferences(extensionContext, collectionName);
+  let result: any;
+  if(currentDocument === undefined) {
+    var newDoc = {
+      docName : "UserPreferences",
+      selectedProjects : JSON.stringify(projectList)
+    };
+    console.log("setUserPreferences.createDocumentByName");
+    result = await extClient.createDocumentByName(newDoc, extensionContext.publisherId, extensionContext.extensionId, "User", "Me", collectionName);
+  } else {
+    var updDoc = { 
+      docName : "UserPreferences",
+      selectedProjects : JSON.stringify(projectList),
+      id: currentDocument.id,
+      __etag: currentDocument.__etag
+    };
+    result = await extClient.updateDocumentByName(updDoc, extensionContext.publisherId, extensionContext.extensionId, "User", "Me", collectionName);
+  }
   console.log(JSON.stringify(result));
   console.log("Doc Id: " + result.id);
   return result;
@@ -42,8 +55,9 @@ export async function setUserProjectsListPref(projectList: Array<string>, extens
 
 export async function getAllUserPreferences(extensionContext: any, collectionName: string) : Promise<any> {
   let results = await extClient.getDocumentsByName(extensionContext.publisherId, extensionContext.extensionId, "User", "Me", collectionName);
+  let userPrefs = results.find(x=> x.docName === "UserPreferences");
   console.log("---- ListDocuments ------ ");
-  console.log(JSON.stringify(results));
+  console.log(JSON.stringify(userPrefs));
   console.log("---- END ListDocuments ----");
 }
 
