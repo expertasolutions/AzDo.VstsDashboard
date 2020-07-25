@@ -404,6 +404,9 @@ class CICDDashboard extends React.Component<{}, {}> {
     let hostInfo = SDK.getHost();
 
     let extContext = SDK.getExtensionContext();
+    console.log("ExtensionContext");
+    console.log(JSON.stringify(extContext));
+    console.log("------------------");
     this.extensionVersion = "v" + extContext.version;
     this.releaseNoteVersion = "https://github.com/expertasolutions/VstsDashboard/releases/tag/" + extContext.version;
 
