@@ -428,7 +428,6 @@ class CICDDashboard extends React.Component<{}, {}> {
         console.log("---- ListDocuments ------ ");
         console.log(JSON.stringify(userPreferences));
         console.log("---- END ListDocuments ----");
-        /*
         for(let i=0;i<userPreferences.selectedProjects;i++) {
           let pr = this.state.projects.find(x=> x.name === userPreferences.selectedProjects[i]);
           if(pr !== undefined) {
@@ -436,7 +435,6 @@ class CICDDashboard extends React.Component<{}, {}> {
             this.projectSelection.select(idx);
           }
         }
-        */
         //
 
         this.allDeploymentSelection.select(1);
