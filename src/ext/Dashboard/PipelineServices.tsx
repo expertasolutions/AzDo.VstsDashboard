@@ -1,4 +1,6 @@
 import * as API from "azure-devops-extension-api";
+import { IExtensionContext } from "azure-devops-extension-sdk/SDK";
+
 import { 
   BuildRestClient, BuildDefinitionReference, Build, BuildStatus, ResultSet
 } from "azure-devops-extension-api/Build";
@@ -28,19 +30,19 @@ export async function getProject(projectName: string) {
   return result;
 }
 
-export async function setUserPreferences(projectList: Array<string>) : Promise<any> {
+export async function setUserPreferences(projectList: Array<string>, extensionContext: IExtensionContext) : Promise<any> {
   var newDoc = {
     projectList : JSON.stringify(projectList)
   };
   console.log("setUserPreferences.createDocumentByName");
-  let result = await extClient.createDocumentByName(newDoc, "ExpertaPreview", "pvprCICDDashboard", "User", "Me", "experta");
+  let result = await extClient.createDocumentByName(newDoc, extensionContext.publisherId, extensionContext.extensionId, "User", "Me", "experta");
   console.log(JSON.stringify(result));
   console.log("Doc Id: " + result.id);
   return result;
 }
 
-export async function getAllUserPreferences() : Promise<any> {
-  let results = await extClient.getDocumentsByName("ExpertaPreview", "pvprCICDDashboard", "User", "Me", "experta");
+export async function getAllUserPreferences(extensionContext: IExtensionContext) : Promise<any> {
+  let results = await extClient.getDocumentsByName(extensionContext.publisherId, extensionContext.extensionId, "User", "Me", "experta");
   console.log("---- ListDocuments ------ ");
   console.log(JSON.stringify(results));
   console.log("---- END ListDocuments ----");
