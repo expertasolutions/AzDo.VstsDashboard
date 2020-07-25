@@ -56,9 +56,9 @@ export async function setUserProjectsListPref(projectList: Array<string>, extens
 export async function getUserPreferences(extensionContext: any, collectionName: string) : Promise<any> {
   let results = await extClient.getDocumentsByName(extensionContext.publisherId, extensionContext.extensionId, "User", "Me", collectionName);
   let userPrefs = results.find(x=> x.docName === "UserPreferences");
-  console.log("---- ListDocuments ------ ");
+  console.log("---- getUserPreferences ------ ");
   console.log(JSON.stringify(userPrefs));
-  console.log("---- END ListDocuments ----");
+  console.log("---- END getUserPreferences ----");
   return userPrefs;
 }
 
