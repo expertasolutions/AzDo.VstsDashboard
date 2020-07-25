@@ -17,7 +17,6 @@
     "vso.project",
     "vso.build", 
     "vso.release",
-    "vso.extension_manage",
     "vso.extension.data_write"
   ],
   "icons": {
