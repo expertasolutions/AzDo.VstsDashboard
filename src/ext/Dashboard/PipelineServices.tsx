@@ -37,7 +37,7 @@ export async function setUserProjectsListPref(projectList: Array<string>, extens
       docName : "UserPreferences",
       selectedProjects : JSON.stringify(projectList)
     };
-    console.log("setUserPreferences.createDocumentByName");
+    //console.log("setUserPreferences.createDocumentByName");
     result = await extClient.createDocumentByName(newDoc, extensionContext.publisherId, extensionContext.extensionId, "User", "Me", collectionName);
   } else {
     var updDoc = { 
@@ -48,17 +48,17 @@ export async function setUserProjectsListPref(projectList: Array<string>, extens
     };
     result = await extClient.updateDocumentByName(updDoc, extensionContext.publisherId, extensionContext.extensionId, "User", "Me", collectionName);
   }
-  console.log(JSON.stringify(result));
-  console.log("Doc Id: " + result.id);
+  //console.log(JSON.stringify(result));
+  //console.log("Doc Id: " + result.id);
   return result;
 }
 
 export async function getUserPreferences(extensionContext: any, collectionName: string) : Promise<any> {
   let results = await extClient.getDocumentsByName(extensionContext.publisherId, extensionContext.extensionId, "User", "Me", collectionName);
   let userPrefs = results.find(x=> x.docName === "UserPreferences");
-  console.log("---- ListDocuments ------ ");
-  console.log(JSON.stringify(userPrefs));
-  console.log("---- END ListDocuments ----");
+  //console.log("---- ListDocuments ------ ");
+  //console.log(JSON.stringify(userPrefs));
+  //console.log("---- END ListDocuments ----");
 }
 
 export async function getPreferences() : Promise<any> {
