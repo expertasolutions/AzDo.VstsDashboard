@@ -416,7 +416,6 @@ class CICDDashboard extends React.Component<{}, {}> {
     let currentProject = await projectService.getProject();
 
     await this.loadProjects();
-
     this.setState({ releases: new Array<Deployment>(), builds: new Array<Build>() });
 
     if(currentProject != undefined){

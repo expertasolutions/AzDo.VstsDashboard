@@ -1,5 +1,4 @@
 import * as API from "azure-devops-extension-api";
-import { IExtensionContext } from "azure-devops-extension-sdk/SDK";
 
 import { 
   BuildRestClient, BuildDefinitionReference, Build, BuildStatus, ResultSet
@@ -30,7 +29,7 @@ export async function getProject(projectName: string) {
   return result;
 }
 
-export async function setUserPreferences(projectList: Array<string>, extensionContext: IExtensionContext) : Promise<any> {
+export async function setUserPreferences(projectList: Array<string>, extensionContext: any) : Promise<any> {
   var newDoc = {
     projectList : JSON.stringify(projectList)
   };
@@ -41,7 +40,7 @@ export async function setUserPreferences(projectList: Array<string>, extensionCo
   return result;
 }
 
-export async function getAllUserPreferences(extensionContext: IExtensionContext) : Promise<any> {
+export async function getAllUserPreferences(extensionContext: any) : Promise<any> {
   let results = await extClient.getDocumentsByName(extensionContext.publisherId, extensionContext.extensionId, "User", "Me", "experta");
   console.log("---- ListDocuments ------ ");
   console.log(JSON.stringify(results));
