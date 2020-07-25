@@ -12,7 +12,7 @@ import {
 , sortBuilds
 , sortBuildReferences
 , getMinTimeFromNow
-, setUserPreferences
+, setUserProjectsListPref
 , getAllUserPreferences
 } from "./PipelineServices";
 
@@ -204,12 +204,12 @@ class CICDDashboard extends React.Component<{}, {}> {
       }
     }
     /************ Preferences storage tests ***********/
-    if(firstLoad) {
-      try {
-        setUserPreferences(this.currentSelectedProjects, this.extContext, this.hostInfo.name);
-      } catch {
-        console.log("err with setUserPreferences");
+    try {
+      if(!firstLoad) {
+        setUserProjectsListPref(this.currentSelectedProjects, this.extContext, this.hostInfo.name);
       }
+    } catch {
+      console.log("err with setUserPreferences");
     }
 
     try {

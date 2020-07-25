@@ -29,7 +29,7 @@ export async function getProject(projectName: string) {
   return result;
 }
 
-export async function setUserPreferences(projectList: Array<string>, extensionContext: any, collectionName: string) : Promise<any> {
+export async function setUserProjectsListPref(projectList: Array<string>, extensionContext: any, collectionName: string) : Promise<any> {
   var newDoc = {
     projectList : JSON.stringify(projectList)
   };
