@@ -3,7 +3,19 @@ import "es6-promise/auto";
 import * as React from "react";
 import * as SDK from "azure-devops-extension-sdk";
 
-import { getBuildDefinitionsV1, getBuildsV1 , getReleasesV1, getProjects, getProject, sortBuilds, sortBuildReferences, getMinTimeFromNow } from "./PipelineServices";
+import { 
+  getBuildDefinitionsV1
+, getBuildsV1
+, getReleasesV1
+, getProjects
+, getProject
+, sortBuilds
+, sortBuildReferences
+, getMinTimeFromNow
+, setUserProjectsListPref
+, getUserPreferences
+} from "./PipelineServices";
+
 import { dashboardColumns, buildColumns }  from "./tableData";
 
 import { KeywordFilterBarItem } from "azure-devops-ui/TextFilterBarItem";
@@ -73,6 +85,8 @@ class CICDDashboard extends React.Component<{}, {}> {
   private lastBuildsDisplay = "lastHour";
 
   private buildTimeRangeHasChanged = true;
+  private hostInfo: any = undefined;
+  private extContext: any = undefined;
 
   constructor(props: {}) {
     super(props);
@@ -340,6 +354,10 @@ class CICDDashboard extends React.Component<{}, {}> {
     this.buildProvider.value = new ArrayItemProvider(this.state.builds);
     
     this.updateFromProject(true);
+
+    /************ Preferences storage tests ***********/
+    setUserProjectsListPref(this.currentSelectedProjects, this.extContext, this.hostInfo.name);
+    /************ Preferences storage tests ***********/
   }
 
   private onLastBuildsDisplaySelected = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
@@ -353,7 +371,6 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   public async loadProjects() {
     let result = await getProjects();
-    console.log("projects: " + JSON.stringify(result));
     this.setState( { projects: result });
   }
 
@@ -373,17 +390,15 @@ class CICDDashboard extends React.Component<{}, {}> {
   private async initializeState(): Promise<void> {
     await SDK.init();
     //await SDK.ready();
-    let hostInfo = SDK.getHost();
-
-    let extContext = SDK.getExtensionContext();
-    this.extensionVersion = "v" + extContext.version;
-    this.releaseNoteVersion = "https://github.com/expertasolutions/VstsDashboard/releases/tag/" + extContext.version;
+    this.hostInfo = SDK.getHost();
+    this.extContext = SDK.getExtensionContext();
+    this.extensionVersion = "v" + this.extContext.version;
+    this.releaseNoteVersion = "https://github.com/expertasolutions/VstsDashboard/releases/tag/" + this.extContext.version;
 
     const projectService = await SDK.getService<IProjectPageService>(CommonServiceIds.ProjectPageService);
     let currentProject = await projectService.getProject();
 
     await this.loadProjects();
-
     this.setState({ releases: new Array<Deployment>(), builds: new Array<Build>() });
 
     if(currentProject != undefined){
@@ -391,8 +406,22 @@ class CICDDashboard extends React.Component<{}, {}> {
       let prj = this.state.projects.find(x=> x.name === this.initialProjectName);
       if(prj != undefined) {
         let index = this.state.projects.indexOf(prj);
+
+        // If no UsersPreferences is set...
         this.projectSelection.select(index);
-        
+
+        // Select Projectlist from the UserPreferences
+        let userPreferences = await getUserPreferences(this.extContext, this.hostInfo.name);
+        for(let i=0;i<userPreferences.selectedProjects.length;i++) {
+          let prString = userPreferences.selectedProjects[i]
+          let pr = this.state.projects.find(x=> x.name === prString);
+          if(pr !== undefined) {
+            let idx = this.state.projects.indexOf(pr);
+            this.projectSelection.select(idx);
+          }
+        }
+        //
+
         this.allDeploymentSelection.select(1);
         this.onlyWithDeploymentSelection.select(1);
         this.errorsOnSummaryTopSelection.select(0);
