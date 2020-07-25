@@ -57,7 +57,7 @@ export async function getUserPreferences(extensionContext: any, collectionName: 
   let results = await extClient.getDocumentsByName(extensionContext.publisherId, extensionContext.extensionId, "User", "Me", collectionName);
   let userPrefs = results.find(x=> x.docName === "UserPreferences");
   console.log("---- getUserPreferences ------ ");
-  console.log(JSON.stringify(userPrefs));
+  console.log(userPrefs);
   console.log("---- END getUserPreferences ----");
   return userPrefs;
 }
