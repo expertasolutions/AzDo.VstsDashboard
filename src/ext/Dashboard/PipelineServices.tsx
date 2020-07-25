@@ -43,7 +43,8 @@ export async function setUserProjectsListPref(projectList: Array<string>, extens
     var updDoc = { 
       docName : "UserPreferences",
       selectedProjects : JSON.stringify(projectList),
-      id: currentDocument.id
+      id: currentDocument.id,
+      __etag: currentDocument.__etag
     };
     result = await extClient.updateDocumentByName(updDoc, extensionContext.publisherId, extensionContext.extensionId, "User", "Me", collectionName);
   }
