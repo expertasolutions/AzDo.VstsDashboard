@@ -85,6 +85,8 @@ class CICDDashboard extends React.Component<{}, {}> {
   private lastBuildsDisplay = "lastHour";
 
   private buildTimeRangeHasChanged = true;
+  private hostInfo: any = undefined;
+  private extContext: any = undefined;
 
   constructor(props: {}) {
     super(props);
@@ -204,7 +206,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     /************ Preferences storage tests ***********/
     if(firstLoad) {
       try {
-        setUserPreferences(this.currentSelectedProjects);
+        setUserPreferences(this.currentSelectedProjects, this.extContext);
       } catch {
         console.log("err with setUserPreferences");
       }
@@ -212,7 +214,7 @@ class CICDDashboard extends React.Component<{}, {}> {
 
     try {
       if(firstLoad) {
-        getAllUserPreferences();
+        getAllUserPreferences(this.extContext);
       }
     } catch {
       console.log("err with getAllUserPreferences()");
@@ -401,16 +403,16 @@ class CICDDashboard extends React.Component<{}, {}> {
   private async initializeState(): Promise<void> {
     await SDK.init();
     //await SDK.ready();
-    let hostInfo = SDK.getHost();
+    this.hostInfo = SDK.getHost();
     console.log("HostInfo");
-    console.log(JSON.stringify(hostInfo));
+    console.log(JSON.stringify(this.hostInfo));
     console.log("------------------")
-    let extContext = SDK.getExtensionContext();
+    this.extContext = SDK.getExtensionContext();
     console.log("ExtensionContext");
-    console.log(JSON.stringify(extContext));
+    console.log(JSON.stringify(this.extContext));
     console.log("------------------");
-    this.extensionVersion = "v" + extContext.version;
-    this.releaseNoteVersion = "https://github.com/expertasolutions/VstsDashboard/releases/tag/" + extContext.version;
+    this.extensionVersion = "v" + this.extContext.version;
+    this.releaseNoteVersion = "https://github.com/expertasolutions/VstsDashboard/releases/tag/" + this.extContext.version;
 
     const projectService = await SDK.getService<IProjectPageService>(CommonServiceIds.ProjectPageService);
     let currentProject = await projectService.getProject();
