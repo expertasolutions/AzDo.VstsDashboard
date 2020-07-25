@@ -62,12 +62,6 @@ export async function getUserPreferences(extensionContext: any, collectionName: 
   return userPrefs;
 }
 
-export async function getPreferences() : Promise<any> {
-  return undefined;
-  //let result = await extClient.getDocumentByName("invalid", "invalid", "User", "User", undefined, "preferences");
-  //return result;
-}
-
 export async function getReleasesV1(projectList: Array<string>, isFirstLoad: boolean){
   let deployments = new Array<Deployment>();
   for(let i=0;i<projectList.length;i++) {

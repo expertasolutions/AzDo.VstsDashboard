@@ -424,7 +424,7 @@ class CICDDashboard extends React.Component<{}, {}> {
         this.projectSelection.select(index);
 
         // Select Projectlist from the UserPreferences
-        let userPreferences = await getUserPreferences(this.extContext, this.hostInfo);
+        let userPreferences = await getUserPreferences(this.extContext, this.hostInfo.name);
         console.log("---- ListDocuments ------ ");
         console.log(JSON.stringify(userPreferences));
         console.log("---- END ListDocuments ----");
