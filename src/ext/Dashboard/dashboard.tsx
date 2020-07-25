@@ -356,11 +356,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     this.updateFromProject(true);
 
     /************ Preferences storage tests ***********/
-    try {
-      setUserProjectsListPref(this.currentSelectedProjects, this.extContext, this.hostInfo.name);
-    } catch {
-      console.log("err with setUserPreferences");
-    }
+    setUserProjectsListPref(this.currentSelectedProjects, this.extContext, this.hostInfo.name);
     /************ Preferences storage tests ***********/
   }
 
@@ -395,13 +391,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     await SDK.init();
     //await SDK.ready();
     this.hostInfo = SDK.getHost();
-    console.log("HostInfo");
-    console.log(JSON.stringify(this.hostInfo));
-    console.log("------------------")
     this.extContext = SDK.getExtensionContext();
-    console.log("ExtensionContext");
-    console.log(JSON.stringify(this.extContext));
-    console.log("------------------");
     this.extensionVersion = "v" + this.extContext.version;
     this.releaseNoteVersion = "https://github.com/expertasolutions/VstsDashboard/releases/tag/" + this.extContext.version;
 
@@ -417,20 +407,14 @@ class CICDDashboard extends React.Component<{}, {}> {
       if(prj != undefined) {
         let index = this.state.projects.indexOf(prj);
 
-        // Load the UserPreferences here !
-
         // If no UsersPreferences is set...
         this.projectSelection.select(index);
 
         // Select Projectlist from the UserPreferences
         let userPreferences = await getUserPreferences(this.extContext, this.hostInfo.name);
-        console.log("---- ListDocuments ------ ");
-        console.log(userPreferences);
-        console.log("---- END ListDocuments ----");
         for(let i=0;i<userPreferences.selectedProjects.length;i++) {
           let prString = userPreferences.selectedProjects[i]
           let pr = this.state.projects.find(x=> x.name === prString);
-          console.log(prString + " -> " + JSON.stringify(pr));
           if(pr !== undefined) {
             let idx = this.state.projects.indexOf(pr);
             this.projectSelection.select(idx);

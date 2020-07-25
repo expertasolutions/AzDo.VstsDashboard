@@ -37,7 +37,6 @@ export async function setUserProjectsListPref(projectList: Array<string>, extens
       docName : "UserPreferences",
       selectedProjects : projectList
     };
-    //console.log("setUserPreferences.createDocumentByName");
     result = await extClient.createDocumentByName(newDoc, extensionContext.publisherId, extensionContext.extensionId, "User", "Me", collectionName);
   } else {
     var updDoc = { 
@@ -48,8 +47,6 @@ export async function setUserProjectsListPref(projectList: Array<string>, extens
     };
     result = await extClient.updateDocumentByName(updDoc, extensionContext.publisherId, extensionContext.extensionId, "User", "Me", collectionName);
   }
-  //console.log(JSON.stringify(result));
-  //console.log("Doc Id: " + result.id);
   return result;
 }
 
