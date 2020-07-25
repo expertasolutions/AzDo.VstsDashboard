@@ -1,4 +1,3 @@
-
 import * as API from "azure-devops-extension-api";
 import { 
   BuildRestClient, BuildDefinitionReference, Build, BuildStatus, ResultSet
@@ -12,9 +11,12 @@ import {
   CoreRestClient
 } from "azure-devops-extension-api/core"
 
+import { ExtensionManagementRestClient } from "azure-devops-extension-api/ExtensionManagement";
+
 const coreClient = API.getClient(CoreRestClient);
 const buildClient = API.getClient(BuildRestClient);
 const releaseClient = API.getClient(ReleaseRestClient);
+const extClient = API.getClient(ExtensionManagementRestClient);
 
 export async function getProjects() {
   let result = await coreClient.getProjects();
@@ -24,6 +26,30 @@ export async function getProjects() {
 export async function getProject(projectName: string) {
   let result = await coreClient.getProject(projectName);
   return result;
+}
+
+export async function setUserPreferences(projectList: Array<string>) : Promise<any> {
+  var newDoc = {
+    projectList : JSON.stringify(projectList)
+  };
+
+  let result = await extClient.createDocumentByName(newDoc, "ExpertaSolutionsInc", "cicd-dashboard", "User", "preferences", "default");
+  console.log(JSON.stringify(result));
+  console.log("Doc Id: " + result.id);
+  return result;
+}
+
+export async function getAllUserPreferences() : Promise<any> {
+  let results = await extClient.getDocumentsByName("ExpertaSolutionsInc", "cicd-dashboard", "User", "preferences", "default");
+  console.log("---- ListDocuments ------ ");
+  console.log(JSON.stringify(results));
+  console.log("---- END ListDocuments ----");
+}
+
+export async function getPreferences() : Promise<any> {
+  return undefined;
+  //let result = await extClient.getDocumentByName("invalid", "invalid", "User", "User", undefined, "preferences");
+  //return result;
 }
 
 export async function getReleasesV1(projectList: Array<string>, isFirstLoad: boolean){

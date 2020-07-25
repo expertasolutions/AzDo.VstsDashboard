@@ -3,7 +3,19 @@ import "es6-promise/auto";
 import * as React from "react";
 import * as SDK from "azure-devops-extension-sdk";
 
-import { getBuildDefinitionsV1, getBuildsV1 , getReleasesV1, getProjects, getProject, sortBuilds, sortBuildReferences, getMinTimeFromNow } from "./PipelineServices";
+import { 
+  getBuildDefinitionsV1
+, getBuildsV1
+, getReleasesV1
+, getProjects
+, getProject
+, sortBuilds
+, sortBuildReferences
+, getMinTimeFromNow
+, setUserPreferences
+, getAllUserPreferences
+} from "./PipelineServices";
+
 import { dashboardColumns, buildColumns }  from "./tableData";
 
 import { KeywordFilterBarItem } from "azure-devops-ui/TextFilterBarItem";
@@ -189,6 +201,21 @@ class CICDDashboard extends React.Component<{}, {}> {
         this.currentSelectedProjects.push(selectedProjectName.name);
       }
     }
+    /************ Preferences storage tests ***********/
+    if(firstLoad) {
+      try {
+        setUserPreferences(this.currentSelectedProjects);
+      } catch {
+        console.log("err with setUserPreferences");
+      }
+    }
+
+    try {
+      getAllUserPreferences();
+    } catch {
+      console.log("err with getAllUserPreferences()");
+    }
+    /************ Preferences storage tests ***********/
 
     getBuildDefinitionsV1(this.currentSelectedProjects, firstLoad).then(result => {
       let currentDef = this.state.buildDefs;
