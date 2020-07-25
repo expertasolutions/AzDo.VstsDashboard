@@ -43,8 +43,7 @@ export async function setUserProjectsListPref(projectList: Array<string>, extens
     var updDoc = { 
       docName : "UserPreferences",
       selectedProjects : JSON.stringify(projectList),
-      id: currentDocument.id,
-      __etag: currentDocument.__etag
+      id: currentDocument.id
     };
     result = await extClient.updateDocumentByName(updDoc, extensionContext.publisherId, extensionContext.extensionId, "User", "Me", collectionName);
   }
@@ -56,9 +55,9 @@ export async function setUserProjectsListPref(projectList: Array<string>, extens
 export async function getUserPreferences(extensionContext: any, collectionName: string) : Promise<any> {
   let results = await extClient.getDocumentsByName(extensionContext.publisherId, extensionContext.extensionId, "User", "Me", collectionName);
   let userPrefs = results.find(x=> x.docName === "UserPreferences");
-  //console.log("---- ListDocuments ------ ");
-  //console.log(JSON.stringify(userPrefs));
-  //console.log("---- END ListDocuments ----");
+  console.log("---- ListDocuments ------ ");
+  console.log(JSON.stringify(userPrefs));
+  console.log("---- END ListDocuments ----");
   return userPrefs;
 }
 
