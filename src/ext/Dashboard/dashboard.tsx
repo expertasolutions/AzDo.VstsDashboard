@@ -428,7 +428,7 @@ class CICDDashboard extends React.Component<{}, {}> {
         console.log(userPreferences);
         console.log("---- END ListDocuments ----");
         let userProjects = JSON.parse(userPreferences.selectedProjects);
-        for(let i=0;i<userProjects;i++) {
+        for(let i=0;i<userProjects.length;i++) {
           let prString = userProjects[i]
           let pr = this.state.projects.find(x=> x.name === prString);
           console.log(prString + " -> " + JSON.stringify(pr));
