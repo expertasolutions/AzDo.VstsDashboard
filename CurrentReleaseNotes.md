@@ -6,10 +6,10 @@
 
   ![Issue0141-01](_ReleaseNotes/ReleaseAugust2020/Issue0141/Issue0141-01.png)
 
-- ### [Issue0138](https://github.com/expertasolutions/VstsDashboard/issues/138)
+- ### [Issue0137](https://github.com/expertasolutions/VstsDashboard/issues/137)
   - "Status Order" filter selection now set to be store as user perferences in Azure DevOps/Azure DevOps Server
   - In addition to this issue, "With deployment only" & "Show all deployments" filter has been also store into user preferences extension data.
 
-  ![Issue0138-01](_ReleaseNotes/ReleaseAugust2020/Issue0138/Issue0138-01.png)
+  ![Issue0137-01](_ReleaseNotes/ReleaseAugust2020/Issue0137/Issue0137-01.png)
 
 #### All these issues are part of the milestone [ReleaseAugust2020](https://github.com/expertasolutions/VstsDashboard/milestone/5)
