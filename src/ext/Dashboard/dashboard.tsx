@@ -382,7 +382,6 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   public async loadProjects() {
     let result = await getProjects();
-    console.log("projects: " + JSON.stringify(result));
     this.setState( { projects: result });
   }
 
