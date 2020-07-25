@@ -59,6 +59,7 @@ export async function getUserPreferences(extensionContext: any, collectionName: 
   //console.log("---- ListDocuments ------ ");
   //console.log(JSON.stringify(userPrefs));
   //console.log("---- END ListDocuments ----");
+  return userPrefs;
 }
 
 export async function getPreferences() : Promise<any> {
