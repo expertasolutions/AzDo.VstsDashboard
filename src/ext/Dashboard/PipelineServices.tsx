@@ -35,14 +35,14 @@ export async function setUserProjectsListPref(projectList: Array<string>, extens
   if(currentDocument === undefined) {
     var newDoc = {
       docName : "UserPreferences",
-      selectedProjects : JSON.stringify(projectList)
+      selectedProjects : projectList
     };
     //console.log("setUserPreferences.createDocumentByName");
     result = await extClient.createDocumentByName(newDoc, extensionContext.publisherId, extensionContext.extensionId, "User", "Me", collectionName);
   } else {
     var updDoc = { 
       docName : "UserPreferences",
-      selectedProjects : JSON.stringify(projectList),
+      selectedProjects : projectList,
       id: currentDocument.id,
       __etag: currentDocument.__etag
     };

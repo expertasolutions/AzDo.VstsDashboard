@@ -203,15 +203,6 @@ class CICDDashboard extends React.Component<{}, {}> {
         this.currentSelectedProjects.push(selectedProjectName.name);
       }
     }
-    /************ Preferences storage tests ***********/
-    try {
-      if(!firstLoad) {
-        setUserProjectsListPref(this.currentSelectedProjects, this.extContext, this.hostInfo.name);
-      }
-    } catch {
-      console.log("err with setUserPreferences");
-    }
-    /************ Preferences storage tests ***********/
 
     getBuildDefinitionsV1(this.currentSelectedProjects, firstLoad).then(result => {
       let currentDef = this.state.buildDefs;
@@ -363,6 +354,14 @@ class CICDDashboard extends React.Component<{}, {}> {
     this.buildProvider.value = new ArrayItemProvider(this.state.builds);
     
     this.updateFromProject(true);
+
+    /************ Preferences storage tests ***********/
+    try {
+      setUserProjectsListPref(this.currentSelectedProjects, this.extContext, this.hostInfo.name);
+    } catch {
+      console.log("err with setUserPreferences");
+    }
+    /************ Preferences storage tests ***********/
   }
 
   private onLastBuildsDisplaySelected = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
@@ -426,11 +425,11 @@ class CICDDashboard extends React.Component<{}, {}> {
         // Select Projectlist from the UserPreferences
         let userPreferences = await getUserPreferences(this.extContext, this.hostInfo.name);
         console.log("---- ListDocuments ------ ");
-        console.log(JSON.stringify(userPreferences));
+        console.log(userPreferences);
         console.log("---- END ListDocuments ----");
-        let userProjects = JSON.parse(userPreferences.selectedProjects);
-        for(let i=0;i<userProjects;i++) {
-          let prString = userProjects[i]
+        //let userProjects = JSON.parse(userPreferences.selectedProjects);
+        for(let i=0;i<userPreferences.selectedProjects;i++) {
+          let prString = userPreferences.selectedProjects[i]
           let pr = this.state.projects.find(x=> x.name === prString);
           console.log(prString + " -> " + JSON.stringify(pr));
           if(pr !== undefined) {
