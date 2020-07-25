@@ -16,7 +16,9 @@
   "scopes": [
     "vso.project",
     "vso.build", 
-    "vso.release"
+    "vso.release",
+    "vso.extension_manage",
+    "vso.extension.data_write"
   ],
   "icons": {
     "default": "icon.png"
