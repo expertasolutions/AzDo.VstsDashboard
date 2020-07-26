@@ -11,4 +11,8 @@
   - In addition to this issue, "With deployment only" & "Show all deployments" filter has been also store into user preferences extension data.
   - Data Synchronization time has been reduced from 10seconds to 5seconds
 
+- ### [Issue0139](https://github.com/expertasolutions/VstsDashboard/issues/139)
+  - TDB
+  ![Issue0139-01](_ReleaseNotes/ReleaseAugust2020/Issue0139/Issue0139-01.png)
+
 #### All these issues are part of the milestone [ReleaseAugust2020](https://github.com/expertasolutions/VstsDashboard/milestone/5)
