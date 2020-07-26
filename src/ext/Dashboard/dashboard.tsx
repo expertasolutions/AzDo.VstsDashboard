@@ -91,7 +91,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   constructor(props: {}) {
     super(props);
     this.filter = new Filter();
-    setInterval(()=> this.updateFromProject(false), 10000);
+    setInterval(()=> this.updateFromProject(false), 5000);
   }
 
   state = {
@@ -436,11 +436,6 @@ class CICDDashboard extends React.Component<{}, {}> {
         }
         //
         if(userPreferences !== undefined) {
-          console.log("showAllDeployment: " + userPreferences.showAllDeployment);
-          console.log("withDeploymentOnly: " + userPreferences.withDeploymentOnly);
-          console.log("statusOrder: " + userPreferences.showErrorsOnTop);
-
-
           this.showAllBuildDeployment = (userPreferences.showAllDeployment === 0);
           this.allDeploymentSelection.select(userPreferences.showAllDeployment);
 
