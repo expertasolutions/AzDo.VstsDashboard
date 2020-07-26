@@ -403,7 +403,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     //await SDK.ready();
     this.hostInfo = SDK.getHost();
     console.log("---- Host Info ----");
-    console.log(JSON.stringify(hostInfo));
+    console.log(JSON.stringify(this.hostInfo));
     console.log("-------------------")
     this.extContext = SDK.getExtensionContext();
     this.extensionVersion = "v" + this.extContext.version;
