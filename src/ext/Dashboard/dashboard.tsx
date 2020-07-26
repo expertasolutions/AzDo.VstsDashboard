@@ -436,9 +436,12 @@ class CICDDashboard extends React.Component<{}, {}> {
         }
         //
         if(userPreferences !== undefined) {
-          this.allDeploymentSelection.select(userPreferences.showAllDeployment);
-          this.onlyWithDeploymentSelection.select(userPreferences.withDeploymentOnly);
-          this.errorsOnSummaryTopSelection.select(userPreferences.statusOrder);
+          console.log("showAllDeployment: " + userPreferences.showAllDeployment);
+          console.log("withDeploymentOnly: " + userPreferences.withDeploymentOnly);
+          console.log("statusOrder: " + userPreferences.statusOrder);
+          //this.allDeploymentSelection.select(userPreferences.showAllDeployment);
+          //this.onlyWithDeploymentSelection.select(userPreferences.withDeploymentOnly);
+          //this.errorsOnSummaryTopSelection.select(userPreferences.statusOrder);
           this.lastBuildsDisplaySelection.select(0);
         } else {
           this.allDeploymentSelection.select(1);
