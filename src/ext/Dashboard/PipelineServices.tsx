@@ -37,35 +37,45 @@ export async function setUserPreferences(
     , extensionContext: any
     , collectionName: string
   ) : Promise<any> {
-  let currentDocument = await getUserPreferences(extensionContext, collectionName);
-  let result: any;
-  if(currentDocument === undefined) {
-    var newDoc = {
-      docName : "UserPreferences",
-      showErrorsOnTop: statusOrder,
-      withDeploymentOnly: withDeploymentOnly,
-      showAllDeployment: showAllDeployment,
-      selectedProjects : projectList
-    };
-    result = await extClient.createDocumentByName(newDoc, extensionContext.publisherId, extensionContext.extensionId, "User", "Me", collectionName);
-  } else {
-    var updDoc = { 
-      docName : "UserPreferences",
-      selectedProjects : projectList,
-      showErrorsOnTop: statusOrder,
-      withDeploymentOnly: withDeploymentOnly,
-      showAllDeployment: showAllDeployment,
-      id: currentDocument.id,
-      __etag: currentDocument.__etag
-    };
-    result = await extClient.updateDocumentByName(updDoc, extensionContext.publisherId, extensionContext.extensionId, "User", "Me", collectionName);
+  try {
+    let currentDocument = await getUserPreferences(extensionContext, collectionName);
+    let result: any;
+    if(currentDocument === undefined) {
+      var newDoc = {
+        docName : "UserPreferences",
+        showErrorsOnTop: statusOrder,
+        withDeploymentOnly: withDeploymentOnly,
+        showAllDeployment: showAllDeployment,
+        selectedProjects : projectList
+      };
+      result = await extClient.createDocumentByName(newDoc, extensionContext.publisherId, extensionContext.extensionId, "User", "Me", collectionName);
+    } else {
+      var updDoc = { 
+        docName : "UserPreferences",
+        selectedProjects : projectList,
+        showErrorsOnTop: statusOrder,
+        withDeploymentOnly: withDeploymentOnly,
+        showAllDeployment: showAllDeployment,
+        id: currentDocument.id,
+        __etag: currentDocument.__etag
+      };
+      result = await extClient.updateDocumentByName(updDoc, extensionContext.publisherId, extensionContext.extensionId, "User", "Me", collectionName);
+    }
+    return result;
+  } catch {
+    console.log("setUserPreference errors");
+    return undefined;
   }
-  return result;
 }
 
 export async function getUserPreferences(extensionContext: any, collectionName: string) : Promise<any> {
-  let results = await extClient.getDocumentsByName(extensionContext.publisherId, extensionContext.extensionId, "User", "Me", collectionName);
-  return results.find(x=> x.docName === "UserPreferences");
+  try {
+    let results = await extClient.getDocumentsByName(extensionContext.publisherId, extensionContext.extensionId, "User", "Me", collectionName);
+    return results.find(x=> x.docName === "UserPreferences");
+  } catch {
+    console.log("GetUserPreferences error");
+    return undefined;
+  }
 }
 
 export async function getReleasesV1(projectList: Array<string>, isFirstLoad: boolean){
