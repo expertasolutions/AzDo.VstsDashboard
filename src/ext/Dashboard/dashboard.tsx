@@ -12,7 +12,7 @@ import {
 , sortBuilds
 , sortBuildReferences
 , getMinTimeFromNow
-, setUserProjectsListPref
+, setUserPreferences
 , getUserPreferences
 } from "./PipelineServices";
 
@@ -91,7 +91,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   constructor(props: {}) {
     super(props);
     this.filter = new Filter();
-    setInterval(()=> this.updateFromProject(false), 10000);
+    setInterval(()=> this.updateFromProject(false), 5000);
   }
 
   state = {
@@ -315,18 +315,20 @@ class CICDDashboard extends React.Component<{}, {}> {
     } else {
       this.showOnlyBuildWithDeployments = false;
     }
+    this.assignUserPreferences();
     this.refreshUI.value = new Date().toTimeString();
     this.filterData();
     this.filterBuildsData();
   }
 
   private onErrorsOnSummaryOnTop = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
+    let showAll = true;
     if(item.id !== undefined) {
-      let showAll = item.id === "true";
-      this.showErrorsOnSummaryOnTop = showAll;
-    } else {
-      this.showErrorsOnSummaryOnTop = true;
+      showAll = item.id === "true";
     }
+    this.showErrorsOnSummaryOnTop = showAll;
+    this.assignUserPreferences();
+    
     this.refreshUI.value = new Date().toTimeString();
     this.filterData();
   }
@@ -338,6 +340,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     } else {
       this.showAllBuildDeployment = false;
     }
+    this.assignUserPreferences();
     this.setState({ showAllBuildDeployment: this.showAllBuildDeployment });
     this.refreshUI.value = new Date().toTimeString();
     this.filterData();
@@ -354,9 +357,17 @@ class CICDDashboard extends React.Component<{}, {}> {
     this.buildProvider.value = new ArrayItemProvider(this.state.builds);
     
     this.updateFromProject(true);
+    this.assignUserPreferences();
+  }
 
+  private assignUserPreferences() {
     /************ Preferences storage tests ***********/
-    setUserProjectsListPref(this.currentSelectedProjects, this.extContext, this.hostInfo.name);
+    setUserPreferences(
+      this.currentSelectedProjects
+    , (this.showErrorsOnSummaryOnTop ? 0 : 1)
+    , (this.showOnlyBuildWithDeployments ? 0 : 1)
+    , (this.showAllBuildDeployment ? 0 : 1)
+    , this.extContext, this.hostInfo.name);
     /************ Preferences storage tests ***********/
   }
 
@@ -391,6 +402,9 @@ class CICDDashboard extends React.Component<{}, {}> {
     await SDK.init();
     //await SDK.ready();
     this.hostInfo = SDK.getHost();
+    console.log("---- Host Info ----");
+    console.log(JSON.stringify(this.hostInfo));
+    console.log("-------------------")
     this.extContext = SDK.getExtensionContext();
     this.extensionVersion = "v" + this.extContext.version;
     this.releaseNoteVersion = "https://github.com/expertasolutions/VstsDashboard/releases/tag/" + this.extContext.version;
@@ -421,11 +435,23 @@ class CICDDashboard extends React.Component<{}, {}> {
           }
         }
         //
+        if(userPreferences !== undefined) {
+          this.showAllBuildDeployment = (userPreferences.showAllDeployment === 0);
+          this.allDeploymentSelection.select(userPreferences.showAllDeployment);
 
-        this.allDeploymentSelection.select(1);
-        this.onlyWithDeploymentSelection.select(1);
-        this.errorsOnSummaryTopSelection.select(0);
-        this.lastBuildsDisplaySelection.select(0);
+          this.showOnlyBuildWithDeployments = (userPreferences.withDeploymentOnly === 0);
+          this.onlyWithDeploymentSelection.select(userPreferences.withDeploymentOnly);
+          
+          this.showErrorsOnSummaryOnTop = (userPreferences.showErrorsOnTop === 0);
+          this.errorsOnSummaryTopSelection.select(userPreferences.showErrorsOnTop);
+
+          this.lastBuildsDisplaySelection.select(0);
+        } else {
+          this.allDeploymentSelection.select(1);
+          this.onlyWithDeploymentSelection.select(1);
+          this.errorsOnSummaryTopSelection.select(0);
+          this.lastBuildsDisplaySelection.select(0);
+        }
 
         this.updateFromProject(true);
         this.filterData();
