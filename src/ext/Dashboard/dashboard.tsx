@@ -438,10 +438,10 @@ class CICDDashboard extends React.Component<{}, {}> {
         if(userPreferences !== undefined) {
           console.log("showAllDeployment: " + userPreferences.showAllDeployment);
           console.log("withDeploymentOnly: " + userPreferences.withDeploymentOnly);
-          console.log("statusOrder: " + userPreferences.statusOrder);
-          //this.allDeploymentSelection.select(userPreferences.showAllDeployment);
-          //this.onlyWithDeploymentSelection.select(userPreferences.withDeploymentOnly);
-          //this.errorsOnSummaryTopSelection.select(userPreferences.statusOrder);
+          console.log("statusOrder: " + userPreferences.showErrorsOnTop);
+          this.allDeploymentSelection.select(userPreferences.showAllDeployment);
+          this.onlyWithDeploymentSelection.select(userPreferences.withDeploymentOnly);
+          this.errorsOnSummaryTopSelection.select(userPreferences.showErrorsOnTop);
           this.lastBuildsDisplaySelection.select(0);
         } else {
           this.allDeploymentSelection.select(1);
