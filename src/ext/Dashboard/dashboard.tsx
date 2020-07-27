@@ -139,10 +139,19 @@ class CICDDashboard extends React.Component<{}, {}> {
     let buildDefList = new Array<BuildDefinitionReference>();
 
     if(filterState.pipelineKeyWord !== undefined && filterState.pipelineKeyWord !== null && filterState.pipelineKeyWord.value !== "") {
+      // TODO: Add the search with regex expression
+      
       let pipelineFilterText = filterState.pipelineKeyWord.value.toLowerCase();
       let elm = this.state.buildDefs.filter(x=> x.name.toLowerCase()
                                                   .indexOf(pipelineFilterText) !== -1 || 
                                                   (x.latestCompletedBuild != null && x.latestCompletedBuild.buildNumber.toLowerCase().indexOf(pipelineFilterText) !== -1));
+      
+      let regexSearcher = new RegExp(pipelineFilterText);
+      let elmReg = this.state.buildDefs.filter(x=> regexSearcher.test(x.name));
+      console.log("---- REGEX ----");
+      console.log(JSON.stringify(elmReg));
+      console.log("---------------")
+                                                  
       buildDefList = elm;
     } else {
       buildDefList = this.state.buildDefs;
@@ -402,9 +411,6 @@ class CICDDashboard extends React.Component<{}, {}> {
     await SDK.init();
     //await SDK.ready();
     this.hostInfo = SDK.getHost();
-    console.log("---- Host Info ----");
-    console.log(JSON.stringify(this.hostInfo));
-    console.log("-------------------")
     this.extContext = SDK.getExtensionContext();
     this.extensionVersion = "v" + this.extContext.version;
     this.releaseNoteVersion = "https://github.com/expertasolutions/VstsDashboard/releases/tag/" + this.extContext.version;
