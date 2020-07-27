@@ -19,4 +19,4 @@
 - ### [Issue0136](https://github.com/expertasolutions/VstsDashboard/issues/136)
   - TDB
 
-#### All these issues are part of the milestone [ReleaseAugust2020](https://github.com/expertasolutions/VstsDashboard/milestone/5)
+#### All these issues are part of the milestone [ReleaseAugust2020](https://github.com/expertasolutions/VstsDashboard/milestone/5?closed=1)
