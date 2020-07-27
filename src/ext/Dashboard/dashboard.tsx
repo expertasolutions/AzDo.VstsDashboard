@@ -148,12 +148,16 @@ class CICDDashboard extends React.Component<{}, {}> {
       );
 
       if(elm.length === 0) {
-        let regexSearcher = new RegExp(pipelineFilterText.toLowerCase());
-        elm = this.state.buildDefs.filter(
-            x=> regexSearcher.test(x.name.toLowerCase()) ||
-            (x.latestCompletedBuild != null && regexSearcher.test(x.latestCompletedBuild.buildNumber.toLowerCase())) ||
-            (x.latestCompletedBuild != null && regexSearcher.test(x.latestCompletedBuild.sourceBranch.toLowerCase()))
-        );
+        try {
+          let regexSearcher = new RegExp(pipelineFilterText.toLowerCase());
+          elm = this.state.buildDefs.filter(
+              x=> regexSearcher.test(x.name.toLowerCase()) ||
+              (x.latestCompletedBuild != null && regexSearcher.test(x.latestCompletedBuild.buildNumber.toLowerCase())) ||
+              (x.latestCompletedBuild != null && regexSearcher.test(x.latestCompletedBuild.sourceBranch.toLowerCase()))
+          );
+        } catch {
+          elm = [];
+        }
       }
 
       buildDefList = elm;
