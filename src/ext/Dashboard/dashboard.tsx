@@ -139,8 +139,6 @@ class CICDDashboard extends React.Component<{}, {}> {
     let buildDefList = new Array<BuildDefinitionReference>();
 
     if(filterState.pipelineKeyWord !== undefined && filterState.pipelineKeyWord !== null && filterState.pipelineKeyWord.value !== "") {
-      // TODO: Add the search with regex expression
-      
       let pipelineFilterText = filterState.pipelineKeyWord.value.toLowerCase();
       
       let elm = this.state.buildDefs.filter(
@@ -149,12 +147,14 @@ class CICDDashboard extends React.Component<{}, {}> {
         (x.latestCompletedBuild != null && x.latestCompletedBuild.sourceBranch.toLowerCase().indexOf(pipelineFilterText) !== -1)
       );
 
-      let regexSearcher = new RegExp(pipelineFilterText.toLowerCase());
-      elm = this.state.buildDefs.filter(
-          x=> regexSearcher.test(x.name.toLowerCase()) ||
-          (x.latestCompletedBuild != null && regexSearcher.test(x.latestCompletedBuild.buildNumber.toLowerCase())) ||
-          (x.latestCompletedBuild != null && regexSearcher.test(x.latestCompletedBuild.sourceBranch.toLowerCase()))
-      );
+      if(elm.length === 0) {
+        let regexSearcher = new RegExp(pipelineFilterText.toLowerCase());
+        elm = this.state.buildDefs.filter(
+            x=> regexSearcher.test(x.name.toLowerCase()) ||
+            (x.latestCompletedBuild != null && regexSearcher.test(x.latestCompletedBuild.buildNumber.toLowerCase())) ||
+            (x.latestCompletedBuild != null && regexSearcher.test(x.latestCompletedBuild.sourceBranch.toLowerCase()))
+        );
+      }
 
       buildDefList = elm;
     } else {
