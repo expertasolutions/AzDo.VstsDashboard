@@ -140,9 +140,26 @@ class CICDDashboard extends React.Component<{}, {}> {
 
     if(filterState.pipelineKeyWord !== undefined && filterState.pipelineKeyWord !== null && filterState.pipelineKeyWord.value !== "") {
       let pipelineFilterText = filterState.pipelineKeyWord.value.toLowerCase();
-      let elm = this.state.buildDefs.filter(x=> x.name.toLowerCase()
-                                                  .indexOf(pipelineFilterText) !== -1 || 
-                                                  (x.latestCompletedBuild != null && x.latestCompletedBuild.buildNumber.toLowerCase().indexOf(pipelineFilterText) !== -1));
+      
+      let elm = this.state.buildDefs.filter(
+        x=> x.name.toLowerCase().indexOf(pipelineFilterText) !== -1 || 
+        (x.latestCompletedBuild != null && x.latestCompletedBuild.buildNumber.toLowerCase().indexOf(pipelineFilterText) !== -1) ||
+        (x.latestCompletedBuild != null && x.latestCompletedBuild.sourceBranch.toLowerCase().indexOf(pipelineFilterText) !== -1)
+      );
+
+      if(elm.length === 0) {
+        try {
+          let regexSearcher = new RegExp(pipelineFilterText.toLowerCase());
+          elm = this.state.buildDefs.filter(
+              x=> regexSearcher.test(x.name.toLowerCase()) ||
+              (x.latestCompletedBuild != null && regexSearcher.test(x.latestCompletedBuild.buildNumber.toLowerCase())) ||
+              (x.latestCompletedBuild != null && regexSearcher.test(x.latestCompletedBuild.sourceBranch.toLowerCase()))
+          );
+        } catch {
+          elm = [];
+        }
+      }
+
       buildDefList = elm;
     } else {
       buildDefList = this.state.buildDefs;
@@ -173,7 +190,21 @@ class CICDDashboard extends React.Component<{}, {}> {
     if(filterState.pipelineKeyWord !== undefined && filterState.pipelineKeyWord !== null && filterState.pipelineKeyWord.value !== "") {
       let pipelineFilterText = filterState.pipelineKeyWord.value.toLowerCase();
       let elm = this.state.builds.filter(x=> x.definition.name.toLowerCase().indexOf(pipelineFilterText) !== -1 || x.buildNumber.toLowerCase().indexOf(pipelineFilterText) !== -1);
+
+      if(elm.length === 0) {
+        try {
+          let regexSearcher = new RegExp(pipelineFilterText.toLowerCase());
+          elm = this.state.builds.filter(
+              x=> regexSearcher.test(x.definition.name.toLowerCase()) ||
+              (regexSearcher.test(x.buildNumber.toLowerCase())) ||
+              (regexSearcher.test(x.sourceBranch.toLowerCase()))
+          );
+        } catch {
+          elm = [];
+        }
+      }
       buildList = elm;
+
     } else {
       buildList = this.state.builds;
     }
@@ -402,9 +433,6 @@ class CICDDashboard extends React.Component<{}, {}> {
     await SDK.init();
     //await SDK.ready();
     this.hostInfo = SDK.getHost();
-    console.log("---- Host Info ----");
-    console.log(JSON.stringify(this.hostInfo));
-    console.log("-------------------")
     this.extContext = SDK.getExtensionContext();
     this.extensionVersion = "v" + this.extContext.version;
     this.releaseNoteVersion = "https://github.com/expertasolutions/VstsDashboard/releases/tag/" + this.extContext.version;

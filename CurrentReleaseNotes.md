@@ -16,4 +16,10 @@
     - [Issue0137](https://github.com/expertasolutions/VstsDashboard/issues/137)
     - [Issue0141](https://github.com/expertasolutions/VstsDashboard/issues/141)
 
-#### All these issues are part of the milestone [ReleaseAugust2020](https://github.com/expertasolutions/VstsDashboard/milestone/5)
+- ### [Issue0136](https://github.com/expertasolutions/VstsDashboard/issues/136)
+  - Regex Search is activated on these fields
+    1) Build Definition|Pipeline Name
+    2) Build generated name
+    3) Branch name
+
+#### All these issues are part of the milestone [ReleaseAugust2020](https://github.com/expertasolutions/VstsDashboard/milestone/5?closed=1)
