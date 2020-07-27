@@ -12,7 +12,8 @@
   - Data Synchronization time has been reduced from 10seconds to 5seconds
 
 - ### [Issue0139](https://github.com/expertasolutions/VstsDashboard/issues/139)
-  - TDB
-  ![Issue0139-01](_ReleaseNotes/ReleaseAugust2020/Issue0139/Issue0139-01.png)
+  - See issues:
+    - [Issue0137](https://github.com/expertasolutions/VstsDashboard/issues/137)
+    - [Issue0141](https://github.com/expertasolutions/VstsDashboard/issues/141)
 
 #### All these issues are part of the milestone [ReleaseAugust2020](https://github.com/expertasolutions/VstsDashboard/milestone/5)

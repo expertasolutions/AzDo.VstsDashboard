@@ -67,14 +67,12 @@ class CICDDashboard extends React.Component<{}, {}> {
   private errorsOnSummaryTopSelection = new DropdownSelection();
   private onlyWithDeploymentSelection = new DropdownSelection();
   private lastBuildsDisplaySelection = new DropdownSelection();
-  private keywordSelection = new DropdownSelection();
 
   private filter: Filter = new Filter();
   private allDeploymentFilter: Filter = new Filter();
   private errorsOnSummaryTopFilter = new Filter();
   private onlyBuildWithDeploymentFilter: Filter = new Filter();
   private lastBuildsDisplayFilter: Filter = new Filter();
-  private keywordFilter: Filter = new Filter();
 
   private currentSelectedProjects: Array<string> = new Array<string>();
   private initialProjectName : string = "";
@@ -308,10 +306,6 @@ class CICDDashboard extends React.Component<{}, {}> {
 
       this.filterBuildsData();
     });
-  }
-
-  private onKeywordSelected = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
-    console.log("onKeywordSelected");
   }
 
   private onOnlyBuildWithDeployments = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
@@ -712,16 +706,6 @@ class CICDDashboard extends React.Component<{}, {}> {
                 return (
                   <FilterBar filter={this.filter}>
                     <KeywordFilterBarItem filterItemKey="pipelineKeyWord" />
-                    <DropdownFilterBarItem
-                      filterItemKey="keywordsFilter"
-                      filter={this.keywordFilter}
-                      items={[
-                        { id:"na", text: "na"}
-                      ]}
-                      onSelect={this.onKeywordSelected}
-                      selection={this.keywordSelection}
-                      placeholder="Filter by keywords list"
-                      hideClearAction={true}/>
                     { errorOnTopFilter }
                     { lastBuildsDisplay }
                     <DropdownFilterBarItem
