@@ -146,8 +146,8 @@ class CICDDashboard extends React.Component<{}, {}> {
                                                   .indexOf(pipelineFilterText) !== -1 || 
                                                   (x.latestCompletedBuild != null && x.latestCompletedBuild.buildNumber.toLowerCase().indexOf(pipelineFilterText) !== -1));
       
-      let regexSearcher = new RegExp(pipelineFilterText);
-      let elmReg = this.state.buildDefs.filter(x=> regexSearcher.test(x.name));
+      let regexSearcher = new RegExp(pipelineFilterText.ToLowerCase());
+      let elmReg = this.state.buildDefs.filter(x=> regexSearcher.test(x.name.toLowerCase()));
       console.log("---- REGEX ----");
       console.log(JSON.stringify(elmReg));
       console.log("---------------")
