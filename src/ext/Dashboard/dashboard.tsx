@@ -142,12 +142,18 @@ class CICDDashboard extends React.Component<{}, {}> {
       // TODO: Add the search with regex expression
       
       let pipelineFilterText = filterState.pipelineKeyWord.value.toLowerCase();
+      /*
       let elm = this.state.buildDefs.filter(x=> x.name.toLowerCase()
                                                   .indexOf(pipelineFilterText) !== -1 || 
                                                   (x.latestCompletedBuild != null && x.latestCompletedBuild.buildNumber.toLowerCase().indexOf(pipelineFilterText) !== -1));
-      
+      */
+
       let regexSearcher = new RegExp(pipelineFilterText.ToLowerCase());
-      let elmReg = this.state.buildDefs.filter(x=> regexSearcher.test(x.name.toLowerCase()));
+      let elm = this.state.buildDefs.filter(
+          x=> regexSearcher.test(x.name.toLowerCase()) ||
+          (x.latestCompletedBuild != null && regexSearcher.test(x.latestCompletedBuild.buildNumber.toLowerCase()))
+      );
+
       console.log("---- REGEX ----");
       console.log(JSON.stringify(elmReg));
       console.log("---------------")
