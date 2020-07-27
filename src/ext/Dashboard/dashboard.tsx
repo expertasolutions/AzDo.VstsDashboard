@@ -190,7 +190,21 @@ class CICDDashboard extends React.Component<{}, {}> {
     if(filterState.pipelineKeyWord !== undefined && filterState.pipelineKeyWord !== null && filterState.pipelineKeyWord.value !== "") {
       let pipelineFilterText = filterState.pipelineKeyWord.value.toLowerCase();
       let elm = this.state.builds.filter(x=> x.definition.name.toLowerCase().indexOf(pipelineFilterText) !== -1 || x.buildNumber.toLowerCase().indexOf(pipelineFilterText) !== -1);
+
+      if(elm.length === 0) {
+        try {
+          let regexSearcher = new RegExp(pipelineFilterText.toLowerCase());
+          elm = this.state.builds.filter(
+              x=> regexSearcher.test(x.definition.name.toLowerCase()) ||
+              (regexSearcher.test(x.buildNumber.toLowerCase())) ||
+              (regexSearcher.test(x.sourceBranch.toLowerCase()))
+          );
+        } catch {
+          elm = [];
+        }
+      }
       buildList = elm;
+
     } else {
       buildList = this.state.builds;
     }
