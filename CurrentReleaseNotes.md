@@ -16,4 +16,7 @@
     - [Issue0137](https://github.com/expertasolutions/VstsDashboard/issues/137)
     - [Issue0141](https://github.com/expertasolutions/VstsDashboard/issues/141)
 
+- ### [Issue0136](https://github.com/expertasolutions/VstsDashboard/issues/136)
+  - TDB
+
 #### All these issues are part of the milestone [ReleaseAugust2020](https://github.com/expertasolutions/VstsDashboard/milestone/5)
