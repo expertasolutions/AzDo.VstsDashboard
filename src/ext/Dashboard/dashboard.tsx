@@ -464,16 +464,26 @@ class CICDDashboard extends React.Component<{}, {}> {
         }
         //
         if(userPreferences !== undefined) {
-          this.showAllBuildDeployment = (userPreferences.showAllDeployment === 0);
-          this.allDeploymentSelection.select(userPreferences.showAllDeployment);
+          if(userPreferences.showAllDeployment !== undefined) {
+            this.showAllBuildDeployment = (userPreferences.showAllDeployment === 0);
+            this.allDeploymentSelection.select(userPreferences.showAllDeployment);
+          } else {
+            this.allDeploymentSelection.select(1);
+          }
 
-          this.showOnlyBuildWithDeployments = (userPreferences.withDeploymentOnly === 0);
-          this.onlyWithDeploymentSelection.select(userPreferences.withDeploymentOnly);
-          
-          this.showErrorsOnSummaryOnTop = (userPreferences.showErrorsOnTop === 0);
-          this.errorsOnSummaryTopSelection.select(userPreferences.showErrorsOnTop);
+          if(userPreferences.withDeploymentOnly !== undefined) {
+            this.showOnlyBuildWithDeployments = (userPreferences.withDeploymentOnly === 0);
+            this.onlyWithDeploymentSelection.select(userPreferences.withDeploymentOnly);
+          } else {
+            this.onlyWithDeploymentSelection.select(1);
+          }
 
-          this.lastBuildsDisplaySelection.select(0);
+          if(userPreferences.showErrorsOnTop !== undefined) {       
+            this.showErrorsOnSummaryOnTop = (userPreferences.showErrorsOnTop === 0);
+            this.errorsOnSummaryTopSelection.select(userPreferences.showErrorsOnTop);
+          } else {
+            this.errorsOnSummaryTopSelection.select(0);
+          }
         } else {
           this.allDeploymentSelection.select(1);
           this.onlyWithDeploymentSelection.select(1);
