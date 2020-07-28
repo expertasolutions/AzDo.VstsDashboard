@@ -454,16 +454,18 @@ class CICDDashboard extends React.Component<{}, {}> {
 
         // Select Projectlist from the UserPreferences
         let userPreferences = await getUserPreferences(this.extContext, this.hostInfo.name);
-        for(let i=0;i<userPreferences.selectedProjects.length;i++) {
-          let prString = userPreferences.selectedProjects[i]
-          let pr = this.state.projects.find(x=> x.name === prString);
-          if(pr !== undefined) {
-            let idx = this.state.projects.indexOf(pr);
-            this.projectSelection.select(idx);
-          }
-        }
         //
         if(userPreferences !== undefined) {
+          
+          for(let i=0;i<userPreferences.selectedProjects.length;i++) {
+            let prString = userPreferences.selectedProjects[i]
+            let pr = this.state.projects.find(x=> x.name === prString);
+            if(pr !== undefined) {
+              let idx = this.state.projects.indexOf(pr);
+              this.projectSelection.select(idx);
+            }
+          }
+
           if(userPreferences.showAllDeployment !== undefined) {
             this.showAllBuildDeployment = (userPreferences.showAllDeployment === 0);
             this.allDeploymentSelection.select(userPreferences.showAllDeployment);
