@@ -1,5 +1,5 @@
-
 import * as API from "azure-devops-extension-api";
+
 import { 
   BuildRestClient, BuildDefinitionReference, Build, BuildStatus, ResultSet
 } from "azure-devops-extension-api/Build";
@@ -12,9 +12,12 @@ import {
   CoreRestClient
 } from "azure-devops-extension-api/core"
 
+import { ExtensionManagementRestClient } from "azure-devops-extension-api/ExtensionManagement";
+
 const coreClient = API.getClient(CoreRestClient);
 const buildClient = API.getClient(BuildRestClient);
 const releaseClient = API.getClient(ReleaseRestClient);
+const extClient = API.getClient(ExtensionManagementRestClient);
 
 export async function getProjects() {
   let result = await coreClient.getProjects();
@@ -24,6 +27,55 @@ export async function getProjects() {
 export async function getProject(projectName: string) {
   let result = await coreClient.getProject(projectName);
   return result;
+}
+
+export async function setUserPreferences(
+      projectList: Array<string>
+    , statusOrder: number
+    , withDeploymentOnly: number
+    , showAllDeployment: number
+    , extensionContext: any
+    , collectionName: string
+  ) : Promise<any> {
+  try {
+    let currentDocument = await getUserPreferences(extensionContext, collectionName);
+    let result: any;
+    if(currentDocument === undefined) {
+      var newDoc = {
+        docName : "UserPreferences",
+        showErrorsOnTop: statusOrder,
+        withDeploymentOnly: withDeploymentOnly,
+        showAllDeployment: showAllDeployment,
+        selectedProjects : projectList
+      };
+      result = await extClient.createDocumentByName(newDoc, extensionContext.publisherId, extensionContext.extensionId, "User", "Me", collectionName);
+    } else {
+      var updDoc = { 
+        docName : "UserPreferences",
+        selectedProjects : projectList,
+        showErrorsOnTop: statusOrder,
+        withDeploymentOnly: withDeploymentOnly,
+        showAllDeployment: showAllDeployment,
+        id: currentDocument.id,
+        __etag: currentDocument.__etag
+      };
+      result = await extClient.updateDocumentByName(updDoc, extensionContext.publisherId, extensionContext.extensionId, "User", "Me", collectionName);
+    }
+    return result;
+  } catch {
+    console.log("setUserPreference errors");
+    return undefined;
+  }
+}
+
+export async function getUserPreferences(extensionContext: any, collectionName: string) : Promise<any> {
+  try {
+    let results = await extClient.getDocumentsByName(extensionContext.publisherId, extensionContext.extensionId, "User", "Me", collectionName);
+    return results.find(x=> x.docName === "UserPreferences");
+  } catch {
+    console.log("GetUserPreferences error");
+    return undefined;
+  }
 }
 
 export async function getReleasesV1(projectList: Array<string>, isFirstLoad: boolean){

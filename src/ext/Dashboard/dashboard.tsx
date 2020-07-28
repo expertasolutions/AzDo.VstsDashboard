@@ -3,7 +3,19 @@ import "es6-promise/auto";
 import * as React from "react";
 import * as SDK from "azure-devops-extension-sdk";
 
-import { getBuildDefinitionsV1, getBuildsV1 , getReleasesV1, getProjects, getProject, sortBuilds, sortBuildReferences, getMinTimeFromNow } from "./PipelineServices";
+import { 
+  getBuildDefinitionsV1
+, getBuildsV1
+, getReleasesV1
+, getProjects
+, getProject
+, sortBuilds
+, sortBuildReferences
+, getMinTimeFromNow
+, setUserPreferences
+, getUserPreferences
+} from "./PipelineServices";
+
 import { dashboardColumns, buildColumns }  from "./tableData";
 
 import { KeywordFilterBarItem } from "azure-devops-ui/TextFilterBarItem";
@@ -73,11 +85,13 @@ class CICDDashboard extends React.Component<{}, {}> {
   private lastBuildsDisplay = "lastHour";
 
   private buildTimeRangeHasChanged = true;
+  private hostInfo: any = undefined;
+  private extContext: any = undefined;
 
   constructor(props: {}) {
     super(props);
     this.filter = new Filter();
-    setInterval(()=> this.updateFromProject(false), 10000);
+    setInterval(()=> this.updateFromProject(false), 5000);
   }
 
   state = {
@@ -126,9 +140,26 @@ class CICDDashboard extends React.Component<{}, {}> {
 
     if(filterState.pipelineKeyWord !== undefined && filterState.pipelineKeyWord !== null && filterState.pipelineKeyWord.value !== "") {
       let pipelineFilterText = filterState.pipelineKeyWord.value.toLowerCase();
-      let elm = this.state.buildDefs.filter(x=> x.name.toLowerCase()
-                                                  .indexOf(pipelineFilterText) !== -1 || 
-                                                  (x.latestCompletedBuild != null && x.latestCompletedBuild.buildNumber.toLowerCase().indexOf(pipelineFilterText) !== -1));
+      
+      let elm = this.state.buildDefs.filter(
+        x=> x.name.toLowerCase().indexOf(pipelineFilterText) !== -1 || 
+        (x.latestCompletedBuild != null && x.latestCompletedBuild.buildNumber.toLowerCase().indexOf(pipelineFilterText) !== -1) ||
+        (x.latestCompletedBuild != null && x.latestCompletedBuild.sourceBranch.toLowerCase().indexOf(pipelineFilterText) !== -1)
+      );
+
+      if(elm.length === 0) {
+        try {
+          let regexSearcher = new RegExp(pipelineFilterText.toLowerCase());
+          elm = this.state.buildDefs.filter(
+              x=> regexSearcher.test(x.name.toLowerCase()) ||
+              (x.latestCompletedBuild != null && regexSearcher.test(x.latestCompletedBuild.buildNumber.toLowerCase())) ||
+              (x.latestCompletedBuild != null && regexSearcher.test(x.latestCompletedBuild.sourceBranch.toLowerCase()))
+          );
+        } catch {
+          elm = [];
+        }
+      }
+
       buildDefList = elm;
     } else {
       buildDefList = this.state.buildDefs;
@@ -159,7 +190,21 @@ class CICDDashboard extends React.Component<{}, {}> {
     if(filterState.pipelineKeyWord !== undefined && filterState.pipelineKeyWord !== null && filterState.pipelineKeyWord.value !== "") {
       let pipelineFilterText = filterState.pipelineKeyWord.value.toLowerCase();
       let elm = this.state.builds.filter(x=> x.definition.name.toLowerCase().indexOf(pipelineFilterText) !== -1 || x.buildNumber.toLowerCase().indexOf(pipelineFilterText) !== -1);
+
+      if(elm.length === 0) {
+        try {
+          let regexSearcher = new RegExp(pipelineFilterText.toLowerCase());
+          elm = this.state.builds.filter(
+              x=> regexSearcher.test(x.definition.name.toLowerCase()) ||
+              (regexSearcher.test(x.buildNumber.toLowerCase())) ||
+              (regexSearcher.test(x.sourceBranch.toLowerCase()))
+          );
+        } catch {
+          elm = [];
+        }
+      }
       buildList = elm;
+
     } else {
       buildList = this.state.builds;
     }
@@ -301,18 +346,20 @@ class CICDDashboard extends React.Component<{}, {}> {
     } else {
       this.showOnlyBuildWithDeployments = false;
     }
+    this.assignUserPreferences();
     this.refreshUI.value = new Date().toTimeString();
     this.filterData();
     this.filterBuildsData();
   }
 
   private onErrorsOnSummaryOnTop = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
+    let showAll = true;
     if(item.id !== undefined) {
-      let showAll = item.id === "true";
-      this.showErrorsOnSummaryOnTop = showAll;
-    } else {
-      this.showErrorsOnSummaryOnTop = true;
+      showAll = item.id === "true";
     }
+    this.showErrorsOnSummaryOnTop = showAll;
+    this.assignUserPreferences();
+    
     this.refreshUI.value = new Date().toTimeString();
     this.filterData();
   }
@@ -324,6 +371,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     } else {
       this.showAllBuildDeployment = false;
     }
+    this.assignUserPreferences();
     this.setState({ showAllBuildDeployment: this.showAllBuildDeployment });
     this.refreshUI.value = new Date().toTimeString();
     this.filterData();
@@ -340,6 +388,18 @@ class CICDDashboard extends React.Component<{}, {}> {
     this.buildProvider.value = new ArrayItemProvider(this.state.builds);
     
     this.updateFromProject(true);
+    this.assignUserPreferences();
+  }
+
+  private assignUserPreferences() {
+    /************ Preferences storage tests ***********/
+    setUserPreferences(
+      this.currentSelectedProjects
+    , (this.showErrorsOnSummaryOnTop ? 0 : 1)
+    , (this.showOnlyBuildWithDeployments ? 0 : 1)
+    , (this.showAllBuildDeployment ? 0 : 1)
+    , this.extContext, this.hostInfo.name);
+    /************ Preferences storage tests ***********/
   }
 
   private onLastBuildsDisplaySelected = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
@@ -353,7 +413,6 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   public async loadProjects() {
     let result = await getProjects();
-    console.log("projects: " + JSON.stringify(result));
     this.setState( { projects: result });
   }
 
@@ -373,17 +432,15 @@ class CICDDashboard extends React.Component<{}, {}> {
   private async initializeState(): Promise<void> {
     await SDK.init();
     //await SDK.ready();
-    let hostInfo = SDK.getHost();
-
-    let extContext = SDK.getExtensionContext();
-    this.extensionVersion = "v" + extContext.version;
-    this.releaseNoteVersion = "https://github.com/expertasolutions/VstsDashboard/releases/tag/" + extContext.version;
+    this.hostInfo = SDK.getHost();
+    this.extContext = SDK.getExtensionContext();
+    this.extensionVersion = "v" + this.extContext.version;
+    this.releaseNoteVersion = "https://github.com/expertasolutions/VstsDashboard/releases/tag/" + this.extContext.version;
 
     const projectService = await SDK.getService<IProjectPageService>(CommonServiceIds.ProjectPageService);
     let currentProject = await projectService.getProject();
 
     await this.loadProjects();
-
     this.setState({ releases: new Array<Deployment>(), builds: new Array<Build>() });
 
     if(currentProject != undefined){
@@ -391,12 +448,38 @@ class CICDDashboard extends React.Component<{}, {}> {
       let prj = this.state.projects.find(x=> x.name === this.initialProjectName);
       if(prj != undefined) {
         let index = this.state.projects.indexOf(prj);
+
+        // If no UsersPreferences is set...
         this.projectSelection.select(index);
-        
-        this.allDeploymentSelection.select(1);
-        this.onlyWithDeploymentSelection.select(1);
-        this.errorsOnSummaryTopSelection.select(0);
-        this.lastBuildsDisplaySelection.select(0);
+
+        // Select Projectlist from the UserPreferences
+        let userPreferences = await getUserPreferences(this.extContext, this.hostInfo.name);
+        for(let i=0;i<userPreferences.selectedProjects.length;i++) {
+          let prString = userPreferences.selectedProjects[i]
+          let pr = this.state.projects.find(x=> x.name === prString);
+          if(pr !== undefined) {
+            let idx = this.state.projects.indexOf(pr);
+            this.projectSelection.select(idx);
+          }
+        }
+        //
+        if(userPreferences !== undefined) {
+          this.showAllBuildDeployment = (userPreferences.showAllDeployment === 0);
+          this.allDeploymentSelection.select(userPreferences.showAllDeployment);
+
+          this.showOnlyBuildWithDeployments = (userPreferences.withDeploymentOnly === 0);
+          this.onlyWithDeploymentSelection.select(userPreferences.withDeploymentOnly);
+          
+          this.showErrorsOnSummaryOnTop = (userPreferences.showErrorsOnTop === 0);
+          this.errorsOnSummaryTopSelection.select(userPreferences.showErrorsOnTop);
+
+          this.lastBuildsDisplaySelection.select(0);
+        } else {
+          this.allDeploymentSelection.select(1);
+          this.onlyWithDeploymentSelection.select(1);
+          this.errorsOnSummaryTopSelection.select(0);
+          this.lastBuildsDisplaySelection.select(0);
+        }
 
         this.updateFromProject(true);
         this.filterData();

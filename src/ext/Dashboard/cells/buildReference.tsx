@@ -2,12 +2,10 @@ import * as React from "react";
 
 import { 
   WithIcon,
-  WithIconSpan,
   IStatusIndicatorData,
   getPipelineIndicator,
   getReleaseTagFromBuild,
   lightGray,
-  waitingForApproval
 } from "./common";
 
 import {
