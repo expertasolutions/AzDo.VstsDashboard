@@ -8,7 +8,7 @@ The intention was to see what's currently happened into the CI/CD pipeline and p
 ## Permissions Authorization
 Don't forget to Authorize the Extension permissions under your Azure DevOps/Server Organization Settings/Extensions/CI/CD Dashboard.
 
-  ![Issue0141-01](_ReleaseNotes/ReleaseAugust2020/Issue0141/Issue0141-01.png)
+  ![Issue0141-01](screenshots/PermissionAuth.png)
 
 
 ## Supported versions

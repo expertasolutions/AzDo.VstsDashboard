@@ -454,26 +454,38 @@ class CICDDashboard extends React.Component<{}, {}> {
 
         // Select Projectlist from the UserPreferences
         let userPreferences = await getUserPreferences(this.extContext, this.hostInfo.name);
-        for(let i=0;i<userPreferences.selectedProjects.length;i++) {
-          let prString = userPreferences.selectedProjects[i]
-          let pr = this.state.projects.find(x=> x.name === prString);
-          if(pr !== undefined) {
-            let idx = this.state.projects.indexOf(pr);
-            this.projectSelection.select(idx);
-          }
-        }
         //
         if(userPreferences !== undefined) {
-          this.showAllBuildDeployment = (userPreferences.showAllDeployment === 0);
-          this.allDeploymentSelection.select(userPreferences.showAllDeployment);
-
-          this.showOnlyBuildWithDeployments = (userPreferences.withDeploymentOnly === 0);
-          this.onlyWithDeploymentSelection.select(userPreferences.withDeploymentOnly);
           
-          this.showErrorsOnSummaryOnTop = (userPreferences.showErrorsOnTop === 0);
-          this.errorsOnSummaryTopSelection.select(userPreferences.showErrorsOnTop);
+          for(let i=0;i<userPreferences.selectedProjects.length;i++) {
+            let prString = userPreferences.selectedProjects[i]
+            let pr = this.state.projects.find(x=> x.name === prString);
+            if(pr !== undefined) {
+              let idx = this.state.projects.indexOf(pr);
+              this.projectSelection.select(idx);
+            }
+          }
 
-          this.lastBuildsDisplaySelection.select(0);
+          if(userPreferences.showAllDeployment !== undefined) {
+            this.showAllBuildDeployment = (userPreferences.showAllDeployment === 0);
+            this.allDeploymentSelection.select(userPreferences.showAllDeployment);
+          } else {
+            this.allDeploymentSelection.select(1);
+          }
+
+          if(userPreferences.withDeploymentOnly !== undefined) {
+            this.showOnlyBuildWithDeployments = (userPreferences.withDeploymentOnly === 0);
+            this.onlyWithDeploymentSelection.select(userPreferences.withDeploymentOnly);
+          } else {
+            this.onlyWithDeploymentSelection.select(1);
+          }
+
+          if(userPreferences.showErrorsOnTop !== undefined) {       
+            this.showErrorsOnSummaryOnTop = (userPreferences.showErrorsOnTop === 0);
+            this.errorsOnSummaryTopSelection.select(userPreferences.showErrorsOnTop);
+          } else {
+            this.errorsOnSummaryTopSelection.select(0);
+          }
         } else {
           this.allDeploymentSelection.select(1);
           this.onlyWithDeploymentSelection.select(1);
