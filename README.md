@@ -7,7 +7,7 @@ The intention was to see what's currently happened into the CI/CD pipeline and p
 
 ## **Important**:
 - **Pipeline YAML**, due to missing Rest API functionality to extract Pipeline Deployment Stage in Pipeline Yaml, they’re not supporting viewing Deployment Stage health. There is a way to extract the information, but this will cause a major overhead in terms of usability of this extension to your users account request per min on Azure DevOps Service.
-- **After February 5th, 2022**, there will be **no longer support** to enhance on this extension. Since we moved all of our Projects on GitHub
+- **After February 5th, 2022**, there **no longer support** to enhance on this extension. Since we moved all of our Projects on GitHub
 
 ## Permissions Authorization
 Don't forget to Authorize the Extension permission under your Azure DevOps/Server Organization Settings/Extensions/CI/CD Dashboard.
