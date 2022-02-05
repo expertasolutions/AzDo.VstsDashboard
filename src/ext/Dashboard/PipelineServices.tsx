@@ -20,7 +20,7 @@ const releaseClient = API.getClient(ReleaseRestClient);
 const extClient = API.getClient(ExtensionManagementRestClient);
 
 export async function getProjects() {
-  let result = await coreClient.getProjects(null, 1);
+  let result = await coreClient.getProjects(null, 9999);
   return result.sort((a,b) => a.name.localeCompare(b.name) );
 }
 
