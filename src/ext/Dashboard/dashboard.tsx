@@ -656,10 +656,7 @@ class CICDDashboard extends React.Component<{}, {}> {
         <span className="font-size-m"><Status {...Statuses.Running} size={StatusSize.m}/>&nbsp;{buildInProgress.value}</span>&nbsp;&nbsp;
         <span className="font-size-m"><Status {...Statuses.Success} size={StatusSize.m}/>&nbsp;{buildSucceeded.value}</span>&nbsp;&nbsp;
         <span className="font-size-m"><Status {...Statuses.Warning} size={StatusSize.m}/>&nbsp;{buildInWarning.value}</span>&nbsp;&nbsp;
-        <span className="font-size-m"><Status {...Statuses.Failed} size={StatusSize.m}/>&nbsp;{buildInError.value}</span>&nbsp;&nbsp;|&nbsp;&nbsp;
-        <Link href="https://github.com/expertasolutions/VstsDashboard/issues/new" target="_blank">
-          <Icon iconName="FeedbackRequestSolid" size={IconSize.medium}/>
-        </Link>&nbsp;&nbsp;&nbsp;
+        <span className="font-size-m"><Status {...Statuses.Failed} size={StatusSize.m}/>&nbsp;{buildInError.value}</span>&nbsp;&nbsp;
         <Link onClick={async ()=> {
           isFullScreen.value = !isFullScreen.value;
           const layoutService = await SDK.getService<IHostPageLayoutService>(CommonServiceIds.HostPageLayoutService);
