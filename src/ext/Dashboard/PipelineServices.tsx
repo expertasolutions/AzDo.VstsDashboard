@@ -123,9 +123,10 @@ export async function getEnvironments(projectName: string, accessToken: string) 
   fetch(envUrl, 
     {
       method: 'GET',
+      mode: 'cors',
       headers: { 
         'Access-Control-Allow-Credentials': 'true',
-        'Access-Control-Allow-Origin': 'https://dev.azure.com',
+        'Access-Control-Allow-Origin': '*',
         'Authorization' : `Bearer ${accessToken}`
       }
     })
