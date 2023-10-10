@@ -117,28 +117,20 @@ export async function getReleases(projectName: string, isFirstLoad: boolean) {
   return dpl;
 }
 
-export async function getEnvironments(projectName: string) {
-  let test = Cookies.get();
-  console.log(`cookie: ${test.UserAuthentication}`);
-  let userAuth = Cookies.get('UserAuthentication');
-  let hostAuth = Cookies.get('HostAuthentication');
-  console.log(`userAuth: ${userAuth}`);
-  console.log(`hostAuth: ${hostAuth}`);
-  console.log('------');
+export async function getEnvironments(projectName: string, accessToken: string) {
+  console.log("------");
   getAccessToken().then(token => console.log(`token: ${token}`));
   console.log('------');
   let environments = new Array<any>();
   let envUrl = `https://dev.azure.com/${projectName}/_apis/distributedtask/environments?api-version=7.2-preview.1`;
-  /*
   console.log("-----");
   fetch(envUrl, 
     {
-      headers: { Authentication: 'Bearer ' + userAuth },
+      headers: { Authentication: 'Bearer ' + accessToken },
     })
     .then(response => response.json())
     .then(data => console.log(data));
   console.log('-----');
-  */
   return environments;
 }
 

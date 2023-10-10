@@ -89,6 +89,8 @@ class CICDDashboard extends React.Component<{}, {}> {
   private hostInfo: any = undefined;
   private extContext: any = undefined;
 
+  private currentAccessToken: string = undefined;
+
   constructor(props: {}) {
     super(props);
     this.filter = new Filter();
@@ -268,7 +270,10 @@ class CICDDashboard extends React.Component<{}, {}> {
 
       this.filterData();
     }).then(()=> {
-      SDK.ready().then(()=> { this.isLoading.value = false; });
+      SDK.ready().then(async ()=> { 
+        this.isLoading.value = false; 
+        this.currentAccessToken = await SDK.getAccessToken();
+      });
     });
    
     // Update the Release List
@@ -300,7 +305,7 @@ class CICDDashboard extends React.Component<{}, {}> {
 
     // TODO: Get Environments list
     console.log("-----");
-    getEnvironments("Community").then(result => {
+    getEnvironments("Community", this.currentAccessToken).then(result => {
       console.log(result);
     });
     console.log('-----');
