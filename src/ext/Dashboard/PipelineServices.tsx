@@ -123,8 +123,9 @@ export async function getEnvironments(projectName: string, accessToken: string) 
   fetch(envUrl, 
     {
       method: 'GET',
-      credentials: 'include',
+      //credentials: 'include',
       headers: { 
+        'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Credentials': 'true',
         'Authorization' : `Bearer ${accessToken}`
       }
