@@ -125,8 +125,6 @@ export async function getEnvironments(projectName: string, accessToken: string) 
       method: 'GET',
       headers: { 
         'Authorization' : `Bearer ${accessToken}`,
-        'Access-Control-Request-Headers': 'content-type, authorization',
-        'Access-Control-Request-Method': 'GET',
         ':method': 'GET',
         ':scheme': 'https',
         ':authority': 'dev.azure.com',
