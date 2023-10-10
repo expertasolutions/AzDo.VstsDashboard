@@ -122,7 +122,7 @@ export async function getEnvironments(projectName: string, accessToken: string) 
   console.log('------');
   let environments = new Array<any>();
   let envUrl = `https://dev.azure.com/experta/${projectName}/_apis/distributedtask/environments?api-version=7.2-preview.1`;
-
+  console.log(envUrl);
   console.log("-----");
   fetch(envUrl, 
     {
