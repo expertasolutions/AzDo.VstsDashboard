@@ -130,7 +130,11 @@ export async function getEnvironments(projectName: string, accessToken: string) 
         'Authorization' : `Bearer ${accessToken}` 
       }
     })
-    .then(response => response.json())
+    .then(response => {
+      console.log(response);
+      console.log(response.json());
+      response.json();
+    })
     .then(data => console.log(data));
   console.log('-----');
   return environments;
