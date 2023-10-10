@@ -9,6 +9,7 @@ import {
 , getReleasesV1
 , getProjects
 , getProject
+, getEnvironments
 , sortBuilds
 , sortBuildReferences
 , getMinTimeFromNow
@@ -296,6 +297,13 @@ class CICDDashboard extends React.Component<{}, {}> {
     if(firstLoad) {
       this.buildTimeRangeHasChanged = true;
     }
+
+    // TODO: Get Environments list
+    console.log("-----");
+    getEnvironments("Community").then(result => {
+      console.log(result);
+    });
+    console.log('-----');
 
     getBuildsV1(this.currentSelectedProjects, this.buildTimeRangeHasChanged, this.lastBuildsDisplay).then(result => {
       let currentResult = this.state.builds;

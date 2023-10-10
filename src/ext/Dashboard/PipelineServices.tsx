@@ -1,4 +1,5 @@
 import * as API from "azure-devops-extension-api";
+import * as Cookies from "js-cookie";
 
 import { 
   BuildRestClient, BuildDefinitionReference, Build, BuildStatus, ResultSet
@@ -112,6 +113,21 @@ export async function getReleases(projectName: string, isFirstLoad: boolean) {
     dpl.push(...result);
   } while(result.length > 0);
   return dpl;
+}
+
+export async function getEnvironments(projectName: string) {
+  let userAuth = Cookies.get('UserAuthentication', { domain: 'dev.azure.com' });
+  let hostAuth = Cookies.get('HostAuthentication', { domain: 'dev.azure.com' })
+  console.log(`userAuth: ${userAuth}`);
+  console.log(`hostAuth: ${hostAuth}`);
+  let environments = new Array<any>();
+  let envUrl = `https://dev.azure.com/${projectName}/_apis/distributedtask/environments?api-version=7.2-preview.1`;
+  console.log("-----");
+  fetch(envUrl)
+    .then(response => response.json())
+    .then(data => console.log(data));
+  console.log('-----');
+  return environments;
 }
 
 export async function getBuildsV1(projectList: Array<string>, isFirstLoad: boolean, timeRangeLoad: string) {
