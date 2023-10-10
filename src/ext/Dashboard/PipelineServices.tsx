@@ -123,7 +123,10 @@ export async function getEnvironments(projectName: string) {
   let environments = new Array<any>();
   let envUrl = `https://dev.azure.com/${projectName}/_apis/distributedtask/environments?api-version=7.2-preview.1`;
   console.log("-----");
-  fetch(envUrl)
+  fetch(envUrl, 
+    {
+      headers: { Authentication: 'Bearer ' + userAuth },
+    })
     .then(response => response.json())
     .then(data => console.log(data));
   console.log('-----');
