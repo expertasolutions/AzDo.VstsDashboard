@@ -125,7 +125,10 @@ export async function getEnvironments(projectName: string, accessToken: string) 
   console.log("-----");
   fetch(envUrl, 
     {
-      headers: { Authentication: 'Bearer ' + accessToken },
+      headers: { 
+        'Content-Type': 'application/json',
+        'Authorization' : `Bearer ${accessToken}` 
+      }
     })
     .then(response => response.json())
     .then(data => console.log(data));
