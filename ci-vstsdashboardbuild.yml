@@ -35,7 +35,7 @@ stages:
     - task: Npm@1
       displayName: 'Install Dependencies'
       inputs:
-        command: ci
+        command: ci --force
         verbose: false
 
     - task: Npm@1
