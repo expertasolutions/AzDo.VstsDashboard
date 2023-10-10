@@ -89,7 +89,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   private hostInfo: any = undefined;
   private extContext: any = undefined;
 
-  private currentAccessToken: string = undefined;
+  private currentAccessToken: any = undefined;
 
   constructor(props: {}) {
     super(props);
