@@ -15,6 +15,7 @@ import {
 } from "azure-devops-extension-api/core"
 
 import { ExtensionManagementRestClient } from "azure-devops-extension-api/ExtensionManagement";
+import { getAccessToken } from "azure-devops-extension-sdk";
 
 const coreClient = API.getClient(CoreRestClient);
 const buildClient = API.getClient(BuildRestClient);
@@ -123,6 +124,9 @@ export async function getEnvironments(projectName: string) {
   let hostAuth = Cookies.get('HostAuthentication');
   console.log(`userAuth: ${userAuth}`);
   console.log(`hostAuth: ${hostAuth}`);
+  console.log('------');
+  getAccessToken().then(token => console.log(`token: ${token}`));
+  console.log('------');
   let environments = new Array<any>();
   let envUrl = `https://dev.azure.com/${projectName}/_apis/distributedtask/environments?api-version=7.2-preview.1`;
   /*
