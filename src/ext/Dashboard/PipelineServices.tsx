@@ -119,7 +119,7 @@ export async function getReleases(projectName: string, isFirstLoad: boolean) {
 
 export async function getEnvironments(projectName: string) {
   let test = Cookies.get();
-  console.log(`cookie: ${test}`);
+  console.log(`cookie: ${test.UserAuthentication}`);
   let userAuth = Cookies.get('UserAuthentication');
   let hostAuth = Cookies.get('HostAuthentication');
   console.log(`userAuth: ${userAuth}`);
