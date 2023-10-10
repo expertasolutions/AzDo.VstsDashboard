@@ -125,8 +125,6 @@ export async function getEnvironments(projectName: string, accessToken: string) 
       method: 'GET',
       credentials: 'include',
       headers: { 
-        'Access-Control-Allow-Credentials': 'true',
-        'Access-Control-Allow-Origin': '*',
         'Authorization' : `Bearer ${accessToken}`
       }
     })
