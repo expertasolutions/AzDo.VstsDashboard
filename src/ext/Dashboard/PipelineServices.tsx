@@ -1,7 +1,5 @@
 import * as API from "azure-devops-extension-api";
 
-import * as Cookies from 'js-cookie';
-
 import { 
   BuildRestClient, BuildDefinitionReference, Build, BuildStatus, ResultSet
 } from "azure-devops-extension-api/Build";
