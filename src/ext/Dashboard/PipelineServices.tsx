@@ -117,7 +117,8 @@ export async function getReleases(projectName: string, isFirstLoad: boolean) {
 }
 
 export async function getEnvironments(projectName: string) {
-  let domain = { domain: 'dev.azure.com' };
+  let test = Cookies.get();
+  console.log(test);
   let userAuth = Cookies.get('UserAuthentication');
   let hostAuth = Cookies.get('HostAuthentication');
   console.log(`userAuth: ${userAuth}`);
