@@ -117,7 +117,8 @@ export async function getReleases(projectName: string, isFirstLoad: boolean) {
 
 export async function getEnvironments(projectName: string, accessToken: string) {
   console.log("------");
-  getAccessToken().then(token => console.log(`token: ${token}`));
+  //getAccessToken().then(token => console.log(`token: ${token}`));
+  console.log(`accessToken: ${accessToken}`);
   console.log('------');
   let environments = new Array<any>();
   let envUrl = `https://dev.azure.com/${projectName}/_apis/distributedtask/environments?api-version=7.2-preview.1`;
