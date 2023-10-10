@@ -128,10 +128,13 @@ export async function getEnvironments(projectName: string, accessToken: string) 
     {
       method: 'GET',
       headers: { 
-        'Content-Type': 'application/json',
         'Authorization' : `Bearer ${accessToken}`,
         'Access-Control-Request-Headers': 'content-type, authorization',
-        'Access-Control-Request-Method': 'GET'
+        'Access-Control-Request-Method': 'GET',
+        'method': 'GET',
+        'scheme': 'https',
+        'authority': 'dev.azure.com',
+        'path': '/experta/Community/_apis/distributedtask/environments?api-version=7.2-preview.1'
       }
     })
     .then(response => {
