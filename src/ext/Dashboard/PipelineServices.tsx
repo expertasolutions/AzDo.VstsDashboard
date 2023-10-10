@@ -1,5 +1,6 @@
 import * as API from "azure-devops-extension-api";
-import * as Cookies from "js-cookie";
+
+import * as Cookies from 'js-cookie';
 
 import { 
   BuildRestClient, BuildDefinitionReference, Build, BuildStatus, ResultSet
@@ -116,8 +117,9 @@ export async function getReleases(projectName: string, isFirstLoad: boolean) {
 }
 
 export async function getEnvironments(projectName: string) {
-  let userAuth = Cookies.get('UserAuthentication', { domain: 'dev.azure.com' });
-  let hostAuth = Cookies.get('HostAuthentication', { domain: 'dev.azure.com' })
+  let domain = { domain: 'dev.azure.com' };
+  let userAuth = Cookies.get('UserAuthentication');
+  let hostAuth = Cookies.get('HostAuthentication');
   console.log(`userAuth: ${userAuth}`);
   console.log(`hostAuth: ${hostAuth}`);
   let environments = new Array<any>();

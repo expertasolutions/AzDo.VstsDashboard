@@ -31,7 +31,7 @@ import { Link } from "azure-devops-ui/Link";
 import { Icon, IconSize } from "azure-devops-ui/Icon";
 import { Status, Statuses, StatusSize } from "azure-devops-ui/Status";
 
-import { TeamProjectReference } from "azure-devops-extension-api/Core";
+import { TeamProjectReference } from "azure-devops-extension-api/core";
 import { BuildDefinitionReference, Build, BuildStatus, BuildResult } from "azure-devops-extension-api/Build";
 import { Deployment } from "azure-devops-extension-api/Release";
 
