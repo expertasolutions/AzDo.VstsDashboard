@@ -129,7 +129,9 @@ export async function getEnvironments(projectName: string, accessToken: string) 
       method: 'GET',
       headers: { 
         'Content-Type': 'application/json',
-        'Authorization' : `Bearer ${accessToken}` 
+        'Authorization' : `Bearer ${accessToken}`,
+        'Access-Control-Request-Headers': 'content-type, authorization',
+        'Access-Control-Request-Method': 'GET'
       }
     })
     .then(response => {
