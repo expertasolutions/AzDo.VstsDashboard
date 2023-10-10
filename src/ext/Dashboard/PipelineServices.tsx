@@ -123,7 +123,7 @@ export async function getEnvironments(projectName: string, accessToken: string) 
   fetch(envUrl, 
     {
       method: 'GET',
-      mode: 'cors',
+      credentials: 'include',
       headers: { 
         'Access-Control-Allow-Credentials': 'true',
         'Access-Control-Allow-Origin': '*',
