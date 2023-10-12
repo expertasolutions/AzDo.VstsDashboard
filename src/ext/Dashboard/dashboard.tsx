@@ -311,7 +311,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       console.log('environment list');
       console.log(result);
       let currentEnv = this.state.environments;
-      for(let i=0;i<result.length;i++) {
+      for(let i=0;i<result.count;i++) {
         var newEnv = result.value[i];
         console.log(`env: ${newEnv.id} - ${newEnv.name}}`);
 
@@ -319,10 +319,20 @@ class CICDDashboard extends React.Component<{}, {}> {
         if(env != undefined) {
           let envIndex = currentEnv.indexOf(env, 0);
           if(envIndex > -1) {
-            currentEnv[envIndex] = newEnv;
+            let newPipelineEnv: PipelineEnvironment = {
+              id: newEnv.id,
+              name: newEnv.name,
+              projectId: "community"
+            };
+            currentEnv[envIndex] = newPipelineEnv;
           }
         } else {
-          currentEnv.splice(0, 0, newEnv);
+          let newPipelineEnv: PipelineEnvironment = {
+            id: newEnv.id,
+            name: newEnv.name,
+            projectId: "community"
+          };
+          currentEnv.splice(0, 0, newPipelineEnv);
         }
       }
     });
