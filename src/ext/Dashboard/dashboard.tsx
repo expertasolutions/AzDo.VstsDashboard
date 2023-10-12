@@ -305,11 +305,10 @@ class CICDDashboard extends React.Component<{}, {}> {
     }
 
     // TODO: Get Environments list
-    console.log("-----");
     getEnvironments("Community", this.currentAccessToken).then(result => {
+      console.log('environment list');
       console.log(result);
     });
-    console.log('-----');
 
     getBuildsV1(this.currentSelectedProjects, this.buildTimeRangeHasChanged, this.lastBuildsDisplay).then(result => {
       let currentResult = this.state.builds;
