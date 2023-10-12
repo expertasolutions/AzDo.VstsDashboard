@@ -120,13 +120,16 @@ export async function getEnvironments(projectName: string, accessToken: string) 
   let envUrl = `https://dev.azure.com/experta/${projectName}/_apis/distributedtask/environments?api-version=7.2-preview.1`;
   console.log(envUrl);
   console.log("-----");
+  let acceptHeaderValue = "application/json;api-version=7.2-preview.1;;excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true";
   fetch(envUrl, 
     {
       method: 'GET',
-      //credentials: 'include',
+      mode: 'cors',
       headers: { 
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Credentials': 'true',
+        'Accept': acceptHeaderValue,
+        'Content-Type': 'application/json',
+        //'Access-Control-Allow-Origin': '*',
+        //'Access-Control-Allow-Credentials': 'true',
         'Authorization' : `Bearer ${accessToken}`
       }
     })
