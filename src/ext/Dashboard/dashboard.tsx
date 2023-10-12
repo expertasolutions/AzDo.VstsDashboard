@@ -314,7 +314,6 @@ class CICDDashboard extends React.Component<{}, {}> {
       for(let i=0;i<result.count;i++) {
         var newEnv = result.value[i];
         console.log(`env: ${newEnv.id} - ${newEnv.name}}`);
-
         let env = currentEnv.find(x=> x.id === newEnv.id);
         if(env != undefined) {
           let envIndex = currentEnv.indexOf(env, 0);
@@ -334,6 +333,7 @@ class CICDDashboard extends React.Component<{}, {}> {
           };
           currentEnv.splice(0, 0, newPipelineEnv);
         }
+        this.setState({ environments: currentEnv });
       }
     });
 
