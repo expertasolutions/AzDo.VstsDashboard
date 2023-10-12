@@ -116,9 +116,10 @@ export async function getReleases(projectName: string, isFirstLoad: boolean) {
 }
 
 export async function getEnvironments(projectName: string, accessToken: string) {
-  let environments = new Array<any>();
-  let envUrl = `https://dev.azure.com/experta/${projectName}/_apis/distributedtask/environments?api-version=7.2-preview.1`;
-  let acceptHeaderValue = "application/json;api-version=7.2-preview.1;;excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true";
+  // CODE_REVIEW: Replace 'experta' from the URL with the proper organization name
+  let apiVersion = "7.2-preview.1";
+  let envUrl = `https://dev.azure.com/experta/${projectName}/_apis/distributedtask/environments?api-version=${apiVersion}`;
+  let acceptHeaderValue = `application/json;api-version=${apiVersion};excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true`;
   let result = await fetch(envUrl, 
     {
       method: 'GET',

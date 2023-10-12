@@ -306,7 +306,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       this.buildTimeRangeHasChanged = true;
     }
 
-    // TODO: Get Environments list
+    // CODE_REVIEW: Replace "Community" by a project selection loop
     getEnvironments("Community", this.currentAccessToken).then(result => {
       console.log('environment list');
       console.log(result);
@@ -318,6 +318,7 @@ class CICDDashboard extends React.Component<{}, {}> {
         if(env != undefined) {
           let envIndex = currentEnv.indexOf(env, 0);
           if(envIndex > -1) {
+            // CODE_REVIEW: Replace "Community" by a project selection loop
             let newPipelineEnv: PipelineEnvironment = {
               id: newEnv.id,
               name: newEnv.name,
@@ -326,6 +327,7 @@ class CICDDashboard extends React.Component<{}, {}> {
             currentEnv[envIndex] = newPipelineEnv;
           }
         } else {
+          // CODE_REVIEW: Replace "Community" by a project selection loop
           let newPipelineEnv: PipelineEnvironment = {
             id: newEnv.id,
             name: newEnv.name,
