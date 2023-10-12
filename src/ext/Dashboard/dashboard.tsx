@@ -310,14 +310,21 @@ class CICDDashboard extends React.Component<{}, {}> {
     getEnvironments("Community", this.currentAccessToken).then(result => {
       console.log('environment list');
       console.log(result);
+      let currentEnv = this.state.environments;
       for(let i=0;i<result.length;i++) {
-        var env = result.value[i];
-        console.log(`env: ${env.id} - ${env.name}}`);
+        var newEnv = result.value[i];
+        console.log(`env: ${newEnv.id} - ${newEnv.name}}`);
+
+        let env = currentEnv.find(x=> x.id === newEnv.id);
+        if(env != undefined) {
+          let envIndex = currentEnv.indexOf(env, 0);
+          if(envIndex > -1) {
+            currentEnv[envIndex] = newEnv;
+          }
+        } else {
+          currentEnv.splice(0, 0, newEnv);
+        }
       }
-
-      //let currentEnv = this.state.environments;
-      //currentEnv = result.value;      
-
     });
 
     getBuildsV1(this.currentSelectedProjects, this.buildTimeRangeHasChanged, this.lastBuildsDisplay).then(result => {
