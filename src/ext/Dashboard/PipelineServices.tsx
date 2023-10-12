@@ -172,6 +172,24 @@ export function getMinTimeFromNow(timeRangeLoad: string) {
   return minDate;
 }
 
+export async function getPipelineInfo(projectName: string, pipelineId: string, accessToken: string) {
+  // CODE_REVIEW: Replace 'experta' from the URL with the proper organization name
+  let apiVersion = "7.2-preview.1";
+  let envUrl = `https://dev.azure.com/experta/${projectName}/_apis/pipelines/{pipelineId}?api-version=${apiVersion}`;
+  let acceptHeaderValue = `application/json;api-version=${apiVersion};excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true`;
+  let result = await fetch(envUrl, 
+    {
+      method: 'GET',
+      mode: 'cors',
+      headers: { 
+        'Accept': acceptHeaderValue,
+        'Content-Type': 'application/json',
+        'Authorization' : `Bearer ${accessToken}`
+      }
+    })
+    .then(response => response.json());
+}
+
 export async function getBuilds(projectName: string, isFirstLoad: boolean, timeRangeLoad: string)  {
   const MS_IN_MIN = 60000;
   let minDate = undefined;
@@ -246,6 +264,13 @@ export async function getBuildDefinitionsV1(projectList: Array<string>, isFirstL
   let buildDef = new Array<BuildDefinitionReference>();
   for(let i=0;i<projectList.length;i++) {
     let result = await getBuildDefinitions(projectList[i], isFirstLoad);
+    // CODE_REVIEW: This is a workaround to avoid the error "Maximum call stack size exceeded"
+    /*
+    for(let b=0;b<result.length;b++) {
+      let info = await getPipelineInfo(projectList[i], result[b].id.toString(), await getAccessToken());
+      console.log(info);
+    }
+    */
     buildDef.push(...result);
   }
   return buildDef;
