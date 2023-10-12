@@ -3,6 +3,12 @@ import { TeamProjectReference } from "azure-devops-extension-api/Core";
 import { BuildDefinitionReference, Build } from "azure-devops-extension-api/Build";
 import { Deployment } from "azure-devops-extension-api/Release";
 
+export interface PipelineEnvironment {
+  id: string;
+  name: string;
+  projectId: string;
+}
+
 export const DataContext = React.createContext(
   {  
     state: {
@@ -10,6 +16,7 @@ export const DataContext = React.createContext(
       builds: Array<Build>(),
       releases: Array<Deployment>(),
       projects: Array<TeamProjectReference>(),
+      environments: Array<PipelineEnvironment>(),
       showAllBuildDeployment: false,
       fullScreenMode: false
     }

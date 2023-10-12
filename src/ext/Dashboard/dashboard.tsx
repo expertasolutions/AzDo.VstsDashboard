@@ -18,6 +18,7 @@ import {
 } from "./PipelineServices";
 
 import { dashboardColumns, buildColumns }  from "./tableData";
+import { PipelineEnvironment } from "./dataContext";
 
 import { KeywordFilterBarItem } from "azure-devops-ui/TextFilterBarItem";
 import { DropdownFilterBarItem } from "azure-devops-ui/Dropdown";
@@ -103,6 +104,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     builds: new Array<Build>(),
     releases: new Array<Deployment>(),
     projects: new Array<TeamProjectReference>(),
+    environments: Array<PipelineEnvironment>(),
     showAllBuildDeployment: false,
     refreshUI: new Date().toTimeString(),
     fullScreenMode: false
@@ -308,6 +310,14 @@ class CICDDashboard extends React.Component<{}, {}> {
     getEnvironments("Community", this.currentAccessToken).then(result => {
       console.log('environment list');
       console.log(result);
+      for(let i=0;i<result.length;i++) {
+        var env = result.value[i];
+        console.log(`env: ${env.id} - ${env.name}}`);
+      }
+
+      //let currentEnv = this.state.environments;
+      //currentEnv = result.value;      
+
     });
 
     getBuildsV1(this.currentSelectedProjects, this.buildTimeRangeHasChanged, this.lastBuildsDisplay).then(result => {
