@@ -172,10 +172,10 @@ export function getMinTimeFromNow(timeRangeLoad: string) {
   return minDate;
 }
 
-export async function getPipelineInfo(projectName: string, pipelineId: string, accessToken: string) {
+export async function getPipelineInfo(projectName: string, pipelineId: number, accessToken: string) {
   // CODE_REVIEW: Replace 'experta' from the URL with the proper organization name
   let apiVersion = "7.2-preview.1";
-  let envUrl = `https://dev.azure.com/experta/${projectName}/_apis/pipelines/{pipelineId}?api-version=${apiVersion}`;
+  let envUrl = `https://dev.azure.com/experta/${projectName}/_apis/pipelines/${pipelineId}?api-version=${apiVersion}`;
   let acceptHeaderValue = `application/json;api-version=${apiVersion};excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true`;
   let result = await fetch(envUrl, 
     {
@@ -188,6 +188,8 @@ export async function getPipelineInfo(projectName: string, pipelineId: string, a
       }
     })
     .then(response => response.json());
+    console.log(result);
+    return result;
 }
 
 export async function getBuilds(projectName: string, isFirstLoad: boolean, timeRangeLoad: string)  {
@@ -225,7 +227,6 @@ export function sortBuilds(builds: Array<Build>) {
 }
 
 export function sortBuildReferences(buildRefs: Array<BuildDefinitionReference>, errorOnTop: boolean) {
-
   buildRefs = buildRefs.sort((a,b) => {
     if(b.latestBuild !== undefined && a.latestBuild !== undefined) {
       if(a.latestBuild.id > b.latestBuild.id){
@@ -264,17 +265,12 @@ export async function getBuildDefinitionsV1(projectList: Array<string>, isFirstL
   let buildDef = new Array<BuildDefinitionReference>();
   for(let i=0;i<projectList.length;i++) {
     let result = await getBuildDefinitions(projectList[i], isFirstLoad);
-    // CODE_REVIEW: This is a workaround to avoid the error "Maximum call stack size exceeded"
-    /*
-    for(let b=0;b<result.length;b++) {
-      let info = await getPipelineInfo(projectList[i], result[b].id.toString(), await getAccessToken());
-      console.log(info);
-    }
-    */
     buildDef.push(...result);
   }
   return buildDef;
 }
+
+
 
 export async function getBuildDefinitions(projectName: string, isFirstLoad: boolean) {
   const MS_IN_MIN = 60000;
@@ -289,5 +285,9 @@ export async function getBuildDefinitions(projectName: string, isFirstLoad: bool
                                               undefined, undefined, undefined, undefined, undefined,
                                               undefined, minDate, undefined,undefined, true, undefined, 
                                               undefined, undefined);
+  for(let i=0;i<result.length;i++) {
+    getPipelineInfo(projectName, result[i].id, await getAccessToken());
+  }
+
   return result;
 }
