@@ -308,12 +308,9 @@ class CICDDashboard extends React.Component<{}, {}> {
 
     // CODE_REVIEW: Replace "Community" by a project selection loop
     getEnvironments("Community", this.currentAccessToken).then(result => {
-      console.log('environment list');
-      console.log(result);
       let currentEnv = this.state.environments;
       for(let i=0;i<result.count;i++) {
         var newEnv = result.value[i];
-        console.log(`env: ${newEnv.id} - ${newEnv.name}}`);
         let env = currentEnv.find(x=> x.id === newEnv.id);
         if(env != undefined) {
           let envIndex = currentEnv.indexOf(env, 0);
