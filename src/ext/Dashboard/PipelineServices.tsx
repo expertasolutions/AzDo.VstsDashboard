@@ -287,7 +287,7 @@ export async function getBuildDefinitions(projectName: string, isFirstLoad: bool
                                               undefined, undefined);
   for(let i=0;i<result.length;i++) {
     let rs = await getPipelineInfo(projectName, result[i].id, await getAccessToken());
-    console.log(rs);
+    console.log(`${result[i].id} - ${rs.configuration.type}`);
   }
 
   return result;
