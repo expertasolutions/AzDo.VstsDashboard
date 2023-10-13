@@ -22,6 +22,7 @@ import {
   Build, 
   BuildDefinitionReference 
 } from "azure-devops-extension-api/Build";
+import { PipelineInfo } from "./dataContext";
 
 function buildOnSize(event: MouseEvent, index: number, width: number) {
   return (buildColumns[index].width as ObservableValue<number>).value = width;
@@ -59,7 +60,7 @@ export const buildColumns : ITableColumn<Build>[] = [
   }
 ]
 
-export const dashboardColumns : ITableColumn<BuildDefinitionReference>[] = [
+export const dashboardColumns : ITableColumn<PipelineInfo>[] = [
   {
     id: "pipeline",
     name: "Pipeline",
