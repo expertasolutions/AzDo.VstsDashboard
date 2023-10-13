@@ -17,18 +17,18 @@ import {
 import { Ago } from "azure-devops-ui/Ago";
 import { Duration } from "azure-devops-ui/Duration";
 
-import { BuildDefinitionReference, BuildStatus } from "azure-devops-extension-api/Build";
+import { BuildStatus } from "azure-devops-extension-api/Build";
 import { Status, Statuses, StatusSize } from "azure-devops-ui/Status";
 import { Link } from "azure-devops-ui/Link";
 import { Icon } from "azure-devops-ui/Icon";
-import { DataContext } from "../dataContext";
+import { DataContext, PipelineInfo } from "../dataContext";
 import { Build } from "azure-devops-extension-api/Build";
 
 export function renderBuildRef01 (
   rowIndex: number,
   columnIndex: number,
-  tableColumn: ITableColumn<BuildDefinitionReference>,
-  tableItem: BuildDefinitionReference
+  tableColumn: ITableColumn<PipelineInfo>,
+  tableItem: PipelineInfo
 ): JSX.Element {
   let definitionUrl = tableItem._links.web.href;
   let projectName = tableItem.project.name;
@@ -48,7 +48,7 @@ export function renderBuildRef01 (
               <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
                 <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}} className="fontWeightSemiBold font-weight-semibold">
                   <Link href={definitionUrl} target="_blank" className="bolt-table-cell-primary">
-                    {tableItem.name} - Type: [YML | Classic]
+                    {tableItem.name} - Type: {tableItem.pipelineType}
                   </Link>
                 </div>
                 <div className="font-size-s" style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
@@ -61,7 +61,7 @@ export function renderBuildRef01 (
   );
 }
 
-export function getPendingBuild(buildRef: BuildDefinitionReference, buildList: Build[]) {
+export function getPendingBuild(buildRef: PipelineInfo, buildList: Build[]) {
   let currentQueued = buildList.filter(x=> x.definition.id === buildRef.id && (x.status !== BuildStatus.Completed ));
   if(currentQueued.length == 2) {
     return (<span>&nbsp;-&nbsp;{currentQueued.length-1} other run</span>)
@@ -76,8 +76,8 @@ export function getPendingBuild(buildRef: BuildDefinitionReference, buildList: B
 export function renderLastBuild01 (
   rowIndex: number,
   columnIndex: number,
-  tableColumn: ITableColumn<BuildDefinitionReference>,
-  tableItem: BuildDefinitionReference
+  tableColumn: ITableColumn<PipelineInfo>,
+  tableItem: PipelineInfo
 ) {
   let lastBuild = tableItem.latestCompletedBuild;
   let contentRow1 = (<div>Not found</div>);
@@ -142,7 +142,7 @@ export function renderLastBuild01 (
   )
 }
 
-function renderPendingBuild(buildRef:BuildDefinitionReference, buildList: Build[]) {
+function renderPendingBuild(buildRef:PipelineInfo, buildList: Build[]) {
   let currentQueued = buildList.filter(x=> x.definition.id === buildRef.id && (x.status !== BuildStatus.Completed )).sort((a,b) => a.id-b.id);
   let currentRunningBuildCtrl = [];
   for(let i=0;i<currentQueued.length;i++) {
@@ -216,8 +216,8 @@ function renderPendingBuild(buildRef:BuildDefinitionReference, buildList: Build[
 export function renderLastBuild02(
   rowIndex: number,
   columnIndex: number,
-  tableColumn: ITableColumn<BuildDefinitionReference>,
-  tableItem: BuildDefinitionReference
+  tableColumn: ITableColumn<PipelineInfo>,
+  tableItem: PipelineInfo
 ): JSX.Element {
   let lastBuildRun = tableItem.latestCompletedBuild;
 
@@ -280,8 +280,8 @@ export function renderLastBuild02(
 export function renderReleaseInfo01 (
   rowIndex: number,
   columnIndex: number,
-  tableColumn: ITableColumn<BuildDefinitionReference>,
-  tableItem: BuildDefinitionReference
+  tableColumn: ITableColumn<PipelineInfo>,
+  tableItem: PipelineInfo
 ) : JSX.Element {
   let lastBuild = tableItem.latestCompletedBuild;
   return (
@@ -300,7 +300,7 @@ export function renderReleaseInfo01 (
   )
 }
 
-function getBuildDefinitionStatus(buildDefItem: BuildDefinitionReference) : IStatusIndicatorData {
+function getBuildDefinitionStatus(buildDefItem: PipelineInfo) : IStatusIndicatorData {
   const indicatorData: IStatusIndicatorData = {
     label: "NA",
     statusProps: { ...Statuses.Queued, ariaLabel: "None" },

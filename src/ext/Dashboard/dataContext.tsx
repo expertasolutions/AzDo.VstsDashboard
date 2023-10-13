@@ -23,5 +23,9 @@ export const DataContext = React.createContext(
   }
 );
 
+export interface PipelineInfo extends BuildDefinitionReference {
+  pipelineType: string;
+}
+
 export const DataProvider = DataContext.Provider;
 export const DataConsumer = DataContext.Consumer;
