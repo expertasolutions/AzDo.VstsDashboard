@@ -188,7 +188,7 @@ export async function getPipelineInfo(projectName: string, pipelineId: number, a
       }
     })
     .then(response => response.json());
-    console.log(result);
+    //console.log(result);
     return result;
 }
 
@@ -286,7 +286,8 @@ export async function getBuildDefinitions(projectName: string, isFirstLoad: bool
                                               undefined, minDate, undefined,undefined, true, undefined, 
                                               undefined, undefined);
   for(let i=0;i<result.length;i++) {
-    getPipelineInfo(projectName, result[i].id, await getAccessToken());
+    let rs = await getPipelineInfo(projectName, result[i].id, await getAccessToken());
+    console.log(rs);
   }
 
   return result;
