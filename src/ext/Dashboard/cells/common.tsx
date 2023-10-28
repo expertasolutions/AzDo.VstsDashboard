@@ -313,7 +313,6 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
   for(let i=0;i<allDeplRecords.length;i++) {
     let children: any[] = [];
     if(allDeplRecords[i].definition.id === build.definition.id) {
-      
       if(allDeplRecords[i].owner.id === build.id) {
         let elm = allDeplRecords[i];
         console.log(elm);
@@ -326,7 +325,7 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
       }
       content.push(
         <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
-          <Link href="#" target="_blank"><b>{build.definition.name}</b> ({build.definition.name})</Link>
+          <Link href="#" target="_blank"><b>{build.definition.name}</b> ({build.buildNumber})</Link>
           <p><PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{children}</PillGroup></p>
         </div>
       )
