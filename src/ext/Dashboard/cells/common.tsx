@@ -302,6 +302,11 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
   if(build === undefined) {
     return (<div>Not deployed yet</div>)
   }
+  console.log(build);
+
+  let allDeplRecords: any[] = [];
+  
+
 }
 
 export function waitingForApproval(dep: Deployment, envId: number) {
