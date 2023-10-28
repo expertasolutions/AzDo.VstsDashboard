@@ -310,16 +310,12 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
   }
 
   let content: any[] = [];  
-  //let buildDeplRecords = allDeplRecords.filter(x=> x.definition.id === build.definition.id);
   let buildDeplRecords = allDeplRecords.filter(x=> x.owner.id === build.id);
-  console.log('buildDeplRecords');
   console.log(buildDeplRecords);
   let children: any[] = [];
 
-  //for(let i=0;i<allDeplRecords.length;i++) {
   for(let i=0;i<buildDeplRecords.length;i++) {
-
-    if(buildDeplRecords[i].definition === build.definition.id) {
+    if(buildDeplRecords[i].definition.id === build.definition.id) {
       let elm = buildDeplRecords[i];
       let deplStatus = getReleaseIndicator(DeploymentStatus.InProgress, false);
       children.push(
