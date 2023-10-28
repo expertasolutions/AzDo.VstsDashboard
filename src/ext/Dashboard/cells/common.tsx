@@ -309,23 +309,33 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
     }
   }
 
-
-  let children = [];
+  let content: any[] = [];  
   for(let i=0;i<allDeplRecords.length;i++) {
+    let children: any[] = [];
     if(allDeplRecords[i].definition.id === build.definition.id) {
-      let elm = allDeplRecords[i];
-      console.log(elm);
-      children.push(
-        <Pill color={lightGray} variant={PillVariant.colored} 
-            onClick={() => window.open(elm.owner._links.web, "_blank") }>
-          {elm.stageName}
-        </Pill>
-      );     
+      
+      if(allDeplRecords[i].owner.id === build.id) {
+        let elm = allDeplRecords[i];
+        console.log(elm);
+        children.push(
+          <Pill color={lightGray} variant={PillVariant.colored} 
+              onClick={() => window.open(elm.owner._links.web, "_blank") }>
+            {elm.stageName}
+          </Pill>
+        );     
+      }
+      content.push(
+        <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
+          <Link href="#" target="_blank"><b>{build.definition.name}</b> ({build.definition.name})</Link>
+          <p><PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{children}</PillGroup></p>
+        </div>
+      )
     }
+    children = [];
   }
 
-  if(children.length > 0) {
-    return children;
+  if(content.length > 0) {
+    return content;
   }
 
   return (<div>Not deployed yet</div>)
