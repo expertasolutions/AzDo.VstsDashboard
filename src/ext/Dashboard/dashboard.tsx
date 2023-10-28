@@ -104,6 +104,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     releases: new Array<Deployment>(),
     projects: new Array<TeamProjectReference>(),
     environments: Array<PipelineEnvironment>(),
+    deploymentRecords: Array<any>(),
     showAllBuildDeployment: false,
     refreshUI: new Date().toTimeString(),
     fullScreenMode: false
@@ -308,6 +309,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     // CODE_REVIEW: Replace "Community" by a project selection loop
     getEnvironments("Community", this.currentAccessToken).then(result => {
       let envList = this.state.environments;
+      //let currentDeplRecords = this.state.deploymentRecords;
       for(let i=0;i<result.length;i++) {
         var newEnv = result[i];
         let env = envList.find(x=> x.id === newEnv.id);
@@ -321,6 +323,7 @@ class CICDDashboard extends React.Component<{}, {}> {
         }
         console.log(envList);
         this.setState({ environments: envList });
+        //this.setState({ deploymentRecords: currentDeplRecords })
         this.environmentProvider = new ObservableValue<ArrayItemProvider<PipelineEnvironment>>(new ArrayItemProvider(envList));
       }
     });

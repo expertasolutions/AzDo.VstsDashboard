@@ -302,21 +302,19 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
   if(build === undefined) {
     return (<div>Not deployed yet</div>)
   }
-  /*
   let allDeplRecords: any[] = [];
-  for(let i=0;environments.length;i++) {
+  for(let i=0;i<environments.length;i++) {
     if(environments[i] !== undefined) {
-      console.log(environments[i].deploymentRecords);
+      //console.log(environments[i].deploymentRecords);
       allDeplRecords.push(...environments[i].deploymentRecords);
     } else {
       //console.log('environment is null')
     }
   }
-  */
 
-  //let buildDeplRecords: any[] = allDeplRecords.find(x=> x.definition.id === build.definition.id);
-  //console.log("buildDeplRecords");
-  //console.log(buildDeplRecords);
+  let buildDeplRecords: any[] = allDeplRecords.find(x=> x.definition.id === build.definition.id);
+  console.log("buildDeplRecords");
+  console.log(buildDeplRecords);
 
   return (<div>Not deployed yet</div>)
 }
