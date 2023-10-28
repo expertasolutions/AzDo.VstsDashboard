@@ -302,8 +302,6 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
   if(build === undefined) {
     return (<div>Not deployed yet</div>)
   }
-  //console.log(build);
-
   let allDeplRecords: any[] = [];
   for(let i=0;environments.length;i++) {
     console.log('environments[i]');
