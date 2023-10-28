@@ -4,7 +4,7 @@ import { Icon, IIconProps } from "azure-devops-ui/Icon";
 import { Status, IStatusProps, Statuses, StatusSize } from "azure-devops-ui/Status";
 import { IColor } from "azure-devops-ui/Utilities/Color";
 import { BuildResult, BuildStatus } from "azure-devops-extension-api/Build";
-import { Deployment, DeploymentStatus, ReleaseReference, ApprovalStatus, ReleaseDefinition } from "azure-devops-extension-api/Release";
+import { Deployment, DeploymentStatus, ReleaseReference, ApprovalStatus, ReleaseDefinition, ReleaseStatus } from "azure-devops-extension-api/Release";
 import { Pill, PillVariant } from "azure-devops-ui/Pill";
 import { PillGroup, PillGroupOverflow } from "azure-devops-ui/PillGroup";
 import { Build } from "azure-devops-extension-api/Build";
@@ -311,7 +311,7 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
 
   let content: any[] = [];  
   let buildDeplRecords = allDeplRecords.find(x=> x.definition.id === build.definition.id);
-
+  console.log(buildDeplRecords);
   //for(let i=0;i<allDeplRecords.length;i++) {
   for(let i=0;i<buildDeplRecords.length;i++) {
     let children: any[] = [];
