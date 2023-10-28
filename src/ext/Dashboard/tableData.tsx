@@ -15,6 +15,10 @@ import {
 } from "./cells/buildReference";
 
 import {
+  renderEnvironmentCol01
+} from "./cells/environmentRef";
+
+import {
     ITableColumn
 } from "azure-devops-ui/Table";
 
@@ -22,6 +26,7 @@ import {
   Build, 
   BuildDefinitionReference 
 } from "azure-devops-extension-api/Build";
+
 import { PipelineEnvironment, PipelineInfo } from "./dataContext";
 
 function buildOnSize(event: MouseEvent, index: number, width: number) {
@@ -33,13 +38,13 @@ function buildRefOnSize(event: MouseEvent, index: number, width: number) {
 }
 
 export const environmentColumns : ITableColumn<PipelineEnvironment>[] = [
-  // {
-  //   id: "environment",
-  //   name: "name"
-  //   onSize: buildOnSize,
-  //   renderCell: null,
-  //   width: new ObservableValue(-25)
-  // }
+  {
+    id: "environment",
+    name: "name",
+    onSize: buildOnSize,
+    renderCell: renderEnvironmentCol01,
+    width: new ObservableValue(-25)
+  }
 ]
 
 export const buildColumns : ITableColumn<Build>[] = [

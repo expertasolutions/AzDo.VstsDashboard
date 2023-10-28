@@ -17,7 +17,7 @@ import {
 , getUserPreferences
 } from "./PipelineServices";
 
-import { dashboardColumns, buildColumns }  from "./tableData";
+import { dashboardColumns, buildColumns, environmentColumns }  from "./tableData";
 import { PipelineEnvironment } from "./dataContext";
 
 import { KeywordFilterBarItem } from "azure-devops-ui/TextFilterBarItem";
@@ -645,6 +645,17 @@ class CICDDashboard extends React.Component<{}, {}> {
         <Observer itemProvider={ this.buildProvider }>
           {(observableProps: { itemProvider: ArrayItemProvider<Build> }) => (
               <Table<Build> columns={buildColumns} 
+                  itemProvider={observableProps.itemProvider}
+                  showLines={true}
+                  role="table"/>
+          )}
+        </Observer>
+      );
+    } else if(tabId === "environments") {
+      return (
+        <Observer itemProvider={ this.buildProvider }>
+          {(observableProps: { itemProvider: ArrayItemProvider<PipelineEnvironment> }) => (
+              <Table<PipelineEnvironment> columns={environmentColumns} 
                   itemProvider={observableProps.itemProvider}
                   showLines={true}
                   role="table"/>
