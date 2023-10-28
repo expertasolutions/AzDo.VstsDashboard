@@ -136,7 +136,6 @@ export async function getEnvironments(organization: string, projectName: string,
   for(let i=0;i<result.length;i++) {
       let test = await getEnvironmentDeplRecords(result[i].id, organization, projectName, accessToken);
       console.log(test);
-      console.log(test.definition);
       result.deplRecords.push(...test);
   }
   return result;
