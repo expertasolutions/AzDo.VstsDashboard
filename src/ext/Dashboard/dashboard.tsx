@@ -737,7 +737,7 @@ class CICDDashboard extends React.Component<{}, {}> {
               <HeaderTitle titleSize={TitleSize.Large}>
                 CI/CD Dashboard&nbsp;&nbsp;
                 <Link href="https://github.com/expertasolutions/VstsDashboard/issues/new" target="_blank">
-                  <Icon iconName="FeedbackRequestSolid" size={IconSize.large}/>
+                  <Icon iconName="FeedbackRequestSolid" size={IconSize.small}/>
                 </Link>
               </HeaderTitle>
             </HeaderTitleRow>
