@@ -134,7 +134,7 @@ export async function getEnvironments(organization: string, projectName: string,
     .then(response => response.json());
   
   for(let i=0;i<result.length;i++) {
-    let test = await getEnvironmentDetails(result[i].environmentId, organization, projectName, accessToken);
+    let test = await getEnvironmentDetails(result[i].id, organization, projectName, accessToken);
     console.log(test);
   }
 
