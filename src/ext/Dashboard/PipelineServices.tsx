@@ -80,7 +80,7 @@ export async function getUserPreferences(extensionContext: any, collectionName: 
   }
 }
 
-export async function getReleasesV1(projectList: Array<string>, isFirstLoad: boolean){
+export async function getReleasesV1(projectList: Array<string>, isFirstLoad: boolean) {
   let deployments = new Array<Deployment>();
   for(let i=0;i<projectList.length;i++) {
     let result = await getReleases(projectList[i], isFirstLoad);
@@ -134,14 +134,14 @@ export async function getEnvironments(organization: string, projectName: string,
     .then(response => response.json());
   
   for(let i=0;i<result.length;i++) {
-    let test = await getEnvironmentDetails(result[i].id, organization, projectName, accessToken);
-    console.log(test);
+    let test = await getEnvironmentDeplRecords(result[i].id, organization, projectName, accessToken);
+    console.log(`${result[i].id} - ${test}`);
   }
 
   return result;
 }
 
-export async function getEnvironmentDetails(environmentId: string, organization: string, projectName: string, accessToken: string) {
+export async function getEnvironmentDeplRecords(environmentId: string, organization: string, projectName: string, accessToken: string) {
   let apiVersion = "7.1-preview.1";
   let top = 10;
   let envUrl = `https://dev.azure.com/${organization}/${projectName}/_apis/distributedtask/environments/${environmentId}/environmentdeploymentrecords?api-version=${apiVersion}`;
@@ -312,9 +312,10 @@ export async function getBuildDefinitions(projectName: string, isFirstLoad: bool
                                               undefined, undefined);
   const castResult = result as Array<PipelineInfo>;
   for(let i=0;i<result.length;i++) {
-    let rs = await getPipelineInfo(projectName, result[i].id, await getAccessToken());
-    console.log(`${result[i].id} - ${rs.configuration.type}`);
-    castResult[i].pipelineType = rs.configuration.type;
+    //let rs = await getPipelineInfo(projectName, result[i].id, await getAccessToken());
+    //console.log(`${result[i].id} - ${rs.configuration.type}`);
+    //castResult[i].pipelineType = rs.configuration.type;
+    castResult[i].pipelineType = 'na';
   }
 
   return castResult;
