@@ -310,7 +310,7 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
   }
 
   let content: any[] = [];  
-  let buildDeplRecords = allDeplRecords.find(x=> x.definition.id === build.definition.id);
+  let buildDeplRecords = allDeplRecords.filter(x=> x.definition.id === build.definition.id);
   console.log(buildDeplRecords);
   //for(let i=0;i<allDeplRecords.length;i++) {
   for(let i=0;i<buildDeplRecords.length;i++) {
