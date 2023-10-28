@@ -133,7 +133,7 @@ export async function getEnvironments(organization: string, projectName: string,
       }
     })
     .then(response => response.json());
-  console.log(result);
+    
   let finalResult:Array<PipelineEnvironment> = [];
 
   for(let i=0;i<result.length;i++) {
