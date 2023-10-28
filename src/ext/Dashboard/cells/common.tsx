@@ -323,12 +323,14 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
           </Pill>
         );     
       }
-      content.push(
-        <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
-          <Link href="#" target="_blank"><b>{build.definition.name}</b> ({build.buildNumber})</Link>
-          <p><PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{children}</PillGroup></p>
-        </div>
-      )
+      if(children.length > 0) {
+        content.push(
+          <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
+            <Link href="#" target="_blank"><b>{build.definition.name}</b> ({build.buildNumber})</Link>
+            <p><PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{children}</PillGroup></p>
+          </div>
+        )
+      }
     }
     children = [];
   }
