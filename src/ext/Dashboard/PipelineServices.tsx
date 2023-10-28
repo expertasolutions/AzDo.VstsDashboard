@@ -137,7 +137,6 @@ export async function getEnvironments(projectName: string, accessToken: string) 
   let finalResult:Array<PipelineEnvironment> = [];
 
   for(let i=0;i<result.length;i++) {
-    console.log(result[i]);
     let newEnv : PipelineEnvironment = {
       id: result[i].id,
       name: result[i].name,
