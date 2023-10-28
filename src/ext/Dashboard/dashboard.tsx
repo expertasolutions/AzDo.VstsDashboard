@@ -306,8 +306,8 @@ class CICDDashboard extends React.Component<{}, {}> {
       this.buildTimeRangeHasChanged = true;
     }
 
-    // CODE_REVIEW: Replace "Community" by a project selection loop
-    getEnvironments("Community", this.currentAccessToken).then(result => {
+    // CODE_REVIEW: Replace "Experta" && "Community" by a project selection loop
+    getEnvironments("experta", "Community", this.currentAccessToken).then(result => {
       let currentEnv = this.state.environments;
       for(let i=0;i<result.count;i++) {
         var newEnv = result.value[i];
@@ -714,9 +714,9 @@ class CICDDashboard extends React.Component<{}, {}> {
           <HeaderTitleArea>
             <HeaderTitleRow>
               <HeaderTitle titleSize={TitleSize.Large}>
-                CI/CD Dashboard&nbsp;
+                CI/CD Dashboard&nbsp;&nbsp;
                 <Link href="https://github.com/expertasolutions/VstsDashboard/issues/new" target="_blank">
-                  <Icon iconName="FeedbackRequestSolid" size={IconSize.medium}/>
+                  <Icon iconName="FeedbackRequestSolid" size={IconSize.large}/>
                 </Link>
               </HeaderTitle>
             </HeaderTitleRow>
