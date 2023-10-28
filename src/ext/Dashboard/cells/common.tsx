@@ -313,17 +313,20 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
   //console.log("buildDeplRecords");
   //console.log(buildDeplRecords);
 
-  let children = [];
+  let content = [];
   for(let i=0;i<allDeplRecords.length;i++) {
     if(allDeplRecords[i].definition.id === build.definition.id) {
       let elm = allDeplRecords[i];
-      children.push(
+      content.push(
         <Pill color={lightGray} variant={PillVariant.colored} 
             onClick={() => window.open(elm.owner._links.web, "_blank") }>
           {elm.stageName}
         </Pill>
       );     
     }
+  }
+  if(content.length > 0) {
+    return content;
   }
 
   return (<div>Not deployed yet</div>)
