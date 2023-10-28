@@ -315,27 +315,9 @@ class CICDDashboard extends React.Component<{}, {}> {
         if(env != undefined) {
           let envIndex = envList.indexOf(env, 0);
           if(envIndex > -1) {
-            // CODE_REVIEW: Replace "Community" by a project selection loop
-            /*
-            let newPipelineEnv: PipelineEnvironment = {
-              id: newEnv.id,
-              name: newEnv.name,
-              projectId: "community",
-              deploymentRecords: []
-            };
-            */
             envList[envIndex] = newEnv;
           }
         } else {
-          // CODE_REVIEW: Replace "Community" by a project selection loop
-          /*
-          let newPipelineEnv: PipelineEnvironment = {
-            id: newEnv.id,
-            name: newEnv.name,
-            projectId: "community",
-            deploymentRecords: []
-          };
-          */
           envList.splice(0, 0, newEnv);
         }
         console.log(envList);
