@@ -14,7 +14,7 @@ import {
 
 import { ExtensionManagementRestClient } from "azure-devops-extension-api/ExtensionManagement";
 import { getAccessToken } from "azure-devops-extension-sdk";
-import { PipelineInfo } from "./dataContext";
+import { PipelineInfo, PipelineEnvironment } from "./dataContext";
 
 const coreClient = API.getClient(CoreRestClient);
 const buildClient = API.getClient(BuildRestClient);
@@ -133,12 +133,15 @@ export async function getEnvironments(organization: string, projectName: string,
     })
     .then(response => response.json());
   
+  let finalResult: PipelineEnvironment[] = [];
+
+
   for(let i=0;i<result.length;i++) {
       let test = await getEnvironmentDeplRecords(result[i].id, organization, projectName, accessToken);
-      console.log(test);
-      result.deplRecords.push(...test);
+      //console.log(test);
+      //result.deplRecords.push(...test);
   }
-  return result;
+  return finalResult;
 }
 
 export async function getEnvironmentDeplRecords(environmentId: string, organization: string, projectName: string, accessToken: string) {
