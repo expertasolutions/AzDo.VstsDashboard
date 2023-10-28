@@ -309,9 +309,22 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
     }
   }
 
-  let buildDeplRecords: any[] = allDeplRecords.find(x=> x.definition.id === build.definition.id);
-  console.log("buildDeplRecords");
-  console.log(buildDeplRecords);
+  //let buildDeplRecords: any[] = allDeplRecords.find(x=> x.definition.id === build.definition.id);
+  //console.log("buildDeplRecords");
+  //console.log(buildDeplRecords);
+
+  let children = [];
+  for(let i=0;i<allDeplRecords.length;i++) {
+    if(allDeplRecords[i].definition.id === build.definition.id) {
+      let elm = allDeplRecords[i];
+      children.push(
+        <Pill color={lightGray} variant={PillVariant.colored} 
+            onClick={() => window.open(elm.owner._links.web, "_blank") }>
+          {elm.stageName}
+        </Pill>
+      );     
+    }
+  }
 
   return (<div>Not deployed yet</div>)
 }
