@@ -314,9 +314,10 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
   let buildDeplRecords = allDeplRecords.filter(x=> x.owner.id === build.id);
   console.log('buildDeplRecords');
   console.log(buildDeplRecords);
+  let children: any[] = [];
+
   //for(let i=0;i<allDeplRecords.length;i++) {
   for(let i=0;i<buildDeplRecords.length;i++) {
-    let children: any[] = [];
 
     if(buildDeplRecords[i].definition === build.definition.id) {
       let elm = buildDeplRecords[i];
@@ -328,21 +329,19 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
         </Pill>
       );     
     }
+  }
 
-    if(children.length > 0) {
-      console.log(`children of ${build.id}`);
-      console.log(children);
-      content.push(
-        <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
-          <Link href={build._links.web.href} target="_blank"><b>{build.definition.name}</b> ({build.buildNumber})</Link>
-          <p>
-            <PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{children}</PillGroup>
-          </p>
-        </div>
-      )
-    }
-
-    children = [];
+  if(children.length > 0) {
+    console.log(`children of ${build.id}`);
+    console.log(children);
+    content.push(
+      <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
+        <Link href={build._links.web.href} target="_blank"><b>{build.definition.name}</b> ({build.buildNumber})</Link>
+        <p>
+          <PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{children}</PillGroup>
+        </p>
+      </div>
+    )
   }
 
   if(content.length > 0) {
