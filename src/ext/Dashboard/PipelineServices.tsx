@@ -133,13 +133,18 @@ export async function getEnvironments(organization: string, projectName: string,
     })
     .then(response => response.json());
   
-  let finalResult: PipelineEnvironment[] = [];
-
+  let finalResult:Array<PipelineEnvironment> = [];
 
   for(let i=0;i<result.length;i++) {
+      let newEnv : PipelineEnvironment = {
+        id: result[i].id,
+        name: result[i].name,
+        projectId: projectName,
+        deploymentRecords: []
+      };
       let test = await getEnvironmentDeplRecords(result[i].id, organization, projectName, accessToken);
-      //console.log(test);
-      //result.deplRecords.push(...test);
+      newEnv.deploymentRecords.push(...test);
+      finalResult.push(newEnv);
   }
   return finalResult;
 }
