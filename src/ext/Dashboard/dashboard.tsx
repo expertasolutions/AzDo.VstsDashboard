@@ -662,8 +662,9 @@ class CICDDashboard extends React.Component<{}, {}> {
             selectedTabId={this.selectedTabId}
             tabSize={TabSize.Tall}
             renderAdditionalContent={this.renderOptionsFilterView}>
-            <Tab name="Summary" id="summary"/>
-            <Tab name="All Runs" id="builds"/>
+            <Tab name="Summary" id="summary" />
+            <Tab name="All Runs" id="builds" />
+            <Tab name="Environments" id="environments" />
           </TabBar>);
   }
 

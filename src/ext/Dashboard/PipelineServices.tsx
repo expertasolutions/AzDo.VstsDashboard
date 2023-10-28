@@ -134,8 +134,10 @@ export async function getEnvironments(organization: string, projectName: string,
     .then(response => response.json());
   
   for(let i=0;i<result.length;i++) {
-    let test = await getEnvironmentDeplRecords(result[i].id, organization, projectName, accessToken);
-    console.log(`${result[i].id} - ${test}`);
+      let test = await getEnvironmentDeplRecords(result[i].id, organization, projectName, accessToken);
+      if(test.definition.id === 240) {
+        console.log(test);
+      }
   }
 
   return result;

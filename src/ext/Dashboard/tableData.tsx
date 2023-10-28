@@ -22,7 +22,7 @@ import {
   Build, 
   BuildDefinitionReference 
 } from "azure-devops-extension-api/Build";
-import { PipelineInfo } from "./dataContext";
+import { PipelineEnvironment, PipelineInfo } from "./dataContext";
 
 function buildOnSize(event: MouseEvent, index: number, width: number) {
   return (buildColumns[index].width as ObservableValue<number>).value = width;
@@ -31,6 +31,16 @@ function buildOnSize(event: MouseEvent, index: number, width: number) {
 function buildRefOnSize(event: MouseEvent, index: number, width: number) {
   return (dashboardColumns[index].width as ObservableValue<number>).value = width;
 }
+
+export const environmentColumns : ITableColumn<PipelineEnvironment>[] = [
+  // {
+  //   id: "environment",
+  //   name: "name"
+  //   onSize: buildOnSize,
+  //   renderCell: null,
+  //   width: new ObservableValue(-25)
+  // }
+]
 
 export const buildColumns : ITableColumn<Build>[] = [
   {
