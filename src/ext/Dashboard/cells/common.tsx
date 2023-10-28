@@ -310,19 +310,21 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
   }
 
   let content: any[] = [];  
-  let buildDeplRecords = allDeplRecords.filter(x=> x.definition.id === build.definition.id);
+  //let buildDeplRecords = allDeplRecords.filter(x=> x.definition.id === build.definition.id);
+  let buildDeplRecords = allDeplRecords.filter(x=> x.owner.id === build.id);
+  console.log('buildDeplRecords');
   console.log(buildDeplRecords);
   //for(let i=0;i<allDeplRecords.length;i++) {
   for(let i=0;i<buildDeplRecords.length;i++) {
     let children: any[] = [];
 
-    if(buildDeplRecords[i].owner.id === build.id) {
+    if(buildDeplRecords[i].definition === build.definition.id) {
       let elm = buildDeplRecords[i];
       let deplStatus = getReleaseIndicator(DeploymentStatus.InProgress, false);
       children.push(
         <Pill color={lightGray} variant={PillVariant.colored} 
             onClick={() => window.open(elm.owner._links.web, "_blank") }>
-          <Status {...deplStatus.statusProps} className="icon-small-margin" size={StatusSize.s} />{elm.stageName}
+          <Status {...deplStatus.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{elm.stageName}
         </Pill>
       );     
     }
