@@ -310,18 +310,20 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
   }
 
   let content: any[] = [];  
-  for(let i=0;i<allDeplRecords.length;i++) {
+  let buildDeplRecords = allDeplRecords.find(x=> x.definition.id === build.definition.id);
+
+  //for(let i=0;i<allDeplRecords.length;i++) {
+  for(let i=0;i<buildDeplRecords.length;i++) {
     let children: any[] = [];
-    if(allDeplRecords[i].definition.id === build.definition.id) {
-      if(allDeplRecords[i].owner.id === build.id) {
-        let elm = allDeplRecords[i];
-        children.push(
-          <Pill color={lightGray} variant={PillVariant.colored} 
-              onClick={() => window.open(elm.owner._links.web, "_blank") }>
-            {elm.stageName}
-          </Pill>
-        );     
-      }
+
+    if(buildDeplRecords[i].owner.id === build.id) {
+      let elm = allDeplRecords[i];
+      children.push(
+        <Pill color={lightGray} variant={PillVariant.colored} 
+            onClick={() => window.open(elm.owner._links.web, "_blank") }>
+          {elm.stageName}
+        </Pill>
+      );     
     }
 
     if(children.length > 0) {
