@@ -315,7 +315,6 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
     if(allDeplRecords[i].definition.id === build.definition.id) {
       if(allDeplRecords[i].owner.id === build.id) {
         let elm = allDeplRecords[i];
-        console.log(elm);
         children.push(
           <Pill color={lightGray} variant={PillVariant.colored} 
               onClick={() => window.open(elm.owner._links.web, "_blank") }>
