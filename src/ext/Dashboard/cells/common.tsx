@@ -9,6 +9,7 @@ import { Pill, PillVariant } from "azure-devops-ui/Pill";
 import { PillGroup, PillGroupOverflow } from "azure-devops-ui/PillGroup";
 import { Build } from "azure-devops-extension-api/Build";
 import { Link } from "azure-devops-ui/Link";
+import { PipelineEnvironment } from "../dataContext";
 
 const lightGreen: IColor = {
   red: 204,
@@ -185,9 +186,10 @@ export function getPipelineIndicator(result: BuildResult, status:BuildStatus) : 
   return indicatorData;
 }
 
-export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>, allRelease: boolean) {
+
+export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>, environments: Array<PipelineEnvironment>, allRelease: boolean) {
   if(build === undefined) {
-    return (<div>Not deploy yet</div>);
+    return (<div>Not deployed yet</div>);
   }
 
   let deploys = releases.filter(
@@ -293,7 +295,13 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
   if(content.length > 0){
     return content;
   }
-  return <div>Not deploy yet</div>
+  return getReleaseTagFromBuildV2(build, environments, allRelease);
+}
+
+export function getReleaseTagFromBuildV2(build: Build, environments: Array<PipelineEnvironment>, allRelease: boolean) {
+  if(build === undefined) {
+    return (<div>Not deployed yet</div>)
+  }
 }
 
 export function waitingForApproval(dep: Deployment, envId: number) {

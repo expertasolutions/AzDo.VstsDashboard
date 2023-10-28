@@ -1,4 +1,5 @@
 import * as API from "azure-devops-extension-api";
+import * as SDK from "azure-devops-extension-sdk";
 
 import { 
   BuildRestClient, BuildDefinitionReference, Build, BuildStatus, ResultSet
@@ -208,9 +209,9 @@ export function getMinTimeFromNow(timeRangeLoad: string) {
 }
 
 export async function getPipelineInfo(projectName: string, pipelineId: number, accessToken: string) {
-  // CODE_REVIEW: Replace 'experta' from the URL with the proper organization name
+  // CODE_REVIEW: Replace from the URL with the proper organization name
   let apiVersion = "7.2-preview.1";
-  let envUrl = `https://dev.azure.com/experta/${projectName}/_apis/pipelines/${pipelineId}?api-version=${apiVersion}`;
+  let envUrl = `https://dev.azure.com/${SDK.getHost().name}/${projectName}/_apis/pipelines/${pipelineId}?api-version=${apiVersion}`;
   let acceptHeaderValue = `application/json;api-version=${apiVersion};excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true`;
   let result = await fetch(envUrl, 
     {

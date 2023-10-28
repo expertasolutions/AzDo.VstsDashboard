@@ -139,7 +139,7 @@ export function renderDeploymentInfo01(
             columnIndex={columnIndex}
             tableColumn={tableColumn}>
           <div>
-            { getReleaseTagFromBuild(tableItem, context.state.releases, context.state.showAllBuildDeployment) }
+            { getReleaseTagFromBuild(tableItem, context.state.releases, context.state.environments, context.state.showAllBuildDeployment) }
           </div>
         </SimpleTableCell>
       )}
