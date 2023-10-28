@@ -318,10 +318,11 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
 
     if(buildDeplRecords[i].owner.id === build.id) {
       let elm = buildDeplRecords[i];
+      let deplStatus = getReleaseIndicator(DeploymentStatus.InProgress, false);
       children.push(
         <Pill color={lightGray} variant={PillVariant.colored} 
             onClick={() => window.open(elm.owner._links.web, "_blank") }>
-          {elm.stageName}
+          <Status {...deplStatus.statusProps} className="icon-small-margin" size={StatusSize.s} />{elm.stageName}
         </Pill>
       );     
     }
@@ -332,7 +333,9 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
       content.push(
         <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
           <Link href={build._links.web.href} target="_blank"><b>{build.definition.name}</b> ({build.buildNumber})</Link>
-          <p><PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{children}</PillGroup></p>
+          <p>
+            <PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{children}</PillGroup>
+          </p>
         </div>
       )
     }
