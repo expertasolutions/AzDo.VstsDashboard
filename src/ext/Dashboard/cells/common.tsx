@@ -309,7 +309,7 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
     console.log('environments[i]');
     console.log(environments[i]);
     console.log(environments[i].deploymentRecords);
-    if(environments[i] !== undefined && environments[i].deploymentRecords !== undefined) {
+    if(environments[i] !== undefined) {
       allDeplRecords.push(...environments[i].deploymentRecords);
     } else {
       console.log('environment is null')
