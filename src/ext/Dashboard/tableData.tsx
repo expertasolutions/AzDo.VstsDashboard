@@ -64,7 +64,7 @@ export const buildColumns : ITableColumn<Build>[] = [
   },
   {
     id: "ReleaseInfo01",
-    name: "Deployment Health",
+    name: "Environments/Stages Health",
     renderCell: renderDeploymentInfo01,
     width: new ObservableValue(-45)
   },
