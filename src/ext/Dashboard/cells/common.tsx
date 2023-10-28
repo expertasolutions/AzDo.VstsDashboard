@@ -237,7 +237,7 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
 
     releaseReferences = releaseReferences.sort((a, b) => b.id - a.id);
 
-    for(let relRef=0;relRef<releaseReferences.length;relRef++){
+    for(let relRef=0;relRef<releaseReferences.length;relRef++) {
       let relRefInfo = releaseReferences[relRef];
       lastRelease = Array<string>();
       let releaseDeploys = deploys.filter(x=> x.release.id == relRefInfo.id && x.releaseDefinition.name === depName)
@@ -309,15 +309,13 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
     }
   }
 
-  //let buildDeplRecords: any[] = allDeplRecords.find(x=> x.definition.id === build.definition.id);
-  //console.log("buildDeplRecords");
-  //console.log(buildDeplRecords);
 
-  let content = [];
+  let children = [];
   for(let i=0;i<allDeplRecords.length;i++) {
     if(allDeplRecords[i].definition.id === build.definition.id) {
       let elm = allDeplRecords[i];
-      content.push(
+      console.log(elm);
+      children.push(
         <Pill color={lightGray} variant={PillVariant.colored} 
             onClick={() => window.open(elm.owner._links.web, "_blank") }>
           {elm.stageName}
@@ -325,8 +323,9 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
       );     
     }
   }
-  if(content.length > 0) {
-    return content;
+
+  if(children.length > 0) {
+    return children;
   }
 
   return (<div>Not deployed yet</div>)
