@@ -333,6 +333,7 @@ class CICDDashboard extends React.Component<{}, {}> {
           currentEnv.splice(0, 0, newPipelineEnv);
         }
         this.setState({ environments: currentEnv });
+        this.environmentProvider = new ObservableValue<ArrayItemProvider<PipelineEnvironment>>(new ArrayItemProvider(currentEnv));
       }
     });
 
