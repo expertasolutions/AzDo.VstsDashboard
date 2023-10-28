@@ -306,13 +306,15 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
 
   let allDeplRecords: any[] = [];
   for(let i=0;environments.length;i++) {
+    console.log(environments[i]);
     allDeplRecords.push(...environments[i].deploymentRecords);
   }
 
   let buildDeplRecords: any[] = allDeplRecords.find(x=> x.definition.id === build.definition.id);
   console.log("buildDeplRecords");
   console.log(buildDeplRecords);
-
+  
+  return (<div>Not deployed yet</div>)
 }
 
 export function waitingForApproval(dep: Deployment, envId: number) {
