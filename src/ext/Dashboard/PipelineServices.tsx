@@ -116,7 +116,7 @@ export async function getReleases(projectName: string, isFirstLoad: boolean) {
   return dpl;
 }
 
-export async function getEnvironments(organization: string projectName: string, accessToken: string) {
+export async function getEnvironments(organization: string, projectName: string, accessToken: string) {
   // CODE_REVIEW: Replace 'experta' from the URL with the proper organization name
   let apiVersion = "7.1";
   let envUrl = `https://dev.azure.com/${organization}/${projectName}/_apis/distributedtask/environments?api-version=${apiVersion}`;
