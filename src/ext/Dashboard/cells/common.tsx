@@ -10,6 +10,7 @@ import { PillGroup, PillGroupOverflow } from "azure-devops-ui/PillGroup";
 import { Build } from "azure-devops-extension-api/Build";
 import { Link } from "azure-devops-ui/Link";
 import { PipelineEnvironment } from "../dataContext";
+import { env } from "process";
 
 const lightGreen: IColor = {
   red: 204,
@@ -306,13 +307,15 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
 
   let allDeplRecords: any[] = [];
   for(let i=0;environments.length;i++) {
+    console.log('environments[i]');
     console.log(environments[i]);
+    console.log(environments[i].deploymentRecords);
     //allDeplRecords.push(...environments[i].deploymentRecords);
   }
 
   let buildDeplRecords: any[] = allDeplRecords.find(x=> x.definition.id === build.definition.id);
   console.log("buildDeplRecords");
-  console.log(buildDeplRecords);
+  //console.log(buildDeplRecords);
 
   return (<div>Not deployed yet</div>)
 }
