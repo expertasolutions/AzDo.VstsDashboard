@@ -328,8 +328,7 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
   }
 
   if(children.length > 0) {
-    console.log(`children of ${build.id}`);
-    console.log(children);
+    //console.log(children);
     content.push(
       <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
         <Link href={build._links.web.href} target="_blank"><b>{build.definition.name}</b> ({build.buildNumber})</Link>
