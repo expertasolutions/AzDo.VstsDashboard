@@ -91,7 +91,6 @@ class CICDDashboard extends React.Component<{}, {}> {
   private extContext: any = undefined;
 
   private currentAccessToken: any = undefined;
-  private currentOrgName: string = "";
 
   constructor(props: {}) {
     super(props);
@@ -276,7 +275,6 @@ class CICDDashboard extends React.Component<{}, {}> {
       SDK.ready().then(async ()=> { 
         this.isLoading.value = false; 
         this.currentAccessToken = await SDK.getAccessToken();
-        this.currentOrgName = SDK.getHost().name;
       });
     });
    
@@ -308,7 +306,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     }
 
     // CODE_REVIEW: Replace "Community" by a project selection loop
-    getEnvironments(this.currentOrgName, "Community", this.currentAccessToken).then(result => {
+    getEnvironments("Community", this.currentAccessToken).then(result => {
       let envList = this.state.environments;
       for(let i=0;i<result.length;i++) {
         var newEnv = result[i];

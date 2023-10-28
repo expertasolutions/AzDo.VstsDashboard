@@ -117,10 +117,10 @@ export async function getReleases(projectName: string, isFirstLoad: boolean) {
   return dpl;
 }
 
-export async function getEnvironments(organization: string, projectName: string, accessToken: string) {
+export async function getEnvironments(projectName: string, accessToken: string) {
   // CODE_REVIEW: Replace 'experta' from the URL with the proper organization name
   let apiVersion = "7.1";
-  let envUrl = `https://dev.azure.com/${organization}/${projectName}/_apis/distributedtask/environments?api-version=${apiVersion}`;
+  let envUrl = `https://dev.azure.com/${SDK.getHost().name}/${projectName}/_apis/distributedtask/environments?api-version=${apiVersion}`;
   let acceptHeaderValue = `application/json;api-version=${apiVersion};excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true`;
   let result = await fetch(envUrl, 
     {
@@ -144,17 +144,17 @@ export async function getEnvironments(organization: string, projectName: string,
       projectId: projectName,
       deploymentRecords: []
     };
-    let test = await getEnvironmentDeplRecords(result[i].id, organization, projectName, accessToken);
+    let test = await getEnvironmentDeplRecords(result[i].id, projectName, accessToken);
     newEnv.deploymentRecords.push(...test);
     finalResult.push(newEnv);
   }
   return finalResult;
 }
 
-export async function getEnvironmentDeplRecords(environmentId: string, organization: string, projectName: string, accessToken: string) {
+export async function getEnvironmentDeplRecords(environmentId: string, projectName: string, accessToken: string) {
   let apiVersion = "7.1-preview.1";
   let top = 10;
-  let envUrl = `https://dev.azure.com/${organization}/${projectName}/_apis/distributedtask/environments/${environmentId}/environmentdeploymentrecords?api-version=${apiVersion}`;
+  let envUrl = `https://dev.azure.com/${SDK.getHost().name}/${projectName}/_apis/distributedtask/environments/${environmentId}/environmentdeploymentrecords?api-version=${apiVersion}`;
   let acceptHeaderValue = `application/json;api-version=${apiVersion};excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true`;
   let result = await fetch(envUrl, 
     {
