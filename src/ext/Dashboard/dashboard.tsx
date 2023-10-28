@@ -541,6 +541,7 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   private buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(this.state.buildDefs));
   private buildProvider = new ObservableValue<ArrayItemProvider<Build>>(new ArrayItemProvider(this.state.builds));
+  private environmentProvider = new ObservableValue<ArrayItemProvider<PipelineEnvironment>>(new ArrayItemProvider(this.state.environments));
 
   private onSelectedTabChanged = (newTabId: string) => {
     this.selectedTabId.value = newTabId;
@@ -653,7 +654,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       );
     } else if(tabId === "environments") {
       return (
-        <Observer itemProvider={ this.buildProvider }>
+        <Observer itemProvider={ this.environmentProvider }>
           {(observableProps: { itemProvider: ArrayItemProvider<PipelineEnvironment> }) => (
               <Table<PipelineEnvironment> columns={environmentColumns} 
                   itemProvider={observableProps.itemProvider}
