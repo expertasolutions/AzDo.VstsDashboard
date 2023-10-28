@@ -308,32 +308,35 @@ class CICDDashboard extends React.Component<{}, {}> {
 
     // CODE_REVIEW: Replace "Experta" && "Community" by a project selection loop
     getEnvironments("experta", "Community", this.currentAccessToken).then(result => {
-      let currentEnv = this.state.environments;
+      let envList = this.state.environments;
       for(let i=0;i<result.count;i++) {
         var newEnv = result.value[i];
-        let env = currentEnv.find(x=> x.id === newEnv.id);
+        let env = envList.find(x=> x.id === newEnv.id);
         if(env != undefined) {
-          let envIndex = currentEnv.indexOf(env, 0);
+          let envIndex = envList.indexOf(env, 0);
           if(envIndex > -1) {
             // CODE_REVIEW: Replace "Community" by a project selection loop
             let newPipelineEnv: PipelineEnvironment = {
               id: newEnv.id,
               name: newEnv.name,
-              projectId: "community"
+              projectId: "community",
+              deploymentRecords: []
             };
-            currentEnv[envIndex] = newPipelineEnv;
+            envList[envIndex] = newPipelineEnv;
           }
         } else {
           // CODE_REVIEW: Replace "Community" by a project selection loop
           let newPipelineEnv: PipelineEnvironment = {
             id: newEnv.id,
             name: newEnv.name,
-            projectId: "community"
+            projectId: "community",
+            deploymentRecords: []
           };
-          currentEnv.splice(0, 0, newPipelineEnv);
+          envList.splice(0, 0, newPipelineEnv);
         }
-        this.setState({ environments: currentEnv });
-        this.environmentProvider = new ObservableValue<ArrayItemProvider<PipelineEnvironment>>(new ArrayItemProvider(currentEnv));
+        this.setState({ environments: envList });
+        console.log(envList);
+        this.environmentProvider = new ObservableValue<ArrayItemProvider<PipelineEnvironment>>(new ArrayItemProvider(envList));
       }
     });
 

@@ -7,6 +7,7 @@ export interface PipelineEnvironment {
   id: string;
   name: string;
   projectId: string;
+  deploymentRecords: any[]
 }
 
 

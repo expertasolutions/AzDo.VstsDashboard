@@ -137,8 +137,8 @@ export async function getEnvironments(organization: string, projectName: string,
       let test = await getEnvironmentDeplRecords(result[i].id, organization, projectName, accessToken);
       console.log(test);
       console.log(test.definition);
+      result.deplRecords.push(...test);
   }
-
   return result;
 }
 
