@@ -371,7 +371,9 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
       .map(item => item.owner.id)
       .filter((value, index, self) => self.indexOf(value) === index);
 
-  console.log(uniqueBuildIds);
+  // IMPORANT: checkout this... https://learn.microsoft.com/en-us/rest/api/azure/devops/approvalsandchecks/approvals/get?view=azure-devops-rest-7.1&tabs=HTTP
+
+  //console.log(uniqueBuildIds);
 
   if(!allRelease) {
 //    uniqueBuildIds = []
