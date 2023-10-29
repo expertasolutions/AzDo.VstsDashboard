@@ -1,0 +1,44 @@
+{
+  "_links": {
+    "self": {
+      "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/240/runs/16953"
+    },
+    "web": {
+      "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_build/results?buildId=16953"
+    },
+    "pipeline.web": {
+      "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_build/definition?definitionId=240"
+    },
+    "pipeline": {
+      "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/240?revision=8"
+    }
+  },
+  "templateParameters": {},
+  "pipeline": {
+    "url": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/240?revision=8",
+    "id": 240,
+    "revision": 8,
+    "name": "GitHub-VstsDashboard",
+    "folder": "\\"
+  },
+  "state": "inProgress",
+  "createdDate": "2023-10-29T11:52:39.5486979Z",
+  "url": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/240/runs/16953",
+  "resources": {
+    "repositories": {
+      "self": {
+        "repository": {
+          "fullName": "expertasolutions/AzDo.VstsDashboard",
+          "connection": {
+            "id": "ad64d6f6-7dc8-415f-bb53-2b2b872febc3"
+          },
+          "type": "gitHub"
+        },
+        "refName": "refs/heads/Issue0170b",
+        "version": "92beefd7f180f527d5839e69034a5d20073792b5"
+      }
+    }
+  },
+  "id": 16953,
+  "name": "VstsDashboard-v1.23302.9-Issue0170b"
+}
