@@ -367,7 +367,8 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
 
   let content: any[] = [];
 
-  let uniqueBuildIds = allDeplRecords.map(item => item.owner.id)
+  let uniqueBuildIds = allDeplRecords.filter(x=> x.definition.id === build.definition.id)
+      .map(item => item.owner.id)
       .filter((value, index, self) => self.indexOf(value) === index);
 
 
