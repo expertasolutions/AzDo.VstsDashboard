@@ -371,48 +371,50 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
       .map(item => item.owner.id)
       .filter((value, index, self) => self.indexOf(value) === index);
 
+  console.log(uniqueBuildIds);
 
   if(!allRelease) {
 //    uniqueBuildIds = []
 //    uniqueBuildIds.push(build.id);
   }
 
-  for(let i=0;i<uniqueBuildIds.length;i++) {
-    let currentBuildId = uniqueBuildIds[i];
-    let buildDeplRecords = allDeplRecords.filter(x=> x.owner.id === currentBuildId).sort((a,b) => a.id - b.id);
-    let children: any[] = [];
+  if(false) {
+    for(let i=0;i<uniqueBuildIds.length;i++) {
+      let currentBuildId = uniqueBuildIds[i];
+      let buildDeplRecords = allDeplRecords.filter(x=> x.owner.id === currentBuildId).sort((a,b) => a.id - b.id);
+      let children: any[] = [];
 
-    for(let j=0;j<buildDeplRecords.length;i++) {
-      if(buildDeplRecords[j].definition.id === build.definition.id) {
-        let elm = buildDeplRecords[j];
-        let attempCounts = "";
-        if(elm.jobAttemp > 1) {
-          attempCounts = `( ${elm.stageAttempt})`;
+      for(let j=0;j<buildDeplRecords.length;i++) {
+        if(buildDeplRecords[j].definition.id === build.definition.id) {
+          let elm = buildDeplRecords[j];
+          let attempCounts = "";
+          if(elm.jobAttemp > 1) {
+            attempCounts = `( ${elm.stageAttempt})`;
+          }
+          let deplStatus = getStageIndicator(elm.result, false);
+          children.push(
+            <Pill color={deplStatus.color} variant={PillVariant.colored} 
+                onClick={() => window.open(elm.owner._links.web.href, "_blank") }>
+              <Status {...deplStatus.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{elm.stageName}&nbsp;{attempCounts}-{elm.result}
+            </Pill>
+          );     
         }
-        let deplStatus = getStageIndicator(elm.result, false);
-        children.push(
-          <Pill color={deplStatus.color} variant={PillVariant.colored} 
-              onClick={() => window.open(elm.owner._links.web.href, "_blank") }>
-            <Status {...deplStatus.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{elm.stageName}&nbsp;{attempCounts}-{elm.result}
-          </Pill>
-        );     
+      }
+
+      if(children.length > 0) {
+        content.push(
+          <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
+            <Link href={build._links.web.href} target="_blank"><b>{build.definition.name}</b> ({build.buildNumber})</Link>
+            <p>
+              <PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{children}</PillGroup>
+            </p>
+          </div>
+        )
       }
     }
-
-    if(children.length > 0) {
-      content.push(
-        <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
-          <Link href={build._links.web.href} target="_blank"><b>{build.definition.name}</b> ({build.buildNumber})</Link>
-          <p>
-            <PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{children}</PillGroup>
-          </p>
-        </div>
-      )
-    }
-
   }
 
-  if(false) {
+  if(true) {
     // Last Build Execution
     let buildDeplRecords = allDeplRecords.filter(x=> x.owner.id === build.id).sort((a,b) => a.id - b.id);
     let children: any[] = [];
