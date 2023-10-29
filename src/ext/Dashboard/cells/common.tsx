@@ -101,12 +101,15 @@ export function getStageIndicator(status: number, pendingApproval: boolean): ISt
   }
 
   switch(status){
+    // case ?? abandonned
+    // case ?? cancelled
+    // case ?? skipped
     case DeploymentStatus.NotDeployed:
       indicatorData.statusProps = { ...Statuses.Queued, ariaLabel: "Canceled"};
       indicatorData.label = "Not Deployed";
       indicatorData.color = lightGray;
       break;
-    case 0:
+    case 0: // Success
       indicatorData.statusProps = { ...Statuses.Success, ariaLabel: "Success"};
       indicatorData.label = "Success";
       indicatorData.color = lightGreen;
@@ -116,7 +119,7 @@ export function getStageIndicator(status: number, pendingApproval: boolean): ISt
       indicatorData.label = "Fail";
       indicatorData.color = lightRed;
       break;
-    case DeploymentStatus.PartiallySucceeded:
+    case DeploymentStatus.PartiallySucceeded: // succeededWithIssues
       indicatorData.statusProps = { ...Statuses.Warning, ariaLabel: "PartiallySucceeded"};
       indicatorData.label = "PartiallySucceeded";
       indicatorData.color = lightOrange;
@@ -359,7 +362,9 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
 
   let content: any[] = [];  
   let buildDeplRecords = allDeplRecords.filter(x=> x.owner.id === build.id).sort((a,b) => a.id - b.id);
-  console.log(buildDeplRecords);
+  if(build.definition.id === 240) {
+    console.log(buildDeplRecords);
+  }
   let children: any[] = [];
 
   for(let i=0;i<buildDeplRecords.length;i++) {
