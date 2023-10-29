@@ -364,7 +364,7 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
   let buildDeplRecords = allDeplRecords.filter(x=> x.owner.id === build.id).sort((a,b) => a.id - b.id);
   if(build.definition.id === 240) {
     //console.log(allDeplRecords);
-    console.log(buildDeplRecords);
+    //console.log(buildDeplRecords);
   }
   let children: any[] = [];
 
