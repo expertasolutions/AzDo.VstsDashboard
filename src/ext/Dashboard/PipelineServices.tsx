@@ -117,6 +117,40 @@ export async function getReleases(projectName: string, isFirstLoad: boolean) {
   return dpl;
 }
 
+export async function getApprovals(projectName: string, accessToken: string) {
+  // https://dev.azure.com/{organization}/{project}/_apis/pipelines/approvals?api-version=7.1-preview.1
+  let apiVersion = "7.1";
+  let envUrl = `https://dev.azure.com/${SDK.getHost().name}/${projectName}/_apis/pipelines/approvals?api-version=${apiVersion}`;
+  let acceptHeaderValue = `application/json;api-version=${apiVersion};excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true`;
+  let result = await fetch(envUrl, 
+    {
+      method: 'GET',
+      mode: 'cors',
+      headers: { 
+        'Accept': acceptHeaderValue,
+        'Content-Type': 'application/json',
+        'Authorization' : `Bearer ${accessToken}`
+      }
+    })
+    .then(response => response.json());
+    
+  //console.log(result);
+  // let finalResult:Array<PipelineEnvironment> = [];
+
+  // for(let i=0;i<result.length;i++) {
+  //   let newEnv : PipelineEnvironment = {
+  //     id: result[i].id,
+  //     name: result[i].name,
+  //     projectId: projectName,
+  //     deploymentRecords: []
+  //   };
+  //   let test = await getEnvironmentDeplRecords(result[i].id, projectName, accessToken);
+  //   newEnv.deploymentRecords.push(...test);
+  //   finalResult.push(newEnv);
+  // }
+  return result;
+}
+
 export async function getEnvironments(projectName: string, accessToken: string) {
   // CODE_REVIEW: Replace 'experta' from the URL with the proper organization name
   let apiVersion = "7.1";

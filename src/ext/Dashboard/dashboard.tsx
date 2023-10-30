@@ -14,7 +14,8 @@ import {
 , sortBuildReferences
 , getMinTimeFromNow
 , setUserPreferences
-, getUserPreferences
+, getUserPreferences,
+getApprovals
 } from "./PipelineServices";
 
 import { dashboardColumns, buildColumns, environmentColumns }  from "./tableData";
@@ -305,6 +306,11 @@ class CICDDashboard extends React.Component<{}, {}> {
     if(firstLoad) {
       this.buildTimeRangeHasChanged = true;
     }
+
+    getApprovals("Community", this.currentAccessToken).then(result => {
+      console.log("getApprovals result");
+      console.log(result);
+    });
 
     // CODE_REVIEW: Replace "Community" by a project selection loop
     getEnvironments("Community", this.currentAccessToken).then(result => {
