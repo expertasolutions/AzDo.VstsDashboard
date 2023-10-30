@@ -243,7 +243,7 @@ export function getPipelineIndicator(result: BuildResult, status:BuildStatus) : 
 }
 
 
-export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>, environments: Array<PipelineEnvironment>, approval: Array<any>, allRelease: boolean) {
+export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>, environments: Array<PipelineEnvironment>, approvals: Array<any>, allRelease: boolean) {
   if(build === undefined) {
     return (<div>Not deployed yet</div>);
   }
