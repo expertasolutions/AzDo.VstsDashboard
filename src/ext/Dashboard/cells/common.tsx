@@ -419,6 +419,10 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
   if(true) {
     // Last Build Execution
     let buildDeplRecords = allDeplRecords.filter(x=> x.owner.id === build.id).sort((a,b) => a.id - b.id);
+    let buildIDApprovals = approvals.filter(x=> x.pipeline.owner.id === build.id);
+
+    console.log(buildIDApprovals);
+
     let children: any[] = [];
 
     for(let i=0;i<buildDeplRecords.length;i++) {
