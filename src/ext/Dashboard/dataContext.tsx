@@ -19,6 +19,7 @@ export const DataContext = React.createContext(
       releases: Array<Deployment>(),
       projects: Array<TeamProjectReference>(),
       environments: Array<PipelineEnvironment>(),
+      approvals: Array<any>(),
       showAllBuildDeployment: false,
       fullScreenMode: false
     }
