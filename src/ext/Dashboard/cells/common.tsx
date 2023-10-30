@@ -243,7 +243,7 @@ export function getPipelineIndicator(result: BuildResult, status:BuildStatus) : 
 }
 
 
-export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>, environments: Array<PipelineEnvironment>, allRelease: boolean) {
+export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>, environments: Array<PipelineEnvironment>, approval: Array<any>, allRelease: boolean) {
   if(build === undefined) {
     return (<div>Not deployed yet</div>);
   }
@@ -351,10 +351,10 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
   if(content.length > 0){
     return content;
   }
-  return getReleaseTagFromBuildV2(build, environments, allRelease);
+  return getReleaseTagFromBuildV2(build, environments, approvals, allRelease);
 }
 
-export function getReleaseTagFromBuildV2(build: Build, environments: Array<PipelineEnvironment>, allRelease: boolean) {
+export function getReleaseTagFromBuildV2(build: Build, environments: Array<PipelineEnvironment>, approvals: Array<any>, allRelease: boolean) {
   if(build === undefined) {
     return (<div>Not deployed yet</div>)
   }

@@ -105,6 +105,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     releases: new Array<Deployment>(),
     projects: new Array<TeamProjectReference>(),
     environments: Array<PipelineEnvironment>(),
+    approvals: Array<any>(),
     deploymentRecords: Array<any>(),
     showAllBuildDeployment: false,
     refreshUI: new Date().toTimeString(),
@@ -308,13 +309,26 @@ class CICDDashboard extends React.Component<{}, {}> {
     }
 
     getApprovals("Community", this.currentAccessToken).then(result => {
-      console.log(result);
+      let approvalList = this.state.approvals;
+      for(let i=0;i<result.length;i++) {
+        var newApproval = result[i];
+        let approval = approvalList.find(x=> x.id === newApproval.id);
+        if(approval != undefined) {
+          let approvalIndex = approvalList.indexOf(approval, 0);
+          if(approvalIndex > -1) {
+            approvalList[approvalIndex] = newApproval;
+          }
+        } else {
+          approvalList.splice(0, 0, newApproval);
+        }
+      }
+      this.setState({ approvalList: approvalList });
+      this.approvalProvider = new ObservableValue<ArrayItemProvider<any>>(new ArrayItemProvider(approvalList));
     });
 
     // CODE_REVIEW: Replace "Community" by a project selection loop
     getEnvironments("Community", this.currentAccessToken).then(result => {
       let envList = this.state.environments;
-      //let currentDeplRecords = this.state.deploymentRecords;
       for(let i=0;i<result.length;i++) {
         var newEnv = result[i];
         let env = envList.find(x=> x.id === newEnv.id);
@@ -326,11 +340,9 @@ class CICDDashboard extends React.Component<{}, {}> {
         } else {
           envList.splice(0, 0, newEnv);
         }
-        //console.log(envList);
-        this.setState({ environments: envList });
-        //this.setState({ deploymentRecords: currentDeplRecords })
-        this.environmentProvider = new ObservableValue<ArrayItemProvider<PipelineEnvironment>>(new ArrayItemProvider(envList));
       }
+      this.setState({ environments: envList });
+      this.environmentProvider = new ObservableValue<ArrayItemProvider<PipelineEnvironment>>(new ArrayItemProvider(envList));
     });
 
     getBuildsV1(this.currentSelectedProjects, this.buildTimeRangeHasChanged, this.lastBuildsDisplay).then(result => {
@@ -539,6 +551,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   private buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(this.state.buildDefs));
   private buildProvider = new ObservableValue<ArrayItemProvider<Build>>(new ArrayItemProvider(this.state.builds));
   private environmentProvider = new ObservableValue<ArrayItemProvider<PipelineEnvironment>>(new ArrayItemProvider(this.state.environments));
+  private approvalProvider = new ObservableValue<ArrayItemProvider<any>>(new ArrayItemProvider(this.state.approvals));
 
   private onSelectedTabChanged = (newTabId: string) => {
     this.selectedTabId.value = newTabId;
