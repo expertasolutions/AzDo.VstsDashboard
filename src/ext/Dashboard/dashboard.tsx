@@ -308,7 +308,6 @@ class CICDDashboard extends React.Component<{}, {}> {
     }
 
     getApprovals("Community", this.currentAccessToken).then(result => {
-      console.log("getApprovals result");
       console.log(result);
     });
 
