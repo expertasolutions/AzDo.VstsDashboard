@@ -1,561 +1,173 @@
 {
-  "count": 20,
-  "value": [
+  "logs": [
     {
-      "id": "7c98c4f0-bde4-4572-b8ec-bc4ac4cefda1",
-      "steps": [],
-      "status": "pending",
-      "createdOn": "2023-10-30T12:52:42.97Z",
-      "lastModifiedOn": "2023-10-30T12:52:42.9706455Z",
-      "executionOrder": "anyOrder",
-      "minRequiredApprovers": 1,
-      "blockedApprovers": [],
-      "_links": {
-        "self": {
-          "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/approvals/7c98c4f0-bde4-4572-b8ec-bc4ac4cefda1"
-        }
-      },
-      "pipeline": {
-        "owner": {
-          "_links": {
-            "web": {
-              "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_build/results?buildId=16960"
-            },
-            "self": {
-              "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/build/Builds/16960"
-            }
-          },
-          "id": 16960,
-          "name": "VstsDashboard-v1.23303.1-Issue0170b"
-        },
-        "id": "240",
-        "name": "GitHub-VstsDashboard"
-      }
+      "createdOn": "2023-10-31T10:49:12.73Z",
+      "id": 1,
+      "lastChangedOn": "2023-10-31T10:49:12.85Z",
+      "lineCount": 212,
+      "url": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/240/runs/16978/logs/1"
     },
     {
-      "id": "78a31088-6ee8-4b5c-a7aa-695373d2fdc7",
-      "steps": [],
-      "status": "timedOut",
-      "createdOn": "2023-10-29T13:15:55.737Z",
-      "lastModifiedOn": "2023-10-29T13:30:55.6902809Z",
-      "executionOrder": "anyOrder",
-      "minRequiredApprovers": 1,
-      "blockedApprovers": [],
-      "_links": {
-        "self": {
-          "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/approvals/78a31088-6ee8-4b5c-a7aa-695373d2fdc7"
-        }
-      },
-      "pipeline": {
-        "owner": {
-          "_links": {
-            "web": {
-              "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_build/results?buildId=16959"
-            },
-            "self": {
-              "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/build/Builds/16959"
-            }
-          },
-          "id": 16959,
-          "name": "VstsDashboard-v1.23302.15-Issue0170b"
-        },
-        "id": "240",
-        "name": "GitHub-VstsDashboard"
-      }
+      "createdOn": "2023-10-31T10:49:12.73Z",
+      "id": 2,
+      "lastChangedOn": "2023-10-31T10:49:12.74Z",
+      "lineCount": 168,
+      "url": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/240/runs/16978/logs/2"
     },
     {
-      "id": "4671cc40-a111-4a31-b217-7f698ac1387a",
-      "steps": [],
-      "status": "timedOut",
-      "createdOn": "2023-10-29T13:07:09.503Z",
-      "lastModifiedOn": "2023-10-29T13:22:09.4921235Z",
-      "executionOrder": "anyOrder",
-      "minRequiredApprovers": 1,
-      "blockedApprovers": [],
-      "_links": {
-        "self": {
-          "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/approvals/4671cc40-a111-4a31-b217-7f698ac1387a"
-        }
-      },
-      "pipeline": {
-        "owner": {
-          "_links": {
-            "web": {
-              "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_build/results?buildId=16958"
-            },
-            "self": {
-              "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/build/Builds/16958"
-            }
-          },
-          "id": 16958,
-          "name": "VstsDashboard-v1.23302.14-Issue0170b"
-        },
-        "id": "240",
-        "name": "GitHub-VstsDashboard"
-      }
+      "createdOn": "2023-10-31T10:49:14.47Z",
+      "id": 3,
+      "lastChangedOn": "2023-10-31T10:49:14.473Z",
+      "lineCount": 47,
+      "url": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/240/runs/16978/logs/3"
     },
     {
-      "id": "dfaae94b-3f25-473f-a617-fdd12cc9cbd6",
-      "steps": [],
-      "status": "timedOut",
-      "createdOn": "2023-10-29T13:01:52.83Z",
-      "lastModifiedOn": "2023-10-29T13:16:52.8173304Z",
-      "executionOrder": "anyOrder",
-      "minRequiredApprovers": 1,
-      "blockedApprovers": [],
-      "_links": {
-        "self": {
-          "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/approvals/dfaae94b-3f25-473f-a617-fdd12cc9cbd6"
-        }
-      },
-      "pipeline": {
-        "owner": {
-          "_links": {
-            "web": {
-              "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_build/results?buildId=16957"
-            },
-            "self": {
-              "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/build/Builds/16957"
-            }
-          },
-          "id": 16957,
-          "name": "VstsDashboard-v1.23302.13-Issue0170b"
-        },
-        "id": "240",
-        "name": "GitHub-VstsDashboard"
-      }
+      "createdOn": "2023-10-31T10:49:33.897Z",
+      "id": 4,
+      "lastChangedOn": "2023-10-31T10:49:35.493Z",
+      "lineCount": 43,
+      "url": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/240/runs/16978/logs/4"
     },
     {
-      "id": "0bd8607b-561d-419f-bc2c-d6ba39096be8",
-      "steps": [],
-      "status": "timedOut",
-      "createdOn": "2023-10-29T12:55:11.37Z",
-      "lastModifiedOn": "2023-10-29T13:10:11.3572473Z",
-      "executionOrder": "anyOrder",
-      "minRequiredApprovers": 1,
-      "blockedApprovers": [],
-      "_links": {
-        "self": {
-          "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/approvals/0bd8607b-561d-419f-bc2c-d6ba39096be8"
-        }
-      },
-      "pipeline": {
-        "owner": {
-          "_links": {
-            "web": {
-              "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_build/results?buildId=16956"
-            },
-            "self": {
-              "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/build/Builds/16956"
-            }
-          },
-          "id": 16956,
-          "name": "VstsDashboard-v1.23302.12-Issue0170b"
-        },
-        "id": "240",
-        "name": "GitHub-VstsDashboard"
-      }
+      "createdOn": "2023-10-31T10:49:40.857Z",
+      "id": 5,
+      "lastChangedOn": "2023-10-31T10:49:41.113Z",
+      "lineCount": 484,
+      "url": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/240/runs/16978/logs/5"
     },
     {
-      "id": "5815261c-809c-47f8-88a4-d509688c28b4",
-      "steps": [],
-      "status": "timedOut",
-      "createdOn": "2023-10-29T12:36:54.793Z",
-      "lastModifiedOn": "2023-10-29T12:51:54.7965807Z",
-      "executionOrder": "anyOrder",
-      "minRequiredApprovers": 1,
-      "blockedApprovers": [],
-      "_links": {
-        "self": {
-          "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/approvals/5815261c-809c-47f8-88a4-d509688c28b4"
-        }
-      },
-      "pipeline": {
-        "owner": {
-          "_links": {
-            "web": {
-              "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_build/results?buildId=16955"
-            },
-            "self": {
-              "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/build/Builds/16955"
-            }
-          },
-          "id": 16955,
-          "name": "VstsDashboard-v1.23302.11-Issue0170b"
-        },
-        "id": "240",
-        "name": "GitHub-VstsDashboard"
-      }
+      "createdOn": "2023-10-31T10:50:03.197Z",
+      "id": 6,
+      "lastChangedOn": "2023-10-31T10:50:03.43Z",
+      "lineCount": 5606,
+      "url": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/240/runs/16978/logs/6"
     },
     {
-      "id": "f83c4ecd-3db7-4054-a2dc-773c4d18cb47",
-      "steps": [],
-      "status": "rejected",
-      "createdOn": "2023-10-29T12:24:59.91Z",
-      "lastModifiedOn": "2023-10-29T12:29:43.9111403Z",
-      "executionOrder": "anyOrder",
-      "minRequiredApprovers": 1,
-      "blockedApprovers": [],
-      "_links": {
-        "self": {
-          "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/approvals/f83c4ecd-3db7-4054-a2dc-773c4d18cb47"
-        }
-      },
-      "pipeline": {
-        "owner": {
-          "_links": {
-            "web": {
-              "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_build/results?buildId=16953"
-            },
-            "self": {
-              "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/build/Builds/16953"
-            }
-          },
-          "id": 16953,
-          "name": "VstsDashboard-v1.23302.9-Issue0170b"
-        },
-        "id": "240",
-        "name": "GitHub-VstsDashboard"
-      }
+      "createdOn": "2023-10-31T10:50:03.597Z",
+      "id": 7,
+      "lastChangedOn": "2023-10-31T10:50:03.85Z",
+      "lineCount": 18,
+      "url": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/240/runs/16978/logs/7"
     },
     {
-      "id": "6bcb653c-33ca-468c-ac97-4bf126adf88a",
-      "steps": [],
-      "status": "approved",
-      "createdOn": "2023-10-29T12:23:59.077Z",
-      "lastModifiedOn": "2023-10-29T12:24:04.5458018Z",
-      "executionOrder": "anyOrder",
-      "minRequiredApprovers": 1,
-      "blockedApprovers": [],
-      "_links": {
-        "self": {
-          "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/approvals/6bcb653c-33ca-468c-ac97-4bf126adf88a"
-        }
-      },
-      "pipeline": {
-        "owner": {
-          "_links": {
-            "web": {
-              "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_build/results?buildId=16953"
-            },
-            "self": {
-              "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/build/Builds/16953"
-            }
-          },
-          "id": 16953,
-          "name": "VstsDashboard-v1.23302.9-Issue0170b"
-        },
-        "id": "240",
-        "name": "GitHub-VstsDashboard"
-      }
+      "createdOn": "2023-10-31T10:51:00.36Z",
+      "id": 8,
+      "lastChangedOn": "2023-10-31T10:51:00.733Z",
+      "lineCount": 15,
+      "url": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/240/runs/16978/logs/8"
     },
     {
-      "id": "483e64f3-f7f4-44a3-aa31-437b039e2654",
-      "steps": [],
-      "status": "timedOut",
-      "createdOn": "2023-10-29T11:57:17.927Z",
-      "lastModifiedOn": "2023-10-29T12:12:17.9777386Z",
-      "executionOrder": "anyOrder",
-      "minRequiredApprovers": 1,
-      "blockedApprovers": [],
-      "_links": {
-        "self": {
-          "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/approvals/483e64f3-f7f4-44a3-aa31-437b039e2654"
-        }
-      },
-      "pipeline": {
-        "owner": {
-          "_links": {
-            "web": {
-              "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_build/results?buildId=16953"
-            },
-            "self": {
-              "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/build/Builds/16953"
-            }
-          },
-          "id": 16953,
-          "name": "VstsDashboard-v1.23302.9-Issue0170b"
-        },
-        "id": "240",
-        "name": "GitHub-VstsDashboard"
-      }
+      "createdOn": "2023-10-31T10:52:50.58Z",
+      "id": 9,
+      "lastChangedOn": "2023-10-31T10:52:50.81Z",
+      "lineCount": 132,
+      "url": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/240/runs/16978/logs/9"
     },
     {
-      "id": "038ca16f-0f10-4e7c-a630-8409420c3704",
-      "steps": [],
-      "status": "canceled",
-      "createdOn": "2023-10-29T11:56:30.033Z",
-      "lastModifiedOn": "2023-10-29T12:03:07.3357272Z",
-      "executionOrder": "anyOrder",
-      "minRequiredApprovers": 1,
-      "blockedApprovers": [],
-      "_links": {
-        "self": {
-          "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/approvals/038ca16f-0f10-4e7c-a630-8409420c3704"
-        }
-      },
-      "pipeline": {
-        "owner": {
-          "_links": {
-            "web": {
-              "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_build/results?buildId=16952"
-            },
-            "self": {
-              "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/build/Builds/16952"
-            }
-          },
-          "id": 16952,
-          "name": "VstsDashboard-v1.23302.8-Issue0170b"
-        },
-        "id": "240",
-        "name": "GitHub-VstsDashboard"
-      }
+      "createdOn": "2023-10-31T10:53:16.3Z",
+      "id": 10,
+      "lastChangedOn": "2023-10-31T10:53:16.447Z",
+      "lineCount": 72,
+      "url": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/240/runs/16978/logs/10"
     },
     {
-      "id": "42ee236c-48a4-4f5f-9c0d-fa95f9e6be5e",
-      "steps": [],
-      "status": "timedOut",
-      "createdOn": "2023-10-29T11:34:56.117Z",
-      "lastModifiedOn": "2023-10-29T11:49:56.1973291Z",
-      "executionOrder": "anyOrder",
-      "minRequiredApprovers": 1,
-      "blockedApprovers": [],
-      "_links": {
-        "self": {
-          "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/approvals/42ee236c-48a4-4f5f-9c0d-fa95f9e6be5e"
-        }
-      },
-      "pipeline": {
-        "owner": {
-          "_links": {
-            "web": {
-              "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_build/results?buildId=16951"
-            },
-            "self": {
-              "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/build/Builds/16951"
-            }
-          },
-          "id": 16951,
-          "name": "VstsDashboard-v1.23302.7-Issue0170b"
-        },
-        "id": "240",
-        "name": "GitHub-VstsDashboard"
-      }
+      "createdOn": "2023-10-31T10:53:18.707Z",
+      "id": 11,
+      "lastChangedOn": "2023-10-31T10:53:29.93Z",
+      "lineCount": 15,
+      "url": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/240/runs/16978/logs/11"
     },
     {
-      "id": "81f74070-1639-4f0a-8e5a-786132e8872d",
-      "steps": [],
-      "status": "approved",
-      "createdOn": "2023-10-29T11:29:09.893Z",
-      "lastModifiedOn": "2023-10-29T11:30:50.2737565Z",
-      "executionOrder": "anyOrder",
-      "minRequiredApprovers": 1,
-      "blockedApprovers": [],
-      "_links": {
-        "self": {
-          "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/approvals/81f74070-1639-4f0a-8e5a-786132e8872d"
-        }
-      },
-      "pipeline": {
-        "owner": {
-          "_links": {
-            "web": {
-              "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_build/results?buildId=16950"
-            },
-            "self": {
-              "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/build/Builds/16950"
-            }
-          },
-          "id": 16950,
-          "name": "VstsDashboard-v1.23302.6-Issue0170b"
-        },
-        "id": "240",
-        "name": "GitHub-VstsDashboard"
-      }
+      "createdOn": "2023-10-31T10:53:32.857Z",
+      "id": 12,
+      "lastChangedOn": "2023-10-31T10:53:33.12Z",
+      "lineCount": 12,
+      "url": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/240/runs/16978/logs/12"
     },
     {
-      "id": "ad81f8ce-eed9-4967-b376-575a393119db",
-      "steps": [],
-      "status": "approved",
-      "createdOn": "2022-02-05T16:48:53.12Z",
-      "lastModifiedOn": "2022-02-05T16:49:16.7766793Z",
-      "executionOrder": "anyOrder",
-      "minRequiredApprovers": 1,
-      "blockedApprovers": [],
-      "_links": {
-        "self": {
-          "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/approvals/ad81f8ce-eed9-4967-b376-575a393119db"
-        }
-      },
-      "pipeline": {
-        "owner": {
-          "_links": {
-            "web": {
-              "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_build/results?buildId=16756"
-            },
-            "self": {
-              "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/build/Builds/16756"
-            }
-          },
-          "id": 16756,
-          "name": "VstsDashboard-v1.22036.15-master"
-        },
-        "id": "240",
-        "name": "GitHub-VstsDashboard"
-      }
+      "createdOn": "2023-10-31T10:53:33.313Z",
+      "id": 13,
+      "lastChangedOn": "2023-10-31T10:53:33.693Z",
+      "lineCount": 15,
+      "url": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/240/runs/16978/logs/13"
     },
     {
-      "id": "a536bf0d-917d-4396-b0de-cb2c439d02b2",
-      "steps": [],
-      "status": "approved",
-      "createdOn": "2022-02-05T16:47:14.117Z",
-      "lastModifiedOn": "2022-02-05T16:47:47.7280286Z",
-      "executionOrder": "anyOrder",
-      "minRequiredApprovers": 1,
-      "blockedApprovers": [],
-      "_links": {
-        "self": {
-          "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/approvals/a536bf0d-917d-4396-b0de-cb2c439d02b2"
-        }
-      },
-      "pipeline": {
-        "owner": {
-          "_links": {
-            "web": {
-              "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_build/results?buildId=16756"
-            },
-            "self": {
-              "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/build/Builds/16756"
-            }
-          },
-          "id": 16756,
-          "name": "VstsDashboard-v1.22036.15-master"
-        },
-        "id": "240",
-        "name": "GitHub-VstsDashboard"
-      }
+      "createdOn": "2023-10-31T10:53:33.857Z",
+      "id": 14,
+      "lastChangedOn": "2023-10-31T10:53:34.07Z",
+      "lineCount": 10,
+      "url": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/240/runs/16978/logs/14"
     },
     {
-      "id": "2eb85b20-7afb-4e31-a94b-0d8797f78e48",
-      "steps": [],
-      "status": "approved",
-      "createdOn": "2020-07-25T14:23:39.67Z",
-      "lastModifiedOn": "2020-07-25T14:27:33.839347Z",
-      "executionOrder": "anyOrder",
-      "minRequiredApprovers": 1,
-      "blockedApprovers": [],
-      "_links": {
-        "self": {
-          "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/approvals/2eb85b20-7afb-4e31-a94b-0d8797f78e48"
-        }
-      },
-      "pipeline": {
-        "owner": {
-          "_links": {
-            "web": {
-              "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_build/results?buildId=11436"
-            },
-            "self": {
-              "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/build/Builds/11436"
-            }
-          },
-          "id": 11436,
-          "name": "AzureDNSZone-v6.20207.2-master"
-        },
-        "id": "232",
-        "name": "expertasolutions.AzureDNSZoneExtensions"
-      }
+      "createdOn": "2023-10-31T10:53:34.233Z",
+      "id": 15,
+      "lastChangedOn": "2023-10-31T10:53:34.52Z",
+      "lineCount": 9,
+      "url": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/240/runs/16978/logs/15"
     },
     {
-      "id": "34ef4150-1b6b-4e3c-b617-0fb9189f08d3",
-      "steps": [],
-      "status": "approved",
-      "createdOn": "2020-07-25T14:10:16.503Z",
-      "lastModifiedOn": "2020-07-25T14:21:55.9977816Z",
-      "executionOrder": "anyOrder",
-      "minRequiredApprovers": 1,
-      "blockedApprovers": [],
-      "_links": {
-        "self": {
-          "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/approvals/34ef4150-1b6b-4e3c-b617-0fb9189f08d3"
-        }
-      },
-      "pipeline": {
-        "owner": {
-          "_links": {
-            "web": {
-              "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_build/results?buildId=11436"
-            },
-            "self": {
-              "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/build/Builds/11436"
-            }
-          },
-          "id": 11436,
-          "name": "AzureDNSZone-v6.20207.2-master"
-        },
-        "id": "232",
-        "name": "expertasolutions.AzureDNSZoneExtensions"
-      }
+      "createdOn": "2023-10-31T10:53:34.793Z",
+      "id": 16,
+      "lastChangedOn": "2023-10-31T10:53:34.983Z",
+      "lineCount": 6437,
+      "url": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/240/runs/16978/logs/16"
     },
     {
-      "id": "112c9b24-ee1a-4c6e-9ad2-f69c6f4ee780",
-      "steps": [],
-      "status": "approved",
-      "createdOn": "2020-05-31T16:34:44.677Z",
-      "lastModifiedOn": "2020-05-31T16:57:30.5517368Z",
-      "executionOrder": "anyOrder",
-      "minRequiredApprovers": 1,
-      "blockedApprovers": [],
-      "_links": {
-        "self": {
-          "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/approvals/112c9b24-ee1a-4c6e-9ad2-f69c6f4ee780"
-        }
-      }
+      "createdOn": "2023-10-31T10:53:52.67Z",
+      "id": 17,
+      "lastChangedOn": "2023-10-31T10:53:54.15Z",
+      "lineCount": 40,
+      "url": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/240/runs/16978/logs/17"
     },
     {
-      "id": "7ba7d2fd-bee7-4c86-95e3-aeafdbe637af",
-      "steps": [],
-      "status": "approved",
-      "createdOn": "2020-05-31T16:25:18.313Z",
-      "lastModifiedOn": "2020-05-31T16:33:09.6141567Z",
-      "executionOrder": "anyOrder",
-      "minRequiredApprovers": 1,
-      "blockedApprovers": [],
-      "_links": {
-        "self": {
-          "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/approvals/7ba7d2fd-bee7-4c86-95e3-aeafdbe637af"
-        }
-      }
+      "createdOn": "2023-10-31T10:53:55.47Z",
+      "id": 18,
+      "lastChangedOn": "2023-10-31T10:53:55.65Z",
+      "lineCount": 20,
+      "url": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/240/runs/16978/logs/18"
     },
     {
-      "id": "282e451e-5cf0-47d2-ad82-a8830298e5c9",
-      "steps": [],
-      "status": "approved",
-      "createdOn": "2020-05-10T00:46:22.173Z",
-      "lastModifiedOn": "2020-05-10T00:46:37.1885219Z",
-      "executionOrder": "anyOrder",
-      "minRequiredApprovers": 1,
-      "blockedApprovers": [],
-      "_links": {
-        "self": {
-          "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/approvals/282e451e-5cf0-47d2-ad82-a8830298e5c9"
-        }
-      }
+      "createdOn": "2023-10-31T10:53:55.797Z",
+      "id": 19,
+      "lastChangedOn": "2023-10-31T10:53:55.897Z",
+      "lineCount": 18,
+      "url": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/240/runs/16978/logs/19"
     },
     {
-      "id": "c7c9e792-ea84-47b5-b3e3-60135011c271",
-      "steps": [],
-      "status": "approved",
-      "createdOn": "2020-05-10T00:44:38.03Z",
-      "lastModifiedOn": "2020-05-10T00:45:12.6095634Z",
-      "executionOrder": "anyOrder",
-      "minRequiredApprovers": 1,
-      "blockedApprovers": [],
-      "_links": {
-        "self": {
-          "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/approvals/c7c9e792-ea84-47b5-b3e3-60135011c271"
-        }
-      }
+      "createdOn": "2023-10-31T10:54:15.347Z",
+      "id": 20,
+      "lastChangedOn": "2023-10-31T10:54:15.703Z",
+      "lineCount": 17,
+      "url": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/240/runs/16978/logs/20"
+    },
+    {
+      "createdOn": "2023-10-31T10:57:35.307Z",
+      "id": 21,
+      "lastChangedOn": "2023-10-31T10:57:35.43Z",
+      "lineCount": 62,
+      "url": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/240/runs/16978/logs/21"
+    },
+    {
+      "createdOn": "2023-10-31T10:57:35.713Z",
+      "id": 22,
+      "lastChangedOn": "2023-10-31T10:57:35.92Z",
+      "lineCount": 5,
+      "url": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/240/runs/16978/logs/22"
+    },
+    {
+      "createdOn": "2023-10-31T10:57:37.73Z",
+      "id": 23,
+      "lastChangedOn": "2023-10-31T10:57:37.993Z",
+      "lineCount": 9,
+      "url": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/240/runs/16978/logs/23"
+    },
+    {
+      "createdOn": "2023-10-31T10:57:38.393Z",
+      "id": 24,
+      "lastChangedOn": "2023-10-31T10:57:38.65Z",
+      "lineCount": 177,
+      "url": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/240/runs/16978/logs/24"
     }
-  ]
+  ],
+  "url": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/240/runs/16978/logs"
 }
