@@ -426,10 +426,10 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
       console.log(buildIDApprovals);
     }
 
-    let offands = approvals.filter(x=> x.pipeline === undefined);
-    if(offands.length > 0) {
+    let orfands = approvals.filter(x=> x.pipeline === undefined);
+    if(orfands.length > 0) {
       console.log('orphans')
-      console.log(buildIDApprovals);
+      console.log(orfands);
     }
 
     let children: any[] = [];
