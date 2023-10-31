@@ -455,7 +455,7 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
       if(buildIDApprovals[i].pipeline.id === build.definition.id) {
         let elm = buildIDApprovals[i];
         let status = `( ${elm.status})`;
-        let deplStatus = getStageIndicator(elm.result, false);
+        let deplStatus = getStageIndicator(elm.status, false);
         children.push(
           <Pill color={deplStatus.color} variant={PillVariant.colored} 
               onClick={() => window.open(elm.pipeline.owner._links.web.href, "_blank") }>
