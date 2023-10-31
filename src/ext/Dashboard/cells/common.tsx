@@ -452,7 +452,7 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
     }
 
     for(let i=0;i<buildIDApprovals.length;i++) {
-      if(buildIDApprovals[i].definition.id === build.definition.id) {
+      if(buildIDApprovals[i].pipeline.id === build.definition.id) {
         let elm = buildIDApprovals[i];
         let status = `( ${elm.status})`;
         let deplStatus = getStageIndicator(elm.result, false);
