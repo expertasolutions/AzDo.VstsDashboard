@@ -421,12 +421,16 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
     let buildDeplRecords = allDeplRecords.filter(x=> x.owner.id === build.id).sort((a,b) => a.id - b.id);
 
     let buildIDApprovals = approvals.filter(x=> x.pipeline !== undefined && x.pipeline.owner.id === build.id);
-    console.log(build.definition.id);
-    console.log(buildIDApprovals);
+    if(buildIDApprovals.length > 0) {
+      console.log(build.definition.id);
+      console.log(buildIDApprovals);
+    }
 
     let offands = approvals.filter(x=> x.pipeline == undefined);
-    console.log('orphans')
-    console.log(buildIDApprovals);
+    if(offands.length > 0) {
+      console.log('orphans')
+      console.log(buildIDApprovals);
+    }
 
     let children: any[] = [];
 
