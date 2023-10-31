@@ -452,14 +452,13 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
     }
 
     for(let i=0;i<buildIDApprovals.length;i++) {
-      if(buildIDApprovals[i].pipeline.id === build.definition.id) {
-        let elm = buildIDApprovals[i];
+      let elm = buildIDApprovals[i];
+      if(elm.pipeline.id === build.definition.id) {
         let status = `( ${elm.status})`;
-        let deplStatus = getStageIndicator(elm.status, false);
         children.push(
-          <Pill color={deplStatus.color} variant={PillVariant.colored} 
+          <Pill
               onClick={() => window.open(elm.pipeline.owner._links.web.href, "_blank") }>
-            <Status {...deplStatus.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{elm.id}&nbsp;{status}
+            &nbsp;{elm.id}&nbsp;{status}
           </Pill>
         );
       }
