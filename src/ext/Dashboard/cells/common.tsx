@@ -104,7 +104,7 @@ export function getStageIndicator(status: number, pendingApproval: boolean): ISt
     // case ?? abandonned
     // case ?? cancelled
     // case ?? skipped
-    case DeploymentStatus.NotDeployed:
+    case 9999:
       indicatorData.statusProps = { ...Statuses.Queued, ariaLabel: "Canceled"};
       indicatorData.label = "Not Deployed";
       indicatorData.color = lightGray;
@@ -114,17 +114,17 @@ export function getStageIndicator(status: number, pendingApproval: boolean): ISt
       indicatorData.label = "Success";
       indicatorData.color = lightGreen;
       break;
-    case DeploymentStatus.Failed:
+    case 2:
       indicatorData.statusProps = { ...Statuses.Failed, ariaLabel: "Fail"};
       indicatorData.label = "Fail";
       indicatorData.color = lightRed;
       break;
-    case DeploymentStatus.PartiallySucceeded: // succeededWithIssues
+    case 999: // succeededWithIssues
       indicatorData.statusProps = { ...Statuses.Warning, ariaLabel: "PartiallySucceeded"};
       indicatorData.label = "PartiallySucceeded";
       indicatorData.color = lightOrange;
       break;
-    case DeploymentStatus.InProgress:
+    case 99:
       indicatorData.statusProps = { ...Statuses.Running, ariaLabel: "InProgress"};
       indicatorData.label = "In Progress";
       indicatorData.color = lightBlue;
@@ -441,6 +441,10 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
           //if(elm.jobAttemp > 1) {
             attempCounts = `( ${elm.stageAttempt})`;
           //}
+          if(elm.result === undefined) {
+            console.log(elm);
+            getStageIndicator(99, false);
+          }
           let deplStatus = getStageIndicator(elm.result, false);
           children.push(
             <Pill color={deplStatus.color} variant={PillVariant.colored} 
@@ -448,23 +452,23 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
               <Status {...deplStatus.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{elm.stageName}&nbsp;{attempCounts}-{elm.result}
             </Pill>
           );
-          console.log(elm);
+          //console.log(elm);
         }
       }
     }
 
-    for(let i=0;i<buildIDApprovals.length;i++) {
-      let elm = buildIDApprovals[i];
-      if(elm.pipeline.id === build.definition.id) {
-        let status = `( ${elm.status})`;
-        children.push(
-          <Pill
-              onClick={() => window.open(elm.pipeline.owner._links.web.href, "_blank") }>
-            &nbsp;{elm.id}&nbsp;{status}
-          </Pill>
-        );
-      }
-    }
+    // for(let i=0;i<buildIDApprovals.length;i++) {
+    //   let elm = buildIDApprovals[i];
+    //   if(elm.pipeline.id === build.definition.id) {
+    //     let status = `( ${elm.status})`;
+    //     children.push(
+    //       <Pill
+    //           onClick={() => window.open(elm.pipeline.owner._links.web.href, "_blank") }>
+    //         &nbsp;{elm.id}&nbsp;{status}
+    //       </Pill>
+    //     );
+    //   }
+    // }
 
     if(children.length > 0) {
       content.push(
