@@ -148,7 +148,7 @@ export async function getApprovals(projectName: string, accessToken: string) {
   //   newEnv.deploymentRecords.push(...test);
   //   finalResult.push(newEnv);
   // }
-  console.log(result);
+  //console.log(result);
   return result;
 }
 

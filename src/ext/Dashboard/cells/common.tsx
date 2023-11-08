@@ -422,8 +422,8 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
 
     let buildIDApprovals = approvals.filter(x=> x.pipeline !== undefined && x.pipeline.owner.id === build.id);
     //if(buildIDApprovals.length > 0 && build.definition.id === 240) {
-      console.log(build.definition.id);
-      console.log(buildIDApprovals);
+      //console.log(build.definition.id);
+      //console.log(buildIDApprovals);
     //}
 
     let orfands = approvals.filter(x=> x.pipeline === undefined);
