@@ -441,11 +441,11 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
           //if(elm.jobAttemp > 1) {
             attempCounts = `( ${elm.stageAttempt})`;
           //}
+          let deplStatus = getStageIndicator(elm.result, false);
           if(elm.result === undefined) {
             console.log(elm);
-            getStageIndicator(99, false);
+            deplStatus = getStageIndicator(99, false);
           }
-          let deplStatus = getStageIndicator(elm.result, false);
           children.push(
             <Pill color={deplStatus.color} variant={PillVariant.colored} 
                 onClick={() => window.open(elm.owner._links.web.href, "_blank") }>
