@@ -1,5 +1,5 @@
 ## Issues fixes
 
-- ### [Issue0158](https://github.com/expertasolutions/AzDo.VstsDashboard/issues/158)
-  - Fix the limitation of the default 100 Projects load from Azure DevOps Rest API
-  - Integrated various security fix
+- ### [Issue0170](https://github.com/expertasolutions/AzDo.VstsDashboard/issues/170)
+  - Add Pipeline Stage Deployment Health (Stage Status) visible under 'Deployment Health Columns.
+  - Add 'Environments' tab view, to better work with pipeline environments management.
