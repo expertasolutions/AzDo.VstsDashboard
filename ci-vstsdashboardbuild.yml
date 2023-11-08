@@ -120,8 +120,8 @@ stages:
               releaseNoteIsPreRelease: true
 
 - stage: ExpertaPublicMarketplace
-  #dependsOn: ExpertaPrivate
-  dependsOn: ExpertaPrivatePreview
+  dependsOn: ExpertaPrivate
+  #dependsOn: ExpertaPrivatePreview
   #condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
   jobs:
   - deployment: DeployExtension
