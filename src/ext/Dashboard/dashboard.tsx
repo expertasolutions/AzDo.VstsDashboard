@@ -730,6 +730,17 @@ class CICDDashboard extends React.Component<{}, {}> {
     );
   }
 
+  public getCardTitle(tabId: string) : string {
+    switch(tabId) {
+      case "environments":
+        return "Environments";
+      case "summary":
+      case "builds":
+      default:
+        return "All pipelines";
+    }
+  }
+
   public renderHeader() : JSX.Element {
     if(!isFullScreen.value) {
       return (
@@ -872,7 +883,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                                 return (
                                   <div>
                                     <Card className="flex-grow bolt-table-card" 
-                                        titleProps={{ text: "All pipelines" }} 
+                                        titleProps={{ text: this.getCardTitle(props.selectedTabId) }} 
                                         contentProps={{ contentPadding: false }}>
                                       <div style={{ marginTop: "16px;", marginBottom: "16px;"}}>
                                           { this.renderTab(props.selectedTabId) }
