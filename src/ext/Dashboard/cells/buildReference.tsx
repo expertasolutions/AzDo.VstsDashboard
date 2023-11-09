@@ -283,7 +283,43 @@ export function renderReleaseInfo01 (
   tableColumn: ITableColumn<PipelineInfo>,
   tableItem: PipelineInfo
 ) : JSX.Element {
-  let lastBuild = tableItem.latestCompletedBuild;
+  let lastCompletedBuild = tableItem.latestCompletedBuild;
+  let lastBuild = tableItem.latestBuild;
+  
+  if(lastBuild !== lastCompletedBuild) {
+    let children = [];
+
+    children.push(
+      <DataContext.Consumer>
+        {(context) => (
+          <SimpleTableCell
+            key={"col-" + columnIndex}
+            columnIndex={columnIndex}
+            tableColumn={tableColumn}>
+              <div>
+                {getReleaseTagFromBuild(lastBuild, context.state.releases, context.state.environments, context.state.approvals, context.state.showAllBuildDeployment) }
+              </div>
+          </SimpleTableCell>
+        )}
+      </DataContext.Consumer>
+    )
+
+    children.push(
+      <DataContext.Consumer>
+        {(context) => (
+          <SimpleTableCell
+            key={"col-" + columnIndex}
+            columnIndex={columnIndex}
+            tableColumn={tableColumn}>
+              <div>
+                {getReleaseTagFromBuild(lastCompletedBuild, context.state.releases, context.state.environments, context.state.approvals, context.state.showAllBuildDeployment) }
+              </div>
+          </SimpleTableCell>
+        )}
+      </DataContext.Consumer>
+    )
+    return <div>children</div>
+  };
   return (
     <DataContext.Consumer>
       {(context) => (
@@ -292,7 +328,7 @@ export function renderReleaseInfo01 (
             columnIndex={columnIndex}
             tableColumn={tableColumn}>
               <div>
-                {getReleaseTagFromBuild(lastBuild, context.state.releases, context.state.environments, context.state.approvals, context.state.showAllBuildDeployment) }
+                {getReleaseTagFromBuild(lastCompletedBuild, context.state.releases, context.state.environments, context.state.approvals, context.state.showAllBuildDeployment) }
               </div>
         </SimpleTableCell>
       )}
