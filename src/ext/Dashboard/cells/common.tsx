@@ -447,7 +447,7 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
           let currentShowed = showedEnvStages.find(x=> x.stageName === elm.stageName);
           if(currentShowed === undefined) {
             showedEnvStages.push(elm);
-          } else {
+          } else if(currentShowed.stageAttempt < elm.stageAttempt) {
             let indx = showedEnvStages.findIndex(x=> x.stageName === elm.stageName);
             showedEnvStages[indx] = elm;
           }
