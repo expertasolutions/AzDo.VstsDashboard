@@ -82,6 +82,42 @@ export function getReleaseStatus(depl: Deployment, pendingApproval: boolean) : I
   return getReleaseIndicator(depl.deploymentStatus, pendingApproval);
 }
 
+export function getApprovalIndicator(status: number) : IStatusIndicatorData {
+  const indicatorData: IStatusIndicatorData = {
+    label: "NA",
+    statusProps: { ...Statuses.Queued, ariaLabel: "None" },
+    color: lightGreen
+  };
+
+  if(status === undefined){
+    status = DeploymentStatus.Undefined;
+  }
+
+  switch(status) {
+    case 2:
+      indicatorData.statusProps = { ...Statuses.Queued, ariaLabel: "PendingApproval"};
+      indicatorData.label = "Pending Approval";
+      indicatorData.color = lightBlue;
+      break;
+    case 8:
+      indicatorData.statusProps = { ...Statuses.Failed, ariaLabel: "Rejected"};
+      indicatorData.label = "Rejected";
+      indicatorData.color = lightRed;
+      break;
+    case 32:
+      indicatorData.statusProps = { ...Statuses.Queued, ariaLabel: "Canceled"};
+      indicatorData.label = "NA";
+      indicatorData.color = lightGray;
+      break;
+    default:
+      indicatorData.statusProps = { ...Statuses.Queued, ariaLabel: "Canceled"};
+      indicatorData.label = "NA";
+      indicatorData.color = lightGray;
+      break;
+  }
+  return indicatorData;
+}
+
 export function getStageIndicator(status: number, pendingApproval: boolean): IStatusIndicatorData {
   const indicatorData: IStatusIndicatorData = {
     label: "NA",
