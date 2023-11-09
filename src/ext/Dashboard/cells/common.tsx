@@ -104,7 +104,7 @@ export function getStageIndicator(status: number, pendingApproval: boolean): ISt
     // case ?? abandonned
     // case ?? cancelled
     // case ?? skipped
-    case 9999:
+    case 3:
       indicatorData.statusProps = { ...Statuses.Queued, ariaLabel: "Canceled"};
       indicatorData.label = "Not Deployed";
       indicatorData.color = lightGray;
