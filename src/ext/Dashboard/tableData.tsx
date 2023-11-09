@@ -70,6 +70,7 @@ export const buildColumns : ITableColumn<Build>[] = [
   },
   {
     id: "BuildInfo02",
+    name: "Execution Infos",
     renderCell: renderBuildInfo02Cell,
     width: 165,
   }
@@ -98,6 +99,7 @@ export const dashboardColumns : ITableColumn<PipelineInfo>[] = [
   },
   {
     id:"LastBuildInfo02",
+    name: "Execution Infos",
     renderCell: renderLastBuild02,
     width: 165
   }
