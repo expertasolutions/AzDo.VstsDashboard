@@ -99,6 +99,11 @@ export function getApprovalIndicator(status: number) : IStatusIndicatorData {
       indicatorData.label = "Pending Approval";
       indicatorData.color = lightBlue;
       break;
+    case 4:
+      indicatorData.statusProps = { ...Statuses.Success, ariaLabel: "Accepted"};
+      indicatorData.label = "Accepted";
+      indicatorData.color = lightGreen;
+      break;
     case 8:
       indicatorData.statusProps = { ...Statuses.Failed, ariaLabel: "Rejected"};
       indicatorData.label = "Rejected";
@@ -460,7 +465,6 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
         }
         let deplStatus = getStageIndicator(elm.result, false);
         if(elm.result === undefined) {
-          console.log(elm);
           deplStatus = getStageIndicator(-1, false);
         }
         children.push(
@@ -472,9 +476,8 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
       }
     }
 
-    for(let i=0;i<buildIDApprovals.length;i++) {
+    for(let i=0;i<buildIDApprovals.filter(x=> x.status !== 4).length;i++) {
       let elm = buildIDApprovals[i];
-      console.log("pending approval");
       let status = `( ${elm.status})`;
       children.push(
         <Pill
