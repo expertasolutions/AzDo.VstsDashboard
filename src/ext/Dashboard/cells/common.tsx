@@ -407,12 +407,9 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
         let elm = buildDeplRecords[i];
         if(buildDeplRecords[i].definition.id === build.definition.id) {
           let currentShowed = showedEnvStages.find(x=> x.stageName === elm.stageName);
-          //console.log(currentShowed.id + " " + currentShowed.stageName + " " + elm.id + " " + elm.stageName);
           if(currentShowed === undefined) {
             showedEnvStages.push(elm);
           } else if(elm.stageAttempt > currentShowed.stageAttempt) {
-            console.log(elm);
-            console.log("update");
             let indx = showedEnvStages.findIndex(x=> x.id === currentShowed.id);
             showedEnvStages[indx] = elm;
           }
