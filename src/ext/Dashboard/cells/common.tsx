@@ -409,10 +409,11 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
 
         if(buildDeplRecords[i].definition.id === build.definition.id) {
           let currentShowed = showedEnvStages.find(x=> x.stageName === elm.stageName);
+          console.log(currentShowed.id + " " + currentShowed.stageName + " " + elm.id + " " + elm.stageName);
           if(currentShowed === undefined) {
             showedEnvStages.push(elm);
           } else if(elm.id > currentShowed.id) {
-            let indx = showedEnvStages.findIndex(x=> x.stageName === elm.stageName);
+            let indx = showedEnvStages.findIndex(x=> x.id === currentShowed.id);
             showedEnvStages[indx] = elm;
           }
         }
@@ -422,7 +423,7 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
         let elm = buildDeplRecords[i];
           let attempCounts = "";
           if(elm.jobAttemp > 1) {
-            attempCounts = `( ${elm.stageAttempt})`;
+            attempCounts = `(${elm.stageAttempt})`;
           }
           let deplStatus = getStageIndicator(elm.result, false);
           if(elm.result === undefined) {
