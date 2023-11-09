@@ -425,7 +425,7 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
     let buildDeplRecords = allDeplRecords.filter(x=> x.owner.id === build.id).sort((a,b) => a.id - b.id);
     let buildIDApprovals = approvals.filter(x=> x.pipeline !== undefined && x.pipeline.owner.id === build.id);
     let children: any[] = [];
-    if(build.definition.id === 240) {
+    //if(build.definition.id === 240) {
       let showedEnvStages = Array<any>();
       for(let i=0;i<buildDeplRecords.length;i++) {
         let elm = buildDeplRecords[i];
@@ -438,7 +438,7 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
             showedEnvStages[indx] = elm;
           }
         }
-      }
+    //  }
 
       for(let i=0;i<showedEnvStages.length;i++) {
         let elm = showedEnvStages[i];
