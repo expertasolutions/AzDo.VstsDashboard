@@ -448,7 +448,8 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
           if(currentShowed === undefined) {
             showedEnvStages.push(elm);
           } else {
-            currentShowed = elm;
+            let indx = showedEnvStages.findIndex(x=> x.stageName === elm.stageName);
+            showedEnvStages[indx] = elm;
           }
         }
       }
