@@ -424,22 +424,7 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
   if(true) {
     // Last Build Execution
     let buildDeplRecords = allDeplRecords.filter(x=> x.owner.id === build.id).sort((a,b) => a.id - b.id);
-
     let buildIDApprovals = approvals.filter(x=> x.pipeline !== undefined && x.pipeline.owner.id === build.id);
-    if(buildIDApprovals.length > 0 && build.definition.id === 240) {
-      let pendingApproval = buildIDApprovals.filter(x=> x.status === 2);
-      if(pendingApproval.length > 0) {
-        console.log(build.definition.id);
-        console.log(buildIDApprovals);
-      }
-    }
-
-    let orfands = approvals.filter(x=> x.pipeline === undefined);
-    // if(orfands.length > 0 && build.definition.id === 240) {
-    //   console.log('orphans')
-    //   console.log(orfands);
-    // }
-
     let children: any[] = [];
     if(build.definition.id === 240) {
       let showedEnvStages = Array<any>();
@@ -483,7 +468,7 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
       children.push(
         <Pill color={approvalStatus.color} variant={PillVariant.colored}
             onClick={() => window.open(elm.pipeline.owner._links.web.href, "_blank") }>
-          &nbsp;Approval: &nbsp;{elm.id}&nbsp;{status}
+          &nbsp;Pending Approval: &nbsp;{elm.id}&nbsp;{status}
         </Pill>
       );
     }
