@@ -401,7 +401,6 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
 
     let children: any[] = [];
     if(build.definition.id === 240) {
-
       let showedEnvStages = Array<any>();
 
       for(let i=0;i<buildDeplRecords.length;i++) {
@@ -421,36 +420,36 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
 
       for(let i=0;i<showedEnvStages.length;i++) {
         let elm = buildDeplRecords[i];
-          let attempCounts = "";
-          if(elm.jobAttemp > 1) {
-            attempCounts = `(${elm.stageAttempt})`;
-          }
-          let deplStatus = getStageIndicator(elm.result, false);
-          if(elm.result === undefined) {
-            //console.log(elm);
-            deplStatus = getStageIndicator(99, false);
-          }
-          children.push(
-            <Pill color={deplStatus.color} variant={PillVariant.colored} 
-                onClick={() => window.open(elm.owner._links.web.href, "_blank") }>
-              <Status {...deplStatus.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{elm.stageName}&nbsp;{attempCounts}-{elm.result}
-            </Pill>
-          );
+        let attempCounts = "";
+        if(elm.jobAttemp > 1) {
+          attempCounts = `(${elm.stageAttempt})`;
         }
+        let deplStatus = getStageIndicator(elm.result, false);
+        if(elm.result === undefined) {
+          //console.log(elm);
+          deplStatus = getStageIndicator(99, false);
+        }
+        children.push(
+          <Pill color={deplStatus.color} variant={PillVariant.colored} 
+              onClick={() => window.open(elm.owner._links.web.href, "_blank") }>
+            <Status {...deplStatus.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{elm.stageName}&nbsp;{attempCounts}-{elm.result}
+          </Pill>
+        );
+      }
     }
 
-    // for(let i=0;i<buildIDApprovals.length;i++) {
-    //   let elm = buildIDApprovals[i];
-    //   if(elm.pipeline.id === build.definition.id) {
-    //     let status = `( ${elm.status})`;
-    //     children.push(
-    //       <Pill
-    //           onClick={() => window.open(elm.pipeline.owner._links.web.href, "_blank") }>
-    //         &nbsp;{elm.id}&nbsp;{status}
-    //       </Pill>
-    //     );
-    //   }
-    // }
+    for(let i=0;i<buildIDApprovals.length;i++) {
+      let elm = buildIDApprovals[i];
+      if(elm.pipeline.id === build.definition.id) {
+        let status = `( ${elm.status})`;
+        children.push(
+          <Pill
+              onClick={() => window.open(elm.pipeline.owner._links.web.href, "_blank") }>
+            &nbsp;Approval: &nbsp;{elm.id}&nbsp;{status}
+          </Pill>
+        );
+      }
+    }
 
     if(children.length > 0) {
       content.push(
