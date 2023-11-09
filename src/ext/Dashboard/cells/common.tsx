@@ -124,7 +124,7 @@ export function getStageIndicator(status: number, pendingApproval: boolean): ISt
       indicatorData.label = "PartiallySucceeded";
       indicatorData.color = lightOrange;
       break;
-    case 99:
+    case -1:
       indicatorData.statusProps = { ...Statuses.Running, ariaLabel: "InProgress"};
       indicatorData.label = "In Progress";
       indicatorData.color = lightBlue;
@@ -407,11 +407,12 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
         let elm = buildDeplRecords[i];
         if(buildDeplRecords[i].definition.id === build.definition.id) {
           let currentShowed = showedEnvStages.find(x=> x.stageName === elm.stageName);
-          console.log(elm);
           //console.log(currentShowed.id + " " + currentShowed.stageName + " " + elm.id + " " + elm.stageName);
           if(currentShowed === undefined) {
             showedEnvStages.push(elm);
           } else if(elm.stageAttempt > currentShowed.stageAttempt) {
+            console.log(elm);
+            console.log("update");
             let indx = showedEnvStages.findIndex(x=> x.id === currentShowed.id);
             showedEnvStages[indx] = elm;
           }
@@ -419,15 +420,15 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
       }
 
       for(let i=0;i<showedEnvStages.length;i++) {
-        let elm = buildDeplRecords[i];
+        let elm = showedEnvStages[i];
         let attempCounts = "";
         if(elm.jobAttemp > 1) {
           attempCounts = `(${elm.stageAttempt})`;
         }
         let deplStatus = getStageIndicator(elm.result, false);
         if(elm.result === undefined) {
-          //console.log(elm);
-          deplStatus = getStageIndicator(99, false);
+          console.log(elm);
+          deplStatus = getStageIndicator(-1, false);
         }
         children.push(
           <Pill color={deplStatus.color} variant={PillVariant.colored} 
@@ -440,15 +441,14 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
 
     for(let i=0;i<buildIDApprovals.length;i++) {
       let elm = buildIDApprovals[i];
-      if(elm.pipeline.id === build.definition.id) {
-        let status = `( ${elm.status})`;
-        children.push(
-          <Pill
-              onClick={() => window.open(elm.pipeline.owner._links.web.href, "_blank") }>
-            &nbsp;Approval: &nbsp;{elm.id}&nbsp;{status}
-          </Pill>
-        );
-      }
+      console.log("pending approval");
+      let status = `( ${elm.status})`;
+      children.push(
+        <Pill
+            onClick={() => window.open(elm.pipeline.owner._links.web.href, "_blank") }>
+          &nbsp;Approval: &nbsp;{elm.id}&nbsp;{status}
+        </Pill>
+      );
     }
 
     if(children.length > 0) {
