@@ -405,13 +405,13 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
 
       for(let i=0;i<buildDeplRecords.length;i++) {
         let elm = buildDeplRecords[i];
-
         if(buildDeplRecords[i].definition.id === build.definition.id) {
           let currentShowed = showedEnvStages.find(x=> x.stageName === elm.stageName);
-          console.log(currentShowed.id + " " + currentShowed.stageName + " " + elm.id + " " + elm.stageName);
+          console.log(elm);
+          //console.log(currentShowed.id + " " + currentShowed.stageName + " " + elm.id + " " + elm.stageName);
           if(currentShowed === undefined) {
             showedEnvStages.push(elm);
-          } else if(elm.id > currentShowed.id) {
+          } else if(elm.stageAttempt > currentShowed.stageAttempt) {
             let indx = showedEnvStages.findIndex(x=> x.id === currentShowed.id);
             showedEnvStages[indx] = elm;
           }
