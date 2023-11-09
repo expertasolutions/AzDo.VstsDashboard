@@ -100,8 +100,8 @@ export function getApprovalIndicator(status: number) : IStatusIndicatorData {
       indicatorData.color = lightBlue;
       break;
     case 4:
-      indicatorData.statusProps = { ...Statuses.Success, ariaLabel: "Accepted"};
-      indicatorData.label = "Accepted";
+      indicatorData.statusProps = { ...Statuses.Success, ariaLabel: "Approved"};
+      indicatorData.label = "Approved";
       indicatorData.color = lightGreen;
       break;
     case 8:
@@ -478,9 +478,10 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
 
     for(let i=0;i<buildIDApprovals.filter(x=> x.status !== 4).length;i++) {
       let elm = buildIDApprovals[i];
-      let status = `( ${elm.status})`;
+      let status = `(${elm.status})`;
+      let approvalStatus = getApprovalIndicator(elm.status);
       children.push(
-        <Pill
+        <Pill color={approvalStatus.color} variant={PillVariant.colored}
             onClick={() => window.open(elm.pipeline.owner._links.web.href, "_blank") }>
           &nbsp;Approval: &nbsp;{elm.id}&nbsp;{status}
         </Pill>
