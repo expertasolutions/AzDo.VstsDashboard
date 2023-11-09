@@ -285,6 +285,8 @@ export function renderReleaseInfo01 (
 ) : JSX.Element {
   let lastCompletedBuild = tableItem.latestCompletedBuild;
   let lastBuild = tableItem.latestBuild;
+
+  // TODO: Get Last Currently Running Pipelines
   
   if(lastBuild !== lastCompletedBuild) {
     let children = [];
@@ -318,7 +320,7 @@ export function renderReleaseInfo01 (
         )}
       </DataContext.Consumer>
     )
-    return <div>children</div>
+    return <div>{children}</div>
   };
   return (
     <DataContext.Consumer>
