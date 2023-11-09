@@ -437,9 +437,23 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
 
     let children: any[] = [];
     if(build.definition.id === 240) {
+
+      let showedEnvStages = Array<any>();
+
       for(let i=0;i<buildDeplRecords.length;i++) {
+        let elm = buildDeplRecords[i];
+
         if(buildDeplRecords[i].definition.id === build.definition.id) {
-          let elm = buildDeplRecords[i];
+          let currentShowed = showedEnvStages.find(x=> x.stageName === elm.stageName);
+          if(currentShowed === undefined) {
+            showedEnvStages.push(elm);
+          } else {
+            currentShowed = elm;
+          }
+        }
+      }
+      for(let i=0;i<showedEnvStages.length;i++) {
+        let elm = buildDeplRecords[i];
           let attempCounts = "";
           //if(elm.jobAttemp > 1) {
             attempCounts = `( ${elm.stageAttempt})`;
@@ -457,7 +471,6 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
           );
           //console.log(elm);
         }
-      }
     }
 
     // for(let i=0;i<buildIDApprovals.length;i++) {
