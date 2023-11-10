@@ -521,7 +521,7 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
     childrens.push(
       <div>
         <Pill color={envStatus.color} variant={PillVariant.colored}><Status {...envStatus.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{curEnv.lastExecution.stageName}&nbsp;{attempCounts}</Pill>
-        <Link href={curEnv.lastExecution.owner._links.web.href} target="_blank">{curEnv.lastExecution.owner.name}</Link>
+        <Link href={curEnv.lastExecution.owner._links.web.href} target="_blank" className="font-size-s">{curEnv.lastExecution.owner.name}</Link>
       </div>
     );
   }
