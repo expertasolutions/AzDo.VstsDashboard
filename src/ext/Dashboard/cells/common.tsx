@@ -513,14 +513,18 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
     let curEnv = buildEnvironments[i];
     console.log(curEnv);
     let envStatus = getStageIndicator(curEnv.lastExecution.result === undefined ? -1 : curEnv.lastExecution.result, false);
+    let attempCounts = "";
+    if(curEnv.lastExecution.jobAttemp > 1) {
+      attempCounts = `(${(curEnv.lastExecution.stageAttempt})`;
+    }
     childrens.push(
       <Pill color={envStatus.color} variant={PillVariant.colored}>
-        {curEnv.lastExecution.stageName}
+        {curEnv.lastExecution.stageName}&nbsp;{attempCounts}
       </Pill>
     );
   }
 
-  return <p><PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}> {'->'} {childrens}</PillGroup></p>;
+  return <p><PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{childrens}</PillGroup></p>;
 }
 
 export function waitingForApproval(dep: Deployment, envId: number) {
