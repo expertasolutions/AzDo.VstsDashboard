@@ -399,7 +399,7 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
   return getReleaseTagFromBuildV2(build, environments, approvals, allRelease);
 }
 
-export function getReleaseTagFromBuildV2(build: Build, environments: Array<PipelineEnvironment>, approvals: Array<any>, allRelease: boolean) {
+export function getReleaseTagFromBuildV2(build: Build, environments: Array<PipelineEnvironment>, approvals: Array<any>, allRelease: boolean, showDefaultOnEmpty: boolean) {
   if(build === undefined) {
     return (<div>Not deployed yet</div>)
   }
@@ -483,8 +483,10 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
   if(content.length > 0) {
     return content;
   }
-
-  return (<div>Not deployed yet</div>)
+  if(showDefaultOnEmpty) {
+    return (<div>Not deployed yet</div>)
+  }
+  return (<span></span>);
 }
 
 export function waitingForApproval(dep: Deployment, envId: number) {

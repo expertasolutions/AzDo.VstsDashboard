@@ -290,7 +290,7 @@ export function renderAllInProgress(builds: Array<Build>, context: any, columnIn
           key={"col-" + columnIndex}
           columnIndex={columnIndex}
           tableColumn={tableColumn}>
-          {getReleaseTagFromBuildV2(pending[i], context.state.environments, context.state.approvals, context.state.showAllBuildDeployment)}
+          {getReleaseTagFromBuildV2(pending[i], context.state.environments, context.state.approvals, context.state.showAllBuildDeployment, false)}
         </SimpleTableCell>
       </div>
     );
@@ -299,7 +299,8 @@ export function renderAllInProgress(builds: Array<Build>, context: any, columnIn
 }
 
 export function renderPipelineStageSummary(build: PipelineInfo, context: any, columnIndex: number, tableColumn: ITableColumn<PipelineInfo>) : JSX.Element {
-  let isClassicRelease = false;
+  let isClassicRelease = (context.state.releases.filter((x : any) => x.releaseDefinition.id === build.id).length > 0);
+  console.log(`build: ${build.id} isClassicRelease: ${isClassicRelease}`);
 
   if(!isClassicRelease) {
     
