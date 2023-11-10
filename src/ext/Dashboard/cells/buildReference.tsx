@@ -290,6 +290,7 @@ export function renderReleaseInfo01 (
   
   if(lastBuild.id !== lastCompletedBuild.id) {
     let children = [];
+    
     children.push(
       <div>
         <DataContext.Consumer>
@@ -299,7 +300,7 @@ export function renderReleaseInfo01 (
               columnIndex={columnIndex}
               tableColumn={tableColumn}>
                 <div>
-                  {getReleaseTagFromBuild(lastBuild, context.state.releases, context.state.environments, context.state.approvals, context.state.showAllBuildDeployment) }
+                  {getReleaseTagFromBuild(lastCompletedBuild, context.state.releases, context.state.environments, context.state.approvals, context.state.showAllBuildDeployment) }
                 </div>
             </SimpleTableCell>
           )}
@@ -316,7 +317,7 @@ export function renderReleaseInfo01 (
               columnIndex={columnIndex}
               tableColumn={tableColumn}>
                 <div>
-                  {getReleaseTagFromBuild(lastCompletedBuild, context.state.releases, context.state.environments, context.state.approvals, context.state.showAllBuildDeployment) }
+                  {getReleaseTagFromBuild(lastBuild, context.state.releases, context.state.environments, context.state.approvals, context.state.showAllBuildDeployment) }
                 </div>
             </SimpleTableCell>
           )}
