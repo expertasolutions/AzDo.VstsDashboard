@@ -524,7 +524,7 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
         <div>
           <Status {...envStatus.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{curEnv.lastExecution.stageName}&nbsp;{attempCounts}
         </div>
-        <div style={{ paddingLeft: 10 }} className="font-size-s">{curEnv.lastExecution.owner.name}</div>
+        <div style={{ paddingLeft: 15 }} className="font-size-s">{curEnv.lastExecution.owner.name}</div>
       </Pill>
     );
   }
