@@ -7,6 +7,7 @@ import {
   getReleaseTagFromBuild,
   lightGray,
   getReleaseTagFromBuildV2,
+  getEnvironmentStageSummary
 } from "./common";
 
 import {
@@ -303,7 +304,16 @@ export function renderPipelineStageSummary(build: PipelineInfo, context: any, co
   console.log(`build: ${build.id} isClassicRelease: ${isClassicRelease}`);
 
   if(!isClassicRelease) {
-    
+    return (
+      <SimpleTableCell
+            key={"col-" + columnIndex}
+            columnIndex={columnIndex}
+            tableColumn={tableColumn}>
+              <div>
+                {getEnvironmentStageSummary(build, context.state.environments, context.state.approvals, context.state.showAllBuildDeployment)}
+              </div>
+        </SimpleTableCell>
+    );
   }
   return (
     <DataContext.Consumer>

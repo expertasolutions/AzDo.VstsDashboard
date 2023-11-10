@@ -11,6 +11,8 @@ import { Build } from "azure-devops-extension-api/Build";
 import { Link } from "azure-devops-ui/Link";
 import { PipelineEnvironment } from "../dataContext";
 
+import { PipelineInfo } from "../dataContext";
+
 const lightGreen: IColor = {
   red: 204,
   green: 255,
@@ -484,6 +486,11 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
   }
   // TODO: Put this hidden;
   return (<span></span>);
+}
+
+export function getEnvironmentStageSummary(build: PipelineInfo, environments: Array<PipelineEnvironment>, approvals: Array<any>, allRelease: boolean) {
+  
+  return <div>Pending</div>;
 }
 
 export function waitingForApproval(dep: Deployment, envId: number) {
