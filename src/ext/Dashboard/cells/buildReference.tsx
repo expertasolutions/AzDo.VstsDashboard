@@ -281,7 +281,7 @@ export function renderLastBuild02(
 
 export function renderAllInProgress(builds: Array<Build>, context: any, columnIndex: number, tableColumn: ITableColumn<PipelineInfo>) : Array<JSX.Element> {
   let childrens = Array<JSX.Element>();
-  let pending = builds.filter(x=> x.status === BuildStatus.InProgress);
+  let pending = builds.filter(x=> x.status === BuildStatus.InProgress || x.status === BuildStatus.NotStarted);
   console.log(pending);
   for(let i=0;i<pending.length;i++) {
     childrens.push(
