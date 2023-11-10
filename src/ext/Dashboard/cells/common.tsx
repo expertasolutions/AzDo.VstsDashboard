@@ -486,6 +486,7 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
   if(showDefaultOnEmpty) {
     return (<div>Not deployed yet</div>)
   }
+  // TODO: Put this hidden;
   return (<span></span>);
 }
 
