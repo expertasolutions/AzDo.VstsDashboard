@@ -500,16 +500,19 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
         lastExecution: undefined
       };
 
-      let lastExecution = currentEnv.deploymentRecords.filter(x=> x.owner.id === build.id).sort((a,b) => a.id - b.id);
-      currentElement.lastExecution = lastExecution[lastExecution.length - 1];
-      buildEnvironments.push(currentElement);
+      let lastExecution = currentEnv.deploymentRecords.filter(x=> x.definition.id === build.id).sort((a,b) => a.id - b.id);
+      if(lastExecution.length > 0) {
+        currentElement.lastExecution = lastExecution[lastExecution.length - 1];
+        buildEnvironments.push(currentElement);
+      }
     }
   }
 
   let childrens = Array<any>();
   for(let i=0;i<buildEnvironments.length;i++) { 
-    let curEnv = buildEnvironments[i].lastExecution;
-    let envStatus = getStageIndicator(curEnv.result === undefined ? -1 :curEnv.result, false);
+    let curEnv = buildEnvironments[i];
+    console.log(curEnv);
+    let envStatus = getStageIndicator(curEnv.lastExecution.result === undefined ? -1 : curEnv.lastExecution.result, false);
     childrens.push(
       <Pill color={envStatus.color} variant={PillVariant.colored}>
         {curEnv.stageName}

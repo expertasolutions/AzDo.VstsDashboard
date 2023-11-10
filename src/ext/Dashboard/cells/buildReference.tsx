@@ -314,7 +314,7 @@ export function renderPipelineStageSummary(build: PipelineInfo, context: any, co
 
   let isClassicRelease = buildClassicReleases.length > 0;
 
-  console.log(`build: ${build.id} isClassicRelease: ${isClassicRelease}`);
+  //console.log(`build: ${build.id} isClassicRelease: ${isClassicRelease}`);
 
   if(!isClassicRelease) {
     return (
