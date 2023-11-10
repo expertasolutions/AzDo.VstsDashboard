@@ -299,24 +299,25 @@ export function renderAllInProgress(builds: Array<Build>, context: any, columnIn
 }
 
 export function renderPipelineStageSummary(build: PipelineInfo, context: any, columnIndex: number, tableColumn: ITableColumn<PipelineInfo>) : JSX.Element {
-  let isClassicRelease = true;
+  let isClassicRelease = false;
 
-  if(isClassicRelease) {
-    return (
-      <DataContext.Consumer>
-        {(context) => (
-        <SimpleTableCell
-              key={"col-" + columnIndex}
-              columnIndex={columnIndex}
-              tableColumn={tableColumn}>
-                <div>
-                  {getReleaseTagFromBuild(build.latestCompletedBuild, context.state.releases, context.state.environments, context.state.approvals, context.state.showAllBuildDeployment) }
-                </div>
-          </SimpleTableCell>
-        )}
-      </DataContext.Consumer>
-    )
-  } 
+  if(!isClassicRelease) {
+    
+  }
+  return (
+    <DataContext.Consumer>
+      {(context) => (
+      <SimpleTableCell
+            key={"col-" + columnIndex}
+            columnIndex={columnIndex}
+            tableColumn={tableColumn}>
+              <div>
+                {getReleaseTagFromBuild(build.latestCompletedBuild, context.state.releases, context.state.environments, context.state.approvals, context.state.showAllBuildDeployment) }
+              </div>
+        </SimpleTableCell>
+      )}
+    </DataContext.Consumer>
+  )
 }
 
 export function renderReleaseInfo01 (
