@@ -279,7 +279,6 @@ export function renderLastBuild02(
 }
 
 export function renderAllInProgress(builds: Array<Build>, context: any) : Array<JSX.Element> {
-  console.log("renderAllInProgress");
   let childrens = Array<JSX.Element>();
   let pending = builds.filter(x=> x.status === BuildStatus.InProgress);
   console.log(pending);
