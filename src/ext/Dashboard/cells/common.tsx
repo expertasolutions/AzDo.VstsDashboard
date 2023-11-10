@@ -515,7 +515,7 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
     let envStatus = getStageIndicator(curEnv.lastExecution.result === undefined ? -1 : curEnv.lastExecution.result, false);
     let attempCounts = "";
     if(curEnv.lastExecution.jobAttemp > 1) {
-      attempCounts = `(${(curEnv.lastExecution.stageAttempt})`;
+      attempCounts = `(${curEnv.lastExecution.stageAttempt})`;
     }
     childrens.push(
       <Pill color={envStatus.color} variant={PillVariant.colored}>
