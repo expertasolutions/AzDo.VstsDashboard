@@ -281,7 +281,8 @@ export function renderLastBuild02(
 
 export function renderAllInProgress(builds: Array<Build>, context: any, columnIndex: number, tableColumn: ITableColumn<PipelineInfo>) : Array<JSX.Element> {
   let childrens = Array<JSX.Element>();
-  let pending = builds.filter(x=> x.status === BuildStatus.InProgress || x.status === BuildStatus.NotStarted).sort((a,b) => a.id-b.id)
+  let pending = builds.filter(x=> x.status === BuildStatus.InProgress || x.status === BuildStatus.NotStarted).sort((a,b) => a.id-b.id);
+  // TODO: Filter out build without environments stage in progress
   for(let i=0;i<pending.length;i++) {
     childrens.push(
       <SimpleTableCell
