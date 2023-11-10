@@ -300,7 +300,17 @@ export function renderAllInProgress(builds: Array<Build>, context: any, columnIn
 }
 
 export function renderPipelineStageSummary(build: PipelineInfo, context: any, columnIndex: number, tableColumn: ITableColumn<PipelineInfo>) : JSX.Element {
-  let isClassicRelease = (context.state.releases.filter((x : any) => x.releaseDefinition.id === build.id).length > 0);
+  let buildClassicReleases = context.state.release.filter(
+    (x:any) => x.release.artifacts.find(
+      (a: any)=> {
+        let version = a.definitionReference["version"];
+        return version.id === build.id.toString();
+      }
+    ) != null
+  );
+
+  let isClassicRelease = buildClassicReleases.length > 0;
+
   console.log(`build: ${build.id} isClassicRelease: ${isClassicRelease}`);
 
   if(!isClassicRelease) {
