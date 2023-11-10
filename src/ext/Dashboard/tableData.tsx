@@ -47,6 +47,7 @@ export const environmentColumns : ITableColumn<PipelineEnvironment>[] = [
   }
 ]
 
+// All Runs
 export const buildColumns : ITableColumn<Build>[] = [
   {
     id: "pipeline",
@@ -76,6 +77,7 @@ export const buildColumns : ITableColumn<Build>[] = [
   }
 ]
 
+// Summary
 export const dashboardColumns : ITableColumn<PipelineInfo>[] = [
   {
     id: "pipeline",
@@ -86,14 +88,14 @@ export const dashboardColumns : ITableColumn<PipelineInfo>[] = [
   },
   {
     id: "pipeline",
-    name: "Build # | Branch & commit",
+    name: "Last Build # | Branch & commit",
     onSize: buildRefOnSize,
     renderCell: renderLastBuild01,
     width: new ObservableValue(-25)
   },
   {
     id: "ReleaseInfo01",
-    name: "Deployment Health",
+    name: "Current Deployment Health",
     renderCell: renderReleaseInfo01,
     width: new ObservableValue(-45)
   },
