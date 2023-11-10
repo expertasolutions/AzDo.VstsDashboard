@@ -461,12 +461,12 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
     //x.status === 2
     for(let i=0;i<buildIDApprovals.filter(x=> true).length;i++) {
       let elm = buildIDApprovals[i];
-      //let status = `(${elm.status})`;
+      let status = `&nbsp;(${elm.status})`;
       let approvalStatus = getApprovalIndicator(elm.status);
       children.push(
         <Pill color={approvalStatus.color} variant={PillVariant.colored}
             onClick={() => window.open(elm.pipeline.owner._links.web.href, "_blank") }>
-          &nbsp;Pending Approval: &nbsp;{elm.id}
+          &nbsp;Pending Approval: &nbsp;{elm.id}{status}
         </Pill>
       );
     }
