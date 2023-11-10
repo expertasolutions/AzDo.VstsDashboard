@@ -154,7 +154,8 @@ export async function getApprovals(projectName: string, accessToken: string) {
 
 export async function getEnvironments(projectName: string, accessToken: string) {
   // CODE_REVIEW: Replace 'experta' from the URL with the proper organization name
-  let apiVersion = "7.1";
+  //let apiVersion = "7.1";
+  let apiVersion = "6.0-preview.1";
   let envUrl = `https://dev.azure.com/${SDK.getHost().name}/${projectName}/_apis/distributedtask/environments?api-version=${apiVersion}`;
   let acceptHeaderValue = `application/json;api-version=${apiVersion};excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true`;
   let result = await fetch(envUrl, 
@@ -186,7 +187,8 @@ export async function getEnvironments(projectName: string, accessToken: string) 
 }
 
 export async function getEnvironmentDeplRecords(environmentId: string, projectName: string, accessToken: string) {
-  let apiVersion = "7.1-preview.1";
+  //let apiVersion = "7.1-preview.1";
+  let apiVersion = "6.0-preview.1";
   let top = 1000;
   let envUrl = `https://dev.azure.com/${SDK.getHost().name}/${projectName}/_apis/distributedtask/environments/${environmentId}/environmentdeploymentrecords?top=${top}&api-version=${apiVersion}`;
   let acceptHeaderValue = `application/json;api-version=${apiVersion};excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true`;
@@ -244,7 +246,8 @@ export function getMinTimeFromNow(timeRangeLoad: string) {
 
 export async function getPipelineInfo(projectName: string, pipelineId: number, accessToken: string) {
   // CODE_REVIEW: Replace from the URL with the proper organization name
-  let apiVersion = "7.2-preview.1";
+  //let apiVersion = "7.2-preview.1";
+  let apiVersion = "6.0-preview.1";
   let envUrl = `https://dev.azure.com/${SDK.getHost().name}/${projectName}/_apis/pipelines/${pipelineId}?api-version=${apiVersion}`;
   let acceptHeaderValue = `application/json;api-version=${apiVersion};excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true`;
   let result = await fetch(envUrl, 
