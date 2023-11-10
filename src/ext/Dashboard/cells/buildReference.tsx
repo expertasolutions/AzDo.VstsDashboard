@@ -280,8 +280,10 @@ export function renderLastBuild02(
 
 export function renderAllInProgress(builds: Array<Build>, context: any) : Array<JSX.Element> {
   let childrens = Array<JSX.Element>();
-  for(let i=0;i<builds.filter(x=> x.status === BuildStatus.InProgress || x.status === BuildStatus.NotStarted).length;i++) {
-    childrens.push(<div>getReleaseTagFromBuildV2(builds[i], context.state.environments, context.state.approvals, context.state.showAllBuildDeployment)</div>);
+  let pending = builds.filter(x=> x.status === BuildStatus.InProgress || x.status === BuildStatus.NotStarted);
+  console.log(pending);
+  for(let i=0;i<pending.length;i++) {
+    childrens.push(<div>getReleaseTagFromBuildV2(pending[i], context.state.environments, context.state.approvals, context.state.showAllBuildDeployment)</div>);
   }
   return childrens;
 }
