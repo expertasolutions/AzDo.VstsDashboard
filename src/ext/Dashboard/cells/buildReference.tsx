@@ -298,6 +298,27 @@ export function renderAllInProgress(builds: Array<Build>, context: any, columnIn
   return childrens;
 }
 
+export function renderPipelineStageSummary(build: PipelineInfo, context: any, columnIndex: number, tableColumn: ITableColumn<PipelineInfo>) : JSX.Element {
+  let isClassicRelease = true;
+
+  if(isClassicRelease) {
+    return (
+      <DataContext.Consumer>
+        {(context) => (
+        <SimpleTableCell
+              key={"col-" + columnIndex}
+              columnIndex={columnIndex}
+              tableColumn={tableColumn}>
+                <div>
+                  {getReleaseTagFromBuild(build.latestCompletedBuild, context.state.releases, context.state.environments, context.state.approvals, context.state.showAllBuildDeployment) }
+                </div>
+          </SimpleTableCell>
+        )}
+      </DataContext.Consumer>
+    )
+  } 
+}
+
 export function renderReleaseInfo01 (
   rowIndex: number,
   columnIndex: number,
@@ -313,14 +334,7 @@ export function renderReleaseInfo01 (
     children.push(
         <DataContext.Consumer>
           {(context) => (
-            <div>
-              <SimpleTableCell
-                key={"col-" + columnIndex}
-                columnIndex={columnIndex}
-                tableColumn={tableColumn}>
-                    {getReleaseTagFromBuild(lastCompletedBuild, context.state.releases, context.state.environments, context.state.approvals, context.state.showAllBuildDeployment) }
-              </SimpleTableCell>
-            </div>
+            <div>{renderPipelineStageSummary(tableItem, context, columnIndex, tableColumn)}</div>
           )}
         </DataContext.Consumer>
     )
@@ -339,20 +353,7 @@ export function renderReleaseInfo01 (
       </div>
     );
   };
-  return (
-    <DataContext.Consumer>
-      {(context) => (
-      <SimpleTableCell
-            key={"col-" + columnIndex}
-            columnIndex={columnIndex}
-            tableColumn={tableColumn}>
-              <div>
-                {getReleaseTagFromBuild(lastCompletedBuild, context.state.releases, context.state.environments, context.state.approvals, context.state.showAllBuildDeployment) }
-              </div>
-        </SimpleTableCell>
-      )}
-    </DataContext.Consumer>
-  )
+  return renderPipelineStageSummary(tableItem, null, columnIndex, tableColumn);
 }
 
 function getBuildDefinitionStatus(buildDefItem: PipelineInfo) : IStatusIndicatorData {
