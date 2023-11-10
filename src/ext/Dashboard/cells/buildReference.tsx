@@ -26,6 +26,7 @@ import { Link } from "azure-devops-ui/Link";
 import { Icon } from "azure-devops-ui/Icon";
 import { DataContext, PipelineInfo } from "../dataContext";
 import { Build } from "azure-devops-extension-api/Build";
+import { Deployment } from "azure-devops-extension-api/Release";
 
 export function renderBuildRef01 (
   rowIndex: number,
@@ -301,14 +302,15 @@ export function renderAllInProgress(builds: Array<Build>, context: any, columnIn
 
 export function renderPipelineStageSummary(build: PipelineInfo, context: any, columnIndex: number, tableColumn: ITableColumn<PipelineInfo>) : JSX.Element {
   let buildClassicReleases = [];
-  // let buildClassicReleases = context.state.release.filter(
-  //   (x:any) => x.release.artifacts.find(
-  //     (a: any)=> {
-  //       let version = a.definitionReference["version"];
-  //       return version.id === build.id.toString();
-  //     }
-  //   ) != null
-  // );
+  let releases = context.state.releases as Array<Deployment>;
+  buildClassicReleases = releases.filter(
+    x => x.release.artifacts.find(
+      a => {
+        let version = a.definitionReference["version"];
+        return version.id === build.id.toString();
+      }
+    ) != null
+  );
 
   let isClassicRelease = buildClassicReleases.length > 0;
 

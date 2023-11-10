@@ -408,9 +408,9 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
   let allDeplRecords: any[] = [];
   for(let i=0;i<environments.length;i++) {
     if(environments[i] !== undefined) {
-      if(build.definition.id === 240) {
-        console.log(environments[i].environmentChecks);
-      } 
+      // if(build.definition.id === 240) {
+      //   console.log(environments[i].environmentChecks);
+      // } 
       allDeplRecords.push(...environments[i].deploymentRecords);
     }
   }
@@ -454,7 +454,7 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
   for(let i=0;i<buildIDApprovals.filter(x=> true).length;i++) {
     let elm = buildIDApprovals[i];
     let status = `(${elm.status})`;
-    console.log(elm);
+    //console.log(elm);
     let approvalStatus = getApprovalIndicator(elm.status);
     children.push(
       <Pill color={approvalStatus.color} variant={PillVariant.colored}
@@ -502,7 +502,6 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
 
       let lastExecution = currentEnv.deploymentRecords.filter(x=> x.owner.id === build.id).sort((a,b) => a.id - b.id);
       currentElement.lastExecution = lastExecution[lastExecution.length - 1];
-
       buildEnvironments.push(currentElement);
     }
   }
