@@ -396,7 +396,7 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
   if(content.length > 0){
     return content;
   }
-  return getReleaseTagFromBuildV2(build, environments, approvals, allRelease);
+  return getReleaseTagFromBuildV2(build, environments, approvals, allRelease, true);
 }
 
 export function getReleaseTagFromBuildV2(build: Build, environments: Array<PipelineEnvironment>, approvals: Array<any>, allRelease: boolean, showDefaultOnEmpty: boolean) {
@@ -415,69 +415,65 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
 
   let content: any[] = [];
 
-  if(true) {
-    // Last Build Execution
-    let buildDeplRecords = allDeplRecords.filter(x=> x.owner.id === build.id).sort((a,b) => a.id - b.id);
-    let buildIDApprovals = approvals.filter(x=> x.pipeline !== undefined && x.pipeline.owner.id === build.id);
-    let children: any[] = [];
-    //if(build.definition.id === 240) {
-      let showedEnvStages = Array<any>();
-      for(let i=0;i<buildDeplRecords.length;i++) {
-        let elm = buildDeplRecords[i];
-        if(buildDeplRecords[i].definition.id === build.definition.id) {
-          let currentShowed = showedEnvStages.find(x=> x.stageName === elm.stageName);
-          if(currentShowed === undefined) {
-            showedEnvStages.push(elm);
-          } else if(elm.stageAttempt > currentShowed.stageAttempt) {
-            let indx = showedEnvStages.findIndex(x=> x.id === currentShowed.id);
-            showedEnvStages[indx] = elm;
-          }
-        }
-    //  }
-
-      for(let i=0;i<showedEnvStages.length;i++) {
-        let elm = showedEnvStages[i];
-        let attempCounts = "";
-        if(elm.jobAttemp > 1) {
-          attempCounts = `(${elm.stageAttempt})`;
-        }
-        let deplStatus = getStageIndicator(elm.result, false);
-        if(elm.result === undefined) {
-          deplStatus = getStageIndicator(-1, false);
-        }
-        children.push(
-          <Pill color={deplStatus.color} variant={PillVariant.colored} 
-              onClick={() => window.open(elm.owner._links.web.href, "_blank") }>
-            <Status {...deplStatus.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{elm.stageName}&nbsp;{attempCounts}
-          </Pill>
-        );
+  // Last Build Execution
+  let buildDeplRecords = allDeplRecords.filter(x=> x.owner.id === build.id).sort((a,b) => a.id - b.id);
+  let buildIDApprovals = approvals.filter(x=> x.pipeline !== undefined && x.pipeline.owner.id === build.id);
+  let children: any[] = [];
+  let showedEnvStages = Array<any>();
+  for(let i=0;i<buildDeplRecords.length;i++) {
+    let elm = buildDeplRecords[i];
+    if(buildDeplRecords[i].definition.id === build.definition.id) {
+      let currentShowed = showedEnvStages.find(x=> x.stageName === elm.stageName);
+      if(currentShowed === undefined) {
+        showedEnvStages.push(elm);
+      } else if(elm.stageAttempt > currentShowed.stageAttempt) {
+        let indx = showedEnvStages.findIndex(x=> x.id === currentShowed.id);
+        showedEnvStages[indx] = elm;
       }
     }
 
-    //x.status !== 4
-    for(let i=0;i<buildIDApprovals.filter(x=> true).length;i++) {
-      let elm = buildIDApprovals[i];
-      let status = `(${elm.status})`;
-      console.log(elm);
-      let approvalStatus = getApprovalIndicator(elm.status);
+    for(let i=0;i<showedEnvStages.length;i++) {
+      let elm = showedEnvStages[i];
+      let attempCounts = "";
+      if(elm.jobAttemp > 1) {
+        attempCounts = `(${elm.stageAttempt})`;
+      }
+      let deplStatus = getStageIndicator(elm.result, false);
+      if(elm.result === undefined) {
+        deplStatus = getStageIndicator(-1, false);
+      }
       children.push(
-        <Pill color={approvalStatus.color} variant={PillVariant.colored}
-            onClick={() => window.open(elm.pipeline.owner._links.web.href, "_blank") }>
-          &nbsp;Pending Approval: &nbsp;{elm.id}&nbsp;{status}
+        <Pill color={deplStatus.color} variant={PillVariant.colored} 
+            onClick={() => window.open(elm.owner._links.web.href, "_blank") }>
+          <Status {...deplStatus.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{elm.stageName}&nbsp;{attempCounts}
         </Pill>
       );
     }
+  }
 
-    if(children.length > 0) {
-      content.push(
-        <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
-          <Link href={build._links.web.href} target="_blank"><b>{build.definition.name}</b> ({build.buildNumber})</Link>
-          <p>
-            <PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{children}</PillGroup>
-          </p>
-        </div>
-      )
-    }
+  //x.status !== 4
+  for(let i=0;i<buildIDApprovals.filter(x=> true).length;i++) {
+    let elm = buildIDApprovals[i];
+    let status = `(${elm.status})`;
+    console.log(elm);
+    let approvalStatus = getApprovalIndicator(elm.status);
+    children.push(
+      <Pill color={approvalStatus.color} variant={PillVariant.colored}
+          onClick={() => window.open(elm.pipeline.owner._links.web.href, "_blank") }>
+        &nbsp;Pending Approval: &nbsp;{elm.id}&nbsp;{status}
+      </Pill>
+    );
+  }
+
+  if(children.length > 0) {
+    content.push(
+      <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
+        <Link href={build._links.web.href} target="_blank"><b>{build.definition.name}</b> ({build.buildNumber})</Link>
+        <p>
+          <PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{children}</PillGroup>
+        </p>
+      </div>
+    )
   }
 
   if(content.length > 0) {
