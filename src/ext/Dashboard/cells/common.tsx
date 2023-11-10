@@ -517,7 +517,7 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
     );
   }
 
-  return <p><PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{childrens}</PillGroup></p>;
+  return <p><PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}> {'->'} {childrens}</PillGroup></p>;
 }
 
 export function waitingForApproval(dep: Deployment, envId: number) {
