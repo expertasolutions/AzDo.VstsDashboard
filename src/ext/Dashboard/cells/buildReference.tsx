@@ -284,7 +284,7 @@ export function renderAllInProgress(builds: Array<Build>, context: any) : Array<
   let pending = builds.filter(x=> x.status === BuildStatus.InProgress);
   console.log(pending);
   for(let i=0;i<pending.length;i++) {
-    childrens.push(<div>getReleaseTagFromBuildV2(pending[i], context.state.environments, context.state.approvals, context.state.showAllBuildDeployment)</div>);
+    childrens.push(<div>{getReleaseTagFromBuildV2(pending[i], context.state.environments, context.state.approvals, context.state.showAllBuildDeployment)}</div>);
   }
   return childrens;
 }
