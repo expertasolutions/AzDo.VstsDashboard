@@ -134,22 +134,9 @@ export async function getApprovals(projectName: string, accessToken: string) {
       }
     })
     .then(response => response.json());
-    
-  //console.log(result);
-  // let finalResult:Array<PipelineEnvironment> = [];
 
-  // for(let i=0;i<result.length;i++) {
-  //   let newEnv : PipelineEnvironment = {
-  //     id: result[i].id,
-  //     name: result[i].name,
-  //     projectId: projectName,
-  //     deploymentRecords: []
-  //   };
-  //   let test = await getEnvironmentDeplRecords(result[i].id, projectName, accessToken);
-  //   newEnv.deploymentRecords.push(...test);
-  //   finalResult.push(newEnv);
-  // }
-  //console.log(result);
+    // https://dev.azure.com/experta/community/_apis/pipelines/approvals/{approvalId}?api-version=7.0-preview.1
+
   return result;
 }
 
