@@ -523,7 +523,9 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
         <div>
           <Status {...envStatus.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{curEnv.lastExecution.stageName}&nbsp;{attempCounts}
         </div>
-        <Link href={curEnv.lastExecution.owner._links.web.href} target="_blank" className="font-size-s">{curEnv.lastExecution.owner.name}</Link>
+        <div style={{ paddingLeft: 10 }}>
+          <Link href={curEnv.lastExecution.owner._links.web.href} target="_blank" className="font-size-s">{curEnv.lastExecution.owner.name}</Link>
+        </div>
       </Pill>
     );
   }
@@ -535,7 +537,7 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
         <PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{childrens}</PillGroup>
       </p>
     </div>
-    );
+  );
 }
 
 export function waitingForApproval(dep: Deployment, envId: number) {
