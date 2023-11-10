@@ -114,6 +114,11 @@ export function getApprovalIndicator(status: number) : IStatusIndicatorData {
       indicatorData.label = "NA";
       indicatorData.color = lightGray;
       break;
+    case 64:
+      indicatorData.statusProps = { ...Statuses.Queued, ariaLabel: "Expired"};
+      indicatorData.label = "Expired";
+      indicatorData.color = lightGray;
+      break;
     default:
       indicatorData.statusProps = { ...Statuses.Queued, ariaLabel: "Canceled"};
       indicatorData.label = "NA";
