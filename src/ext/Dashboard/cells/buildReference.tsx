@@ -299,10 +299,8 @@ export function renderReleaseInfo01 (
   let lastBuild = tableItem.latestBuild;
 
   // TODO: Get Last Currently Running Pipelines
-  
   if(lastBuild.id !== lastCompletedBuild.id) {
     let children = [];
-
     children.push(
       <div>
         <DataContext.Consumer>
@@ -326,6 +324,12 @@ export function renderReleaseInfo01 (
           <div>{renderAllInProgress(context.state.builds, context)}</div>
         )}
       </DataContext.Consumer>
+    );
+
+    return (
+      <div>
+        {children}
+      </div>
     );
   };
   return (
