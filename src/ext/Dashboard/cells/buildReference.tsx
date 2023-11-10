@@ -307,7 +307,7 @@ export function renderPipelineStageSummary(build: PipelineInfo, context: any, co
     x => x.release.artifacts.find(
       a => {
         let version = a.definitionReference["version"];
-        return version.id === build.id.toString();
+        return version.id === build.latestCompletedBuild.id.toString();
       }
     ) != null
   );
