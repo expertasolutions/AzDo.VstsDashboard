@@ -365,7 +365,11 @@ export function renderReleaseInfo01 (
       </div>
     );
   };
-  return renderPipelineStageSummary(tableItem, null, columnIndex, tableColumn);
+  return (<DataContext.Consumer>
+            {(context) => (
+              <div>{renderPipelineStageSummary(tableItem, context, columnIndex, tableColumn)}</div>
+            )}
+          </DataContext.Consumer>);
 }
 
 function getBuildDefinitionStatus(buildDefItem: PipelineInfo) : IStatusIndicatorData {

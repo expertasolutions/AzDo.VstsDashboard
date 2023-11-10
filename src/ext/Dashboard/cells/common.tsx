@@ -489,7 +489,12 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
 }
 
 export function getEnvironmentStageSummary(build: PipelineInfo, environments: Array<PipelineEnvironment>, approvals: Array<any>, allRelease: boolean) {
+  if(build === undefined) {
+    return (<div>Problem !</div>)
+  }
+
   
+
   return <div>Pending</div>;
 }
 
