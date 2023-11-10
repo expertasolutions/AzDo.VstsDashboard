@@ -279,6 +279,7 @@ export function renderLastBuild02(
 }
 
 export function renderAllInProgress(builds: Array<Build>, context: any) : Array<JSX.Element> {
+  console.log("renderAllInProgress");
   let childrens = Array<JSX.Element>();
   let pending = builds.filter(x=> x.status === BuildStatus.InProgress);
   console.log(pending);
@@ -326,24 +327,6 @@ export function renderReleaseInfo01 (
         )}
       </DataContext.Consumer>
     );
-
-    // children.push(
-    //   <div>
-    //     <DataContext.Consumer>
-    //       {(context) => (
-    //         <SimpleTableCell
-    //           key={"col-" + columnIndex}
-    //           columnIndex={columnIndex}
-    //           tableColumn={tableColumn}>
-    //             <div>
-    //               {getReleaseTagFromBuild(lastBuild, context.state.releases, context.state.environments, context.state.approvals, context.state.showAllBuildDeployment) }
-    //             </div>
-    //         </SimpleTableCell>
-    //       )}
-    //     </DataContext.Consumer>
-    //   </div>
-    // )
-    // return <div>{children}</div>
   };
   return (
     <DataContext.Consumer>
