@@ -507,6 +507,7 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
       }
     }
   }
+  buildEnvironments = buildEnvironments.sort((a,b) => a.environment.id - b.environment.id);
 
   let childrens = Array<any>();
   for(let i=0;i<buildEnvironments.length;i++) { 
@@ -519,7 +520,7 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
     }
     childrens.push(
       <Pill color={envStatus.color} variant={PillVariant.colored}>
-        <Status {...envStatus.statusProps} className="icon-small-margin" size={StatusSize.s} />{curEnv.lastExecution.stageName}&nbsp;{attempCounts}<br/>
+        <Status {...envStatus.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{curEnv.lastExecution.stageName}&nbsp;{attempCounts}<br/>
         <Link href={curEnv.lastExecution.owner._links.web.href} target="_blank">{curEnv.lastExecution.owner.id}</Link>
       </Pill>
     );
