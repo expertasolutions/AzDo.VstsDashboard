@@ -323,7 +323,7 @@ export function renderReleaseInfo01 (
     children.push(
       <DataContext.Consumer>
         {(context) => (
-          <div>this.renderAllInProgress(context.state.builds, context)</div>
+          <div>{renderAllInProgress(context.state.builds, context)}</div>
         )}
       </DataContext.Consumer>
     );
