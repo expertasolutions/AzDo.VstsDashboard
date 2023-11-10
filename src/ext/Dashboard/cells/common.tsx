@@ -519,12 +519,20 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
     }
     childrens.push(
       <Pill color={envStatus.color} variant={PillVariant.colored}>
-        {curEnv.lastExecution.stageName}&nbsp;{attempCounts}
+        <Status {...envStatus.statusProps} className="icon-small-margin" size={StatusSize.s} />{curEnv.lastExecution.stageName}&nbsp;{attempCounts}<br/>
+        <Link href={curEnv.lastExecution.owner._links.web.href} target="_blank">{curEnv.lastExecution.owner.id}</Link>
       </Pill>
     );
   }
 
-  return <p><PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{childrens}</PillGroup></p>;
+  return (
+    <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
+      <b>Current Deployment Summary</b>
+      <p>
+        <PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{childrens}</PillGroup>
+      </p>
+    </div>
+    );
 }
 
 export function waitingForApproval(dep: Deployment, envId: number) {
