@@ -458,8 +458,8 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
         );
       }
     }
-
-    for(let i=0;i<buildIDApprovals.filter(x=> x.status === 2).length;i++) {
+    //x.status === 2
+    for(let i=0;i<buildIDApprovals.filter(x=> true).length;i++) {
       let elm = buildIDApprovals[i];
       //let status = `(${elm.status})`;
       let approvalStatus = getApprovalIndicator(elm.status);
