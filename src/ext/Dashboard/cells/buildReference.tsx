@@ -13,6 +13,7 @@ import {
   ITableColumn,
   TwoLineTableCell,
   SimpleTableCell,
+  ITable,
 } from "azure-devops-ui/Table";
 
 import { Ago } from "azure-devops-ui/Ago";
@@ -278,12 +279,19 @@ export function renderLastBuild02(
   );
 }
 
-export function renderAllInProgress(builds: Array<Build>, context: any) : Array<JSX.Element> {
+export function renderAllInProgress(builds: Array<Build>, context: any, columnIndex: number, tableColumn: ITableColumn<PipelineInfo>) : Array<JSX.Element> {
   let childrens = Array<JSX.Element>();
   let pending = builds.filter(x=> x.status === BuildStatus.InProgress);
   console.log(pending);
   for(let i=0;i<pending.length;i++) {
-    childrens.push(<div>{getReleaseTagFromBuildV2(pending[i], context.state.environments, context.state.approvals, context.state.showAllBuildDeployment)}</div>);
+    childrens.push(
+      <SimpleTableCell
+        key={"col-" + columnIndex}
+        columnIndex={columnIndex}
+        tableColumn={tableColumn}>
+        {getReleaseTagFromBuildV2(pending[i], context.state.environments, context.state.approvals, context.state.showAllBuildDeployment)}
+      </SimpleTableCell>
+    );
   }
   return childrens;
 }
@@ -301,26 +309,22 @@ export function renderReleaseInfo01 (
   if(lastBuild.id !== lastCompletedBuild.id) {
     let children = [];
     children.push(
-      <div>
         <DataContext.Consumer>
           {(context) => (
             <SimpleTableCell
               key={"col-" + columnIndex}
               columnIndex={columnIndex}
               tableColumn={tableColumn}>
-                <div>
                   {getReleaseTagFromBuild(lastCompletedBuild, context.state.releases, context.state.environments, context.state.approvals, context.state.showAllBuildDeployment) }
-                </div>
             </SimpleTableCell>
           )}
         </DataContext.Consumer>
-      </div>
     )
 
     children.push(
       <DataContext.Consumer>
         {(context) => (
-          <div>{renderAllInProgress(context.state.builds, context)}</div>
+          <div>{renderAllInProgress(context.state.builds, context, columnIndex, tableColumn)}</div>
         )}
       </DataContext.Consumer>
     );
