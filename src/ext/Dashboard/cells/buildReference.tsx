@@ -285,12 +285,14 @@ export function renderAllInProgress(builds: Array<Build>, context: any, columnIn
   // TODO: Filter out build without environments stage in progress
   for(let i=0;i<pending.length;i++) {
     childrens.push(
-      <SimpleTableCell
-        key={"col-" + columnIndex}
-        columnIndex={columnIndex}
-        tableColumn={tableColumn}>
-        {getReleaseTagFromBuildV2(pending[i], context.state.environments, context.state.approvals, context.state.showAllBuildDeployment)}
-      </SimpleTableCell>
+      <div>
+        <SimpleTableCell
+          key={"col-" + columnIndex}
+          columnIndex={columnIndex}
+          tableColumn={tableColumn}>
+          {getReleaseTagFromBuildV2(pending[i], context.state.environments, context.state.approvals, context.state.showAllBuildDeployment)}
+        </SimpleTableCell>
+      </div>
     );
   }
   return childrens;
@@ -311,12 +313,14 @@ export function renderReleaseInfo01 (
     children.push(
         <DataContext.Consumer>
           {(context) => (
-            <SimpleTableCell
-              key={"col-" + columnIndex}
-              columnIndex={columnIndex}
-              tableColumn={tableColumn}>
-                  {getReleaseTagFromBuild(lastCompletedBuild, context.state.releases, context.state.environments, context.state.approvals, context.state.showAllBuildDeployment) }
-            </SimpleTableCell>
+            <div>
+              <SimpleTableCell
+                key={"col-" + columnIndex}
+                columnIndex={columnIndex}
+                tableColumn={tableColumn}>
+                    {getReleaseTagFromBuild(lastCompletedBuild, context.state.releases, context.state.environments, context.state.approvals, context.state.showAllBuildDeployment) }
+              </SimpleTableCell>
+            </div>
           )}
         </DataContext.Consumer>
     )
