@@ -493,7 +493,7 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
   let buildEnvironments = Array<any>();
   for(let i=0;i<environments.length;i++) {
     let currentEnv = environments[i];
-    let buildUseEnvironment = currentEnv.deploymentRecords.find(x=> x.owner.id === build.id);
+    let buildUseEnvironment = currentEnv.deploymentRecords.find(x=> x.definition.id === build.id);
     if(buildUseEnvironment !== undefined) {
       let currentElement = {
         environment: currentEnv,
