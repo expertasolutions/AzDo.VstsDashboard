@@ -508,11 +508,11 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
 
   let childrens = Array<any>();
   for(let i=0;i<buildEnvironments.length;i++) { 
-    let curEnv = buildEnvironments[i];
+    let curEnv = buildEnvironments[i].lastExecution;
     let envStatus = getStageIndicator(curEnv.result === undefined ? -1 :curEnv.result, false);
     childrens.push(
       <Pill color={envStatus.color} variant={PillVariant.colored}>
-        {buildEnvironments[i].environment.name}
+        {curEnv.stageName}
       </Pill>
     );
   }
