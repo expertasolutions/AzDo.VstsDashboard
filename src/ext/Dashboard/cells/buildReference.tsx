@@ -52,7 +52,7 @@ export function renderBuildRef01 (
               <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
                 <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}} className="fontWeightSemiBold font-weight-semibold">
                   <Link href={definitionUrl} target="_blank" className="bolt-table-cell-primary">
-                    {tableItem.name} - Type: {tableItem.pipelineType}
+                    {tableItem.name}
                   </Link>
                 </div>
                 <div className="font-size-s" style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
