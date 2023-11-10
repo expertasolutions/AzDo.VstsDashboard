@@ -300,14 +300,15 @@ export function renderAllInProgress(builds: Array<Build>, context: any, columnIn
 }
 
 export function renderPipelineStageSummary(build: PipelineInfo, context: any, columnIndex: number, tableColumn: ITableColumn<PipelineInfo>) : JSX.Element {
-  let buildClassicReleases = context.state.release.filter(
-    (x:any) => x.release.artifacts.find(
-      (a: any)=> {
-        let version = a.definitionReference["version"];
-        return version.id === build.id.toString();
-      }
-    ) != null
-  );
+  let buildClassicReleases = [];
+  // let buildClassicReleases = context.state.release.filter(
+  //   (x:any) => x.release.artifacts.find(
+  //     (a: any)=> {
+  //       let version = a.definitionReference["version"];
+  //       return version.id === build.id.toString();
+  //     }
+  //   ) != null
+  // );
 
   let isClassicRelease = buildClassicReleases.length > 0;
 
@@ -320,7 +321,7 @@ export function renderPipelineStageSummary(build: PipelineInfo, context: any, co
             columnIndex={columnIndex}
             tableColumn={tableColumn}>
               <div>
-                {getEnvironmentStageSummary(build, context.state.environments, context.state.approvals, context.state.showAllBuildDeployment)}
+                {getEnvironmentStageSummary(build, context.state.environments, context.state.approvals)}
               </div>
         </SimpleTableCell>
     );

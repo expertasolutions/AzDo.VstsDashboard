@@ -440,10 +440,7 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
       if(elm.jobAttemp > 1) {
         attempCounts = `(${elm.stageAttempt})`;
       }
-      let deplStatus = getStageIndicator(elm.result, false);
-      if(elm.result === undefined) {
-        deplStatus = getStageIndicator(-1, false);
-      }
+      let deplStatus = getStageIndicator(elm.result === undefined ? -1 : elm.result, false);
       children.push(
         <Pill color={deplStatus.color} variant={PillVariant.colored} 
             onClick={() => window.open(elm.owner._links.web.href, "_blank") }>
@@ -488,14 +485,40 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
   return (<span></span>);
 }
 
-export function getEnvironmentStageSummary(build: PipelineInfo, environments: Array<PipelineEnvironment>, approvals: Array<any>, allRelease: boolean) {
+export function getEnvironmentStageSummary(build: PipelineInfo, environments: Array<PipelineEnvironment>, approvals: Array<any>) {
   if(build === undefined) {
     return (<div>Problem !</div>)
   }
 
-  
+  let buildEnvironments = Array<any>();
+  for(let i=0;i<environments.length;i++) {
+    let currentEnv = environments[i];
+    let buildUseEnvironment = currentEnv.deploymentRecords.find(x=> x.owner.id === build.id);
+    if(buildUseEnvironment !== undefined) {
+      let currentElement = {
+        environment: currentEnv,
+        lastExecution: undefined
+      };
 
-  return <div>Pending</div>;
+      let lastExecution = currentEnv.deploymentRecords.filter(x=> x.owner.id === build.id).sort((a,b) => a.id - b.id);
+      currentElement.lastExecution = lastExecution[lastExecution.length - 1];
+
+      buildEnvironments.push(currentElement);
+    }
+  }
+
+  let childrens = Array<any>();
+  for(let i=0;i<buildEnvironments.length;i++) { 
+    let curEnv = buildEnvironments[i];
+    let envStatus = getStageIndicator(curEnv.result === undefined ? -1 :curEnv.result, false);
+    childrens.push(
+      <Pill color={envStatus.color} variant={PillVariant.colored}>
+        {buildEnvironments[i].environment.name}
+      </Pill>
+    );
+  }
+
+  return <p><PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{childrens}</PillGroup></p>;
 }
 
 export function waitingForApproval(dep: Deployment, envId: number) {
