@@ -406,24 +406,14 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
   let allDeplRecords: any[] = [];
   for(let i=0;i<environments.length;i++) {
     if(environments[i] !== undefined) {
+      if(build.definition.id === 240) {
+        console.log(environments[i].environmentChecks);
+      } 
       allDeplRecords.push(...environments[i].deploymentRecords);
     }
   }
 
   let content: any[] = [];
-
-  let uniqueBuildIds = allDeplRecords.filter(x=> x.definition.id === build.definition.id)
-      .map(item => item.owner.id)
-      .filter((value, index, self) => self.indexOf(value) === index);
-
-  // IMPORANT: checkout this... https://learn.microsoft.com/en-us/rest/api/azure/devops/approvalsandchecks/approvals/get?view=azure-devops-rest-7.1&tabs=HTTP
-
-  //console.log(uniqueBuildIds);
-
-  if(!allRelease) {
-//    uniqueBuildIds = []
-//    uniqueBuildIds.push(build.id);
-  }
 
   if(true) {
     // Last Build Execution

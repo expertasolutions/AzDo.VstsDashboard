@@ -120,7 +120,7 @@ export async function getReleases(projectName: string, isFirstLoad: boolean) {
 export async function getApprovals(projectName: string, accessToken: string) {
   // https://dev.azure.com/experta/Community/_apis/pipelines/approvals?api-version=7.1-preview.1
   //let apiVersion = "7.1-preview.1";
-  let apiVersion = "7.0";
+  let apiVersion = "7.0-preview.1";
   let envUrl = `https://dev.azure.com/${SDK.getHost().name}/${projectName}/_apis/pipelines/approvals?api-version=${apiVersion}`;
   let acceptHeaderValue = `application/json;api-version=${apiVersion};excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true`;
   let result = await fetch(envUrl, 
@@ -135,8 +135,32 @@ export async function getApprovals(projectName: string, accessToken: string) {
     })
     .then(response => response.json());
 
-    // https://dev.azure.com/experta/community/_apis/pipelines/approvals/{approvalId}?api-version=7.0-preview.1
+    // https://dev.azure.com/experta/community/_apis/pipelines/approvals?api-version=7.0
 
+    // https://dev.azure.com/experta/community/_apis/pipelines/approvals/68e15885-1950-4a26-b10d-5180af68bd6e?$expand=steps&api-version=7.0-preview.1
+
+    // https://dev.azure.com/experta/community/_apis/pipelines/checks/configurations?resourceType=environment&resourceId=13&api-version=7.0-preview.1
+
+    // https://dev.azure.com/experta/community/_apis/pipelines/checks/configurations/3?$expand=settings&api-version=7.1-preview.1
+
+  return result;
+}
+
+export async function getEnvironmentChecks(environmentId: string, projectName: string, accessToken: string) {
+  let apiVersion = "7.0-preview.1";
+  let envUrl = `https://dev.azure.com/${SDK.getHost().name}/${projectName}/_apis/pipelines/checks/configurations?resourceType=environment&resourceId=${environmentId}&api-version=${apiVersion}`;
+  let acceptHeaderValue = `application/json;api-version=${apiVersion};excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true`;
+  let result = await fetch(envUrl, 
+    {
+      method: 'GET',
+      mode: 'cors',
+      headers: { 
+        'Accept': acceptHeaderValue,
+        'Content-Type': 'application/json',
+        'Authorization' : `Bearer ${accessToken}`
+      }
+    })
+    .then(response => response.json());
   return result;
 }
 
@@ -165,12 +189,19 @@ export async function getEnvironments(projectName: string, accessToken: string) 
       id: result[i].id,
       name: result[i].name,
       projectId: projectName,
-      deploymentRecords: []
+      deploymentRecords: [],
+      environmentChecks: []
     };
     let test = await getEnvironmentDeplRecords(result[i].id, projectName, accessToken);
     newEnv.deploymentRecords.push(...test);
     finalResult.push(newEnv);
   }
+
+  for(let i=0;i<finalResult.length;i++) {
+    let envChecks = await getEnvironmentChecks(finalResult[i].id, projectName, accessToken);
+    finalResult[i].environmentChecks = envChecks;
+  }
+
   return finalResult;
 }
 

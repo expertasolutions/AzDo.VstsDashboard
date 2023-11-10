@@ -8,6 +8,7 @@ export interface PipelineEnvironment {
   name: string;
   projectId: string;
   deploymentRecords: any[]
+  environmentChecks: any[]
 }
 
 

@@ -1,0 +1,51 @@
+{
+  "id": "68e15885-1950-4a26-b10d-5180af68bd6e",
+  "steps": [
+    {
+      "assignedApprover": {
+        "displayName": "Louis Turmel",
+        "id": "8cd125e5-fc56-4485-ad56-6d1df4e5cf1b",
+        "uniqueName": "lturmel@expertasolutions.com",
+        "descriptor": "aad.OTlkMTZlMzItY2FmOS03MGZjLWFhMmQtZmVhNzJmZWVhODg3"
+      },
+      "status": "pending",
+      "lastModifiedOn": "2023-11-10T03:04:39.1377111Z",
+      "order": 1,
+      "lastModifiedBy": {
+        "displayName": "Microsoft.VisualStudio.Services.TFS",
+        "id": "00000002-0000-8888-8000-000000000000",
+        "uniqueName": "00000002-0000-8888-8000-000000000000@2c895908-04e0-4952-89fd-54b0046d6288",
+        "descriptor": "s2s.MDAwMDAwMDItMDAwMC04ODg4LTgwMDAtMDAwMDAwMDAwMDAwQDJjODk1OTA4LTA0ZTAtNDk1Mi04OWZkLTU0YjAwNDZkNjI4OA"
+      },
+      "initiatedOn": "2023-11-10T03:04:39.1377111Z",
+      "history": []
+    }
+  ],
+  "status": "pending",
+  "createdOn": "2023-11-10T03:04:39.137Z",
+  "lastModifiedOn": "2023-11-10T03:04:39.1377111Z",
+  "executionOrder": "anyOrder",
+  "minRequiredApprovers": 1,
+  "blockedApprovers": [],
+  "_links": {
+    "self": {
+      "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/approvals/68e15885-1950-4a26-b10d-5180af68bd6e?%24expand=1"
+    }
+  },
+  "pipeline": {
+    "owner": {
+      "_links": {
+        "web": {
+          "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_build/results?buildId=17039"
+        },
+        "self": {
+          "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/build/Builds/17039"
+        }
+      },
+      "id": 17039,
+      "name": "VstsDashboard-v1.23313.45-Issue0170b"
+    },
+    "id": "240",
+    "name": "GitHub-VstsDashboard"
+  }
+}
