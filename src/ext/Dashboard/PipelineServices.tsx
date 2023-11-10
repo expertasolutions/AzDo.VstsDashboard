@@ -139,7 +139,7 @@ export async function getApprovals(projectName: string, accessToken: string) {
 
     // https://dev.azure.com/experta/community/_apis/pipelines/approvals/68e15885-1950-4a26-b10d-5180af68bd6e?$expand=steps&api-version=7.0-preview.1
 
-    // https://dev.azure.com/experta/community/_apis/pipelines/checks/configurations?resourceType=environment&resourceId=13&api-version=7.0-preview.1
+    // https://dev.azure.com/experta/community/_apis/pipelines/checks/configurations?resourceType=environment&resourceId=13&expands=settings&api-version=7.0-preview.1
 
     // https://dev.azure.com/experta/community/_apis/pipelines/checks/configurations/3?$expand=settings&api-version=7.1-preview.1
 
