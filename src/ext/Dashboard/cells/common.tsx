@@ -519,13 +519,12 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
       attempCounts = `(${curEnv.lastExecution.stageAttempt})`;
     }
     childrens.push(
-      <Pill color={envStatus.color} variant={PillVariant.colored}>
+      <Pill color={envStatus.color} variant={PillVariant.colored} 
+        onClick={() => window.open(curEnv.lastExecution.owner._links.web.href, "_blank")}>
         <div>
           <Status {...envStatus.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{curEnv.lastExecution.stageName}&nbsp;{attempCounts}
         </div>
-        <div style={{ paddingLeft: 10 }}>
-          <Link href={curEnv.lastExecution.owner._links.web.href} target="_blank" className="font-size-s">{curEnv.lastExecution.owner.name}</Link>
-        </div>
+        <div style={{ paddingLeft: 10 }} className="font-size-s">{curEnv.lastExecution.owner.name}</div>
       </Pill>
     );
   }
