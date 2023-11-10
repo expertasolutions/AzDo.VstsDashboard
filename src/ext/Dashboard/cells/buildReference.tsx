@@ -288,37 +288,40 @@ export function renderReleaseInfo01 (
 
   // TODO: Get Last Currently Running Pipelines
   
-  if(lastBuild !== lastCompletedBuild) {
+  if(lastBuild.id !== lastCompletedBuild.id) {
     let children = [];
-
     children.push(
-      <DataContext.Consumer>
-        {(context) => (
-          <SimpleTableCell
-            key={"col-" + columnIndex}
-            columnIndex={columnIndex}
-            tableColumn={tableColumn}>
-              <div>
-                {getReleaseTagFromBuild(lastBuild, context.state.releases, context.state.environments, context.state.approvals, context.state.showAllBuildDeployment) }
-              </div>
-          </SimpleTableCell>
-        )}
-      </DataContext.Consumer>
+      <div>
+        <DataContext.Consumer>
+          {(context) => (
+            <SimpleTableCell
+              key={"col-" + columnIndex}
+              columnIndex={columnIndex}
+              tableColumn={tableColumn}>
+                <div>
+                  {getReleaseTagFromBuild(lastBuild, context.state.releases, context.state.environments, context.state.approvals, context.state.showAllBuildDeployment) }
+                </div>
+            </SimpleTableCell>
+          )}
+        </DataContext.Consumer>
+      </div>
     )
 
     children.push(
-      <DataContext.Consumer>
-        {(context) => (
-          <SimpleTableCell
-            key={"col-" + columnIndex}
-            columnIndex={columnIndex}
-            tableColumn={tableColumn}>
-              <div>
-                {getReleaseTagFromBuild(lastCompletedBuild, context.state.releases, context.state.environments, context.state.approvals, context.state.showAllBuildDeployment) }
-              </div>
-          </SimpleTableCell>
-        )}
-      </DataContext.Consumer>
+      <div>
+        <DataContext.Consumer>
+          {(context) => (
+            <SimpleTableCell
+              key={"col-" + columnIndex}
+              columnIndex={columnIndex}
+              tableColumn={tableColumn}>
+                <div>
+                  {getReleaseTagFromBuild(lastCompletedBuild, context.state.releases, context.state.environments, context.state.approvals, context.state.showAllBuildDeployment) }
+                </div>
+            </SimpleTableCell>
+          )}
+        </DataContext.Consumer>
+      </div>
     )
     return <div>{children}</div>
   };

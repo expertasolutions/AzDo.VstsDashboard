@@ -539,6 +539,7 @@ class CICDDashboard extends React.Component<{}, {}> {
           this.onlyWithDeploymentSelection.select(1);
           this.errorsOnSummaryTopSelection.select(0);
           this.lastBuildsDisplaySelection.select(0);
+          this.lastBuildsDisplay = "lastHour";
         }
 
         this.updateFromProject(true);
