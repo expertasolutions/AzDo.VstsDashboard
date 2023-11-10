@@ -6,6 +6,7 @@ import {
   getPipelineIndicator,
   getReleaseTagFromBuild,
   lightGray,
+  getReleaseTagFromBuildV2,
 } from "./common";
 
 import {
@@ -277,6 +278,14 @@ export function renderLastBuild02(
   );
 }
 
+export function renderAllInProgress(builds: Array<Build>, context: any) : Array<JSX.Element> {
+  let childrens = Array<JSX.Element>();
+  for(let i=0;i<builds.filter(x=> x.status === BuildStatus.InProgress || x.status === BuildStatus.NotStarted).length;i++) {
+    childrens.push(<div>getReleaseTagFromBuildV2(builds[i], context.state.environments, context.state.approvals, context.state.showAllBuildDeployment)</div>);
+  }
+  return childrens;
+}
+
 export function renderReleaseInfo01 (
   rowIndex: number,
   columnIndex: number,
@@ -290,7 +299,7 @@ export function renderReleaseInfo01 (
   
   if(lastBuild.id !== lastCompletedBuild.id) {
     let children = [];
-    
+
     children.push(
       <div>
         <DataContext.Consumer>
@@ -309,22 +318,30 @@ export function renderReleaseInfo01 (
     )
 
     children.push(
-      <div>
-        <DataContext.Consumer>
-          {(context) => (
-            <SimpleTableCell
-              key={"col-" + columnIndex}
-              columnIndex={columnIndex}
-              tableColumn={tableColumn}>
-                <div>
-                  {getReleaseTagFromBuild(lastBuild, context.state.releases, context.state.environments, context.state.approvals, context.state.showAllBuildDeployment) }
-                </div>
-            </SimpleTableCell>
-          )}
-        </DataContext.Consumer>
-      </div>
-    )
-    return <div>{children}</div>
+      <DataContext.Consumer>
+        {(context) => (
+          <div>this.renderAllInProgress(context.state.builds, context)</div>
+        )}
+      </DataContext.Consumer>
+    );
+
+    // children.push(
+    //   <div>
+    //     <DataContext.Consumer>
+    //       {(context) => (
+    //         <SimpleTableCell
+    //           key={"col-" + columnIndex}
+    //           columnIndex={columnIndex}
+    //           tableColumn={tableColumn}>
+    //             <div>
+    //               {getReleaseTagFromBuild(lastBuild, context.state.releases, context.state.environments, context.state.approvals, context.state.showAllBuildDeployment) }
+    //             </div>
+    //         </SimpleTableCell>
+    //       )}
+    //     </DataContext.Consumer>
+    //   </div>
+    // )
+    // return <div>{children}</div>
   };
   return (
     <DataContext.Consumer>
