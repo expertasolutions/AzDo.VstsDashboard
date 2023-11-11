@@ -518,7 +518,8 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
     if(curEnv.lastExecution.jobAttemp > 1) {
       attempCounts = `(${curEnv.lastExecution.stageAttempt})`;
     }
-    let queueTime = new Date(curEnv.lastExecution.queueTime);
+    let queueTimeCleanup = curEnv.lastExecution.queueTime.replace('/Date(', ')').replace(')/','');
+    let queueDateTime = new Date(queueTimeCleanup).toLocaleDateString;
     childrens.push(
       <Pill color={envStatus.color} variant={PillVariant.colored} 
         onClick={() => window.open(curEnv.lastExecution.owner._links.web.href, "_blank")}>
@@ -526,7 +527,7 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
           <Status {...envStatus.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{curEnv.lastExecution.stageName}&nbsp;{attempCounts}
         </div>
         <div style={{ paddingLeft: 16 }} className="font-size-s">{curEnv.lastExecution.owner.name}</div>
-        <div style={{ paddingLeft: 16, textAlign: "center"}} className="font-size-s">{queueTime}</div>
+        <div style={{ paddingLeft: 16, textAlign: "center"}} className="font-size-s">{queueDateTime}</div>
       </Pill>
     );
   }
