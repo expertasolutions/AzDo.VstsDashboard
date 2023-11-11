@@ -530,7 +530,7 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
           <Status {...envStatus.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{curEnv.lastExecution.stageName}&nbsp;{attempCounts}
         </div>
         <div style={{ paddingLeft: 16 }} className="font-size-s">{curEnv.lastExecution.owner.name}</div>
-        <div style={{ paddingLeft: 16, textAlign: "center"}} className="font-size-s">{queueDateTime.toLocaleDateString()} @ {queueDateTime.toLocaleTimeString()} </div>
+        <div style={{ paddingLeft: 16, textAlign: "center"}} className="font-size-s"><Ago date={queueDateTime} /></div>
       </Pill>
     );
   }
