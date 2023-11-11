@@ -10,6 +10,7 @@ import { PillGroup, PillGroupOverflow } from "azure-devops-ui/PillGroup";
 import { Build } from "azure-devops-extension-api/Build";
 import { Link } from "azure-devops-ui/Link";
 import { PipelineEnvironment } from "../dataContext";
+import { Ago } from "azure-devops-ui/Ago";
 
 import { PipelineInfo } from "../dataContext";
 
@@ -520,6 +521,8 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
     }
     let queueTimeCleanup = curEnv.lastExecution.queueTime.replace('/Date(', ')').replace(')/','');
     let queueDateTime = new Date(queueTimeCleanup * 100).toLocaleDateString;
+    console.log(queueDateTime);
+    console.log(queueTimeCleanup);
     childrens.push(
       <Pill color={envStatus.color} variant={PillVariant.colored} 
         onClick={() => window.open(curEnv.lastExecution.owner._links.web.href, "_blank")}>
@@ -527,7 +530,7 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
           <Status {...envStatus.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{curEnv.lastExecution.stageName}&nbsp;{attempCounts}
         </div>
         <div style={{ paddingLeft: 16 }} className="font-size-s">{curEnv.lastExecution.owner.name}</div>
-        <div style={{ paddingLeft: 16, textAlign: "center"}} className="font-size-s">{queueDateTime}</div>
+        <div style={{ paddingLeft: 16, textAlign: "center"}} className="font-size-s">{queueDateTime} - <Ago date={curEnv.lastExecution.queueTime!} /></div>
       </Pill>
     );
   }
