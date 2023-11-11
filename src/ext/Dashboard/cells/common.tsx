@@ -521,8 +521,6 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
     }
     let queueTimeCleanup = curEnv.lastExecution.queueTime.replace('/Date(', '').replace(')/','').replace(')','');
     let queueDateTime = new Date(Number(queueTimeCleanup));
-    console.log(queueDateTime.toLocaleDateString());
-    console.log(queueDateTime.toLocaleTimeString());
     childrens.push(
       <Pill color={envStatus.color} variant={PillVariant.colored} 
         onClick={() => window.open(curEnv.lastExecution.owner._links.web.href, "_blank")}>
@@ -530,11 +528,14 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
           <Status {...envStatus.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{curEnv.lastExecution.stageName}&nbsp;{attempCounts}
         </div>
         <div style={{ paddingLeft: 16 }} className="font-size-s">{curEnv.lastExecution.owner.name}</div>
-        <div style={{ paddingLeft: 16, textAlign: "center"}} className="font-size-s"><Ago date={queueDateTime} /></div>
+        <div style={{ paddingLeft: 16, textAlign: "center"}} className="font-size-s">
+          <Icon iconName="Calendar"/>&nbsp;<Ago date={queueDateTime} />
+          
+        </div>
       </Pill>
     );
   }
-  //
+  //<Duration startDate={lastBuildRun.startTime} endDate={lastBuildRun.finishTime}
 
   return (
     <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
