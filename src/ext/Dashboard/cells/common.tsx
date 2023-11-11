@@ -519,7 +519,7 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
     if(curEnv.lastExecution.jobAttemp > 1) {
       attempCounts = `(${curEnv.lastExecution.stageAttempt})`;
     }
-    let queueTimeCleanup = curEnv.lastExecution.queueTime.replace('/Date(', '').replace(')/','');
+    let queueTimeCleanup = curEnv.lastExecution.queueTime.replace('/Date(', '').replace(')/','').replace(')','');
     //let queueDateTime = new Date(Number(queueTimeCleanup)).toLocaleDateString();
     //console.log(queueDateTime);
     console.log(queueTimeCleanup);
