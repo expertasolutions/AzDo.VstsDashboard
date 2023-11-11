@@ -520,9 +520,8 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
       attempCounts = `(${curEnv.lastExecution.stageAttempt})`;
     }
     let queueTimeCleanup = curEnv.lastExecution.queueTime.replace('/Date(', '').replace(')/','').replace(')','');
-    //let queueDateTime = new Date(Number(queueTimeCleanup)).toLocaleDateString();
-    //console.log(queueDateTime);
-    console.log(queueTimeCleanup);
+    let queueDateTime = new Date(Number(queueTimeCleanup)).toLocaleDateString();
+    console.log(queueDateTime);
     console.log(Number(queueTimeCleanup));
     childrens.push(
       <Pill color={envStatus.color} variant={PillVariant.colored} 
@@ -531,7 +530,7 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
           <Status {...envStatus.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{curEnv.lastExecution.stageName}&nbsp;{attempCounts}
         </div>
         <div style={{ paddingLeft: 16 }} className="font-size-s">{curEnv.lastExecution.owner.name}</div>
-        <div style={{ paddingLeft: 16, textAlign: "center"}} className="font-size-s">{queueTimeCleanup} - </div>
+        <div style={{ paddingLeft: 16, textAlign: "center"}} className="font-size-s">{queueTimeCleanup} - {queueDateTime} - </div>
       </Pill>
     );
   }
