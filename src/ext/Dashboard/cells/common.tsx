@@ -11,6 +11,7 @@ import { Build } from "azure-devops-extension-api/Build";
 import { Link } from "azure-devops-ui/Link";
 import { PipelineEnvironment } from "../dataContext";
 import { Ago } from "azure-devops-ui/Ago";
+import { Duration } from "azure-devops-ui/Duration";
 
 import { PipelineInfo } from "../dataContext";
 
@@ -521,6 +522,22 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
     }
     let queueTimeCleanup = curEnv.lastExecution.queueTime.replace('/Date(', '').replace(')/','').replace(')','');
     let queueDateTime = new Date(Number(queueTimeCleanup));
+
+    let startDateTime : Date = new Date();
+    let endDateTime : Date = new Date();
+
+    if(curEnv.lastExecution.startTime !== undefined) {
+      let startDateTimeCleanup = curEnv.lastExecution.startTime.replace('/Date(', '').replace(')/','').replace(')','');
+      startDateTime = new Date(Number(startDateTimeCleanup));
+    } else {
+      startDateTime = queueDateTime
+    }
+
+    if(curEnv.lastExecution.finishTime !== undefined) {
+      let endDateTimeCleanup = curEnv.lastExecution.finishTime.replace('/Date(', '').replace(')/','').replace(')','');
+      endDateTime = new Date(Number(endDateTimeCleanup));
+    }
+
     childrens.push(
       <Pill color={envStatus.color} variant={PillVariant.colored} 
         onClick={() => window.open(curEnv.lastExecution.owner._links.web.href, "_blank")}>
@@ -530,12 +547,11 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
         <div style={{ paddingLeft: 16 }} className="font-size-s">{curEnv.lastExecution.owner.name}</div>
         <div style={{ paddingLeft: 16, textAlign: "center"}} className="font-size-s">
           <Icon iconName="Calendar"/>&nbsp;<Ago date={queueDateTime} />
-          
+          <Icon iconName="Clock"/>&nbsp;<Duration startDate={startDateTime} endDate={endDateTime} />
         </div>
       </Pill>
     );
   }
-  //<Duration startDate={lastBuildRun.startTime} endDate={lastBuildRun.finishTime}
 
   return (
     <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
