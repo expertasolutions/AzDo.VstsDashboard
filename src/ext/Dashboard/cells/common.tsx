@@ -519,7 +519,7 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
       attempCounts = `(${curEnv.lastExecution.stageAttempt})`;
     }
     let queueTimeCleanup = curEnv.lastExecution.queueTime.replace('/Date(', ')').replace(')/','');
-    let queueDateTime = new Date(queueTimeCleanup).toLocaleDateString;
+    let queueDateTime = new Date(queueTimeCleanup * 100).toLocaleDateString;
     childrens.push(
       <Pill color={envStatus.color} variant={PillVariant.colored} 
         onClick={() => window.open(curEnv.lastExecution.owner._links.web.href, "_blank")}>
