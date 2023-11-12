@@ -278,6 +278,8 @@ class CICDDashboard extends React.Component<{}, {}> {
       SDK.ready().then(async ()=> { 
         this.isLoading.value = false; 
         this.currentAccessToken = await SDK.getAccessToken();
+        console.log(SDK.getHost());
+        console.log(window.location.href);
       });
     });
    
