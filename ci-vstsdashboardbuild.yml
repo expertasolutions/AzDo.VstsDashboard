@@ -71,15 +71,7 @@ stages:
 
 - stage: ExpertaPrivatePreview
   dependsOn: Build
-  condition: and(
-      succeeded(), 
-      or(
-        eq(variables['build.sourceBranch'], 'refs/heads/master')
-      , containsValue(variables['build.sourceBranch'], 'refs/heads/feature')
-      , containsValue(variables['build.sourceBranch'], 'refs/heads/Issue')
-      , containsValue(variables['build.sourceBranch'], 'refs/heads/Delivery')
-      )
-    )
+  condition: succeeded()
   jobs:
   - deployment: DeployExtension
     pool:
