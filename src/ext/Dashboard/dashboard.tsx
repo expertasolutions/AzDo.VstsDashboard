@@ -281,7 +281,6 @@ class CICDDashboard extends React.Component<{}, {}> {
         this.currentAccessToken = await SDK.getAccessToken();
         const locationService = await SDK.getService<ILocationService>(CommonServiceIds.LocationService);
         let test = await locationService.getServiceLocation();
-        console.log(test);
         this.setState({ azureDevOpsUri: test });
       });
     });
