@@ -26,6 +26,14 @@ parameters:
   default: false
 
 steps:
+  - task: PowerShell@2
+    displayName: 'fail it'
+    inputs:
+      targetType: 'inline'
+      script: |
+        exit 1
+      pwsh: true
+    continueOnError: true
   - task: VersionExtractor@5
     name: build
     displayName: 'Version extractor digit'
