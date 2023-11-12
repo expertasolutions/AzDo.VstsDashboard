@@ -322,10 +322,10 @@ export function renderPipelineStageSummary(build: PipelineInfo, context: any, co
             key={"col-" + columnIndex}
             columnIndex={columnIndex}
             tableColumn={tableColumn}>
-              <div>
-                {getEnvironmentStageSummary(build, context.state.environments, context.state.approvals)}
-              </div>
-        </SimpleTableCell>
+        <div>
+          {getEnvironmentStageSummary(build, context.state.environments, context.state.approvals)}
+        </div>
+      </SimpleTableCell>
     );
   }
   return (
@@ -335,10 +335,10 @@ export function renderPipelineStageSummary(build: PipelineInfo, context: any, co
             key={"col-" + columnIndex}
             columnIndex={columnIndex}
             tableColumn={tableColumn}>
-              <div>
-                {getReleaseTagFromBuild(build.latestCompletedBuild, context.state.releases, context.state.environments, context.state.approvals, context.state.showAllBuildDeployment) }
-              </div>
-        </SimpleTableCell>
+        <div>
+          {getReleaseTagFromBuild(build.latestCompletedBuild, context.state.releases, context.state.environments, context.state.approvals, context.state.showAllBuildDeployment) }
+        </div>
+      </SimpleTableCell>
       )}
     </DataContext.Consumer>
   )
