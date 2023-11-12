@@ -429,26 +429,22 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
         showedEnvStages[indx] = elm;
       }
     }
+  }
     
-    if(build.definition.id === 240) {
-      console.log(buildDeplRecords);
+  for(let i=0;i<showedEnvStages.length;i++) {
+    let elm = showedEnvStages[i];
+    let attempCounts = "";
+    if(elm.jobAttemp > 1) {
+      attempCounts = `(${elm.stageAttempt})`;
     }
+    let deplStatus = getStageIndicator(elm.result === undefined ? -1 : elm.result, false);
 
-    for(let i=0;i<showedEnvStages.length;i++) {
-      let elm = showedEnvStages[i];
-      let attempCounts = "";
-      if(elm.jobAttemp > 1) {
-        attempCounts = `(${elm.stageAttempt})`;
-      }
-      let deplStatus = getStageIndicator(elm.result === undefined ? -1 : elm.result, false);
-
-      children.push(
-        <Pill color={deplStatus.color} variant={PillVariant.colored} 
-            onClick={() => window.open(elm.owner._links.web.href, "_blank") }>
-          <Status {...deplStatus.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{elm.stageName}&nbsp;{attempCounts}
-        </Pill>
-      );
-    }
+    children.push(
+      <Pill color={deplStatus.color} variant={PillVariant.colored} 
+          onClick={() => window.open(elm.owner._links.web.href, "_blank") }>
+        <Status {...deplStatus.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{elm.stageName}&nbsp;{attempCounts}
+      </Pill>
+    );
   }
 
   //x.status !== 4
