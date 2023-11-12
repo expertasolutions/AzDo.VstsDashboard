@@ -75,9 +75,9 @@ stages:
       succeeded(), 
       or(
         eq(variables['build.sourceBranch'], 'refs/heads/master')
-      , eq(variables['build.sourceBranch'], 'refs/heads/feature/*')
-      , eq(variables['build.sourceBranch'], 'refs/heads/Issue*')
-      , eq(variables['build.sourceBranch'], 'refs/heads/Delivery/*')
+      , containsValue(variables['build.sourceBranch'], 'refs/heads/feature')
+      , containsValue(variables['build.sourceBranch'], 'refs/heads/Issue')
+      , containsValue(variables['build.sourceBranch'], 'refs/heads/Delivery')
       )
     )
   jobs:
