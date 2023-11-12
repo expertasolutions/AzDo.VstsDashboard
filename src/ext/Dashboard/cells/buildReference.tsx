@@ -315,17 +315,11 @@ export function renderPipelineStageSummary(build: PipelineInfo, context: any, co
   //console.log(`build: ${build.id} isClassicRelease: ${isClassicRelease}`);
 
   if(!isClassicRelease) {
-    return (<div>getEnvironmentStageSummary(build, context.state.environments, context.state.approvals); </div>);
-    // return (
-    //   <SimpleTableCell
-    //         key={"col-" + columnIndex}
-    //         columnIndex={columnIndex}
-    //         tableColumn={tableColumn}>
-    //     <div>
-    //       {getEnvironmentStageSummary(build, context.state.environments, context.state.approvals)}
-    //     </div>
-    //   </SimpleTableCell>
-    // );
+    return (
+      <div>
+        {getEnvironmentStageSummary(build, context.state.environments, context.state.approvals)}
+      </div>
+    );
   }
   return (
     <div>
