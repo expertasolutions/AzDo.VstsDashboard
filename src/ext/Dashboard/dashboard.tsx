@@ -680,6 +680,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   }
 
   public renderTabBar() : JSX.Element {
+    // <Tab name="Environments" id="environments" />
     return (<TabBar
             onSelectedTabChanged={this.onSelectedTabChanged}
             selectedTabId={this.selectedTabId}
@@ -687,7 +688,6 @@ class CICDDashboard extends React.Component<{}, {}> {
             renderAdditionalContent={this.renderOptionsFilterView}>
             <Tab name="Summary" id="summary" />
             <Tab name="All Runs" id="builds" />
-            <Tab name="Environments" id="environments" />
           </TabBar>);
   }
 
