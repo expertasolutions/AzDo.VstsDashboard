@@ -762,7 +762,7 @@ class CICDDashboard extends React.Component<{}, {}> {
               </div>
               <div>
                 <Link href="https://github.com/expertasolutions/VstsDashboard/issues/new" target="_blank">
-                  <Icon iconName="FeedbackRequestSolid" size={IconSize.small}/>&nbsp;Sent a request
+                  <Icon iconName="FeedbackRequestSolid" size={IconSize.small}/>&nbsp;Make a request
                 </Link>
               </div>
             </HeaderDescription>
