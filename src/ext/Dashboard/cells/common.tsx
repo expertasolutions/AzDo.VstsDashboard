@@ -509,7 +509,7 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
   let childrens = Array<any>();
   for(let i=0;i<buildEnvironments.length;i++) { 
     let curEnv = buildEnvironments[i];
-    console.log(curEnv);
+    //console.log(curEnv);
     let envStatus = getStageIndicator(curEnv.lastExecution.result === undefined ? -1 : curEnv.lastExecution.result, false);
     let attempCounts = "";
     if(curEnv.lastExecution.jobAttemp > 1) {
