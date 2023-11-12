@@ -483,7 +483,7 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
     return (<div>Not deployed yet</div>)
   }
   // TODO: Put this hidden;
-  return (<span></span>);
+  return (<div></div>);
 }
 
 export function getEnvironmentStageSummary(build: PipelineInfo, environments: Array<PipelineEnvironment>, approvals: Array<any>) {
