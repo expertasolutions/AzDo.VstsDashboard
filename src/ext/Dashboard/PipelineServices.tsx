@@ -122,6 +122,7 @@ export async function getApprovals(projectName: string, accessToken: string) {
   //let apiVersion = "7.1-preview.1";
   let apiVersion = "7.0-preview.1";
   console.log(SDK.getHost());
+  console.log(window.location.href);
   let envUrl = `https://dev.azure.com/${SDK.getHost().name}/${projectName}/_apis/pipelines/approvals?api-version=${apiVersion}`;
   let acceptHeaderValue = `application/json;api-version=${apiVersion};excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true`;
   let result = await fetch(envUrl, 
