@@ -754,12 +754,12 @@ class CICDDashboard extends React.Component<{}, {}> {
             </HeaderTitleRow>
             <HeaderDescription>
               <div>
-                <Link href={this.releaseNoteVersion} target="_blank" subtle={true}>{this.extensionVersion}</Link>
+                <Link href="https://github.com/expertasolutions/VstsDashboard/issues/new" target="_blank">
+                  <Icon iconName="FeedbackRequestSolid" size={IconSize.small}/>&nbsp;Sent a request
+                </Link>
               </div>
               <div>
-                <Link href="https://github.com/expertasolutions/VstsDashboard/issues/new" target="_blank">
-                  <Icon iconName="FeedbackRequestSolid" size={IconSize.small}/>&nbsp;Open a Request
-                </Link>
+                <Link href={this.releaseNoteVersion} target="_blank" subtle={true}>{this.extensionVersion}</Link>
               </div>
             </HeaderDescription>
           </HeaderTitleArea>
