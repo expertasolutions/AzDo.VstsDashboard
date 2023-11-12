@@ -441,7 +441,7 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
       children.push(
         <Pill color={deplStatus.color} variant={PillVariant.colored} 
             onClick={() => window.open(elm.owner._links.web.href, "_blank") }>
-          <Status {...deplStatus.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{elm.stageName}&nbsp;{attempCounts}-{elm.result}
+          <Status {...deplStatus.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{elm.stageName}&nbsp;{attempCounts}
         </Pill>
       );
     }
