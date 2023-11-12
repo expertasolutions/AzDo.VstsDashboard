@@ -119,6 +119,9 @@ export async function getReleases(projectName: string, isFirstLoad: boolean) {
 
 export async function getApprovals(azureDevOpsUri: string, projectNames: Array<string>, accessToken: string) {
   let result = new Array<any>();
+  if(azureDevOpsUri === undefined || azureDevOpsUri === null || azureDevOpsUri === "") {
+    return result;
+  }
   let apiVersion = "7.0-preview.1";
   for(let i=0;i<projectNames.length;i++) {
     let projectName = projectNames[i];
@@ -136,7 +139,7 @@ export async function getApprovals(azureDevOpsUri: string, projectNames: Array<s
         }
       })
       .then(response => response.json());
-    result.push(projectResult);
+    result.push(...projectResult);
   }
 
   return result;
@@ -161,46 +164,53 @@ export async function getEnvironmentChecks(azureDevOpsUri:string, environmentId:
   return result;
 }
 
-export async function getEnvironments(azureDevOpsUri: string, projectName: string, accessToken: string) {
-  // CODE_REVIEW: Replace 'experta' from the URL with the proper organization name
-  //let apiVersion = "7.1";
+export async function getEnvironments(azureDevOpsUri: string, projectNames: Array<string>, accessToken: string) {
+  let result = new Array<any>();
+  if(azureDevOpsUri === undefined || azureDevOpsUri === null || azureDevOpsUri === "") {
+    return result;
+  }
+
   let apiVersion = "6.0-preview.1";
-  //let envUrl = `https://dev.azure.com/${SDK.getHost().name}/${projectName}/_apis/distributedtask/environments?api-version=${apiVersion}`;
-  let envUrl = `${azureDevOpsUri}/${projectName}/_apis/distributedtask/environments?api-version=${apiVersion}`;
-  let acceptHeaderValue = `application/json;api-version=${apiVersion};excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true`;
-  let result = await fetch(envUrl, 
-    {
-      method: 'GET',
-      mode: 'cors',
-      headers: { 
-        'Accept': acceptHeaderValue,
-        'Content-Type': 'application/json',
-        'Authorization' : `Bearer ${accessToken}`
-      }
-    })
-    .then(response => response.json());
-    
-  let finalResult:Array<PipelineEnvironment> = [];
+  for(let i=0;i<projectNames.length;i++) {
+    let projectName = projectNames[i];
+    //let envUrl = `https://dev.azure.com/${SDK.getHost().name}/${projectName}/_apis/distributedtask/environments?api-version=${apiVersion}`;
+    let envUrl = `${azureDevOpsUri}/${projectName}/_apis/distributedtask/environments?api-version=${apiVersion}`;
+    let acceptHeaderValue = `application/json;api-version=${apiVersion};excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true`;
+    let result = await fetch(envUrl, 
+      {
+        method: 'GET',
+        mode: 'cors',
+        headers: { 
+          'Accept': acceptHeaderValue,
+          'Content-Type': 'application/json',
+          'Authorization' : `Bearer ${accessToken}`
+        }
+      })
+      .then(response => response.json());
+      
+    let finalResult:Array<PipelineEnvironment> = [];
 
-  for(let i=0;i<result.length;i++) {
-    let newEnv : PipelineEnvironment = {
-      id: result[i].id,
-      name: result[i].name,
-      projectId: projectName,
-      deploymentRecords: [],
-      environmentChecks: []
-    };
-    let test = await getEnvironmentDeplRecords(azureDevOpsUri, result[i].id, projectName, accessToken);
-    newEnv.deploymentRecords.push(...test);
-    finalResult.push(newEnv);
+    for(let i=0;i<result.length;i++) {
+      let newEnv : PipelineEnvironment = {
+        id: result[i].id,
+        name: result[i].name,
+        projectId: projectName,
+        deploymentRecords: [],
+        environmentChecks: []
+      };
+      let test = await getEnvironmentDeplRecords(azureDevOpsUri, result[i].id, projectName, accessToken);
+      newEnv.deploymentRecords.push(...test);
+      finalResult.push(newEnv);
+    }
+
+    for(let i=0;i<finalResult.length;i++) {
+      let envChecks = await getEnvironmentChecks(azureDevOpsUri, finalResult[i].id, projectName, accessToken);
+      finalResult[i].environmentChecks = envChecks;
+    }
+    result.push(...finalResult);
   }
-
-  for(let i=0;i<finalResult.length;i++) {
-    let envChecks = await getEnvironmentChecks(azureDevOpsUri, finalResult[i].id, projectName, accessToken);
-    finalResult[i].environmentChecks = envChecks;
-  }
-
-  return finalResult;
+  
+  return result;
 }
 
 export async function getEnvironmentDeplRecords(azureDevOpsUri: string, environmentId: string, projectName: string, accessToken: string) {
@@ -359,8 +369,6 @@ export async function getBuildDefinitionsV1(projectList: Array<string>, isFirstL
   }
   return buildDef;
 }
-
-
 
 export async function getBuildDefinitions(projectName: string, isFirstLoad: boolean) {
   const MS_IN_MIN = 60000;

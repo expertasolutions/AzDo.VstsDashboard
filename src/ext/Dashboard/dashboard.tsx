@@ -332,8 +332,7 @@ class CICDDashboard extends React.Component<{}, {}> {
         this.approvalProvider = new ObservableValue<ArrayItemProvider<any>>(new ArrayItemProvider(approvalList));
       });
 
-    // CODE_REVIEW: Replace "Community" by a project selection loop
-    getEnvironments(this.state.azureDevOpsUri, "Community", this.currentAccessToken).then(result => {
+    getEnvironments(this.state.azureDevOpsUri, this.currentSelectedProjects, this.currentAccessToken).then(result => {
       let envList = this.state.environments;
       for(let i=0;i<result.length;i++) {
         var newEnv = result[i];
