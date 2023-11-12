@@ -147,7 +147,6 @@ export async function getApprovals(azureDevOpsUri: string, projectNames: Array<s
 
 export async function getEnvironmentChecks(azureDevOpsUri:string, environmentId: string, projectName: string, accessToken: string) {
   let apiVersion = "7.0-preview.1";
-  //let envUrl = `https://dev.azure.com/${SDK.getHost().name}/${projectName}/_apis/pipelines/checks/configurations?resourceType=environment&resourceId=${environmentId}&api-version=${apiVersion}`;
   let envUrl = `${azureDevOpsUri}/${projectName}/_apis/pipelines/checks/configurations?resourceType=environment&resourceId=${environmentId}&api-version=${apiVersion}`;
   let acceptHeaderValue = `application/json;api-version=${apiVersion};excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true`;
   let result = await fetch(envUrl, 
@@ -173,7 +172,6 @@ export async function getEnvironments(azureDevOpsUri: string, projectNames: Arra
   let apiVersion = "6.0-preview.1";
   for(let i=0;i<projectNames.length;i++) {
     let projectName = projectNames[i];
-    //let envUrl = `https://dev.azure.com/${SDK.getHost().name}/${projectName}/_apis/distributedtask/environments?api-version=${apiVersion}`;
     let envUrl = `${azureDevOpsUri}/${projectName}/_apis/distributedtask/environments?api-version=${apiVersion}`;
     let acceptHeaderValue = `application/json;api-version=${apiVersion};excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true`;
     let result = await fetch(envUrl, 
