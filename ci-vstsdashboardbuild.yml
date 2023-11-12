@@ -71,6 +71,15 @@ stages:
 
 - stage: ExpertaPrivatePreview
   dependsOn: Build
+  condition: and(
+      succeeded(), 
+      or(
+        eq(variables['build.sourceBranch'], 'refs/heads/master')
+      , eq(variables['build.sourceBranch'], 'refs/heads/feature/*')
+      , eq(variables['build.sourceBranch'], 'refs/heads/Issue/*')
+      , eq(variables['build.sourceBranch'], 'refs/heads/Delivery/*')
+      )
+    )
   jobs:
   - deployment: DeployExtension
     pool:
