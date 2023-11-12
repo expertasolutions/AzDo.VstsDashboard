@@ -151,9 +151,6 @@ export function getStageIndicator(status: number, pendingApproval: boolean): ISt
   }
 
   switch(status){
-    // case ?? abandonned
-    // case ?? cancelled
-    // case ?? skipped
     case -1:
       indicatorData.statusProps = { ...Statuses.Running, ariaLabel: "InProgress"};
       indicatorData.label = "In Progress";
@@ -180,7 +177,7 @@ export function getStageIndicator(status: number, pendingApproval: boolean): ISt
       indicatorData.color = lightGray;
       break;
     default:
-      indicatorData.statusProps = { ...Statuses.Queued, ariaLabel: "Canceled"};
+      indicatorData.statusProps = { ...Statuses.Queued, ariaLabel: "Stopped"};
       indicatorData.label = "Not Deployed";
       indicatorData.color = lightGray;
       break;
@@ -410,9 +407,6 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
   let allDeplRecords: any[] = [];
   for(let i=0;i<environments.length;i++) {
     if(environments[i] !== undefined) {
-      // if(build.definition.id === 240) {
-      //   console.log(environments[i].environmentChecks);
-      // } 
       allDeplRecords.push(...environments[i].deploymentRecords);
     }
   }
@@ -543,7 +537,7 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
       <Pill color={envStatus.color} variant={PillVariant.colored} 
         onClick={() => window.open(curEnv.lastExecution.owner._links.web.href, "_blank")}>
         <div className="font-size-s">
-          <Status {...envStatus.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbps;{curEnv.lastExecution.stageName}&nbsp;{attempCounts}&nbsp;<Icon iconName="Clock"/>&nbsp;<Duration startDate={startDateTime} endDate={endDateTime} />&nbsp;<Icon iconName="Calendar"/>&nbsp;<Ago date={queueDateTime} />
+          <Status {...envStatus.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{curEnv.lastExecution.stageName}&nbsp;{attempCounts}&nbsp;<Icon iconName="Clock"/>&nbsp;<Duration startDate={startDateTime} endDate={endDateTime} />&nbsp;<Icon iconName="Calendar"/>&nbsp;<Ago date={queueDateTime} />
         </div>
         <div style={{ paddingLeft: 16 }} className="font-size-s">{curEnv.lastExecution.owner.name}</div>
       </Pill>
