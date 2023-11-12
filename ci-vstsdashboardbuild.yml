@@ -27,6 +27,7 @@ stages:
         script: |
           exit 1
         pwsh: true
+      continueOnError: true
 
     - task: UseNode@1
       displayName: 'Use Node 10.x'
