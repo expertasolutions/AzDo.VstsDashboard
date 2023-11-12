@@ -154,30 +154,30 @@ export function getStageIndicator(status: number, pendingApproval: boolean): ISt
     // case ?? abandonned
     // case ?? cancelled
     // case ?? skipped
-    case 3:
-      indicatorData.statusProps = { ...Statuses.Queued, ariaLabel: "Canceled"};
-      indicatorData.label = "Not Deployed";
-      indicatorData.color = lightGray;
+    case -1:
+      indicatorData.statusProps = { ...Statuses.Running, ariaLabel: "InProgress"};
+      indicatorData.label = "In Progress";
+      indicatorData.color = lightBlue;
       break;
     case 0: // Success
       indicatorData.statusProps = { ...Statuses.Success, ariaLabel: "Success"};
       indicatorData.label = "Success";
       indicatorData.color = lightGreen;
       break;
+    case 1: // succeededWithIssues
+      indicatorData.statusProps = { ...Statuses.Warning, ariaLabel: "PartiallySucceeded"};
+      indicatorData.label = "PartiallySucceeded";
+      indicatorData.color = lightOrange;
+      break;
     case 2:
       indicatorData.statusProps = { ...Statuses.Failed, ariaLabel: "Fail"};
       indicatorData.label = "Fail";
       indicatorData.color = lightRed;
       break;
-    case 999: // succeededWithIssues
-      indicatorData.statusProps = { ...Statuses.Warning, ariaLabel: "PartiallySucceeded"};
-      indicatorData.label = "PartiallySucceeded";
-      indicatorData.color = lightOrange;
-      break;
-    case -1:
-      indicatorData.statusProps = { ...Statuses.Running, ariaLabel: "InProgress"};
-      indicatorData.label = "In Progress";
-      indicatorData.color = lightBlue;
+    case 3:
+      indicatorData.statusProps = { ...Statuses.Queued, ariaLabel: "Canceled"};
+      indicatorData.label = "Not Deployed";
+      indicatorData.color = lightGray;
       break;
     default:
       indicatorData.statusProps = { ...Statuses.Queued, ariaLabel: "Canceled"};
@@ -443,7 +443,7 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
         attempCounts = `(${elm.stageAttempt})`;
       }
       let deplStatus = getStageIndicator(elm.result === undefined ? -1 : elm.result, false);
-      
+
       children.push(
         <Pill color={deplStatus.color} variant={PillVariant.colored} 
             onClick={() => window.open(elm.owner._links.web.href, "_blank") }>
