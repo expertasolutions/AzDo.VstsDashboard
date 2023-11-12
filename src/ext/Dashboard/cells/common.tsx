@@ -448,10 +448,9 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
   }
 
   //x.status !== 4
-  for(let i=0;i<buildIDApprovals.filter(x=> true).length;i++) {
+  for(let i=0;i<buildIDApprovals.filter(x=> x.status !== 4).length;i++) {
     let elm = buildIDApprovals[i];
     let status = `(${elm.status})`;
-    //console.log(elm);
     let approvalStatus = getApprovalIndicator(elm.status);
     children.push(
       <Pill color={approvalStatus.color} variant={PillVariant.colored}
