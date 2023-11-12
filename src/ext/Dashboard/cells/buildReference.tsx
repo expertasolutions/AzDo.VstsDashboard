@@ -351,18 +351,20 @@ export function renderReleaseInfo01 (
     )
 
     children.push(
-      <DataContext.Consumer>
-        {(context) => (
-          <SimpleTableCell
-            key={"col-" + columnIndex}
-            columnIndex={columnIndex}
-            tableColumn={tableColumn}>
-            <div>
-              {renderAllInProgress(context.state.builds, context, columnIndex, tableColumn) }
-            </div>
-          </SimpleTableCell>
-        )}
-      </DataContext.Consumer>
+      <div>
+        <DataContext.Consumer>
+          {(context) => (
+            <SimpleTableCell
+              key={"col-" + columnIndex}
+              columnIndex={columnIndex}
+              tableColumn={tableColumn}>
+              <div>
+                {renderAllInProgress(context.state.builds, context, columnIndex, tableColumn) }
+              </div>
+            </SimpleTableCell>
+          )}
+        </DataContext.Consumer>
+      </div>
     );
 
     return (
@@ -371,17 +373,22 @@ export function renderReleaseInfo01 (
       </div>
     );
   };
-  return (<DataContext.Consumer>
-            {(context) => (
-              <SimpleTableCell
-                  key={"col-" + columnIndex}
-                  columnIndex={columnIndex}
-                  tableColumn={tableColumn}>
-                <div>{renderPipelineStageSummary(tableItem, context, columnIndex, tableColumn)}</div>
-              </SimpleTableCell>
-            )}
-          </DataContext.Consumer>
-        );
+  return (
+    <div>
+      <DataContext.Consumer>
+          {(context) => (
+            <SimpleTableCell
+                key={"col-" + columnIndex}
+                columnIndex={columnIndex}
+                tableColumn={tableColumn}>
+              <div>
+                {renderPipelineStageSummary(tableItem, context, columnIndex, tableColumn)}
+              </div>
+            </SimpleTableCell>
+          )}
+        </DataContext.Consumer>
+      </div>
+    );
 }
 
 function getBuildDefinitionStatus(buildDefItem: PipelineInfo) : IStatusIndicatorData {
