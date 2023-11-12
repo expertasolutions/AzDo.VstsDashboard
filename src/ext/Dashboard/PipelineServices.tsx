@@ -121,6 +121,7 @@ export async function getApprovals(projectName: string, accessToken: string) {
   // https://dev.azure.com/experta/Community/_apis/pipelines/approvals?api-version=7.1-preview.1
   //let apiVersion = "7.1-preview.1";
   let apiVersion = "7.0-preview.1";
+  console.log(SDK.getHost());
   let envUrl = `https://dev.azure.com/${SDK.getHost().name}/${projectName}/_apis/pipelines/approvals?api-version=${apiVersion}`;
   let acceptHeaderValue = `application/json;api-version=${apiVersion};excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true`;
   let result = await fetch(envUrl, 
