@@ -47,7 +47,7 @@ import { IListBoxItem } from "azure-devops-ui/ListBox";
 import { Filter, FILTER_CHANGE_EVENT, FILTER_RESET_EVENT } from "azure-devops-ui/Utilities/Filter";
 import { FilterBar } from "azure-devops-ui/FilterBar";
 import { ZeroData } from "azure-devops-ui/ZeroData";
-import { CommonServiceIds, IProjectPageService, IHostPageLayoutService } from "azure-devops-extension-api";
+import { CommonServiceIds, IProjectPageService, IHostPageLayoutService, ILocationService } from "azure-devops-extension-api";
 
 const isFullScreen = new ObservableValue(false);
 
@@ -278,6 +278,9 @@ class CICDDashboard extends React.Component<{}, {}> {
       SDK.ready().then(async ()=> { 
         this.isLoading.value = false; 
         this.currentAccessToken = await SDK.getAccessToken();
+
+        
+
         console.log(SDK.getHost());
         console.log(window.location.href);
       });
@@ -486,6 +489,9 @@ class CICDDashboard extends React.Component<{}, {}> {
     this.extContext = SDK.getExtensionContext();
     this.extensionVersion = "v" + this.extContext.version;
     this.releaseNoteVersion = "https://github.com/expertasolutions/VstsDashboard/releases/tag/" + this.extContext.version;
+
+    const locationService = await SDK.getService<ILocationService>(CommonServiceIds.LocationService);
+    console.log(locationService.routeUrl);
 
     const projectService = await SDK.getService<IProjectPageService>(CommonServiceIds.ProjectPageService);
     let currentProject = await projectService.getProject();
