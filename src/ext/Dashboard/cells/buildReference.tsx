@@ -287,14 +287,12 @@ export function renderAllInProgress(builds: Array<Build>, context: any, columnIn
   // TODO: Filter out build without environments stage in progress
   for(let i=0;i<pending.length;i++) {
     childrens.push(
-      <div>
-        <SimpleTableCell
-          key={"col-" + columnIndex}
-          columnIndex={columnIndex}
-          tableColumn={tableColumn}>
-          {getReleaseTagFromBuildV2(pending[i], context.state.environments, context.state.approvals, context.state.showAllBuildDeployment, false)}
-        </SimpleTableCell>
-      </div>
+      <SimpleTableCell
+        key={"col-" + columnIndex}
+        columnIndex={columnIndex}
+        tableColumn={tableColumn}>
+        {getReleaseTagFromBuildV2(pending[i], context.state.environments, context.state.approvals, context.state.showAllBuildDeployment, false)}
+      </SimpleTableCell>
     );
   }
   return childrens;
@@ -317,31 +315,23 @@ export function renderPipelineStageSummary(build: PipelineInfo, context: any, co
   //console.log(`build: ${build.id} isClassicRelease: ${isClassicRelease}`);
 
   if(!isClassicRelease) {
-    return (
-      <SimpleTableCell
-            key={"col-" + columnIndex}
-            columnIndex={columnIndex}
-            tableColumn={tableColumn}>
-        <div>
-          {getEnvironmentStageSummary(build, context.state.environments, context.state.approvals)}
-        </div>
-      </SimpleTableCell>
-    );
+    return getEnvironmentStageSummary(build, context.state.environments, context.state.approvals);
+    // return (
+    //   <SimpleTableCell
+    //         key={"col-" + columnIndex}
+    //         columnIndex={columnIndex}
+    //         tableColumn={tableColumn}>
+    //     <div>
+    //       {getEnvironmentStageSummary(build, context.state.environments, context.state.approvals)}
+    //     </div>
+    //   </SimpleTableCell>
+    // );
   }
   return (
-    <DataContext.Consumer>
-      {(context) => (
-      <SimpleTableCell
-            key={"col-" + columnIndex}
-            columnIndex={columnIndex}
-            tableColumn={tableColumn}>
-        <div>
-          {getReleaseTagFromBuild(build.latestCompletedBuild, context.state.releases, context.state.environments, context.state.approvals, context.state.showAllBuildDeployment) }
-        </div>
-      </SimpleTableCell>
-      )}
-    </DataContext.Consumer>
-  )
+    <div>
+      {getReleaseTagFromBuild(build.latestCompletedBuild, context.state.releases, context.state.environments, context.state.approvals, context.state.showAllBuildDeployment) }
+    </div>
+  );
 }
 
 export function renderReleaseInfo01 (
@@ -359,16 +349,19 @@ export function renderReleaseInfo01 (
     children.push(
         <DataContext.Consumer>
           {(context) => (
-            <div>{renderPipelineStageSummary(tableItem, context, columnIndex, tableColumn)}</div>
+            <SimpleTableCell
+            key={"col-" + columnIndex}
+            columnIndex={columnIndex}
+            tableColumn={tableColumn}>
+              {renderPipelineStageSummary(tableItem, context, columnIndex, tableColumn)}
+            </SimpleTableCell>
           )}
         </DataContext.Consumer>
     )
 
     children.push(
       <DataContext.Consumer>
-        {(context) => (
-          <div>{renderAllInProgress(context.state.builds, context, columnIndex, tableColumn)}</div>
-        )}
+        {(context) => renderAllInProgress(context.state.builds, context, columnIndex, tableColumn) }
       </DataContext.Consumer>
     );
 
@@ -382,7 +375,8 @@ export function renderReleaseInfo01 (
             {(context) => (
               <div>{renderPipelineStageSummary(tableItem, context, columnIndex, tableColumn)}</div>
             )}
-          </DataContext.Consumer>);
+          </DataContext.Consumer>
+        );
 }
 
 function getBuildDefinitionStatus(buildDefItem: PipelineInfo) : IStatusIndicatorData {
