@@ -76,7 +76,7 @@ stages:
       or(
         eq(variables['build.sourceBranch'], 'refs/heads/master')
       , eq(variables['build.sourceBranch'], 'refs/heads/feature/*')
-      , eq(variables['build.sourceBranch'], 'refs/heads/Issue/*')
+      , eq(variables['build.sourceBranch'], 'refs/heads/Issue*')
       , eq(variables['build.sourceBranch'], 'refs/heads/Delivery/*')
       )
     )
