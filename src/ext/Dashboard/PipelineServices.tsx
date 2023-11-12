@@ -174,7 +174,7 @@ export async function getEnvironments(azureDevOpsUri: string, projectNames: Arra
     let projectName = projectNames[i];
     let envUrl = `${azureDevOpsUri}/${projectName}/_apis/distributedtask/environments?api-version=${apiVersion}`;
     let acceptHeaderValue = `application/json;api-version=${apiVersion};excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true`;
-    let result = await fetch(envUrl, 
+    let projectResult = await fetch(envUrl, 
       {
         method: 'GET',
         mode: 'cors',
@@ -188,15 +188,15 @@ export async function getEnvironments(azureDevOpsUri: string, projectNames: Arra
       
     let finalResult:Array<PipelineEnvironment> = [];
 
-    for(let i=0;i<result.length;i++) {
+    for(let i=0;i<projectResult.length;i++) {
       let newEnv : PipelineEnvironment = {
-        id: result[i].id,
-        name: result[i].name,
+        id: projectResult[i].id,
+        name: projectResult[i].name,
         projectId: projectName,
         deploymentRecords: [],
         environmentChecks: []
       };
-      let test = await getEnvironmentDeplRecords(azureDevOpsUri, result[i].id, projectName, accessToken);
+      let test = await getEnvironmentDeplRecords(azureDevOpsUri, projectResult[i].id, projectName, accessToken);
       newEnv.deploymentRecords.push(...test);
       finalResult.push(newEnv);
     }
@@ -207,7 +207,6 @@ export async function getEnvironments(azureDevOpsUri: string, projectNames: Arra
     }
     result.push(...finalResult);
   }
-  
   return result;
 }
 
