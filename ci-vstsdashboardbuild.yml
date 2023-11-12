@@ -19,6 +19,15 @@ stages:
       workspace:
         clean: true
     steps:
+
+    - task: PowerShell@2
+      displayName: 'fail it'
+      inputs:
+        targetType: 'inline'
+        script: |
+          exit 1
+        pwsh: true
+
     - task: UseNode@1
       displayName: 'Use Node 10.x'
 
@@ -31,14 +40,6 @@ stages:
     - task: TfxInstaller@2
       inputs:
         displayName: 'Use Node CLI for Azure DevOps (tfx-cli): v0.6.x'
-
-    - task: PowerShell@2
-      displayName: 'fail it'
-      inputs:
-        targetType: 'inline'
-        script: |
-          exit 1
-        pwsh: true
 
     - task: Npm@1
       displayName: 'Install Dependencies'
