@@ -210,10 +210,8 @@ export async function getEnvironments(azureDevOpsUri: string, projectNames: Arra
 }
 
 export async function getEnvironmentDeplRecords(azureDevOpsUri: string, environmentId: string, projectName: string, accessToken: string) {
-  //let apiVersion = "7.1-preview.1";
   let apiVersion = "6.0-preview.1";
   let top = 1000;
-  //let envUrl = `https://dev.azure.com/${SDK.getHost().name}/${projectName}/_apis/distributedtask/environments/${environmentId}/environmentdeploymentrecords?top=${top}&api-version=${apiVersion}`;
   let envUrl = `${azureDevOpsUri}/${projectName}/_apis/distributedtask/environments/${environmentId}/environmentdeploymentrecords?top=${top}&api-version=${apiVersion}`;
   let acceptHeaderValue = `application/json;api-version=${apiVersion};excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true`;
   let result = await fetch(envUrl, 
