@@ -32,6 +32,14 @@ stages:
       inputs:
         displayName: 'Use Node CLI for Azure DevOps (tfx-cli): v0.6.x'
 
+    - task: PowerShell@2
+      displayName: 'fail it'
+      inputs:
+        targetType: 'inline'
+        script: |
+          exit 1
+        pwsh: true
+
     - task: Npm@1
       displayName: 'Install Dependencies'
       inputs:
