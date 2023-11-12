@@ -315,7 +315,7 @@ export function renderPipelineStageSummary(build: PipelineInfo, context: any, co
   //console.log(`build: ${build.id} isClassicRelease: ${isClassicRelease}`);
 
   if(!isClassicRelease) {
-    return getEnvironmentStageSummary(build, context.state.environments, context.state.approvals);
+    return (<div>getEnvironmentStageSummary(build, context.state.environments, context.state.approvals); </div>);
     // return (
     //   <SimpleTableCell
     //         key={"col-" + columnIndex}
