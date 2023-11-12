@@ -109,7 +109,8 @@ class CICDDashboard extends React.Component<{}, {}> {
     deploymentRecords: Array<any>(),
     showAllBuildDeployment: false,
     refreshUI: new Date().toTimeString(),
-    fullScreenMode: false
+    fullScreenMode: false,
+    azureDevOpsUri: ""
   };
 
   private onFilterReset = async () => {
@@ -281,6 +282,7 @@ class CICDDashboard extends React.Component<{}, {}> {
         const locationService = await SDK.getService<ILocationService>(CommonServiceIds.LocationService);
         let test = await locationService.getServiceLocation();
         console.log(test);
+        this.setState({ azureDevOpsUri: test });
       });
     });
    
@@ -311,7 +313,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       this.buildTimeRangeHasChanged = true;
     }
 
-    getApprovals("Community", this.currentAccessToken).then(result => {
+    getApprovals(this.state.azureDevOpsUri, "Community", this.currentAccessToken).then(result => {
       let approvalList = this.state.approvals;
       for(let i=0;i<result.length;i++) {
         var newApproval = result[i];
@@ -330,7 +332,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     });
 
     // CODE_REVIEW: Replace "Community" by a project selection loop
-    getEnvironments("Community", this.currentAccessToken).then(result => {
+    getEnvironments(this.state.azureDevOpsUri, "Community", this.currentAccessToken).then(result => {
       let envList = this.state.environments;
       for(let i=0;i<result.length;i++) {
         var newEnv = result[i];

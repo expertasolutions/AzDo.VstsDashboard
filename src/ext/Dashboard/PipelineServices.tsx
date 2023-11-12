@@ -117,11 +117,12 @@ export async function getReleases(projectName: string, isFirstLoad: boolean) {
   return dpl;
 }
 
-export async function getApprovals(projectName: string, accessToken: string) {
+export async function getApprovals(azureDevOpsUri: string, projectName: string, accessToken: string) {
   // https://dev.azure.com/experta/Community/_apis/pipelines/approvals?api-version=7.1-preview.1
   //let apiVersion = "7.1-preview.1";
   let apiVersion = "7.0-preview.1";
-  let envUrl = `https://dev.azure.com/${SDK.getHost().name}/${projectName}/_apis/pipelines/approvals?api-version=${apiVersion}`;
+  //let envUrl = `https://dev.azure.com/${SDK.getHost().name}/${projectName}/_apis/pipelines/approvals?api-version=${apiVersion}`;
+  let envUrl = `${azureDevOpsUri}/${projectName}/_apis/pipelines/approvals?api-version=${apiVersion}`;
   let acceptHeaderValue = `application/json;api-version=${apiVersion};excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true`;
   let result = await fetch(envUrl, 
     {
@@ -146,9 +147,10 @@ export async function getApprovals(projectName: string, accessToken: string) {
   return result;
 }
 
-export async function getEnvironmentChecks(environmentId: string, projectName: string, accessToken: string) {
+export async function getEnvironmentChecks(azureDevOpsUri:string, environmentId: string, projectName: string, accessToken: string) {
   let apiVersion = "7.0-preview.1";
-  let envUrl = `https://dev.azure.com/${SDK.getHost().name}/${projectName}/_apis/pipelines/checks/configurations?resourceType=environment&resourceId=${environmentId}&api-version=${apiVersion}`;
+  //let envUrl = `https://dev.azure.com/${SDK.getHost().name}/${projectName}/_apis/pipelines/checks/configurations?resourceType=environment&resourceId=${environmentId}&api-version=${apiVersion}`;
+  let envUrl = `${azureDevOpsUri}/${projectName}/_apis/pipelines/checks/configurations?resourceType=environment&resourceId=${environmentId}&api-version=${apiVersion}`;
   let acceptHeaderValue = `application/json;api-version=${apiVersion};excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true`;
   let result = await fetch(envUrl, 
     {
@@ -164,11 +166,12 @@ export async function getEnvironmentChecks(environmentId: string, projectName: s
   return result;
 }
 
-export async function getEnvironments(projectName: string, accessToken: string) {
+export async function getEnvironments(azureDevOpsUri: string, projectName: string, accessToken: string) {
   // CODE_REVIEW: Replace 'experta' from the URL with the proper organization name
   //let apiVersion = "7.1";
   let apiVersion = "6.0-preview.1";
-  let envUrl = `https://dev.azure.com/${SDK.getHost().name}/${projectName}/_apis/distributedtask/environments?api-version=${apiVersion}`;
+  //let envUrl = `https://dev.azure.com/${SDK.getHost().name}/${projectName}/_apis/distributedtask/environments?api-version=${apiVersion}`;
+  let envUrl = `${azureDevOpsUri}/${projectName}/_apis/distributedtask/environments?api-version=${apiVersion}`;
   let acceptHeaderValue = `application/json;api-version=${apiVersion};excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true`;
   let result = await fetch(envUrl, 
     {
@@ -192,24 +195,25 @@ export async function getEnvironments(projectName: string, accessToken: string) 
       deploymentRecords: [],
       environmentChecks: []
     };
-    let test = await getEnvironmentDeplRecords(result[i].id, projectName, accessToken);
+    let test = await getEnvironmentDeplRecords(azureDevOpsUri, result[i].id, projectName, accessToken);
     newEnv.deploymentRecords.push(...test);
     finalResult.push(newEnv);
   }
 
   for(let i=0;i<finalResult.length;i++) {
-    let envChecks = await getEnvironmentChecks(finalResult[i].id, projectName, accessToken);
+    let envChecks = await getEnvironmentChecks(azureDevOpsUri, finalResult[i].id, projectName, accessToken);
     finalResult[i].environmentChecks = envChecks;
   }
 
   return finalResult;
 }
 
-export async function getEnvironmentDeplRecords(environmentId: string, projectName: string, accessToken: string) {
+export async function getEnvironmentDeplRecords(azureDevOpsUri: string, environmentId: string, projectName: string, accessToken: string) {
   //let apiVersion = "7.1-preview.1";
   let apiVersion = "6.0-preview.1";
   let top = 1000;
-  let envUrl = `https://dev.azure.com/${SDK.getHost().name}/${projectName}/_apis/distributedtask/environments/${environmentId}/environmentdeploymentrecords?top=${top}&api-version=${apiVersion}`;
+  //let envUrl = `https://dev.azure.com/${SDK.getHost().name}/${projectName}/_apis/distributedtask/environments/${environmentId}/environmentdeploymentrecords?top=${top}&api-version=${apiVersion}`;
+  let envUrl = `${azureDevOpsUri}/${projectName}/_apis/distributedtask/environments/${environmentId}/environmentdeploymentrecords?top=${top}&api-version=${apiVersion}`;
   let acceptHeaderValue = `application/json;api-version=${apiVersion};excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true`;
   let result = await fetch(envUrl, 
     {
