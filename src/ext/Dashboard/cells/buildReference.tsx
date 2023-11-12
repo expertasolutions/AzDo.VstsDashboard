@@ -287,12 +287,9 @@ export function renderAllInProgress(builds: Array<Build>, context: any, columnIn
   // TODO: Filter out build without environments stage in progress
   for(let i=0;i<pending.length;i++) {
     childrens.push(
-      <SimpleTableCell
-        key={"col-" + columnIndex}
-        columnIndex={columnIndex}
-        tableColumn={tableColumn}>
+      <div>
         {getReleaseTagFromBuildV2(pending[i], context.state.environments, context.state.approvals, context.state.showAllBuildDeployment, false)}
-      </SimpleTableCell>
+      </div>
     );
   }
   return childrens;
@@ -355,7 +352,16 @@ export function renderReleaseInfo01 (
 
     children.push(
       <DataContext.Consumer>
-        {(context) => renderAllInProgress(context.state.builds, context, columnIndex, tableColumn) }
+        {(context) => (
+          <SimpleTableCell
+            key={"col-" + columnIndex}
+            columnIndex={columnIndex}
+            tableColumn={tableColumn}>
+            <div>
+              {renderAllInProgress(context.state.builds, context, columnIndex, tableColumn) }
+            </div>
+          </SimpleTableCell>
+        )}
       </DataContext.Consumer>
     );
 
@@ -367,7 +373,12 @@ export function renderReleaseInfo01 (
   };
   return (<DataContext.Consumer>
             {(context) => (
-              <div>{renderPipelineStageSummary(tableItem, context, columnIndex, tableColumn)}</div>
+              <SimpleTableCell
+                  key={"col-" + columnIndex}
+                  columnIndex={columnIndex}
+                  tableColumn={tableColumn}>
+                <div>{renderPipelineStageSummary(tableItem, context, columnIndex, tableColumn)}</div>
+              </SimpleTableCell>
             )}
           </DataContext.Consumer>
         );
