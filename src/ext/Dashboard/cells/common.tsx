@@ -443,10 +443,11 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
         attempCounts = `(${elm.stageAttempt})`;
       }
       let deplStatus = getStageIndicator(elm.result === undefined ? -1 : elm.result, false);
+      
       children.push(
         <Pill color={deplStatus.color} variant={PillVariant.colored} 
             onClick={() => window.open(elm.owner._links.web.href, "_blank") }>
-          <Status {...deplStatus.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{elm.stageName}&nbsp;{attempCounts}
+          <Status {...deplStatus.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{elm.stageName}&nbsp;{attempCounts}-{elm.result}
         </Pill>
       );
     }
@@ -542,7 +543,7 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
       <Pill color={envStatus.color} variant={PillVariant.colored} 
         onClick={() => window.open(curEnv.lastExecution.owner._links.web.href, "_blank")}>
         <div className="font-size-s">
-          <Status {...envStatus.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{curEnv.lastExecution.stageName}&nbsp;{attempCounts}&nbsp;<Icon iconName="Clock"/>&nbsp;<Duration startDate={startDateTime} endDate={endDateTime} />&nbsp;<Icon iconName="Calendar"/>&nbsp;<Ago date={queueDateTime} />
+          <Status {...envStatus.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbps;{curEnv.lastExecution.stageName}&nbsp;{attempCounts}&nbsp;<Icon iconName="Clock"/>&nbsp;<Duration startDate={startDateTime} endDate={endDateTime} />&nbsp;<Icon iconName="Calendar"/>&nbsp;<Ago date={queueDateTime} />
         </div>
         <div style={{ paddingLeft: 16 }} className="font-size-s">{curEnv.lastExecution.owner.name}</div>
       </Pill>
