@@ -429,6 +429,10 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
         showedEnvStages[indx] = elm;
       }
     }
+    
+    if(build.definition.id === 240) {
+      console.log(buildDeplRecords);
+    }
 
     for(let i=0;i<showedEnvStages.length;i++) {
       let elm = showedEnvStages[i];

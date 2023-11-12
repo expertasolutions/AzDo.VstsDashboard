@@ -347,7 +347,6 @@ class CICDDashboard extends React.Component<{}, {}> {
         }
       }
       this.setState({ environments: envList });
-      console.log(envList);
       this.environmentProvider = new ObservableValue<ArrayItemProvider<PipelineEnvironment>>(new ArrayItemProvider(envList));
     });
 
