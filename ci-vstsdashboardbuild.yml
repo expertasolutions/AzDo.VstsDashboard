@@ -19,16 +19,7 @@ stages:
       workspace:
         clean: true
     steps:
-
-    - task: PowerShell@2
-      displayName: 'fail it'
-      inputs:
-        targetType: 'inline'
-        script: |
-          exit 1
-        pwsh: true
-      continueOnError: true
-
+    
     - task: UseNode@1
       displayName: 'Use Node 10.x'
 
