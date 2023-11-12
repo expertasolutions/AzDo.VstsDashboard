@@ -279,7 +279,7 @@ class CICDDashboard extends React.Component<{}, {}> {
         this.isLoading.value = false; 
         this.currentAccessToken = await SDK.getAccessToken();
         const locationService = await SDK.getService<ILocationService>(CommonServiceIds.LocationService);
-        console.log(locationService.routeUrl);
+        console.log(locationService.routeUrl("ms.vss-releaseManagement-web.cd-environments-hub-route", { project: this.currentSelectedProjects[0] }));
       });
     });
    
