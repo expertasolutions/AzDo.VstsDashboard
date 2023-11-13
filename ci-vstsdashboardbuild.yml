@@ -136,7 +136,8 @@ stages:
 
 - stage: ExpertaPublicMarketplace
   dependsOn: ExpertaPrivate
-  condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
+  #condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
+  condition: succeeded()
   jobs:
   - deployment: DeployExtension
     pool:

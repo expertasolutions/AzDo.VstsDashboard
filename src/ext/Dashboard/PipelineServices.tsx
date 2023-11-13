@@ -162,6 +162,8 @@ export async function getEnvironmentChecks(azureDevOpsUri:string, environmentId:
 
   // https://dev.azure.com/experta/community/_apis/pipelines/checks/configurations?resourceType=queue&resourceId=1&api-version=6.0-preview.1
 
+  // https://dev.azure.com/experta/community/_apis/pipelines/checks/runs/{checkSuiteId}?api-version=7.0-preview.1
+
   //let apiVersion = "7.0-preview.1";
   let apiVersion = "6.0-preview.1";
   let envUrl = `${azureDevOpsUri}/${projectName}/_apis/pipelines/checks/configurations?resourceType=environment&resourceId=${environmentId}&api-version=${apiVersion}`;
