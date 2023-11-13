@@ -119,8 +119,8 @@ export function getApprovalIndicator(status: number) : IStatusIndicatorData {
       indicatorData.color = lightGray;
       break;
     case 64:
-      indicatorData.statusProps = { ...Statuses.Queued, ariaLabel: "Expired"};
-      indicatorData.label = "Expired";
+      indicatorData.statusProps = { ...Statuses.Queued, ariaLabel: "Timed Out"};
+      indicatorData.label = "Time Out";
       indicatorData.color = lightGray;
       break;
     default:
@@ -451,7 +451,7 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
   if(build.id === 240 ) {
     console.log('Show Approvals');
   }
-  for(let i=0;i<buildIDApprovals.filter(x=> x.status !== 4).length;i++) {
+  for(let i=0;i<buildIDApprovals.filter(x=> x.status !== 4 || x.status !== 64).length;i++) {
     let elm = buildIDApprovals[i];
     let status = `(${elm.status})`;
     if(build.id === 240 ) {
