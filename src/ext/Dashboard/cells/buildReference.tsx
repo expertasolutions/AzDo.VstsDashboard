@@ -348,7 +348,9 @@ export function renderReleaseInfo01 (
             key={"col-" + columnIndex}
             columnIndex={columnIndex}
             tableColumn={tableColumn}>
-              {renderPipelineStageSummary(tableItem, context, columnIndex, tableColumn)}
+              <div>
+                {renderPipelineStageSummary(tableItem, context, columnIndex, tableColumn)}
+              </div>
             </SimpleTableCell>
           )}
         </DataContext.Consumer>
