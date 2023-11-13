@@ -1,0 +1,39 @@
+https: //dev.azure.com/experta/community/_apis/pipelines/checks/configurations?resourceType=environment&resourceId=12&api-version=7.0-preview.1
+{
+  "count": 1,
+  "value": [
+    {
+      "createdBy": {
+        "displayName": "Louis Turmel",
+        "id": "8cd125e5-fc56-4485-ad56-6d1df4e5cf1b",
+        "uniqueName": "lturmel@expertasolutions.com",
+        "descriptor": "aad.OTlkMTZlMzItY2FmOS03MGZjLWFhMmQtZmVhNzJmZWVhODg3"
+      },
+      "createdOn": "2020-05-05T22:35:26.9950163Z",
+      "modifiedBy": {
+        "displayName": "Louis Turmel",
+        "id": "8cd125e5-fc56-4485-ad56-6d1df4e5cf1b",
+        "uniqueName": "lturmel@expertasolutions.com",
+        "descriptor": "aad.OTlkMTZlMzItY2FmOS03MGZjLWFhMmQtZmVhNzJmZWVhODg3"
+      },
+      "modifiedOn": "2020-05-05T22:35:26.9950163Z",
+      "timeout": 15,
+      "_links": {
+        "self": {
+          "href": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/checks/configurations/4"
+        }
+      },
+      "id": 4,
+      "type": {
+        "id": "8c6f20a7-a545-4486-9777-f762fafe0d4d",
+        "name": "Approval"
+      },
+      "url": "https://dev.azure.com/experta/97814487-b723-4a7d-a446-f599ab91ea2f/_apis/pipelines/checks/configurations/4",
+      "resource": {
+        "type": "environment",
+        "id": "12",
+        "name": "ExpertaPrivate"
+      }
+    }
+  ]
+}
