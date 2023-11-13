@@ -448,13 +448,13 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
   }
 
   //x.status !== 4
-  if(build.id === 240 ) {
+  if(build.definition.id === 240 ) {
     console.log('Show Approvals');
   }
   for(let i=0;i<buildIDApprovals.filter(x=> x.status !== 4 || x.status !== 64).length;i++) {
     let elm = buildIDApprovals[i];
     let status = `(${elm.status})`;
-    if(build.id === 240 ) {
+    if(build.definition.id === 240 ) {
       console.log(elm);
     }
     let approvalStatus = getApprovalIndicator(elm.status);
