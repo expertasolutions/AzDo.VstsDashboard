@@ -151,44 +151,49 @@ export async function getEnvironmentChecks(azureDevOpsUri:string, environmentId:
 
   // https://dev.azure.com/experta/community/_apis/pipelines/approvals/350c598e-d3b9-4dc6-a0e6-458c5573c052?$expand=steps&api-version=7.0-preview.1
 
-                                             
+  
+  // https://dev.azure.com/experta/community/_apis/pipelines/approvals/8c6f20a7-a545-4486-9777-f762fafe0d4d?$expand=steps&api-version=7.0-preview.1
+
+
   // https://dev.azure.com/experta/community/_apis/distributedtask/environments/12/approvals?api-version=7.1-preview.1
 
 
   // https://dev.azure.com/experta/community/_apis/pipelines/checks/queryconfigurations?`$expand=settings&api-version=6.1-preview.1
 
+  // https://dev.azure.com/experta/community/_apis/pipelines/checks/configurations?resourceType=queue&resourceId=1&api-version=6.0-preview.1
+
   //let apiVersion = "7.0-preview.1";
   let apiVersion = "6.0-preview.1";
-  //let envUrl = `${azureDevOpsUri}/${projectName}/_apis/pipelines/checks/configurations?resourceType=environment&resourceId=${environmentId}&api-version=${apiVersion}`;
-  let envUrl = `${azureDevOpsUri}/${projectName}/_apis/pipelines/checks/queryconfigurations?$expand=settings&api-version=${apiVersion}`;
+  let envUrl = `${azureDevOpsUri}/${projectName}/_apis/pipelines/checks/configurations?resourceType=environment&resourceId=${environmentId}&api-version=${apiVersion}`;
+  //let envUrl = `${azureDevOpsUri}/${projectName}/_apis/pipelines/checks/queryconfigurations?$expand=settings&api-version=${apiVersion}`;
   let acceptHeaderValue = `application/json;api-version=${apiVersion};excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true`;
 
-  let defaultType = {
-    type: "queue",
-    id: "1",
-    name: "default"
-  };
+  // let defaultType = {
+  //   type: "queue",
+  //   id: "1",
+  //   name: "Default"
+  // };
   
-  let environmentType = {
-    type: "environment",
-    id: environmentId,
-    name: "environment"
-  };
+  // let environmentType = {
+  //   type: "environment",
+  //   id: environmentId,
+  //   name: "environment"
+  // };
   
-  let requestBody: Array<any> = [];
-  requestBody.push(defaultType);
-  requestBody.push(environmentType)
+  // let requestBody: Array<any> = [];
+  // requestBody.push(defaultType);
+  // requestBody.push(environmentType)
 
   let result = await fetch(envUrl, 
     {
-      method: 'POST',
+      method: 'GET',
       mode: 'cors',
       headers: { 
         'Accept': acceptHeaderValue,
         'Content-Type': 'application/json',
         'Authorization' : `Bearer ${accessToken}`
-      },
-      body: JSON.stringify(requestBody)
+      }
+      //,body: JSON.stringify(requestBody)
     })
     .then(response => response.json());
   console.log(result);
