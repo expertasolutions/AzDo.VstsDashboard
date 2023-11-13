@@ -54,14 +54,14 @@ export const buildColumns : ITableColumn<Build>[] = [
     name: "Pipeline",
     onSize: buildOnSize,
     renderCell: renderBuildStatus,
-    width: new ObservableValue(-25),
+    width: new ObservableValue(-22.5),
   },
   {
     id: "BuildInfo01",
     name: "Build # | Branch & commit", 
     onSize: buildOnSize,
     renderCell: renderBuildInfo01Cell,
-    width: new ObservableValue(-20),
+    width: new ObservableValue(-22.5),
   },
   {
     id: "ReleaseInfo01",
@@ -84,14 +84,14 @@ export const dashboardColumns : ITableColumn<PipelineInfo>[] = [
     name: "Pipeline",
     onSize: buildRefOnSize,
     renderCell: renderBuildRef01,
-    width: new ObservableValue(-25)
+    width: new ObservableValue(-22.5)
   },
   {
     id: "pipeline",
     name: "Last Build # | Branch & commit",
     onSize: buildRefOnSize,
     renderCell: renderLastBuild01,
-    width: new ObservableValue(-20)
+    width: new ObservableValue(-22.5)
   },
   {
     id: "ReleaseInfo01",

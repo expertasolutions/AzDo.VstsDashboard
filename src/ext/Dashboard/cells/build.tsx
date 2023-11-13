@@ -53,7 +53,7 @@ export function renderBuildStatus (
               <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
                   <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
                     <Link href={getBuildDefinitionUrl(context.state.buildDefs, tableItem.definition.id)} target="_blank" className="bolt-table-cell-primary">
-                      {tableItem.definition.name} - Type: [YML | Classic]
+                      {tableItem.definition.name}
                     </Link>
                   </div>
                   <div className="font-size-s" style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>{projectName}</div>
