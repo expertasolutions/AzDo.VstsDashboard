@@ -144,66 +144,66 @@ export async function getApprovals(azureDevOpsUri: string, projectNames: Array<s
   return result;
 }
 
-export async function getEnvironmentChecks(azureDevOpsUri:string, environmentId: string, projectName: string, accessToken: string) {
+// export async function getEnvironmentChecks(azureDevOpsUri:string, environmentId: string, projectName: string, accessToken: string) {
 
-  // https: //dev.azure.com/experta/community/_apis/pipelines/checks/configurations?resourceType=environment&resourceId=12&api-version=7.0-preview.1
+//   // https: //dev.azure.com/experta/community/_apis/pipelines/checks/configurations?resourceType=environment&resourceId=12&api-version=7.0-preview.1
 
-  // https://dev.azure.com/experta/community/_apis/pipelines/checks/runs/8c6f20a7-a545-4486-9777-f762fafe0d4d?api-version=7.0-preview.1
+//   // https://dev.azure.com/experta/community/_apis/pipelines/checks/runs/8c6f20a7-a545-4486-9777-f762fafe0d4d?api-version=7.0-preview.1
 
-  // https://dev.azure.com/experta/community/_apis/pipelines/approvals/350c598e-d3b9-4dc6-a0e6-458c5573c052?$expand=steps&api-version=7.0-preview.1
+//   // https://dev.azure.com/experta/community/_apis/pipelines/approvals/350c598e-d3b9-4dc6-a0e6-458c5573c052?$expand=steps&api-version=7.0-preview.1
 
   
-  // https://dev.azure.com/experta/community/_apis/pipelines/approvals/8c6f20a7-a545-4486-9777-f762fafe0d4d?$expand=steps&api-version=7.0-preview.1
+//   // https://dev.azure.com/experta/community/_apis/pipelines/approvals/8c6f20a7-a545-4486-9777-f762fafe0d4d?$expand=steps&api-version=7.0-preview.1
 
-  // https://dev.azure.com/experta/community/_apis/pipelines/approvals?api-version=6.0-preview.1
-
-
-  // https://dev.azure.com/experta/community/_apis/distributedtask/environments/12/approvals?api-version=7.1-preview.1
+//   // https://dev.azure.com/experta/community/_apis/pipelines/approvals?api-version=6.0-preview.1
 
 
-  // https://dev.azure.com/experta/community/_apis/pipelines/checks/queryconfigurations?`$expand=settings&api-version=6.1-preview.1
+//   // https://dev.azure.com/experta/community/_apis/distributedtask/environments/12/approvals?api-version=7.1-preview.1
 
-  // https://dev.azure.com/experta/community/_apis/pipelines/checks/configurations?resourceType=queue&resourceId=1&api-version=6.0-preview.1
 
-  // https://dev.azure.com/experta/community/_apis/pipelines/checks/runs/{checkSuiteId}?api-version=7.0-preview.1
+//   // https://dev.azure.com/experta/community/_apis/pipelines/checks/queryconfigurations?`$expand=settings&api-version=6.1-preview.1
 
-  //let apiVersion = "7.0-preview.1";
-  let apiVersion = "6.0-preview.1";
-  let envUrl = `${azureDevOpsUri}/${projectName}/_apis/pipelines/checks/configurations?resourceType=environment&resourceId=${environmentId}&api-version=${apiVersion}`;
-  //let envUrl = `${azureDevOpsUri}/${projectName}/_apis/pipelines/checks/queryconfigurations?$expand=settings&api-version=${apiVersion}`;
-  let acceptHeaderValue = `application/json;api-version=${apiVersion};excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true`;
+//   // https://dev.azure.com/experta/community/_apis/pipelines/checks/configurations?resourceType=queue&resourceId=1&api-version=6.0-preview.1
 
-  // let defaultType = {
-  //   type: "queue",
-  //   id: "1",
-  //   name: "Default"
-  // };
+//   // https://dev.azure.com/experta/community/_apis/pipelines/checks/runs/{checkSuiteId}?api-version=7.0-preview.1
+
+//   //let apiVersion = "7.0-preview.1";
+//   let apiVersion = "6.0-preview.1";
+//   let envUrl = `${azureDevOpsUri}/${projectName}/_apis/pipelines/checks/configurations?resourceType=environment&resourceId=${environmentId}&api-version=${apiVersion}`;
+//   //let envUrl = `${azureDevOpsUri}/${projectName}/_apis/pipelines/checks/queryconfigurations?$expand=settings&api-version=${apiVersion}`;
+//   let acceptHeaderValue = `application/json;api-version=${apiVersion};excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true`;
+
+//   // let defaultType = {
+//   //   type: "queue",
+//   //   id: "1",
+//   //   name: "Default"
+//   // };
   
-  // let environmentType = {
-  //   type: "environment",
-  //   id: environmentId,
-  //   name: "environment"
-  // };
+//   // let environmentType = {
+//   //   type: "environment",
+//   //   id: environmentId,
+//   //   name: "environment"
+//   // };
   
-  // let requestBody: Array<any> = [];
-  // requestBody.push(defaultType);
-  // requestBody.push(environmentType)
+//   // let requestBody: Array<any> = [];
+//   // requestBody.push(defaultType);
+//   // requestBody.push(environmentType)
 
-  let result = await fetch(envUrl, 
-    {
-      method: 'GET',
-      mode: 'cors',
-      headers: { 
-        'Accept': acceptHeaderValue,
-        'Content-Type': 'application/json',
-        'Authorization' : `Bearer ${accessToken}`
-      }
-      //,body: JSON.stringify(requestBody)
-    })
-    .then(response => response.json());
-  console.log(result);
-  return result;
-}
+//   let result = await fetch(envUrl, 
+//     {
+//       method: 'GET',
+//       mode: 'cors',
+//       headers: { 
+//         'Accept': acceptHeaderValue,
+//         'Content-Type': 'application/json',
+//         'Authorization' : `Bearer ${accessToken}`
+//       }
+//       //,body: JSON.stringify(requestBody)
+//     })
+//     .then(response => response.json());
+//   console.log(result);
+//   return result;
+// }
 
 export async function getEnvironments(azureDevOpsUri: string, projectNames: Array<string>, accessToken: string) {
   let result = new Array<any>();
@@ -243,10 +243,10 @@ export async function getEnvironments(azureDevOpsUri: string, projectNames: Arra
       finalResult.push(newEnv);
     }
 
-    for(let i=0;i<finalResult.length;i++) {
-      let envChecks = await getEnvironmentChecks(azureDevOpsUri, finalResult[i].id, projectName, accessToken);
-      finalResult[i].environmentChecks = envChecks;
-    }
+    // for(let i=0;i<finalResult.length;i++) {
+    //   let envChecks = await getEnvironmentChecks(azureDevOpsUri, finalResult[i].id, projectName, accessToken);
+    //   finalResult[i].environmentChecks = envChecks;
+    // }
     result.push(...finalResult);
   }
   return result;
