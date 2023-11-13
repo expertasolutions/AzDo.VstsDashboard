@@ -457,13 +457,15 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
     if(build.definition.id === 240 ) {
       console.log(elm);
     }
-    let approvalStatus = getApprovalIndicator(elm.status);
-    children.push(
-      <Pill color={approvalStatus.color} variant={PillVariant.colored}
-          onClick={() => window.open(elm.pipeline.owner._links.web.href, "_blank") }>
-        &nbsp;Pending Approval: &nbsp;{elm.id}&nbsp;{status}
-      </Pill>
-    );
+    if(elm.status !== 4 && elm.status !== 64) {
+      let approvalStatus = getApprovalIndicator(elm.status);
+      children.push(
+        <Pill color={approvalStatus.color} variant={PillVariant.colored}
+            onClick={() => window.open(elm.pipeline.owner._links.web.href, "_blank") }>
+          &nbsp;Pending Approval: &nbsp;{elm.id}&nbsp;{status}
+        </Pill>
+      );
+    }
   }
 
   if(children.length > 0) {
