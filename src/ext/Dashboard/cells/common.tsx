@@ -446,27 +446,35 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
       </Pill>
     );
   }
+  
+  let pendingApproval = buildIDApprovals.filter(x=> x.status === 2);
+  if(pendingApproval.length > 0) {
+    let elm = pendingApproval[0];
+    let approvalStatus = getApprovalIndicator(2);
+    children.push(
+      <Pill color={approvalStatus.color} variant={PillVariant.colored}
+          onClick={() => window.open(elm.pipeline.owner._links.web.href, "_blank") }>
+        &nbsp;{pendingApproval.length}&nbsp;Pending Approval(s) waiting
+      </Pill>
+    );
+  }
 
-  //x.status !== 4
-  if(build.definition.id === 240 && buildIDApprovals.filter(x=> x.status !== 4).length > 0 ) {
-    console.log('Show Approvals');
-  }
-  for(let i=0;i<buildIDApprovals.filter(x=> x.status !== 4).length;i++) {
-    let elm = buildIDApprovals[i];
-    let status = `(${elm.status})`;
-    // if(build.definition.id === 240 ) {
-    //   console.log(elm);
-    // }
-    if(elm.status !== 4 && elm.status !== 64) {
-      let approvalStatus = getApprovalIndicator(elm.status);
-      children.push(
-        <Pill color={approvalStatus.color} variant={PillVariant.colored}
-            onClick={() => window.open(elm.pipeline.owner._links.web.href, "_blank") }>
-          &nbsp;Pending Approval: &nbsp;{elm.id}&nbsp;{status}
-        </Pill>
-      );
-    }
-  }
+  // for(let i=0;i<pendingApproval.length;i++) {
+  //   let elm = buildIDApprovals[i];
+  //   let status = `(${elm.status})`;
+  //   // if(build.definition.id === 240 ) {
+  //   //   console.log(elm);
+  //   // }
+  //   if(elm.status !== 4 && elm.status !== 64) {
+  //     let approvalStatus = getApprovalIndicator(elm.status);
+  //     children.push(
+  //       <Pill color={approvalStatus.color} variant={PillVariant.colored}
+  //           onClick={() => window.open(elm.pipeline.owner._links.web.href, "_blank") }>
+  //         &nbsp;Pending Approval: &nbsp;{elm.id}&nbsp;{status}
+  //       </Pill>
+  //     );
+  //   }
+  // }
 
   if(children.length > 0) {
     content.push(
