@@ -14,9 +14,7 @@ import {
 } from "azure-devops-extension-api/core"
 
 import { ExtensionManagementRestClient } from "azure-devops-extension-api/ExtensionManagement";
-import { getAccessToken } from "azure-devops-extension-sdk";
 import { PipelineInfo, PipelineEnvironment } from "./dataContext";
-import { request } from "http";
 
 const coreClient = API.getClient(CoreRestClient);
 const buildClient = API.getClient(BuildRestClient);
@@ -169,13 +167,13 @@ export async function getEnvironmentChecks(azureDevOpsUri:string, environmentId:
     type: "queue",
     id: "1",
     name: "default"
-  }
+  };
   
   let environmentType = {
     type: "environment",
     id: environmentId,
     name: "environment"
-  }
+  };
   
   let requestBody: Array<any> = [];
   requestBody.push(defaultType);
