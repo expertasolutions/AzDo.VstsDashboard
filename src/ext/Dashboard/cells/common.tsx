@@ -506,8 +506,15 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
         // && x.lastExecution.stageName === currentEnv.n
         let lastExecution = currentEnv.deploymentRecords.filter(x=> x.definition.id === build.id && x.stageName === envStage).sort((a,b) => a.id - b.id);
         if(lastExecution.length > 0) {
-          currentElement.lastExecution = lastExecution[lastExecution.length - 1];
-          buildStageEnvironments.push(currentElement);
+          let currentShowed = buildStageEnvironments.find(x=> x.environment === envStage);
+          if(currentShowed !== undefined) {
+            currentElement.lastExecution = lastExecution[lastExecution.length - 1];
+            buildStageEnvironments.push(currentElement);
+          } else {
+            let index = buildStageEnvironments.findIndex(x=> x.environment === envStage);
+            currentShowed.lastExecution = lastExecution[lastExecution.length - 1];
+            buildStageEnvironments[index] = currentShowed;
+          }
         }
       }
     }
