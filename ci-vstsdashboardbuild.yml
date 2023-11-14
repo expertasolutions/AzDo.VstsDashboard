@@ -84,7 +84,8 @@ stages:
     pool:
       vmImage: macOS-latest
       demands: npm
-    environment: ExpertaPrivatePreview
+    #environment: ExpertaPrivatePreview
+    environment: ExpertaPrivate
     strategy:
       runOnce:
         deploy:

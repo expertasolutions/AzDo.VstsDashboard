@@ -486,7 +486,7 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
     return (<div>Problem !</div>)
   }
 
-  let buildEnvironments = Array<any>();
+  let buildStageEnvironments = Array<any>();
   for(let i=0;i<environments.length;i++) {
     let currentEnv = environments[i];
     let buildUseEnvironment = currentEnv.deploymentRecords.find(x=> x.definition.id === build.id);
@@ -496,18 +496,21 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
         lastExecution: undefined
       };
 
+      // && x.lastExecution.stageName === currentEnv.n
       let lastExecution = currentEnv.deploymentRecords.filter(x=> x.definition.id === build.id).sort((a,b) => a.id - b.id);
       if(lastExecution.length > 0) {
         currentElement.lastExecution = lastExecution[lastExecution.length - 1];
-        buildEnvironments.push(currentElement);
+        buildStageEnvironments.push(currentElement);
       }
     }
   }
-  buildEnvironments = buildEnvironments.sort((a,b) => a.environment.id - b.environment.id);
+
+  // Must be Pipeline StageName NOT Environment
+  buildStageEnvironments = buildStageEnvironments.sort((a,b) => a.environment.id - b.environment.id);
 
   let childrens = Array<any>();
-  for(let i=0;i<buildEnvironments.length;i++) { 
-    let curEnv = buildEnvironments[i];
+  for(let i=0;i<buildStageEnvironments.length;i++) { 
+    let curEnv = buildStageEnvironments[i];
     //console.log(curEnv);
     let envStatus = getStageIndicator(curEnv.lastExecution.result === undefined ? -1 : curEnv.lastExecution.result, false);
     let attempCounts = "";
