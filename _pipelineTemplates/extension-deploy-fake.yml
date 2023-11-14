@@ -31,5 +31,3 @@ steps:
     displayName: 'Version extractor digit'
     inputs:
       stringToAnalyze: '$(build.buildnumber)'
-  - task: TfxInstaller@2
-    displayName: 'Use Node CLI for Azure DevOps (tfx-cli): v0.6.x'
