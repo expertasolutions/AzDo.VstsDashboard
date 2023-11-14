@@ -1,0 +1,160 @@
+name: testlouis-v1.$(date:yy)$(DayOfYear)$(rev:.r)-$(Build.SourceBranchName)
+
+trigger:
+- master
+- Issue*
+- Delivery*
+
+pr:
+- master
+- Delivery*
+
+stages:
+- stage: Build
+  jobs:
+  - job: Build
+    pool:
+      vmImage: 'windows-latest'
+      demand: npm
+      workspace:
+        clean: true
+    steps:
+    
+    - task: UseNode@1
+      displayName: 'Use Node 10.x'
+
+    - task: VersionExtractor@5
+      name: build
+      displayName: 'Version extractor digit'
+      inputs:
+        stringToAnalyze: '$(Build.BuildNumber)'
+
+    - task: TfxInstaller@2
+      inputs:
+        displayName: 'Use Node CLI for Azure DevOps (tfx-cli): v0.6.x'
+
+    - task: Npm@1
+      displayName: 'Install Dependencies'
+      inputs:
+        command: install
+        verbose: false
+
+    - task: Npm@1
+      displayName: 'Compile extension'
+      inputs:
+        command: custom
+        verbose: false
+        customCommand: 'run compile'
+
+    - task: PackageAzureDevOpsExtension@2
+      displayName: 'Package Extension: '
+      inputs:
+        rootFolder: 
+        patternManifest: |
+          vss-extension.json
+          src/ext/**/*.json
+        extensionVersion: '$(build.fullVersion)'
+        updateTasksVersion: true
+
+    - task: CopyFiles@2
+      displayName: 'Copy Files *.vsix'
+      inputs:
+        SourceFolder: '$(Build.SourcesDirectory)'
+        Contents: |
+          *.vsix
+          CurrentReleaseNotes.md
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact: drop'
+
+- stage: ExpertaPrivatePreview
+  dependsOn: Build
+  condition: and(
+      succeeded(), 
+      or(
+        eq(variables['build.sourceBranch'], 'refs/heads/master')
+      , eq(variables['build.sourceBranch'], 'refs/heads/feature/*')
+      , eq(variables['build.sourceBranch'], 'refs/heads/Issue0170b')
+      , eq(variables['build.sourceBranch'], 'refs/heads/Delivery/*')
+      )
+    )
+  jobs:
+  - deployment: DeployExtension
+    pool:
+      vmImage: macOS-latest
+      demands: npm
+    #environment: ExpertaPrivatePreview
+    environment: ExpertaPrivate
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: _pipelineTemplates/extension-deploy.yml
+            parameters:
+              publisherId: ExpertaPreview
+              extensionId: pvprCICDDashboard
+              extensionName: 'Private Preview - CI/CD Dashboard'
+              updateTasksId: true
+              extensionVisibility: privatepreview
+              shareWith: experta
+              releaseNoteAction: create
+              releaseNoteVersion: '$(build.fullVersion)'
+              releasenoteDisplayName: 'Create Draft Release Note'
+              releaseNoteIsDraft: true
+
+- stage: ExpertaPrivate
+  dependsOn: ExpertaPrivatePreview
+  condition: and(
+      succeeded(), 
+      or(
+        eq(variables['build.sourceBranch'], 'refs/heads/master')
+      , eq(variables['build.sourceBranch'], 'refs/heads/Issue0170b')
+      )
+    )
+  jobs:
+  - deployment: DeployExtension
+    pool:
+      vmImage: macOS-latest
+      demands: npm
+    environment: ExpertaPrivate
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: _pipelineTemplates/extension-deploy.yml
+            parameters:
+              publisherId: ExpertaPreview
+              extensionId: prCICDDashboard
+              extensionName: 'Private - CI/CD Dashboard'
+              updateTasksId: true
+              extensionVisibility: private
+              shareWith: experta
+              releaseNoteAction: edit
+              releaseNoteVersion: '$(build.fullVersion)'
+              releasenoteDisplayName: 'Update Draft to Pre-Release notes'
+              releaseNoteIsPreRelease: true
+
+- stage: ExpertaPublicMarketplace
+  dependsOn: ExpertaPrivate
+  condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
+  jobs:
+  - deployment: DeployExtension
+    pool:
+      vmImage: macOS-latest
+      demands: npm
+    environment: ExpertaPublicMarketplace
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: _pipelineTemplates/extension-deploy.yml
+            parameters:
+              publisherId: experta
+              extensionId: cicd-dashboard
+              extensionName: 'CI/CD Dashboard'
+              extensionVisibility: public
+              shareWith: experta
+              releaseNoteAction: edit
+              releaseNoteVersion: '$(build.fullVersion)'
+              releasenoteDisplayName: 'Update Pre-Release to Release notes'
