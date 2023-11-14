@@ -90,7 +90,7 @@ stages:
       runOnce:
         deploy:
           steps:
-          - template: _pipelineTemplates/extension-deploy.yml
+          - template: _pipelineTemplates/extension-deploy-fake.yml
             parameters:
               publisherId: ExpertaPreview
               extensionId: pvprCICDDashboard
@@ -122,7 +122,7 @@ stages:
       runOnce:
         deploy:
           steps:
-          - template: _pipelineTemplates/extension-deploy.yml
+          - template: _pipelineTemplates/extension-deploy-fake.yml
             parameters:
               publisherId: ExpertaPreview
               extensionId: prCICDDashboard
@@ -148,7 +148,7 @@ stages:
       runOnce:
         deploy:
           steps:
-          - template: _pipelineTemplates/extension-deploy.yml
+          - template: _pipelineTemplates/extension-deploy-fake.yml
             parameters:
               publisherId: experta
               extensionId: cicd-dashboard
