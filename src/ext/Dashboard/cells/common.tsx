@@ -489,25 +489,33 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
   let buildStageEnvironments = Array<any>();
   for(let i=0;i<environments.length;i++) {
     let currentEnv = environments[i];
-    let buildUseEnvironment = currentEnv.deploymentRecords.find(x=> x.definition.id === build.id);
-    if(buildUseEnvironment !== undefined) {
-      let currentElement = {
-        environment: currentEnv,
-        lastExecution: undefined
-      };
 
-      // && x.lastExecution.stageName === currentEnv.n
-      let lastExecution = currentEnv.deploymentRecords.filter(x=> x.definition.id === build.id).sort((a,b) => a.id - b.id);
-      if(lastExecution.length > 0) {
-        currentElement.lastExecution = lastExecution[lastExecution.length - 1];
-        buildStageEnvironments.push(currentElement);
+    let envStages = Array<string>();
+    envStages.push(...currentEnv.deploymentRecords.map(x=> x.stageName));
+    envStages = envStages.filter((v, i, a) => a.indexOf(v) === i);
+
+    for(let e = 0;e<envStages.length;e++) {
+      let envStage = envStages[e];
+
+      if(envStage !== undefined) {
+        let currentElement = {
+          environment: envStage,
+          lastExecution: undefined
+        };
+
+        // && x.lastExecution.stageName === currentEnv.n
+        let lastExecution = currentEnv.deploymentRecords.filter(x=> x.definition.id === build.id && x.stageName === envStage).sort((a,b) => a.id - b.id);
+        if(lastExecution.length > 0) {
+          currentElement.lastExecution = lastExecution[lastExecution.length - 1];
+          buildStageEnvironments.push(currentElement);
+        }
       }
     }
   }
 
   // Must be Pipeline StageName NOT Environment
   buildStageEnvironments = buildStageEnvironments.sort((a,b) => a.environment.id - b.environment.id);
-
+  
   let childrens = Array<any>();
   for(let i=0;i<buildStageEnvironments.length;i++) { 
     let curEnv = buildStageEnvironments[i];
