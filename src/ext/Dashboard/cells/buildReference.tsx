@@ -323,7 +323,7 @@ export function renderPipelineStageSummary(build: PipelineInfo, context: any, co
     );
   }
   return (
-    <div>
+    <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
       {getReleaseTagFromBuild(build.latestCompletedBuild, context.state.releases, context.state.environments, context.state.approvals, context.state.showAllBuildDeployment) }
     </div>
   );
