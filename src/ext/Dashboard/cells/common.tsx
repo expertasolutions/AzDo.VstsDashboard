@@ -520,7 +520,7 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
     }
   }
 
-  // Must be Pipeline StageName NOT Environment /// but we have a fucking order issue here... !!!
+  // Must be Pipeline StageName NOT Environment /// but we have a *** order issue here... !!!
   buildStageEnvironments = buildStageEnvironments.sort((a,b) => a.lastExecution.id - b.lastExecution.id);
   
   let childrens = Array<any>();
