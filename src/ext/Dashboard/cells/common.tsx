@@ -577,12 +577,9 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
   }
 
   return (
-    <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
-      <b>Current Deployment Status (TDB)</b>
-      <p>
-        <PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{childrens}</PillGroup>
-      </p>
-    </div>
+    <p>
+      <PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{childrens}</PillGroup>
+    </p>
   );
 }
 
