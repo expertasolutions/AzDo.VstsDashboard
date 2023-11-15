@@ -496,46 +496,36 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
   }
 
   let buildStageEnvironments = Array<any>();
-  //for(let i=0;i<environments.length;i++) {
   for(let i=0;i<allStages.length;i++) {
-    //let currentEnv = environments[i];
+    let envStage = allStages[i];
 
-    //let envStages = Array<string>();
-    //envStages.push(...currentEnv.deploymentRecords.map(x=> x.stageName));
-    //envStages = envStages.filter((v, i, a) => a.indexOf(v) === i);
+    if(envStage !== undefined) {
+      let currentElement = {
+        environment: envStage,
+        lastExecution: undefined
+      };
 
-    //for(let e = 0;e<envStages.length;e++) {
-      let envStage = allStages[i];
-
-      if(envStage !== undefined) {
-        let currentElement = {
-          environment: envStage,
-          lastExecution: undefined
-        };
-
-        let lastExecution = allDeplRecords.filter(x=> x.definition.id === build.id && x.stageName === envStage).sort((a,b) => a.id - b.id);
-        if(lastExecution.length > 0) {
-          let currentShowed = buildStageEnvironments.find(x=> x.environment === envStage);
-          if(currentShowed === undefined || currentShowed.length > 0) {
-            currentElement.lastExecution = lastExecution[lastExecution.length - 1];
-            buildStageEnvironments.push(currentElement);
-          } else {
-            let index = buildStageEnvironments.findIndex(x=> x.environment === envStage);
-            currentShowed.lastExecution = lastExecution[lastExecution.length - 1];
-            buildStageEnvironments[index] = currentShowed;
-          }
+      let lastExecution = allDeplRecords.filter(x=> x.definition.id === build.id && x.stageName === envStage).sort((a,b) => a.id - b.id);
+      if(lastExecution.length > 0) {
+        let currentShowed = buildStageEnvironments.find(x=> x.environment === envStage);
+        if(currentShowed === undefined || currentShowed.length > 0) {
+          currentElement.lastExecution = lastExecution[lastExecution.length - 1];
+          buildStageEnvironments.push(currentElement);
+        } else {
+          let index = buildStageEnvironments.findIndex(x=> x.environment === envStage);
+          currentShowed.lastExecution = lastExecution[lastExecution.length - 1];
+          buildStageEnvironments[index] = currentShowed;
         }
       }
-    //}
+    }
   }
 
-  // Must be Pipeline StageName NOT Environment
-  buildStageEnvironments = buildStageEnvironments.sort((a,b) => b.lastExecution.id - a.lastExecution.id);
+  // Must be Pipeline StageName NOT Environment /// but we have a fucking order issue here... !!!
+  buildStageEnvironments = buildStageEnvironments.sort((a,b) => a.lastExecution.id - b.lastExecution.id);
   
   let childrens = Array<any>();
   for(let i=0;i<buildStageEnvironments.length;i++) { 
     let curEnv = buildStageEnvironments[i];
-    //console.log(curEnv);
     let envStatus = getStageIndicator(curEnv.lastExecution.result === undefined ? -1 : curEnv.lastExecution.result, false);
     let attempCounts = "";
     if(curEnv.lastExecution.jobAttemp > 1) {
