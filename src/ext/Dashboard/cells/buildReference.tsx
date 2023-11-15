@@ -317,7 +317,7 @@ export function renderPipelineStageSummary(build: PipelineInfo, context: any, co
 
   if(!isClassicRelease) {
     return (
-      <div>
+      <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
         {getEnvironmentStageSummary(build, context.state.environments, context.state.approvals)}
       </div>
     );
