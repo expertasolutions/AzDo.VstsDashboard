@@ -486,16 +486,26 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
     return (<div>Problem !</div>)
   }
 
-  let buildStageEnvironments = Array<any>();
+  let allDeplRecords = Array<any>();
+  let allStages = Array<string>();
   for(let i=0;i<environments.length;i++) {
     let currentEnv = environments[i];
+    allDeplRecords.push(...currentEnv.deploymentRecords);
+    allStages.push(...currentEnv.deploymentRecords.map(x=> x.stageName));
+    allStages = allStages.filter((v, i, a) => a.indexOf(v) === i);
+  }
 
-    let envStages = Array<string>();
-    envStages.push(...currentEnv.deploymentRecords.map(x=> x.stageName));
-    envStages = envStages.filter((v, i, a) => a.indexOf(v) === i);
+  let buildStageEnvironments = Array<any>();
+  //for(let i=0;i<environments.length;i++) {
+  for(let i=0;i<allStages.length;i++) {
+    //let currentEnv = environments[i];
 
-    for(let e = 0;e<envStages.length;e++) {
-      let envStage = envStages[e];
+    //let envStages = Array<string>();
+    //envStages.push(...currentEnv.deploymentRecords.map(x=> x.stageName));
+    //envStages = envStages.filter((v, i, a) => a.indexOf(v) === i);
+
+    //for(let e = 0;e<envStages.length;e++) {
+      let envStage = allStages[i];
 
       if(envStage !== undefined) {
         let currentElement = {
@@ -503,7 +513,7 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
           lastExecution: undefined
         };
 
-        let lastExecution = currentEnv.deploymentRecords.filter(x=> x.definition.id === build.id && x.stageName === envStage).sort((a,b) => b.id - a.id);
+        let lastExecution = allDeplRecords.filter(x=> x.definition.id === build.id && x.stageName === envStage).sort((a,b) => a.id - b.id);
         if(lastExecution.length > 0) {
           let currentShowed = buildStageEnvironments.find(x=> x.environment === envStage);
           if(currentShowed === undefined || currentShowed.length > 0) {
@@ -516,7 +526,7 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
           }
         }
       }
-    }
+    //}
   }
 
   // Must be Pipeline StageName NOT Environment
