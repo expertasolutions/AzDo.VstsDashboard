@@ -518,12 +518,12 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
             console.log(currentShowed);
           }
 
-          if(currentShowed !== undefined && currentShowed.length > 0) {
+          if(currentShowed === undefined || currentShowed.length > 0) {
             currentElement.lastExecution = lastExecution[lastExecution.length - 1];
             buildStageEnvironments.push(currentElement);
           } else {
             let index = buildStageEnvironments.findIndex(x=> x.environment === envStage);
-            //currentShowed.lastExecution = lastExecution[lastExecution.length - 1];
+            currentShowed.lastExecution = lastExecution[lastExecution.length - 1];
             buildStageEnvironments[index] = currentShowed;
           }
         }
