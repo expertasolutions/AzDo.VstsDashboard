@@ -536,7 +536,7 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
   }
 
   // Must be Pipeline StageName NOT Environment
-  buildStageEnvironments = buildStageEnvironments.sort((a,b) => a.environment.id - b.environment.id);
+  buildStageEnvironments = buildStageEnvironments.sort((a,b) => b.environment.id - a.environment.id);
   
   let childrens = Array<any>();
   for(let i=0;i<buildStageEnvironments.length;i++) { 
