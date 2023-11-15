@@ -503,7 +503,7 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
           lastExecution: undefined
         };
 
-        let lastExecution = currentEnv.deploymentRecords.filter(x=> x.definition.id === build.id && x.stageName === envStage).sort((a,b) => a.id - b.id);
+        let lastExecution = currentEnv.deploymentRecords.filter(x=> x.definition.id === build.id && x.stageName === envStage).sort((a,b) => b.id - a.id);
         if(lastExecution.length > 0) {
           let currentShowed = buildStageEnvironments.find(x=> x.environment === envStage);
           if(currentShowed === undefined || currentShowed.length > 0) {

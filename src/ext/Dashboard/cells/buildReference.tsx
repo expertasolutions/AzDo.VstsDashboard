@@ -317,13 +317,13 @@ export function renderPipelineStageSummary(build: PipelineInfo, context: any, co
 
   if(!isClassicRelease) {
     return (
-      <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
+      <div>
         {getEnvironmentStageSummary(build, context.state.environments, context.state.approvals)}
       </div>
     );
   }
   return (
-    <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
+    <div>
       {getReleaseTagFromBuild(build.latestCompletedBuild, context.state.releases, context.state.environments, context.state.approvals, context.state.showAllBuildDeployment) }
     </div>
   );
