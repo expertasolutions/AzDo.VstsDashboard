@@ -486,6 +486,8 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
     return (<div>Problem !</div>)
   }
 
+  environments = environments.sort((a,b) => a.id - b.id);
+
   let allDeplRecords = Array<any>();
   let allStages = Array<string>();
   for(let i=0;i<environments.length;i++) {

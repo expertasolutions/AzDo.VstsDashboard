@@ -4,7 +4,7 @@ import { BuildDefinitionReference, Build } from "azure-devops-extension-api/Buil
 import { Deployment } from "azure-devops-extension-api/Release";
 
 export interface PipelineEnvironment {
-  id: string;
+  id: number;
   name: string;
   projectId: string;
   deploymentRecords: any[]
