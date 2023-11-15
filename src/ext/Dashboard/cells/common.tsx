@@ -504,8 +504,8 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
         };
 
         // && x.lastExecution.stageName === currentEnv.n
-        let lastExecution = currentEnv.deploymentRecords.filter(x=> x.definition.id === build.id).sort((a,b) => a.id - b.id);
-        if(build.id === 240) {
+        let lastExecution = currentEnv.deploymentRecords.filter(x=> x.definition.id === build.id && x.stageName === envStage).sort((a,b) => a.id - b.id);
+        if(build.id === 240) { 
           console.log("lastExecution");
           console.log(lastExecution);
         }
@@ -514,6 +514,8 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
 
           if(build.id === 240) {
             console.log(`${lastExecution.length} deploymentRecords found`);
+            console.log("currentShowed");
+            console.log(currentShowed);
           }
 
           if(currentShowed !== undefined && currentShowed.length > 0) {
