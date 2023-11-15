@@ -451,7 +451,7 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
   if(pendingApproval.length > 0) {
     let elm = pendingApproval[0];
     let approvalStatus = getApprovalIndicator(2);
-    let msgSingle = pendingApproval.length == 1 ? "Pending Approval waiting" : "Pending Approvals waiting";
+    let msgSingle = pendingApproval.length == 1 ? "Pending Approval" : "Pending Approvals";
     children.push(
       <Pill color={approvalStatus.color} variant={PillVariant.colored}
           onClick={() => window.open(elm.pipeline.owner._links.web.href, "_blank") }>
