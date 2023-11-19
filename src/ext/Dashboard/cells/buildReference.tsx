@@ -314,7 +314,7 @@ export function renderPipelineStageSummary(build: PipelineInfo, context: any, co
   let isClassicRelease = buildClassicReleases.length > 0;
 
   //console.log(`build: ${build.id} isClassicRelease: ${isClassicRelease}`);
-
+  /*
   if(!isClassicRelease) {
     return (
       <div>
@@ -322,6 +322,7 @@ export function renderPipelineStageSummary(build: PipelineInfo, context: any, co
       </div>
     );
   }
+  */
   return (
     <div>
       {getReleaseTagFromBuild(build.latestCompletedBuild, context.state.releases, context.state.environments, context.state.approvals, context.state.showAllBuildDeployment) }
