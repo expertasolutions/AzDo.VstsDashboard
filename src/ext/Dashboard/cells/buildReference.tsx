@@ -346,12 +346,12 @@ export function renderReleaseInfo01 (
         <DataContext.Consumer>
           {(context) => (
             <SimpleTableCell
-            key={"col-" + columnIndex}
-            columnIndex={columnIndex}
-            tableColumn={tableColumn}>
-              <div>
-                {renderPipelineStageSummary(tableItem, context, columnIndex, tableColumn)}
-              </div>
+              key={"col-" + columnIndex}
+              columnIndex={columnIndex}
+              tableColumn={tableColumn}>
+                <div style={{ width: "100%" }}>
+                  {renderPipelineStageSummary(tableItem, context, columnIndex, tableColumn)}
+                </div>
             </SimpleTableCell>
           )}
         </DataContext.Consumer>
