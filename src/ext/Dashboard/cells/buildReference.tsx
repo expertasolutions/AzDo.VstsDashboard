@@ -337,33 +337,33 @@ export function renderReleaseInfo01 (
 
   // TODO: Get Last Currently Running Pipelines
   if(lastBuild.id !== lastCompletedBuild.id) {
-    let children = [];
-    let summary = (
-        <DataContext.Consumer>
-          {(context) => (
-            <SimpleTableCell
-              key={"col-" + columnIndex}
-              columnIndex={columnIndex}
-              tableColumn={tableColumn}>
-                <div style={{ width: "100%", backgroundColor: "cyan" }}>
-                  {renderPipelineStageSummary(tableItem, context, columnIndex, tableColumn)}
-                </div>
-            </SimpleTableCell>
-          )}
-        </DataContext.Consumer>
-    );
+    // let children = [];
+    // let summary = (
+    //     <DataContext.Consumer>
+    //       {(context) => (
+    //         <SimpleTableCell
+    //           key={"col-" + columnIndex}
+    //           columnIndex={columnIndex}
+    //           tableColumn={tableColumn}>
+    //             <div style={{ width: "100%", backgroundColor: "cyan" }}>
+    //               {renderPipelineStageSummary(tableItem, context, columnIndex, tableColumn)}
+    //             </div>
+    //         </SimpleTableCell>
+    //       )}
+    //     </DataContext.Consumer>
+    // );
 
-    children.push(
-      <div>
-        <DataContext.Consumer>
-          {(context) => (
-              <div>
-                {renderAllInProgress(tableItem.id, context.state.builds, context, columnIndex, tableColumn) }
-              </div>
-          )}
-        </DataContext.Consumer>
-      </div>
-    );
+    // children.push(
+    //   <div>
+    //     <DataContext.Consumer>
+    //       {(context) => (
+    //           <div>
+    //             {renderAllInProgress(tableItem.id, context.state.builds, context, columnIndex, tableColumn) }
+    //           </div>
+    //       )}
+    //     </DataContext.Consumer>
+    //   </div>
+    // );
 
     return (
       <DataContext.Consumer>
