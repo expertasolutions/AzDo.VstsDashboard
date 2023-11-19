@@ -347,7 +347,6 @@ export function renderReleaseInfo01 (
               <div>
                 {renderPipelineStageSummary(tableItem, context, columnIndex, tableColumn)}
               </div>
-              <div>--inprogress--</div>
               <div>
                 {renderAllInProgress(tableItem.id, context.state.builds, context, columnIndex, tableColumn) }
               </div>
