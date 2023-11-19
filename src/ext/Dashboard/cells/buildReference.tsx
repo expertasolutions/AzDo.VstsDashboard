@@ -314,13 +314,13 @@ export function renderPipelineStageSummary(build: PipelineInfo, context: any, co
   let isClassicRelease = buildClassicReleases.length > 0;
   if(!isClassicRelease) {
     return (
-      <div style={{ backgroundColor: "lightGray" }}>
+      <div>
         {getEnvironmentStageSummary(build, context.state.environments, context.state.approvals)}
       </div>
     );
   }
   return (
-    <div style={{ backgroundColor: "red" }}>
+    <div>
       {getReleaseTagFromBuild(build.latestCompletedBuild, context.state.releases, context.state.environments, context.state.approvals, context.state.showAllBuildDeployment) }
     </div>
   );
@@ -337,34 +337,6 @@ export function renderReleaseInfo01 (
 
   // TODO: Get Last Currently Running Pipelines
   if(lastBuild.id !== lastCompletedBuild.id) {
-    // let children = [];
-    // let summary = (
-    //     <DataContext.Consumer>
-    //       {(context) => (
-    //         <SimpleTableCell
-    //           key={"col-" + columnIndex}
-    //           columnIndex={columnIndex}
-    //           tableColumn={tableColumn}>
-    //             <div style={{ width: "100%", backgroundColor: "cyan" }}>
-    //               {renderPipelineStageSummary(tableItem, context, columnIndex, tableColumn)}
-    //             </div>
-    //         </SimpleTableCell>
-    //       )}
-    //     </DataContext.Consumer>
-    // );
-
-    // children.push(
-    //   <div>
-    //     <DataContext.Consumer>
-    //       {(context) => (
-    //           <div>
-    //             {renderAllInProgress(tableItem.id, context.state.builds, context, columnIndex, tableColumn) }
-    //           </div>
-    //       )}
-    //     </DataContext.Consumer>
-    //   </div>
-    // );
-
     return (
       <DataContext.Consumer>
           {(context) => (
@@ -374,8 +346,10 @@ export function renderReleaseInfo01 (
                 tableColumn={tableColumn}>
               <div>
                 {renderPipelineStageSummary(tableItem, context, columnIndex, tableColumn)}
+              </div><br/>
+              <div>
+                {renderAllInProgress(tableItem.id, context.state.builds, context, columnIndex, tableColumn) }
               </div>
-              {renderAllInProgress(tableItem.id, context.state.builds, context, columnIndex, tableColumn) }
             </SimpleTableCell>
           )}
         </DataContext.Consumer>
