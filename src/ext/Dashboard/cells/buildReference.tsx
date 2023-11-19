@@ -312,9 +312,6 @@ export function renderPipelineStageSummary(build: PipelineInfo, context: any, co
   );
 
   let isClassicRelease = buildClassicReleases.length > 0;
-
-  //console.log(`build: ${build.id} isClassicRelease: ${isClassicRelease}`);
-  /*
   if(!isClassicRelease) {
     return (
       <div>
@@ -322,7 +319,6 @@ export function renderPipelineStageSummary(build: PipelineInfo, context: any, co
       </div>
     );
   }
-  */
   return (
     <div>
       {getReleaseTagFromBuild(build.latestCompletedBuild, context.state.releases, context.state.environments, context.state.approvals, context.state.showAllBuildDeployment) }
@@ -342,7 +338,7 @@ export function renderReleaseInfo01 (
   // TODO: Get Last Currently Running Pipelines
   if(lastBuild.id !== lastCompletedBuild.id) {
     let children = [];
-    children.push(
+    let summary = (
         <DataContext.Consumer>
           {(context) => (
             <SimpleTableCell
@@ -355,29 +351,33 @@ export function renderReleaseInfo01 (
             </SimpleTableCell>
           )}
         </DataContext.Consumer>
-    )
+    );
 
     children.push(
       <div>
         <DataContext.Consumer>
           {(context) => (
-            <SimpleTableCell
-              key={"col-" + columnIndex}
-              columnIndex={columnIndex}
-              tableColumn={tableColumn}>
               <div>
                 {renderAllInProgress(tableItem.id, context.state.builds, context, columnIndex, tableColumn) }
               </div>
-            </SimpleTableCell>
           )}
         </DataContext.Consumer>
       </div>
     );
 
     return (
-      <div>
-        {children}
-      </div>
+      <DataContext.Consumer>
+          {(context) => (
+            <SimpleTableCell
+                key={"col-" + columnIndex}
+                columnIndex={columnIndex}
+                tableColumn={tableColumn}>
+              <div>
+                {summary}
+              </div>
+            </SimpleTableCell>
+        )}
+      </DataContext.Consumer>
     );
   };
   return (

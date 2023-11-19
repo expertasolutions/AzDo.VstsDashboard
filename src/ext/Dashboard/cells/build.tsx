@@ -51,12 +51,12 @@ export function renderBuildStatus (
                       className="icon-large-margin"
                       size={StatusSize.l}/>
               <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
-                  <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
-                    <Link href={getBuildDefinitionUrl(context.state.buildDefs, tableItem.definition.id)} target="_blank" className="bolt-table-cell-primary">
-                      {tableItem.definition.name}
-                    </Link>
-                  </div>
-                  <div className="font-size-s" style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>{projectName}</div>
+                <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
+                  <Link href={getBuildDefinitionUrl(context.state.buildDefs, tableItem.definition.id)} target="_blank" className="bolt-table-cell-primary">
+                    {tableItem.definition.name}
+                  </Link>
+                </div>
+                <div className="font-size-s" style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>{projectName}</div>
               </div>
         </SimpleTableCell>
       )}
