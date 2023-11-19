@@ -314,13 +314,13 @@ export function renderPipelineStageSummary(build: PipelineInfo, context: any, co
   let isClassicRelease = buildClassicReleases.length > 0;
   if(!isClassicRelease) {
     return (
-      <div>
+      <div style={{ backgroundColor: "lightGray" }}>
         {getEnvironmentStageSummary(build, context.state.environments, context.state.approvals)}
       </div>
     );
   }
   return (
-    <div>
+    <div style={{ backgroundColor: "red" }}>
       {getReleaseTagFromBuild(build.latestCompletedBuild, context.state.releases, context.state.environments, context.state.approvals, context.state.showAllBuildDeployment) }
     </div>
   );
@@ -345,7 +345,7 @@ export function renderReleaseInfo01 (
               key={"col-" + columnIndex}
               columnIndex={columnIndex}
               tableColumn={tableColumn}>
-                <div style={{ width: "100%" }}>
+                <div style={{ width: "100%", backgroundColor: "cyan" }}>
                   {renderPipelineStageSummary(tableItem, context, columnIndex, tableColumn)}
                 </div>
             </SimpleTableCell>
