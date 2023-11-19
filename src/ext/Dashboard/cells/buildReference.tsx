@@ -373,13 +373,19 @@ export function renderReleaseInfo01 (
                 columnIndex={columnIndex}
                 tableColumn={tableColumn}>
               <div>
-                {summary}
+                {renderPipelineStageSummary(tableItem, context, columnIndex, tableColumn)}
+              </div>
+              <div>
+                <div>
+                  {renderAllInProgress(tableItem.id, context.state.builds, context, columnIndex, tableColumn) }
+                </div>
               </div>
             </SimpleTableCell>
-        )}
-      </DataContext.Consumer>
-    );
+          )}
+        </DataContext.Consumer>
+      );
   };
+  
   return (
     <DataContext.Consumer>
         {(context) => (
@@ -389,11 +395,6 @@ export function renderReleaseInfo01 (
               tableColumn={tableColumn}>
             <div>
               {renderPipelineStageSummary(tableItem, context, columnIndex, tableColumn)}
-            </div>
-            <div>
-              <div>
-                {renderAllInProgress(tableItem.id, context.state.builds, context, columnIndex, tableColumn) }
-              </div>
             </div>
           </SimpleTableCell>
         )}
