@@ -381,18 +381,23 @@ export function renderReleaseInfo01 (
     );
   };
   return (
-      <DataContext.Consumer>
-          {(context) => (
-            <SimpleTableCell
-                key={"col-" + columnIndex}
-                columnIndex={columnIndex}
-                tableColumn={tableColumn}>
+    <DataContext.Consumer>
+        {(context) => (
+          <SimpleTableCell
+              key={"col-" + columnIndex}
+              columnIndex={columnIndex}
+              tableColumn={tableColumn}>
+            <div>
+              {renderPipelineStageSummary(tableItem, context, columnIndex, tableColumn)}
+            </div>
+            <div>
               <div>
-                {renderPipelineStageSummary(tableItem, context, columnIndex, tableColumn)}
+                {renderAllInProgress(tableItem.id, context.state.builds, context, columnIndex, tableColumn) }
               </div>
-            </SimpleTableCell>
-          )}
-        </DataContext.Consumer>
+            </div>
+          </SimpleTableCell>
+        )}
+      </DataContext.Consumer>
     );
 }
 
