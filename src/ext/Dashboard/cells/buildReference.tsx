@@ -381,7 +381,6 @@ export function renderReleaseInfo01 (
     );
   };
   return (
-    <div>
       <DataContext.Consumer>
           {(context) => (
             <SimpleTableCell
@@ -394,7 +393,6 @@ export function renderReleaseInfo01 (
             </SimpleTableCell>
           )}
         </DataContext.Consumer>
-      </div>
     );
 }
 
