@@ -376,9 +376,7 @@ export function renderReleaseInfo01 (
                 {renderPipelineStageSummary(tableItem, context, columnIndex, tableColumn)}
               </div>
               <div>
-                <div>
-                  {renderAllInProgress(tableItem.id, context.state.builds, context, columnIndex, tableColumn) }
-                </div>
+                {renderAllInProgress(tableItem.id, context.state.builds, context, columnIndex, tableColumn) }
               </div>
             </SimpleTableCell>
           )}
