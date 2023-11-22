@@ -348,8 +348,10 @@ export function renderReleaseInfo01 (
                   columnIndex={columnIndex}
                   tableColumn={tableColumn}
                   line1={summaryHeader}
-                  line2={details}/>);
-          }}
+                  line2={details} />
+                );
+            }
+          }
         </DataContext.Consumer>
       );
   };
