@@ -285,7 +285,7 @@ export function renderLastBuild02(
   );
 }
 
-export function renderAllInProgress(buildDefId: number, builds: Array<Build>, context: any, columnIndex: number, tableColumn: ITableColumn<PipelineInfo>) : JSX.Element {
+export function renderAllInProgress(buildDefId: number, builds: Array<Build>, context: any, columnIndex: number, tableColumn: ITableColumn<PipelineInfo>) : Array<JSX.Element> {
   let childrens = Array<JSX.Element>();
   let pending = builds.filter(x=> x.definition.id ===buildDefId && x.status === BuildStatus.InProgress || x.status === BuildStatus.NotStarted).sort((a,b) => a.id-b.id);
   // TODO: Filter out build without environments stage in progress
@@ -296,7 +296,7 @@ export function renderAllInProgress(buildDefId: number, builds: Array<Build>, co
       </div>
     );
   }
-  return (<div>{childrens}</div>);
+  return childrens;
 }
 
 export function renderPipelineStageSummary(build: PipelineInfo, context: any, columnIndex: number, tableColumn: ITableColumn<PipelineInfo>) : JSX.Element {
@@ -337,24 +337,23 @@ export function renderReleaseInfo01 (
 
   // TODO: Get Last Currently Running Pipelines
   if(lastBuild.id !== lastCompletedBuild.id) {
-/*     return (
+    return (
       <DataContext.Consumer>
-          {(context) => {
-              let summaryHeader = renderPipelineStageSummary(tableItem, context, columnIndex, tableColumn);
-              let details = renderAllInProgress(tableItem.id, context.state.builds, context, columnIndex, tableColumn);
-              return (
-                <TwoLineTableCell
-                  key={"col-" + columnIndex}
-                  columnIndex={columnIndex}
-                  tableColumn={tableColumn}
-                  line1={summaryHeader}
-                  line2={details} />
-                );
-            }
-          }
+          {(context) => (
+            <SimpleTableCell
+                key={"col-" + columnIndex}
+                columnIndex={columnIndex}
+                tableColumn={tableColumn}>
+              <div>
+                {renderPipelineStageSummary(tableItem, context, columnIndex, tableColumn)}
+              </div>
+              <div>
+                {renderAllInProgress(tableItem.id, context.state.builds, context, columnIndex, tableColumn) }
+              </div>
+            </SimpleTableCell>
+          )}
         </DataContext.Consumer>
-      ); */
-      return (<div>nothing yet</div>);
+      );
   };
   
   return (
