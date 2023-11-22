@@ -339,15 +339,17 @@ export function renderReleaseInfo01 (
   if(lastBuild.id !== lastCompletedBuild.id) {
     return (
       <DataContext.Consumer>
-          {(context) => (
-            <TwoLineTableCell
-                key={"col-" + columnIndex}
-                columnIndex={columnIndex}
-                tableColumn={tableColumn}
-                line1={renderPipelineStageSummary(tableItem, context, columnIndex, tableColumn)}
-                line2={renderAllInProgress(tableItem.id, context.state.builds, context, columnIndex, tableColumn)}
-              />
-          )}
+          {(context) => {
+              let summaryHeader = renderPipelineStageSummary(tableItem, context, columnIndex, tableColumn);
+              let details = renderAllInProgress(tableItem.id, context.state.builds, context, columnIndex, tableColumn);
+              return (
+                <TwoLineTableCell
+                  key={"col-" + columnIndex}
+                  columnIndex={columnIndex}
+                  tableColumn={tableColumn}
+                  line1={summaryHeader}
+                  line2={details}/>);
+          }}
         </DataContext.Consumer>
       );
   };
