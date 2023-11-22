@@ -340,17 +340,13 @@ export function renderReleaseInfo01 (
     return (
       <DataContext.Consumer>
           {(context) => (
-            <SimpleTableCell
+            <TwoLineTableCell
                 key={"col-" + columnIndex}
                 columnIndex={columnIndex}
-                tableColumn={tableColumn}>
-              <div>
-                {renderPipelineStageSummary(tableItem, context, columnIndex, tableColumn)}
-              </div>
-              <div>
-                {renderAllInProgress(tableItem.id, context.state.builds, context, columnIndex, tableColumn) }
-              </div>
-            </SimpleTableCell>
+                tableColumn={tableColumn}
+                line1={renderPipelineStageSummary(tableItem, context, columnIndex, tableColumn)}
+                line2={renderAllInProgress(tableItem.id, context.state.builds, context, columnIndex, tableColumn) }
+              />
           )}
         </DataContext.Consumer>
       );
