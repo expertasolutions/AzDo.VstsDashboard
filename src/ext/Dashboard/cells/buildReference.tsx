@@ -285,7 +285,7 @@ export function renderLastBuild02(
   );
 }
 
-export function renderAllInProgress(buildDefId: number, builds: Array<Build>, context: any, columnIndex: number, tableColumn: ITableColumn<PipelineInfo>) : Array<JSX.Element> {
+export function renderAllInProgress(buildDefId: number, builds: Array<Build>, context: any, columnIndex: number, tableColumn: ITableColumn<PipelineInfo>) : JSX.Element {
   let childrens = Array<JSX.Element>();
   let pending = builds.filter(x=> x.definition.id ===buildDefId && x.status === BuildStatus.InProgress || x.status === BuildStatus.NotStarted).sort((a,b) => a.id-b.id);
   // TODO: Filter out build without environments stage in progress
@@ -296,7 +296,7 @@ export function renderAllInProgress(buildDefId: number, builds: Array<Build>, co
       </div>
     );
   }
-  return childrens;
+  return (<div>{childrens}</div>);
 }
 
 export function renderPipelineStageSummary(build: PipelineInfo, context: any, columnIndex: number, tableColumn: ITableColumn<PipelineInfo>) : JSX.Element {
@@ -345,7 +345,7 @@ export function renderReleaseInfo01 (
                 columnIndex={columnIndex}
                 tableColumn={tableColumn}
                 line1={renderPipelineStageSummary(tableItem, context, columnIndex, tableColumn)}
-                line2={renderAllInProgress(tableItem.id, context.state.builds, context, columnIndex, tableColumn) }
+                line2={renderAllInProgress(tableItem.id, context.state.builds, context, columnIndex, tableColumn)}
               />
           )}
         </DataContext.Consumer>
