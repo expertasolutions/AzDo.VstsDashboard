@@ -337,7 +337,7 @@ export function renderReleaseInfo01 (
 
   // TODO: Get Last Currently Running Pipelines
   if(lastBuild.id !== lastCompletedBuild.id) {
-    return (
+/*     return (
       <DataContext.Consumer>
           {(context) => {
               let summaryHeader = renderPipelineStageSummary(tableItem, context, columnIndex, tableColumn);
@@ -353,7 +353,8 @@ export function renderReleaseInfo01 (
             }
           }
         </DataContext.Consumer>
-      );
+      ); */
+      return (<div>nothing yet</div>);
   };
   
   return (
