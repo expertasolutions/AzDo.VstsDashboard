@@ -14,7 +14,7 @@ stages:
   jobs:
   - job: Build
     pool:
-      vmImage: 'ubuntu-latest'
+      vmImage: 'windows-latest'
       demand: npm
       workspace:
         clean: true
