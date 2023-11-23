@@ -504,16 +504,17 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
     if(envStage !== undefined) {
       let currentElement = {
         environment: envStage,
+        //envId: undefined,
         lastExecution: undefined
       };
 
-      let lastExecution = allDeplRecords.sort((a,b) => a.id - b.id)
-                                        .filter(x=> x.definition.id === build.id && x.stageName === envStage)
-                                        ;
+      let lastExecution = allDeplRecords.filter(x=> x.definition.id === build.id && x.stageName === envStage)
+                                        .sort((a,b) => a.id - b.id);
       if(lastExecution.length > 0) {
         let currentShowed = buildStageEnvironments.find(x=> x.environment === envStage);
         if(currentShowed === undefined || currentShowed.length > 0) {
           currentElement.lastExecution = lastExecution[lastExecution.length - 1];
+          //currentElement.envId = lastExecution[lastExecution.length - 1].environmentId;
           buildStageEnvironments.push(currentElement);
         } else {
           let index = buildStageEnvironments.findIndex(x=> x.environment === envStage);
@@ -525,7 +526,8 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
   }
 
   // Must be Pipeline StageName NOT Environment /// but we have a *** order issue here... !!!
-  buildStageEnvironments = buildStageEnvironments.sort((a,b) => b.lastExecution.id - a.lastExecution.id);
+  //buildStageEnvironments = buildStageEnvironments.sort((a,b) => b.lastExecution.id - a.lastExecution.id);
+  buildStageEnvironments = buildStageEnvironments.sort((a,b) => b.lastExecution.environmentId - a.lastExecution.environmentId);
   
   let childrens = Array<any>();
   for(let i=0;i<buildStageEnvironments.length;i++) { 
