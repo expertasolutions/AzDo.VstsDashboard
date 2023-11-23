@@ -54,10 +54,10 @@ stages:
     #     customCommand: 'run compile'
 
 # Package the extension
-    # - task: UseNode@1
-    #   displayName: 'Use Node 10.x'
-    #   inputs:
-    #     version: 10.x
+    - task: UseNode@1
+      displayName: 'Use Node 10.x'
+      inputs:
+        version: 10.x
 
     - task: TfxInstaller@2
       inputs:
