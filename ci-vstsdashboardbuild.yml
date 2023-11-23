@@ -14,7 +14,7 @@ stages:
   jobs:
   - job: Build
     pool:
-      vmImage: 'windows-latest'
+      vmImage: 'ubuntu-latest'
       demand: npm
       workspace:
         clean: true
@@ -47,7 +47,7 @@ stages:
         customCommand: 'run compile'
 
     - task: PackageAzureDevOpsExtension@2
-      displayName: 'Package Extension: '
+      displayName: 'Package Extension'
       inputs:
         rootFolder: 
         patternManifest: |
