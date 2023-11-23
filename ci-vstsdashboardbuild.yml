@@ -21,17 +21,15 @@ stages:
     steps:
     
     - task: UseNode@1
-      displayName: 'Use Node 10.x'
+      displayName: 'Use Node 20.x'
+      inputs:
+        version: 20.x
 
     - task: VersionExtractor@5
       name: build
       displayName: 'Version extractor digit'
       inputs:
         stringToAnalyze: '$(Build.BuildNumber)'
-
-    - task: TfxInstaller@2
-      inputs:
-        displayName: 'Use Node CLI for Azure DevOps (tfx-cli): v0.6.x'
 
     - task: Npm@1
       displayName: 'Install Dependencies'
@@ -45,6 +43,15 @@ stages:
         command: custom
         verbose: false
         customCommand: 'run compile'
+
+    - task: UseNode@1
+      displayName: 'Use Node 10.x'
+      inputs:
+        version: 10.x
+
+    - task: TfxInstaller@2
+      inputs:
+        displayName: 'Use Node CLI for Azure DevOps (tfx-cli): v0.6.x'
 
     - task: PackageAzureDevOpsExtension@2
       displayName: 'Package Extension'
