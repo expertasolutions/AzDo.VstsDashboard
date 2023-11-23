@@ -31,7 +31,7 @@ stages:
       inputs:
         stringToAnalyze: '$(Build.BuildNumber)'
 
-# Compile the extension
+    # Compile the extension
     - task: Npm@1
       displayName: 'Install Dependencies'
       inputs:

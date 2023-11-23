@@ -344,11 +344,13 @@ export function renderReleaseInfo01 (
                 key={"col-" + columnIndex}
                 columnIndex={columnIndex}
                 tableColumn={tableColumn}>
-              <div>
-                {renderPipelineStageSummary(tableItem, context, columnIndex, tableColumn)}
-              </div>
-              <div>
-                {renderAllInProgress(tableItem.id, context.state.builds, context, columnIndex, tableColumn) }
+              <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
+                <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
+                  {renderPipelineStageSummary(tableItem, context, columnIndex, tableColumn)}
+                </div>
+                <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
+                  {renderAllInProgress(tableItem.id, context.state.builds, context, columnIndex, tableColumn) }
+                </div>
               </div>
             </SimpleTableCell>
           )}
