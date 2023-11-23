@@ -243,10 +243,6 @@ export async function getEnvironments(azureDevOpsUri: string, projectNames: Arra
       finalResult.push(newEnv);
     }
 
-    // for(let i=0;i<finalResult.length;i++) {
-    //   let envChecks = await getEnvironmentChecks(azureDevOpsUri, finalResult[i].id, projectName, accessToken);
-    //   finalResult[i].environmentChecks = envChecks;
-    // }
     result.push(...finalResult);
   }
   return result;
@@ -309,25 +305,24 @@ export function getMinTimeFromNow(timeRangeLoad: string) {
   return minDate;
 }
 
-export async function getPipelineInfo(projectName: string, pipelineId: number, accessToken: string) {
-  // CODE_REVIEW: Replace from the URL with the proper organization name
-  //let apiVersion = "7.2-preview.1";
-  let apiVersion = "6.0-preview.1";
-  let envUrl = `https://dev.azure.com/${SDK.getHost().name}/${projectName}/_apis/pipelines/${pipelineId}?api-version=${apiVersion}`;
-  let acceptHeaderValue = `application/json;api-version=${apiVersion};excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true`;
-  let result = await fetch(envUrl, 
-    {
-      method: 'GET',
-      mode: 'cors',
-      headers: { 
-        'Accept': acceptHeaderValue,
-        'Content-Type': 'application/json',
-        'Authorization' : `Bearer ${accessToken}`
-      }
-    })
-    .then(response => response.json());
-    return result;
-}
+// export async function getPipelineInfo(azureDevOpsUri: string, projectName: string, pipelineId: number, accessToken: string) {
+//   //let apiVersion = "7.2-preview.1";
+//   let apiVersion = "6.0-preview.1";
+//   let envUrl = `${azureDevOpsUri}/${projectName}/_apis/pipelines/${pipelineId}?api-version=${apiVersion}`;
+//   let acceptHeaderValue = `application/json;api-version=${apiVersion};excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true`;
+//   let result = await fetch(envUrl, 
+//     {
+//       method: 'GET',
+//       mode: 'cors',
+//       headers: { 
+//         'Accept': acceptHeaderValue,
+//         'Content-Type': 'application/json',
+//         'Authorization' : `Bearer ${accessToken}`
+//       }
+//     })
+//     .then(response => response.json());
+//     return result;
+// }
 
 export async function getBuilds(projectName: string, isFirstLoad: boolean, timeRangeLoad: string)  {
   const MS_IN_MIN = 60000;
