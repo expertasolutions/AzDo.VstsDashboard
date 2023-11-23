@@ -8,7 +8,7 @@
     "publishExt": "npm install --force && tsc -p .",
     "clean": "rimraf ./dist",
     "webpack": "webpack --mode production",
-    "compile": "export NODE_OPTIONS=--openssl-legacy-provider; npm run clean && webpack --mode production",
+    "compile": "export NODE_OPTIONS=--openssl-legacy-provider && npm run clean && webpack --mode production",
     "compile:dev": "npm run clean && webpack --mode development",
     "build": "npm run compile"
   },
