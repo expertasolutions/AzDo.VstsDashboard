@@ -504,7 +504,6 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
     if(envStage !== undefined) {
       let currentElement = {
         environment: envStage,
-        //envId: undefined,
         lastExecution: undefined
       };
 
@@ -514,7 +513,6 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
         let currentShowed = buildStageEnvironments.find(x=> x.environment === envStage);
         if(currentShowed === undefined || currentShowed.length > 0) {
           currentElement.lastExecution = lastExecution[lastExecution.length - 1];
-          //currentElement.envId = lastExecution[lastExecution.length - 1].environmentId;
           buildStageEnvironments.push(currentElement);
         } else {
           let index = buildStageEnvironments.findIndex(x=> x.environment === envStage);

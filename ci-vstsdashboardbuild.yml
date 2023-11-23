@@ -39,21 +39,14 @@ stages:
         customCommand: 'install --force'
 
     - task: Powershell@2
-      displayName: 'Compile Extesion'
+      displayName: 'Compile Extension'
       inputs:
         targetType: 'inline'
         script: |
           $env:NODE_OPTIONS = "--openssl-legacy-provider"
           npm run compile
 
-    # - task: Npm@1
-    #   displayName: 'Compile extension'
-    #   inputs:
-    #     command: custom
-    #     verbose: false
-    #     customCommand: 'run compile'
-
-# Package the extension
+    # Package the extension
     - task: UseNode@1
       displayName: 'Use Node 10.x'
       inputs:
