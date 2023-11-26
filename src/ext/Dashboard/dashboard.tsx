@@ -361,6 +361,7 @@ class CICDDashboard extends React.Component<{}, {}> {
             currentResult[buildIndex] = newElement;
             let buildDefs = this.state.buildDefs;
             let buildDef = buildDefs.find(x=> x.id === newElement.definition.id);
+            
             if(buildDef !== undefined && buildDef.latestBuild !== undefined && buildDef.latestBuild.id <= newElement.id) {
               let buildDefIndex = buildDefs.indexOf(buildDef, 0);
           
