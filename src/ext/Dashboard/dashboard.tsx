@@ -152,8 +152,8 @@ class CICDDashboard extends React.Component<{}, {}> {
       
       let elm = this.state.buildDefs.filter(
         x=> x.name.toLowerCase().indexOf(pipelineFilterText) !== -1 || 
-        (x.latestCompletedBuild != null && x.latestCompletedBuild.buildNumber.toLowerCase().indexOf(pipelineFilterText) !== -1) ||
-        (x.latestCompletedBuild != null && x.latestCompletedBuild.sourceBranch.toLowerCase().indexOf(pipelineFilterText) !== -1)
+        (x.latestCompletedBuild !== undefined && x.latestCompletedBuild.buildNumber.toLowerCase().indexOf(pipelineFilterText) !== -1) ||
+        (x.latestCompletedBuild !== undefined && x.latestCompletedBuild.sourceBranch.toLowerCase().indexOf(pipelineFilterText) !== -1)
       );
 
       if(elm.length === 0) {
@@ -161,8 +161,8 @@ class CICDDashboard extends React.Component<{}, {}> {
           let regexSearcher = new RegExp(pipelineFilterText.toLowerCase());
           elm = this.state.buildDefs.filter(
               x=> regexSearcher.test(x.name.toLowerCase()) ||
-              (x.latestCompletedBuild != null && regexSearcher.test(x.latestCompletedBuild.buildNumber.toLowerCase())) ||
-              (x.latestCompletedBuild != null && regexSearcher.test(x.latestCompletedBuild.sourceBranch.toLowerCase()))
+              (x.latestCompletedBuild !== undefined && regexSearcher.test(x.latestCompletedBuild.buildNumber.toLowerCase())) ||
+              (x.latestCompletedBuild !== undefined && regexSearcher.test(x.latestCompletedBuild.sourceBranch.toLowerCase()))
           );
         } catch {
           elm = [];
@@ -176,7 +176,7 @@ class CICDDashboard extends React.Component<{}, {}> {
 
     if(this.showOnlyBuildWithDeployments) {
       let allBuildWithRelease = buildDefList.filter(
-        b => b.latestCompletedBuild != undefined && this.state.releases.find(r=> 
+        b => b.latestCompletedBuild !== undefined && this.state.releases.find(r=> 
             r.release.artifacts.find(a=> 
               {
                 let version = a.definitionReference["version"];

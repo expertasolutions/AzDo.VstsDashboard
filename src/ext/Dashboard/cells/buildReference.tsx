@@ -87,7 +87,7 @@ export function renderLastBuild01 (
   let contentRow1 = (<div>Not found</div>);
   let contentRow2 = (<div></div>);
 
-  if(lastBuild != undefined) {
+  if(lastBuild !== undefined) {
     let branchName = lastBuild.sourceBranch.replace('refs/heads/','');
     let branchUrl = lastBuild.repository.url;
     let commitUrl = lastBuild.repository.url;
@@ -306,7 +306,10 @@ export function renderPipelineStageSummary(build: PipelineInfo, context: any, co
     x => x.release.artifacts.find(
       a => {
         let version = a.definitionReference["version"];
-        return version.id === build.latestCompletedBuild.id.toString();
+        if(build.latestCompletedBuild !== undefined) {
+          return version.id === build.latestCompletedBuild.id.toString();
+        }
+        return false;
       }
     ) != null
   );
