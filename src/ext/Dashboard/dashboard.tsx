@@ -364,7 +364,6 @@ class CICDDashboard extends React.Component<{}, {}> {
             
             if(buildDef !== undefined && buildDef.latestBuild !== undefined && buildDef.latestBuild.id <= newElement.id) {
               let buildDefIndex = buildDefs.indexOf(buildDef, 0);
-          
               if(buildDefIndex > -1) {
                 buildDefs[buildDefIndex].latestBuild = newElement;
                 let newbuildDef = sortBuildReferences(this.state.buildDefs, this.showErrorsOnSummaryOnTop);
