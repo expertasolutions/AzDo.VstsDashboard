@@ -494,6 +494,10 @@ class CICDDashboard extends React.Component<{}, {}> {
     this.extensionVersion = "v" + this.extContext.version;
     this.releaseNoteVersion = "https://github.com/expertasolutions/VstsDashboard/releases/tag/" + this.extContext.version;
 
+    // Select Projectlist from the UserPreferences
+    let userPreferences = await getUserPreferences(this.extContext, this.hostInfo.name);
+    this.selectedTabId.value = (userPreferences === undefined || userPreferences.currentViewId === "") ? "summary" : userPreferences.currentViewId;
+
     const projectService = await SDK.getService<IProjectPageService>(CommonServiceIds.ProjectPageService);
     let currentProject = await projectService.getProject();
 
@@ -508,11 +512,7 @@ class CICDDashboard extends React.Component<{}, {}> {
 
         // If no UsersPreferences is set...
         this.projectSelection.select(index);
-
-        // Select Projectlist from the UserPreferences
-        let userPreferences = await getUserPreferences(this.extContext, this.hostInfo.name);
-        this.selectedTabId.value = userPreferences.currentViewId === "" ? "summary" : userPreferences.currentViewId;
-        //
+      
         if(userPreferences !== undefined) {
           
           for(let i=0;i<userPreferences.selectedProjects.length;i++) {
