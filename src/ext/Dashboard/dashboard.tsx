@@ -511,7 +511,7 @@ class CICDDashboard extends React.Component<{}, {}> {
 
         // Select Projectlist from the UserPreferences
         let userPreferences = await getUserPreferences(this.extContext, this.hostInfo.name);
-        this.selectedTabId.value = userPreferences.currentViewId;
+        this.selectedTabId.value = userPreferences.currentViewId === "" ? "summary" : userPreferences.currentViewId;
         //
         if(userPreferences !== undefined) {
           
