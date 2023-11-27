@@ -29,10 +29,6 @@ stages:
       inputs:
         stringToAnalyze: '$(Build.BuildNumber)'
 
-    - task: TfxInstaller@2
-      inputs:
-        displayName: 'Use Node CLI for Azure DevOps (tfx-cli): v0.6.x'
-
 - stage: ExpertaPrivatePreview
   dependsOn: Build
   condition: and(
