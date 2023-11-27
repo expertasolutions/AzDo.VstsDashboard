@@ -360,7 +360,6 @@ export function sortBuilds(builds: Array<Build>) {
 
 export function sortBuildReferences(buildRefs: Array<BuildDefinitionReference>, errorOnTop: boolean) {
   buildRefs = buildRefs.sort((a,b) => {
-    return 0;
     if(a.latestBuild !== undefined && b.latestBuild === undefined) {
       return -1;
     }
@@ -391,7 +390,6 @@ export function sortBuildReferences(buildRefs: Array<BuildDefinitionReference>, 
 
   if(errorOnTop) {
     buildRefs = buildRefs.sort((a, b) => {
-      return 0;
       if(a.latestBuild !== undefined && b.latestBuild === undefined) {
         return -1;
       }
