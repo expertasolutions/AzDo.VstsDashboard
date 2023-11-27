@@ -494,7 +494,6 @@ class CICDDashboard extends React.Component<{}, {}> {
     this.extensionVersion = "v" + this.extContext.version;
     this.releaseNoteVersion = "https://github.com/expertasolutions/VstsDashboard/releases/tag/" + this.extContext.version;
 
-    // Select Projectlist from the UserPreferences
     let userPreferences = await getUserPreferences(this.extContext, this.hostInfo.name);
     this.selectedTabId.value = (userPreferences === undefined || userPreferences.currentViewId === "") ? "summary" : userPreferences.currentViewId;
 
@@ -509,12 +508,9 @@ class CICDDashboard extends React.Component<{}, {}> {
       let prj = this.state.projects.find(x=> x.name === this.initialProjectName);
       if(prj != undefined) {
         let index = this.state.projects.indexOf(prj);
-
-        // If no UsersPreferences is set...
         this.projectSelection.select(index);
       
         if(userPreferences !== undefined) {
-          
           for(let i=0;i<userPreferences.selectedProjects.length;i++) {
             let prString = userPreferences.selectedProjects[i]
             let pr = this.state.projects.find(x=> x.name === prString);
