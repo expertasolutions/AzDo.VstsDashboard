@@ -38,6 +38,7 @@ export async function setUserPreferences(
     , showAllDeployment: number
     , extensionContext: any
     , collectionName: string
+    , currentViewId: string
   ) : Promise<any> {
   try {
     let currentDocument = await getUserPreferences(extensionContext, collectionName);
@@ -48,7 +49,8 @@ export async function setUserPreferences(
         showErrorsOnTop: statusOrder,
         withDeploymentOnly: withDeploymentOnly,
         showAllDeployment: showAllDeployment,
-        selectedProjects : projectList
+        selectedProjects : projectList,
+        currentViewId: currentViewId
       };
       result = await extClient.createDocumentByName(newDoc, extensionContext.publisherId, extensionContext.extensionId, "User", "Me", collectionName);
     } else {
@@ -59,7 +61,8 @@ export async function setUserPreferences(
         withDeploymentOnly: withDeploymentOnly,
         showAllDeployment: showAllDeployment,
         id: currentDocument.id,
-        __etag: currentDocument.__etag
+        __etag: currentDocument.__etag,
+        currentViewId: currentViewId
       };
       result = await extClient.updateDocumentByName(updDoc, extensionContext.publisherId, extensionContext.extensionId, "User", "Me", collectionName);
     }

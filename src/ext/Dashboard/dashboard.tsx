@@ -77,6 +77,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   private onlyBuildWithDeploymentFilter: Filter = new Filter();
   private lastBuildsDisplayFilter: Filter = new Filter();
 
+  private currentViewId: string = "";
   private currentSelectedProjects: Array<string> = new Array<string>();
   private initialProjectName : string = "";
   private extensionVersion : string = "";
@@ -452,7 +453,9 @@ class CICDDashboard extends React.Component<{}, {}> {
     , (this.showErrorsOnSummaryOnTop ? 0 : 1)
     , (this.showOnlyBuildWithDeployments ? 0 : 1)
     , (this.showAllBuildDeployment ? 0 : 1)
-    , this.extContext, this.hostInfo.name);
+    , this.extContext
+    , this.hostInfo.name
+    , this.currentViewId);
     /************ Preferences storage tests ***********/
   }
 
@@ -508,6 +511,7 @@ class CICDDashboard extends React.Component<{}, {}> {
 
         // Select Projectlist from the UserPreferences
         let userPreferences = await getUserPreferences(this.extContext, this.hostInfo.name);
+        this.selectedTabId.value = userPreferences.currentViewId;
         //
         if(userPreferences !== undefined) {
           
@@ -562,6 +566,8 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   private onSelectedTabChanged = (newTabId: string) => {
     this.selectedTabId.value = newTabId;
+    this.currentViewId = newTabId;
+    this.assignUserPreferences();
   }
 
   private async getProjectUrl(projectName:string) {
