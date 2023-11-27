@@ -4,6 +4,8 @@ trigger:
 - master
 - Issue*
 - Delivery*
+- feature/*
+- dependatbot/*
 
 pr:
 - master

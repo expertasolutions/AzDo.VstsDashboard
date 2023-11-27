@@ -198,7 +198,7 @@ function renderPendingBuild(buildRef:PipelineInfo, buildList: Build[]) {
               <div style={{marginLeft: "10px"}}>
                 <div>
                   <Icon iconName="BranchMerge"/>&nbsp;<Link href={branchUrl} target="_blank">{branchName}</Link>&nbsp;
-                  <Icon iconName="BranchCommit" />{sourceVersionCtrl}
+                  <Icon iconName="BranchCommit" />{sourceVersionCtrl}&nbsp;
                 </div>
                 <div>
                   {requestByCtrl}&nbsp;{clockCtrl}
