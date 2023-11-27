@@ -359,18 +359,7 @@ export function sortBuilds(builds: Array<Build>) {
 }
 
 export function sortBuildReferences(buildRefs: Array<BuildDefinitionReference>, errorOnTop: boolean) {
-  buildRefs = buildRefs.sort((a,b) => {
-    if(a.latestBuild !== undefined && b.latestBuild === undefined) {
-      return -1;
-    }
-    if(a.latestBuild === undefined && b.latestBuild !== undefined) {
-      return 1;
-    }
-
-    if(a.latestBuild === undefined && b.latestBuild === undefined) {
-      return 0;
-    }
-    
+  buildRefs = buildRefs.sort((a,b) => {   
     if(b.latestBuild !== undefined && a.latestBuild !== undefined) {
       if(a.latestBuild.id > b.latestBuild.id){
         return -1;
@@ -390,17 +379,6 @@ export function sortBuildReferences(buildRefs: Array<BuildDefinitionReference>, 
 
   if(errorOnTop) {
     buildRefs = buildRefs.sort((a, b) => {
-      if(a.latestBuild !== undefined && b.latestBuild === undefined) {
-        return -1;
-      }
-      if(a.latestBuild === undefined && b.latestBuild !== undefined) {
-        return 1;
-      }
-  
-      if(a.latestBuild === undefined && b.latestBuild === undefined) {
-        return 0;
-      }
-
       if(a.latestBuild !== undefined && b.latestBuild !== undefined){
         return b.latestBuild.result - a.latestBuild.result;
       } else if(a.latestBuild !== undefined && b.latestBuild === undefined) {

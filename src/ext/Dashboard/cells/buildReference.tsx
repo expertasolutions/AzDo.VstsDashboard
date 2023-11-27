@@ -336,7 +336,7 @@ export function renderReleaseInfo01 (
   let lastBuild = tableItem.latestBuild;
 
   // TODO: Get Last Currently Running Pipelines
-  if((lastBuild !== null && lastBuild !== undefined) && lastBuild.id !== lastCompletedBuild.id) {
+  if(lastBuild !== null && lastBuild !== undefined && lastBuild.id !== lastCompletedBuild.id) {
     return (
       <DataContext.Consumer>
           {(context) => (
