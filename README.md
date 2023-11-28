@@ -6,7 +6,7 @@ The intention was to see what's currently happened into the CI/CD pipeline and p
 ![CICD_Screencapture](screenshots/CI_CD_Dashboard.png)
 
 ## **Important**:
-- **Pipeline YAML**: Since ***October 2023***, I've reopen this extension, due to some Azure DevOps Rest API enhancement for Environments deployment history & Approval.
+- **Pipeline YAML**: Since ***October 2023***, We reopened this extension, due to some Azure DevOps Rest API enhancement for Environments deployment history & Approval.
 
 ## Permissions Authorization
 Don't forget to Authorize the Extension permission under your Azure DevOps/Server Organization Settings/Extensions/CI/CD Dashboard.
