@@ -217,8 +217,11 @@ export async function getEnvironments(azureDevOpsUri: string, projectNames: Arra
   let apiVersion = "6.0-preview.1";
   for(let i=0;i<projectNames.length;i++) {
     let projectName = projectNames[i];
-    let envUrl = `${azureDevOpsUri}/${projectName}/_apis/distributedtask/environments?api-version=${apiVersion}`;
+    let envUrl = `${azureDevOpsUri}${projectName}/_apis/distributedtask/environments?api-version=${apiVersion}`;
+    console.log(envUrl);
     let acceptHeaderValue = `application/json;api-version=${apiVersion};excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true`;
+    console.log(acceptHeaderValue)
+    console.log(`Bearer ${accessToken}`);
     let projectResult = await fetch(envUrl, 
       {
         method: 'GET',
