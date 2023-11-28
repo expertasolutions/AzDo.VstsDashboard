@@ -18,6 +18,7 @@
     "vso.build", 
     "vso.release",
     "vso.environment_manage",
+    "vso.agentpools",
     "vso.extension.data_write"
   ],
   "icons": {
