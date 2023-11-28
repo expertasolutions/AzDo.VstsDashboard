@@ -9,7 +9,7 @@ The intention was to see what's currently happened into the CI/CD pipeline and p
 - **Pipeline YAML**: Since ***October 2023***, We reopened this extension, due to some Azure DevOps Rest API enhancement for Environments deployment history & Approval.
 
 ## Permissions Authorization
-Don't forget to Authorize the Extension permission under your Azure DevOps/Server Organization Settings/Extensions/CI/CD Dashboard.
+Don't forget to Authorize the Extension permissions under your Azure DevOps/Server Organization Settings/Extensions/CI/CD Dashboard.
 
   ![Issue0141-01](screenshots/PermissionAuth.png)
 
