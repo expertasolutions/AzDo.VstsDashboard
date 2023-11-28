@@ -222,15 +222,18 @@ export async function getEnvironments(azureDevOpsUri: string, projectNames: Arra
     let acceptHeaderValue = `application/json;api-version=${apiVersion};excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true`;
     console.log(acceptHeaderValue)
     console.log(`Bearer ${accessToken}`);
+
+    let queryHeader = {
+      "Accept": acceptHeaderValue,
+      "Content-Type": "application/json"
+      //"Authorization" : `Bearer ${accessToken}`
+    };
+
     let projectResult = await fetch(envUrl, 
       {
         method: 'GET',
         mode: 'cors',
-        headers: { 
-          'Accept': acceptHeaderValue,
-          'Content-Type': 'application/json',
-          'Authorization' : `Bearer ${accessToken}`
-        }
+        headers: queryHeader
       })
       .then(response => response.json());
       
