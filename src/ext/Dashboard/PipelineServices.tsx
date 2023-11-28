@@ -130,15 +130,16 @@ export async function getApprovals(azureDevOpsUri: string, projectNames: Array<s
     let projectName = projectNames[i];
     let envUrl = `${azureDevOpsUri}/${projectName}/_apis/pipelines/approvals?api-version=${apiVersion}`;
     let acceptHeaderValue = `application/json;api-version=${apiVersion};excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true`;
+    let queryHeader = {
+        'Accept': acceptHeaderValue,
+        'Content-Type': 'application/json',
+        //'Authorization' : `Bearer ${accessToken}`
+      };
     let projectResult = await fetch(envUrl, 
       {
         method: 'GET',
         mode: 'cors',
-        headers: { 
-          'Accept': acceptHeaderValue,
-          'Content-Type': 'application/json',
-          'Authorization' : `Bearer ${accessToken}`
-        }
+        headers: queryHeader
       })
       .then(response => response.json());
     result.push(...projectResult);
@@ -262,15 +263,16 @@ export async function getEnvironmentDeplRecords(azureDevOpsUri: string, environm
   let top = 1000;
   let envUrl = `${azureDevOpsUri}/${projectName}/_apis/distributedtask/environments/${environmentId}/environmentdeploymentrecords?top=${top}&api-version=${apiVersion}`;
   let acceptHeaderValue = `application/json;api-version=${apiVersion};excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true`;
+  let queryHeader = {
+    'Accept': acceptHeaderValue,
+    'Content-Type': 'application/json',
+    //'Authorization' : `Bearer ${accessToken}`
+  };
   let result = await fetch(envUrl, 
     {
       method: 'GET',
       mode: 'cors',
-      headers: { 
-        'Accept': acceptHeaderValue,
-        'Content-Type': 'application/json',
-        'Authorization' : `Bearer ${accessToken}`
-      }
+      headers: queryHeader
     })
     .then(response => response.json());
   return result;
