@@ -223,7 +223,9 @@ export async function getEnvironments(azureDevOpsUri: string, projectNames: Arra
     let queryHeader = {
       "Accept": acceptHeaderValue,
       "Content-Type": "application/json",
-      "Authorization" : `Bearer ${accessToken}`
+      "Authorization" : `Bearer ${accessToken}`,
+      "x-tfs-fedauthredirect": "Suppress",
+      "x-vss-reauthenticationaction": "Suppress"
     };
 
     let projectResult = await fetch(envUrl, 
