@@ -233,7 +233,6 @@ export async function getEnvironments(azureDevOpsUri: string, projectNames: Arra
       {
         method: 'GET',
         mode: 'cors',
-        //credentials: 'same-origin',
         headers: queryHeader
       })
       .then(response => response.json());
