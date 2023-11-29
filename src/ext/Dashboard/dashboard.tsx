@@ -279,12 +279,12 @@ class CICDDashboard extends React.Component<{}, {}> {
     }).then(()=> {
       SDK.ready().then(async ()=> { 
 
-        console.log("---------------------");
-        console.log(`SDK.sdkVersion: ${SDK.sdkVersion}`);
-        console.log(`SDK Host serviceVersion: ${SDK.getHost().serviceVersion}`);
-        console.log(`SDK Host type: ${SDK.getHost().type}`);
-        console.log(`SDK Host name: ${SDK.getHost().name}`);
-        console.log("---------------------");
+        // console.log("---------------------");
+        // console.log(`SDK.sdkVersion: ${SDK.sdkVersion}`);
+        // console.log(`SDK Host serviceVersion: ${SDK.getHost().serviceVersion}`);
+        // console.log(`SDK Host type: ${SDK.getHost().type}`);
+        // console.log(`SDK Host name: ${SDK.getHost().name}`);
+        // console.log("---------------------");
 
         this.isLoading.value = false; 
         this.currentAccessToken = await SDK.getAccessToken();
