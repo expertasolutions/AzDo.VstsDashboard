@@ -223,15 +223,17 @@ export async function getEnvironments(azureDevOpsUri: string, projectNames: Arra
     let queryHeader = {
       "Accept": acceptHeaderValue,
       "Content-Type": "application/json",
-      "authorization" : `Bearer ${accessToken}`,
-      "x-tfs-fedauthredirect": "Suppress",
-      "x-vss-reauthenticationaction": "Suppress"
+      "Authorization" : `Bearer ${accessToken}`,
+      "X-VSS-ReauthenticationAction": "Suppress",
+      "X-TFS-FedAuthRedirect": "Suppress",
+      //"X-TFS-Session": "????, ????"
     };
 
     let projectResult = await fetch(envUrl, 
       {
         method: 'GET',
         //mode: 'cors',
+        credentials: 'same-origin',
         headers: queryHeader
       })
       .then(response => response.json());
