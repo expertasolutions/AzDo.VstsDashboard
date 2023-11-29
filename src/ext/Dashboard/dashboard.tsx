@@ -278,6 +278,12 @@ class CICDDashboard extends React.Component<{}, {}> {
       this.filterData();
     }).then(()=> {
       SDK.ready().then(async ()=> { 
+
+        console.log("---------------------");
+        console.log(`SDK.sdkVersion: ${SDK.sdkVersion}`);
+        console.log(`SDK Host serviceVersion: ${SDK.getHost().serviceVersion}`);
+        console.log("---------------------");
+
         this.isLoading.value = false; 
         this.currentAccessToken = await SDK.getAccessToken();
         const locationService = await SDK.getService<ILocationService>(CommonServiceIds.LocationService);
