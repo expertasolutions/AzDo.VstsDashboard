@@ -229,7 +229,7 @@ export async function getEnvironments(azureDevOpsUri: string, projectNames: Arra
     let projectResult = await fetch(envUrl, 
       {
         method: 'GET',
-        mode: 'cors',
+        //mode: 'cors',
         headers: queryHeader
       })
       .then(response => response.json());
