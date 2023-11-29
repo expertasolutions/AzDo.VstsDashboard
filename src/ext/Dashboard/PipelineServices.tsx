@@ -223,7 +223,7 @@ export async function getEnvironments(azureDevOpsUri: string, projectNames: Arra
     let queryHeader = {
       "Accept": acceptHeaderValue,
       "Content-Type": "application/json",
-      "Authorization" : `Basic ${accessToken}`
+      "Authorization" : `Bearer ${accessToken}`
     };
 
     let projectResult = await fetch(envUrl, 
@@ -267,7 +267,7 @@ export async function getEnvironmentDeplRecords(azureDevOpsUri: string, environm
   let result = await fetch(envUrl, 
     {
       method: 'GET',
-      mode: 'cors',
+      //mode: 'cors',
       headers: queryHeader
     })
     .then(response => response.json());
