@@ -120,34 +120,34 @@ export async function getReleases(projectName: string, isFirstLoad: boolean) {
 }
 
 
-// export async function getApprovals(azureDevOpsUri: string, projectNames: Array<string>, accessToken: string) {
-//   let result = new Array<any>();
-//   if(azureDevOpsUri === undefined || azureDevOpsUri === null || azureDevOpsUri === "") {
-//     return result;
-//   }
-//   let apiVersion = "7.0-preview.1";
-//   //let apiVersion = "6.0-preview.1"
-//   for(let i=0;i<projectNames.length;i++) {
-//     let projectName = projectNames[i];
-//     let envUrl = `${azureDevOpsUri}/${projectName}/_apis/pipelines/approvals?api-version=${apiVersion}`;
-//     let acceptHeaderValue = `application/json;api-version=${apiVersion};excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true`;
-//     let queryHeader = {
-//         'Accept': acceptHeaderValue,
-//         'Content-Type': 'application/json',
-//         'Authorization' : `Bearer ${accessToken}`
-//       };
-//     let projectResult = await fetch(envUrl, 
-//       {
-//         method: 'GET',
-//         mode: 'cors',
-//         headers: queryHeader
-//       })
-//       .then(response => response.json());
-//     result.push(...projectResult);
-//   }
+export async function getApprovals(azureDevOpsUri: string, projectNames: Array<string>, accessToken: string) {
+  let result = new Array<any>();
+  if(azureDevOpsUri === undefined || azureDevOpsUri === null || azureDevOpsUri === "") {
+    return result;
+  }
+  let apiVersion = "7.0-preview.1";
+  //let apiVersion = "6.0-preview.1"
+  for(let i=0;i<projectNames.length;i++) {
+    let projectName = projectNames[i];
+    let envUrl = `${azureDevOpsUri}/${projectName}/_apis/pipelines/approvals?api-version=${apiVersion}`;
+    let acceptHeaderValue = `application/json;api-version=${apiVersion};excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true`;
+    let queryHeader = {
+        'Accept': acceptHeaderValue,
+        'Content-Type': 'application/json',
+        'Authorization' : `Bearer ${accessToken}`
+      };
+    let projectResult = await fetch(envUrl, 
+      {
+        method: 'GET',
+        mode: 'cors',
+        headers: queryHeader
+      })
+      .then(response => response.json());
+    result.push(...projectResult);
+  }
 
-//   return result;
-// }
+  return result;
+}
 
 // export async function getEnvironmentChecks(azureDevOpsUri:string, environmentId: string, projectName: string, accessToken: string) {
 
