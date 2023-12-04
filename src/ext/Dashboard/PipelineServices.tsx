@@ -1,5 +1,4 @@
 import * as API from "azure-devops-extension-api";
-import * as SDK from "azure-devops-extension-sdk";
 
 import { 
   BuildRestClient, BuildDefinitionReference, Build, BuildStatus, ResultSet
@@ -126,7 +125,6 @@ export async function getApprovals(azureDevOpsUri: string, projectNames: Array<s
     return result;
   }
   let apiVersion = "7.0-preview.1";
-  //let apiVersion = "6.0-preview.1"
   for(let i=0;i<projectNames.length;i++) {
     let projectName = projectNames[i];
     let envUrl = `${azureDevOpsUri}/${projectName}/_apis/pipelines/approvals?api-version=${apiVersion}`;
@@ -225,9 +223,6 @@ export async function getEnvironments(azureDevOpsUri: string, projectNames: Arra
       "Accept": acceptHeaderValue,
       "Content-Type": "application/json",
       "Authorization" : `Bearer ${accessToken}`,
-      //"X-VSS-ReauthenticationAction": "Suppress",
-      //"X-TFS-FedAuthRedirect": "Suppress",
-      //"X-TFS-Session": "????, ????"
     };
 
     let projectResult = await fetch(envUrl, 
@@ -271,7 +266,6 @@ export async function getEnvironmentDeplRecords(azureDevOpsUri: string, environm
   let result = await fetch(envUrl, 
     {
       method: 'GET',
-      //mode: 'cors',
       headers: queryHeader
     })
     .then(response => response.json());
