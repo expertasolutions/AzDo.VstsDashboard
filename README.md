@@ -15,7 +15,7 @@ Don't forget to Authorize the Extension permissions under your Azure DevOps/Serv
 
 ## Azure DevOps Supported versions
 - Azure DevOps Services
-- Azure DevOps Server 2020 (18.170.30525.1) & later
+- Azure DevOps Server 2022 (19.205.33122.1) & later
   
   See [Azure DevOps Server build numbers](https://learn.microsoft.com/en-us/azure/devops/user-guide/lookup-platform-version?view=azure-devops)
 
