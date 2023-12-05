@@ -119,7 +119,7 @@ export async function getReleases(projectName: string, isFirstLoad: boolean) {
 }
 
 export async function findBuildApprovalId(azureDevOpsUri: string, projectName: string, buildId: number, accessToken: string) {
-  let apiVersion = "7.0-preview.1";
+  let apiVersion = "7.0";
   let envUrl = `${azureDevOpsUri}/${projectName}/_apis/build/builds/${buildId}/timeline?api-version=${apiVersion}`;
   let acceptHeaderValue = `application/json;api-version=${apiVersion};excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true`;
   let queryHeader = {
