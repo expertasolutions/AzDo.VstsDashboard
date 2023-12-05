@@ -395,7 +395,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       buildInProgress.value = this.getActiveBuildStatusCount(BuildStatus.InProgress, currentResult);
 
       console.log("build in progress");
-      console.log(JSON.stringify(buildInProgress.value));
+      console.log(JSON.stringify(currentResult.filter(x=> x.status === BuildStatus.InProgress)));
 
       this.setState({ builds: currentResult });
       this.refreshUI.value = new Date().toTimeString();
