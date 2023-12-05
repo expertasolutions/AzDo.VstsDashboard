@@ -151,10 +151,14 @@ export async function getApprovals(azureDevOpsUri: string, projectNames: Array<s
       let buildApproval = await findBuildApprovalId(azureDevOpsUri, projectName, buildsToCheck[b], accessToken);
       //console.log(buildApproval);
       if(buildApproval !== undefined) {
-        approvalIds.push(buildApproval.id);
+        for(let j=0;j<buildApproval.records.length;j++) {
+          if(buildApproval.records[j].type === "Checkpoint") {
+            approvalIds.push(buildApproval.records[j].id);
+          }
+        }
       }
     }
-    
+
     if(approvalIds.length > 0) {
       console.log(approvalIds.join(','));
       let envUrl = `${azureDevOpsUri}/${projectName}/_apis/pipelines/approvals?approvalIds=${approvalIds.join(',')}&api-version=${apiVersion}`;
