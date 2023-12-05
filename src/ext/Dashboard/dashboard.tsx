@@ -394,6 +394,9 @@ class CICDDashboard extends React.Component<{}, {}> {
       buildInPending.value = this.getActiveBuildStatusCount(BuildStatus.NotStarted, currentResult);
       buildInProgress.value = this.getActiveBuildStatusCount(BuildStatus.InProgress, currentResult);
 
+      console.log("build in progress");
+      console.log(JSON.stringify(buildInProgress.value));
+
       this.setState({ builds: currentResult });
       this.refreshUI.value = new Date().toTimeString();
       this.buildTimeRangeHasChanged = false;
