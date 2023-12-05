@@ -127,14 +127,13 @@ export async function findBuildApprovalId(azureDevOpsUri: string, projectName: s
       'Content-Type': 'application/json',
       'Authorization' : `Bearer ${accessToken}`
     };
-  let projectResult = await fetch(envUrl, 
+  let result = await fetch(envUrl, 
     {
       method: 'GET',
       mode: 'cors',
       headers: queryHeader
     })
     .then(response => response.json());
-  let result = projectResult.find((x:any) => x.release.id === buildId);
   return result;
 }
 
@@ -152,6 +151,7 @@ export async function getApprovals(azureDevOpsUri: string, projectNames: Array<s
       approvalIds.push(buildApproval.id);
     }
   }
+  console.log(approvalIds);
 
   let apiVersion = "7.0-preview.1";
   for(let i=0;i<projectNames.length;i++) {
