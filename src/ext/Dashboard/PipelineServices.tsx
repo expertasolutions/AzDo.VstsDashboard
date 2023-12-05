@@ -148,7 +148,7 @@ export async function getApprovals(azureDevOpsUri: string, projectNames: Array<s
     let projectName = projectNames[i];
 
     let approvalIds = new Array<string>();
-    for(let b=0;b<buildsToCheck.length;i++) {
+    for(let b=0;b<buildsToCheck.length;b++) {
       let buildApproval = await findBuildApprovalId(azureDevOpsUri, projectName, buildsToCheck[b], accessToken);
       //console.log(buildApproval);
       if(buildApproval !== undefined) {
