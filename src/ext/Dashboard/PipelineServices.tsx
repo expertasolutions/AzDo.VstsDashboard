@@ -119,7 +119,7 @@ export async function getReleases(projectName: string, isFirstLoad: boolean) {
 }
 
 
-export async function getApprovals(azureDevOpsUri: string, projectNames: Array<string>, accessToken: string) {
+export async function getApprovals(azureDevOpsUri: string, projectNames: Array<string>, accessToken: string, buildsToCheck: Array<number>) {
   let result = new Array<any>();
   if(azureDevOpsUri === undefined || azureDevOpsUri === null || azureDevOpsUri === "") {
     return result;
