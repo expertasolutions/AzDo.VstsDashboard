@@ -152,7 +152,7 @@ export async function getApprovals(azureDevOpsUri: string, projectNames: Array<s
       //console.log(buildApproval);
       if(buildApproval !== undefined) {
         for(let j=0;j<buildApproval.records.length;j++) {
-          if(buildApproval.records[j].type === "Approval") {
+          if(buildApproval.records[j].type === "Checkpoint.Approval") {
             approvalIds.push(buildApproval.records[j].id);
           }
         }
