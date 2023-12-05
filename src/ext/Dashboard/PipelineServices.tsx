@@ -143,20 +143,21 @@ export async function getApprovals(azureDevOpsUri: string, projectNames: Array<s
     return result;
   }
 
-  let approvalIds = new Array<string>();
-  for(let i=0;i<buildsToCheck.length;i++) {
-    let buildApproval = await findBuildApprovalId(azureDevOpsUri, projectNames[0], buildsToCheck[i], accessToken);
-    console.log(buildApproval);
-    if(buildApproval !== undefined) {
-      approvalIds.push(buildApproval.id);
-    }
-  }
-  console.log(approvalIds);
-
   let apiVersion = "7.0-preview.1";
   for(let i=0;i<projectNames.length;i++) {
+
+    let approvalIds = new Array<string>();
+    for(let b=0;b<buildsToCheck.length;i++) {
+      let buildApproval = await findBuildApprovalId(azureDevOpsUri, projectNames[i], buildsToCheck[b], accessToken);
+      //console.log(buildApproval);
+      if(buildApproval !== undefined) {
+        approvalIds.push(buildApproval.id);
+      }
+    }
+    console.log(approvalIds.join(','));
+
     let projectName = projectNames[i];
-    let envUrl = `${azureDevOpsUri}/${projectName}/_apis/pipelines/approvals?api-version=${apiVersion}`;
+    let envUrl = `${azureDevOpsUri}/${projectName}/_apis/pipelines/approvals?approvalIds=${approvalIds.join(',')}&api-version=${apiVersion}`;
     let acceptHeaderValue = `application/json;api-version=${apiVersion};excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true`;
     let queryHeader = {
         'Accept': acceptHeaderValue,
