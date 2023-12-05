@@ -118,12 +118,41 @@ export async function getReleases(projectName: string, isFirstLoad: boolean) {
   return dpl;
 }
 
+export async function findBuildApprovalId(azureDevOpsUri: string, projectName: string, buildId: number, accessToken: string) {
+  let apiVersion = "7.0-preview.1";
+  let envUrl = `${azureDevOpsUri}/${projectName}/_apis/build/builds/${buildId}/timeline?api-version=${apiVersion}`;
+  let acceptHeaderValue = `application/json;api-version=${apiVersion};excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true`;
+  let queryHeader = {
+      'Accept': acceptHeaderValue,
+      'Content-Type': 'application/json',
+      'Authorization' : `Bearer ${accessToken}`
+    };
+  let projectResult = await fetch(envUrl, 
+    {
+      method: 'GET',
+      mode: 'cors',
+      headers: queryHeader
+    })
+    .then(response => response.json());
+  let result = projectResult.find((x:any) => x.release.id === buildId);
+  return result;
+}
 
 export async function getApprovals(azureDevOpsUri: string, projectNames: Array<string>, accessToken: string, buildsToCheck: Array<number>) {
   let result = new Array<any>();
   if(azureDevOpsUri === undefined || azureDevOpsUri === null || azureDevOpsUri === "") {
     return result;
   }
+
+  let approvalIds = new Array<string>();
+  for(let i=0;i<buildsToCheck.length;i++) {
+    let buildApproval = await findBuildApprovalId(azureDevOpsUri, projectNames[0], buildsToCheck[i], accessToken);
+    console.log(buildApproval);
+    if(buildApproval !== undefined) {
+      approvalIds.push(buildApproval.id);
+    }
+  }
+
   let apiVersion = "7.0-preview.1";
   for(let i=0;i<projectNames.length;i++) {
     let projectName = projectNames[i];
@@ -143,7 +172,6 @@ export async function getApprovals(azureDevOpsUri: string, projectNames: Array<s
       .then(response => response.json());
     result.push(...projectResult);
   }
-
   return result;
 }
 
