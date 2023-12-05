@@ -154,23 +154,26 @@ export async function getApprovals(azureDevOpsUri: string, projectNames: Array<s
         approvalIds.push(buildApproval.id);
       }
     }
-    console.log(approvalIds.join(','));
-    let envUrl = `${azureDevOpsUri}/${projectName}/_apis/pipelines/approvals?approvalIds=${approvalIds.join(',')}&api-version=${apiVersion}`;
-    console.log(envUrl);
-    let acceptHeaderValue = `application/json;api-version=${apiVersion};excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true`;
-    let queryHeader = {
-        'Accept': acceptHeaderValue,
-        'Content-Type': 'application/json',
-        'Authorization' : `Bearer ${accessToken}`
-      };
-    let projectResult = await fetch(envUrl, 
-      {
-        method: 'GET',
-        mode: 'cors',
-        headers: queryHeader
-      })
-      .then(response => response.json());
-    result.push(...projectResult);
+    
+    if(approvalIds.length > 0) {
+      console.log(approvalIds.join(','));
+      let envUrl = `${azureDevOpsUri}/${projectName}/_apis/pipelines/approvals?approvalIds=${approvalIds.join(',')}&api-version=${apiVersion}`;
+      console.log(envUrl);
+      let acceptHeaderValue = `application/json;api-version=${apiVersion};excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true`;
+      let queryHeader = {
+          'Accept': acceptHeaderValue,
+          'Content-Type': 'application/json',
+          'Authorization' : `Bearer ${accessToken}`
+        };
+      let projectResult = await fetch(envUrl, 
+        {
+          method: 'GET',
+          mode: 'cors',
+          headers: queryHeader
+        })
+        .then(response => response.json());
+      result.push(...projectResult);
+    }
   }
   return result;
 }
