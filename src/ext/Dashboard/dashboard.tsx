@@ -384,8 +384,8 @@ class CICDDashboard extends React.Component<{}, {}> {
 
     // Filter Approval by InProgress Builds
     let buildsToCheck = this.state.builds.filter(x=> x.status === BuildStatus.InProgress).map(x=> x.id);
-    console.log("-- Builds in progress --");
-    console.log(buildsToCheck);
+    //console.log("-- Builds in progress --");
+    //console.log(buildsToCheck);
     getApprovals(this.state.azureDevOpsUri, this.currentSelectedProjects, this.currentAccessToken, buildsToCheck)
       .then(result => {
         let approvalList = this.state.approvals;
