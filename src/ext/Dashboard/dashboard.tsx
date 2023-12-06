@@ -291,7 +291,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   
         this.filterData();
       });
-    });
+    
    
     // Update the Release List
     getReleasesV1(this.currentSelectedProjects, firstLoad).then(result => {
@@ -338,35 +338,36 @@ class CICDDashboard extends React.Component<{}, {}> {
       this.environmentProvider = new ObservableValue<ArrayItemProvider<PipelineEnvironment>>(new ArrayItemProvider(envList));
     });
 
-    getBuildsV1(this.state.azureDevOpsUri, this.currentSelectedProjects, this.buildTimeRangeHasChanged, this.lastBuildsDisplay, this.currentAccessToken).then(result => {
-      let currentResult = this.state.builds;
+    getBuildsV1(this.state.azureDevOpsUri, this.currentSelectedProjects, this.buildTimeRangeHasChanged, this.lastBuildsDisplay, this.currentAccessToken)
+      .then(result => {
+        let currentResult = this.state.builds;
 
-      for(let i=0;i<result.length;i++) {
-        let newElement = result[i];
-        let existingElement = currentResult.find(x=> x.id === newElement.id);
-        if(existingElement !== undefined) {
-          let buildIndex = currentResult.indexOf(existingElement, 0);
-          if(buildIndex > -1) {
-            currentResult[buildIndex] = newElement;
-            let buildDefs = this.state.buildDefs;
-            let buildDef = buildDefs.find(x=> x.id === newElement.definition.id);
-            
-            if(buildDef !== undefined && (buildDef.latestBuild !== undefined && buildDef.latestBuild !== null)) {
-              if(buildDef.latestBuild.id <= newElement.id) {
-                let buildDefIndex = buildDefs.indexOf(buildDef, 0);
-                if(buildDefIndex > -1) {
-                  buildDefs[buildDefIndex].latestBuild = newElement;
-                  let newbuildDef = sortBuildReferences(this.state.buildDefs, this.showErrorsOnSummaryOnTop);
-                  this.setState({ buildDefs: newbuildDef });
-                  this.filterData();
+        for(let i=0;i<result.length;i++) {
+          let newElement = result[i];
+          let existingElement = currentResult.find(x=> x.id === newElement.id);
+          if(existingElement !== undefined) {
+            let buildIndex = currentResult.indexOf(existingElement, 0);
+            if(buildIndex > -1) {
+              currentResult[buildIndex] = newElement;
+              let buildDefs = this.state.buildDefs;
+              let buildDef = buildDefs.find(x=> x.id === newElement.definition.id);
+              
+              if(buildDef !== undefined && (buildDef.latestBuild !== undefined && buildDef.latestBuild !== null)) {
+                if(buildDef.latestBuild.id <= newElement.id) {
+                  let buildDefIndex = buildDefs.indexOf(buildDef, 0);
+                  if(buildDefIndex > -1) {
+                    buildDefs[buildDefIndex].latestBuild = newElement;
+                    let newbuildDef = sortBuildReferences(this.state.buildDefs, this.showErrorsOnSummaryOnTop);
+                    this.setState({ buildDefs: newbuildDef });
+                    this.filterData();
+                  }
                 }
               }
             }
+          } else {
+            currentResult.push(newElement);
           }
-        } else {
-          currentResult.push(newElement);
         }
-      }
 
       currentResult = sortBuilds(currentResult);
 
@@ -379,6 +380,8 @@ class CICDDashboard extends React.Component<{}, {}> {
       this.buildTimeRangeHasChanged = false;
 
       this.filterBuildsData();
+
+      });
     });
 
     // Filter Approval by InProgress Builds
