@@ -160,9 +160,9 @@ export async function getApprovals(azureDevOpsUri: string, projectNames: Array<s
     }
 
     if(approvalIds.length > 0) {
-      console.log(approvalIds.join(','));
+      //console.log(approvalIds.join(','));
       let envUrl = `${azureDevOpsUri}/${projectName}/_apis/pipelines/approvals?approvalIds=${approvalIds.join(',')}&api-version=${apiVersion}`;
-      console.log(envUrl);
+      //console.log(envUrl);
       let acceptHeaderValue = `application/json;api-version=${apiVersion};excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true`;
       let queryHeader = {
           'Accept': acceptHeaderValue,
