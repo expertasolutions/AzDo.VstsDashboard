@@ -14,7 +14,7 @@ import { Ago } from "azure-devops-ui/Ago";
 import { Duration } from "azure-devops-ui/Duration";
 
 import { PipelineInfo } from "../dataContext";
-import { findBuildApprovalId } from "../PipelineServices";
+import { getBuildTimeline } from "../PipelineServices";
 
 const lightGreen: IColor = {
   red: 204,
