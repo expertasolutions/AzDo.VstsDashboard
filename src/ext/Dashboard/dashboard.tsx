@@ -244,53 +244,52 @@ class CICDDashboard extends React.Component<{}, {}> {
         this.currentSelectedProjects.push(selectedProjectName.name);
       }
     }
+    
+    SDK.ready().then(async ()=> { 
+      // console.log("---------------------");
+      // console.log(`SDK.sdkVersion: ${SDK.sdkVersion}`);
+      // console.log(`SDK Host serviceVersion: ${SDK.getHost().serviceVersion}`);
+      // console.log(`SDK Host type: ${SDK.getHost().type}`);
+      // console.log(`SDK Host name: ${SDK.getHost().name}`);
+      // console.log("---------------------");
 
-    getBuildDefinitionsV1(this.state.azureDevOpsUri, this.currentSelectedProjects, firstLoad, this.currentAccessToken).then(result => {
-      let currentDef = this.state.buildDefs;
+      this.isLoading.value = false; 
+      this.currentAccessToken = await SDK.getAccessToken();
+      const locationService = await SDK.getService<ILocationService>(CommonServiceIds.LocationService);
+      let test = await locationService.getServiceLocation();
+      this.setState({ azureDevOpsUri: test });
 
-      if(firstLoad) {
-        currentDef = result;
-      } else {
-        for(let i=0;i<result.length;i++) {
-          let newDef = result[i];
-          let def = currentDef.find(x=> x.id === newDef.id);
-          if(def !== undefined) {
-            let defIndx = currentDef.indexOf(def, 0);
-            if(defIndx > -1) {
-              currentDef[defIndx] = newDef;
+      getBuildDefinitionsV1(this.state.azureDevOpsUri, this.currentSelectedProjects, firstLoad, this.currentAccessToken).then(result => {
+        let currentDef = this.state.buildDefs;
+  
+        if(firstLoad) {
+          currentDef = result;
+        } else {
+          for(let i=0;i<result.length;i++) {
+            let newDef = result[i];
+            let def = currentDef.find(x=> x.id === newDef.id);
+            if(def !== undefined) {
+              let defIndx = currentDef.indexOf(def, 0);
+              if(defIndx > -1) {
+                currentDef[defIndx] = newDef;
+              }
+            } else {
+              currentDef.push(newDef);
             }
-          } else {
-            currentDef.push(newDef);
           }
         }
-      }
-
-      this.setState({ buildDefs: currentDef });
-      this.buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(currentDef));
-
-      // Get Build Reference Status
-      buildNeverQueued.value = this.getCompletedBuildStatusCount(BuildStatus.None, BuildResult.None);
-      buildCancelled.value = this.getCompletedBuildStatusCount(BuildStatus.None, BuildResult.Canceled);
-      buildSucceeded.value = this.getCompletedBuildStatusCount(BuildStatus.Completed, BuildResult.Succeeded);
-      buildInWarning.value = this.getCompletedBuildStatusCount(BuildStatus.Completed, BuildResult.PartiallySucceeded);
-      buildInError.value = this.getCompletedBuildStatusCount(BuildStatus.Completed, BuildResult.Failed);
-
-      this.filterData();
-    }).then(()=> {
-      SDK.ready().then(async ()=> { 
-
-        // console.log("---------------------");
-        // console.log(`SDK.sdkVersion: ${SDK.sdkVersion}`);
-        // console.log(`SDK Host serviceVersion: ${SDK.getHost().serviceVersion}`);
-        // console.log(`SDK Host type: ${SDK.getHost().type}`);
-        // console.log(`SDK Host name: ${SDK.getHost().name}`);
-        // console.log("---------------------");
-
-        this.isLoading.value = false; 
-        this.currentAccessToken = await SDK.getAccessToken();
-        const locationService = await SDK.getService<ILocationService>(CommonServiceIds.LocationService);
-        let test = await locationService.getServiceLocation();
-        this.setState({ azureDevOpsUri: test });
+  
+        this.setState({ buildDefs: currentDef });
+        this.buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(currentDef));
+  
+        // Get Build Reference Status
+        buildNeverQueued.value = this.getCompletedBuildStatusCount(BuildStatus.None, BuildResult.None);
+        buildCancelled.value = this.getCompletedBuildStatusCount(BuildStatus.None, BuildResult.Canceled);
+        buildSucceeded.value = this.getCompletedBuildStatusCount(BuildStatus.Completed, BuildResult.Succeeded);
+        buildInWarning.value = this.getCompletedBuildStatusCount(BuildStatus.Completed, BuildResult.PartiallySucceeded);
+        buildInError.value = this.getCompletedBuildStatusCount(BuildStatus.Completed, BuildResult.Failed);
+  
+        this.filterData();
       });
     });
    
