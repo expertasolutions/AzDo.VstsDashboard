@@ -245,7 +245,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       }
     }
 
-    getBuildDefinitionsV1(this.currentSelectedProjects, firstLoad).then(result => {
+    getBuildDefinitionsV1(this.state.azureDevOpsUri, this.currentSelectedProjects, firstLoad, this.currentAccessToken).then(result => {
       let currentDef = this.state.buildDefs;
 
       if(firstLoad) {

@@ -14,6 +14,7 @@ import { Ago } from "azure-devops-ui/Ago";
 import { Duration } from "azure-devops-ui/Duration";
 
 import { PipelineInfo } from "../dataContext";
+import { findBuildApprovalId } from "../PipelineServices";
 
 const lightGreen: IColor = {
   red: 204,
@@ -496,6 +497,8 @@ export function getEnvironmentStageSummary(build: PipelineInfo, environments: Ar
     allStages.push(...currentEnv.deploymentRecords.map(x=> x.stageName));
     allStages = allStages.filter((v, i, a) => a.indexOf(v) === i);
   }
+
+  // TODO: Get build timeline
 
   let buildStageEnvironments = Array<any>();
   for(let i=0;i<allStages.length;i++) {

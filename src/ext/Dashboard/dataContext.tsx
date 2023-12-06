@@ -29,6 +29,7 @@ export const DataContext = React.createContext(
 
 export interface PipelineInfo extends BuildDefinitionReference {
   pipelineType: string;
+  timeline: any;
   allInProgress: Array<BuildDefinitionReference>;
 }
 

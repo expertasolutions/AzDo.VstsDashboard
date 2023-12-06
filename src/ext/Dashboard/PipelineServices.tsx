@@ -118,7 +118,7 @@ export async function getReleases(projectName: string, isFirstLoad: boolean) {
   return dpl;
 }
 
-export async function findBuildApprovalId(azureDevOpsUri: string, projectName: string, buildId: number, accessToken: string) {
+export async function getBuildTimeline(azureDevOpsUri: string, projectName: string, buildId: number, accessToken: string) {
   let apiVersion = "7.0";
   let envUrl = `${azureDevOpsUri}/${projectName}/_apis/build/builds/${buildId}/timeline?api-version=${apiVersion}`;
   let acceptHeaderValue = `application/json;api-version=${apiVersion};excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true`;
@@ -148,8 +148,7 @@ export async function getApprovals(azureDevOpsUri: string, projectNames: Array<s
   for(let i=0;i<projectNames.length;i++) {
     let projectName = projectNames[i];
     for(let b=0;b<buildsToCheck.length;b++) {
-      let buildApproval = await findBuildApprovalId(azureDevOpsUri, projectName, buildsToCheck[b], accessToken);
-      //console.log(buildApproval);
+      let buildApproval = await getBuildTimeline(azureDevOpsUri, projectName, buildsToCheck[b], accessToken);
       if(buildApproval !== undefined) {
         for(let j=0;j<buildApproval.records.length;j++) {
           if(buildApproval.records[j].type === "Checkpoint.Approval") {
@@ -160,9 +159,7 @@ export async function getApprovals(azureDevOpsUri: string, projectNames: Array<s
     }
 
     if(approvalIds.length > 0) {
-      //console.log(approvalIds.join(','));
       let envUrl = `${azureDevOpsUri}/${projectName}/_apis/pipelines/approvals?approvalIds=${approvalIds.join(',')}&api-version=${apiVersion}`;
-      //console.log(envUrl);
       let acceptHeaderValue = `application/json;api-version=${apiVersion};excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true`;
       let queryHeader = {
           'Accept': acceptHeaderValue,
@@ -181,67 +178,6 @@ export async function getApprovals(azureDevOpsUri: string, projectNames: Array<s
   }
   return result;
 }
-
-// export async function getEnvironmentChecks(azureDevOpsUri:string, environmentId: string, projectName: string, accessToken: string) {
-
-//   // https: //dev.azure.com/experta/community/_apis/pipelines/checks/configurations?resourceType=environment&resourceId=12&api-version=7.0-preview.1
-
-//   // https://dev.azure.com/experta/community/_apis/pipelines/checks/runs/8c6f20a7-a545-4486-9777-f762fafe0d4d?api-version=7.0-preview.1
-
-//   // https://dev.azure.com/experta/community/_apis/pipelines/approvals/350c598e-d3b9-4dc6-a0e6-458c5573c052?$expand=steps&api-version=7.0-preview.1
-
-  
-//   // https://dev.azure.com/experta/community/_apis/pipelines/approvals/8c6f20a7-a545-4486-9777-f762fafe0d4d?$expand=steps&api-version=7.0-preview.1
-
-//   // https://dev.azure.com/experta/community/_apis/pipelines/approvals?api-version=6.0-preview.1
-
-
-//   // https://dev.azure.com/experta/community/_apis/distributedtask/environments/12/approvals?api-version=7.1-preview.1
-
-
-//   // https://dev.azure.com/experta/community/_apis/pipelines/checks/queryconfigurations?`$expand=settings&api-version=6.1-preview.1
-
-//   // https://dev.azure.com/experta/community/_apis/pipelines/checks/configurations?resourceType=queue&resourceId=1&api-version=6.0-preview.1
-
-//   // https://dev.azure.com/experta/community/_apis/pipelines/checks/runs/{checkSuiteId}?api-version=7.0-preview.1
-
-//   //let apiVersion = "7.0-preview.1";
-//   let apiVersion = "6.0-preview.1";
-//   let envUrl = `${azureDevOpsUri}/${projectName}/_apis/pipelines/checks/configurations?resourceType=environment&resourceId=${environmentId}&api-version=${apiVersion}`;
-//   //let envUrl = `${azureDevOpsUri}/${projectName}/_apis/pipelines/checks/queryconfigurations?$expand=settings&api-version=${apiVersion}`;
-//   let acceptHeaderValue = `application/json;api-version=${apiVersion};excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true`;
-
-//   // let defaultType = {
-//   //   type: "queue",
-//   //   id: "1",
-//   //   name: "Default"
-//   // };
-  
-//   // let environmentType = {
-//   //   type: "environment",
-//   //   id: environmentId,
-//   //   name: "environment"
-//   // };
-  
-//   // let requestBody: Array<any> = [];
-//   // requestBody.push(defaultType);
-//   // requestBody.push(environmentType)
-
-//   let result = await fetch(envUrl, 
-//     {
-//       method: 'GET',
-//       mode: 'cors',
-//       headers: { 
-//         'Accept': acceptHeaderValue,
-//         'Content-Type': 'application/json',
-//         'Authorization' : `Bearer ${accessToken}`
-//       }
-//       //,body: JSON.stringify(requestBody)
-//     })
-//     .then(response => response.json());
-//   console.log(result);
-//   return result;
-// }
 
 export async function getEnvironments(azureDevOpsUri: string, projectNames: Array<string>, accessToken: string) {
   let result = new Array<any>();
@@ -345,25 +281,6 @@ export function getMinTimeFromNow(timeRangeLoad: string) {
   return minDate;
 }
 
-// export async function getPipelineInfo(azureDevOpsUri: string, projectName: string, pipelineId: number, accessToken: string) {
-//   //let apiVersion = "7.2-preview.1";
-//   let apiVersion = "6.0-preview.1";
-//   let envUrl = `${azureDevOpsUri}/${projectName}/_apis/pipelines/${pipelineId}?api-version=${apiVersion}`;
-//   let acceptHeaderValue = `application/json;api-version=${apiVersion};excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true`;
-//   let result = await fetch(envUrl, 
-//     {
-//       method: 'GET',
-//       mode: 'cors',
-//       headers: { 
-//         'Accept': acceptHeaderValue,
-//         'Content-Type': 'application/json',
-//         'Authorization' : `Bearer ${accessToken}`
-//       }
-//     })
-//     .then(response => response.json());
-//     return result;
-// }
-
 export async function getBuilds(projectName: string, isFirstLoad: boolean, timeRangeLoad: string)  {
   const MS_IN_MIN = 60000;
   let minDate = undefined;
@@ -433,16 +350,16 @@ export function sortBuildReferences(buildRefs: Array<BuildDefinitionReference>, 
   return buildRefs;
 }
 
-export async function getBuildDefinitionsV1(projectList: Array<string>, isFirstLoad: boolean) {
+export async function getBuildDefinitionsV1(azureDevOpsUri: string, projectList: Array<string>, isFirstLoad: boolean, accessToken: string) {
   let buildDef = new Array<BuildDefinitionReference>();
   for(let i=0;i<projectList.length;i++) {
-    let result = await getBuildDefinitions(projectList[i], isFirstLoad);
+    let result = await getBuildDefinitions(azureDevOpsUri, projectList[i], isFirstLoad, accessToken);
     buildDef.push(...result);
   }
   return buildDef;
 }
 
-export async function getBuildDefinitions(projectName: string, isFirstLoad: boolean) {
+export async function getBuildDefinitions(azureDevOpsUri: string, projectName: string, isFirstLoad: boolean, accessToken: string) {
   const MS_IN_MIN = 60000;
   let minDate = undefined;
   let now = new Date();
@@ -457,8 +374,9 @@ export async function getBuildDefinitions(projectName: string, isFirstLoad: bool
                                               undefined, undefined);
   const castResult = result as Array<PipelineInfo>;
   for(let i=0;i<result.length;i++) {
-    //let rs = await getPipelineInfo(projectName, result[i].id, await getAccessToken());
+    let rs = await getBuildTimeline(azureDevOpsUri, projectName, result[i].id, accessToken);
     //console.log(`${result[i].id} - ${rs.configuration.type}`);
+    castResult[i].timeline = rs;
     //castResult[i].pipelineType = rs.configuration.type;
     castResult[i].pipelineType = 'na';
   }
