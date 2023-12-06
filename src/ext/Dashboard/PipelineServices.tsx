@@ -243,10 +243,10 @@ export async function getEnvironmentDeplRecords(azureDevOpsUri: string, environm
   return result;
 }
 
-export async function getBuildsV1(projectList: Array<string>, isFirstLoad: boolean, timeRangeLoad: string) {
+export async function getBuildsV1(azureDevOpsUri: string, projectList: Array<string>, isFirstLoad: boolean, timeRangeLoad: string, accessToken: string) {
   let builds = new Array<PipelineElement>();
   for(let i=0;i<projectList.length;i++) {
-    let result = await getBuilds(projectList[i], isFirstLoad, timeRangeLoad);
+    let result = await getBuilds(azureDevOpsUri, projectList[i], isFirstLoad, timeRangeLoad, accessToken);
     builds.push(...result);
   }
   return builds;
@@ -281,7 +281,7 @@ export function getMinTimeFromNow(timeRangeLoad: string) {
   return minDate;
 }
 
-export async function getBuilds(projectName: string, isFirstLoad: boolean, timeRangeLoad: string)  {
+export async function getBuilds(azureDevOpsUri: string, projectName: string, isFirstLoad: boolean, timeRangeLoad: string, accessToken: string)  {
   const MS_IN_MIN = 60000;
   let minDate = undefined;
   let now = new Date();
@@ -305,6 +305,11 @@ export async function getBuilds(projectName: string, isFirstLoad: boolean, timeR
   result.push(...postponedResult as Array<PipelineElement>);
   result.push(...noneResult as Array<PipelineElement>);
   result.push(...completedResult as Array<PipelineElement>);
+
+  for(let i=0;i<result.length;i++) {
+    let rs = await getBuildTimeline(azureDevOpsUri, projectName, result[i].id, accessToken);
+    result[i].timeline = rs;
+  }
 
   return result;
 }

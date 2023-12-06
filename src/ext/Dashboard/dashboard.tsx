@@ -338,7 +338,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       this.environmentProvider = new ObservableValue<ArrayItemProvider<PipelineEnvironment>>(new ArrayItemProvider(envList));
     });
 
-    getBuildsV1(this.currentSelectedProjects, this.buildTimeRangeHasChanged, this.lastBuildsDisplay).then(result => {
+    getBuildsV1(this.state.azureDevOpsUri, this.currentSelectedProjects, this.buildTimeRangeHasChanged, this.lastBuildsDisplay, this.currentAccessToken).then(result => {
       let currentResult = this.state.builds;
 
       for(let i=0;i<result.length;i++) {
