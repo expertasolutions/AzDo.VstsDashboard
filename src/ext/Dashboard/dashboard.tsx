@@ -293,53 +293,52 @@ class CICDDashboard extends React.Component<{}, {}> {
       });
     
    
-    // Update the Release List
-    getReleasesV1(this.currentSelectedProjects, firstLoad).then(result => {
-      let currentReleases = this.state.releases;
+      // Update the Release List
+      getReleasesV1(this.currentSelectedProjects, firstLoad).then(result => {
+        let currentReleases = this.state.releases;
+        if(firstLoad) {
+          currentReleases = result;
+        } else {
+          for(let i=0;i<result.length;i++) {
+            let newRelease = result[i];
+            let rel = currentReleases.find(x=> x.id === newRelease.id);
+            if(rel !== undefined) {
+              let relIndex = currentReleases.indexOf(rel, 0);
+              if(relIndex > -1) {
+                currentReleases[relIndex] = newRelease;
+              }
+            } else {
+              currentReleases.splice(0, 0, newRelease);
+            }
+          }
+        }
+        this.setState({ releases: currentReleases });
+      });
+    
+      // Update Builds Runs list...
       if(firstLoad) {
-        currentReleases = result;
-      } else {
+        this.buildTimeRangeHasChanged = true;
+      }
+
+      getEnvironments(this.state.azureDevOpsUri, this.currentSelectedProjects, this.currentAccessToken).then(result => {
+        let envList = this.state.environments;
         for(let i=0;i<result.length;i++) {
-          let newRelease = result[i];
-          let rel = currentReleases.find(x=> x.id === newRelease.id);
-          if(rel !== undefined) {
-            let relIndex = currentReleases.indexOf(rel, 0);
-            if(relIndex > -1) {
-              currentReleases[relIndex] = newRelease;
+          var newEnv = result[i];
+          let env = envList.find(x=> x.id === newEnv.id);
+          if(env != undefined) {
+            let envIndex = envList.indexOf(env, 0);
+            if(envIndex > -1) {
+              envList[envIndex] = newEnv;
             }
           } else {
-            currentReleases.splice(0, 0, newRelease);
+            envList.splice(0, 0, newEnv);
           }
         }
-      }
-      this.setState({ releases: currentReleases });
-    });
-    
-    // Update Builds Runs list...
-    if(firstLoad) {
-      this.buildTimeRangeHasChanged = true;
-    }
+        this.setState({ environments: envList });
+        this.environmentProvider = new ObservableValue<ArrayItemProvider<PipelineEnvironment>>(new ArrayItemProvider(envList));
+      });
 
-    getEnvironments(this.state.azureDevOpsUri, this.currentSelectedProjects, this.currentAccessToken).then(result => {
-      let envList = this.state.environments;
-      for(let i=0;i<result.length;i++) {
-        var newEnv = result[i];
-        let env = envList.find(x=> x.id === newEnv.id);
-        if(env != undefined) {
-          let envIndex = envList.indexOf(env, 0);
-          if(envIndex > -1) {
-            envList[envIndex] = newEnv;
-          }
-        } else {
-          envList.splice(0, 0, newEnv);
-        }
-      }
-      this.setState({ environments: envList });
-      this.environmentProvider = new ObservableValue<ArrayItemProvider<PipelineEnvironment>>(new ArrayItemProvider(envList));
-    });
-
-    getBuildsV1(this.state.azureDevOpsUri, this.currentSelectedProjects, this.buildTimeRangeHasChanged, this.lastBuildsDisplay, this.currentAccessToken)
-      .then(result => {
+      getBuildsV1(this.state.azureDevOpsUri, this.currentSelectedProjects, this.buildTimeRangeHasChanged, this.lastBuildsDisplay, this.currentAccessToken).then(result => {
         let currentResult = this.state.builds;
 
         for(let i=0;i<result.length;i++) {
@@ -369,44 +368,44 @@ class CICDDashboard extends React.Component<{}, {}> {
           }
         }
 
-      currentResult = sortBuilds(currentResult);
+        currentResult = sortBuilds(currentResult);
 
-      // Get Build Reference Status
-      buildInPending.value = this.getActiveBuildStatusCount(BuildStatus.NotStarted, currentResult);
-      buildInProgress.value = this.getActiveBuildStatusCount(BuildStatus.InProgress, currentResult);
+        // Get Build Reference Status
+        buildInPending.value = this.getActiveBuildStatusCount(BuildStatus.NotStarted, currentResult);
+        buildInProgress.value = this.getActiveBuildStatusCount(BuildStatus.InProgress, currentResult);
 
-      this.setState({ builds: currentResult });
-      this.refreshUI.value = new Date().toTimeString();
-      this.buildTimeRangeHasChanged = false;
+        this.setState({ builds: currentResult });
+        this.refreshUI.value = new Date().toTimeString();
+        this.buildTimeRangeHasChanged = false;
 
-      this.filterBuildsData();
+        this.filterBuildsData();
 
       });
-    });
-
-    // Filter Approval by InProgress Builds
-    let buildsToCheck = this.state.builds.filter(x=> x.status === BuildStatus.InProgress).map(x=> x.id);
-    //console.log("-- Builds in progress --");
-    //console.log(buildsToCheck);
-    getApprovals(this.state.azureDevOpsUri, this.currentSelectedProjects, this.currentAccessToken, buildsToCheck)
-      .then(result => {
-        let approvalList = this.state.approvals;
-        for(let i=0;i<result.length;i++) {
-          var newApproval = result[i];
-          let approval = approvalList.find(x=> x.id === newApproval.id);
-          if(approval != undefined) {
-            let approvalIndex = approvalList.indexOf(approval, 0);
-            if(approvalIndex > -1) {
-              approvalList[approvalIndex] = newApproval;
+    
+      // Filter Approval by InProgress Builds
+      let buildsToCheck = this.state.builds.filter(x=> x.status === BuildStatus.InProgress).map(x=> x.id);
+      //console.log("-- Builds in progress --");
+      //console.log(buildsToCheck);
+      getApprovals(this.state.azureDevOpsUri, this.currentSelectedProjects, this.currentAccessToken, buildsToCheck)
+        .then(result => {
+          let approvalList = this.state.approvals;
+          for(let i=0;i<result.length;i++) {
+            var newApproval = result[i];
+            let approval = approvalList.find(x=> x.id === newApproval.id);
+            if(approval != undefined) {
+              let approvalIndex = approvalList.indexOf(approval, 0);
+              if(approvalIndex > -1) {
+                approvalList[approvalIndex] = newApproval;
+              }
+            } else {
+              approvalList.splice(0, 0, newApproval);
             }
-          } else {
-            approvalList.splice(0, 0, newApproval);
           }
-        }
-        this.setState({ approvalList: approvalList });
-        this.approvalProvider = new ObservableValue<ArrayItemProvider<any>>(new ArrayItemProvider(approvalList));
-      });
-    }
+          this.setState({ approvalList: approvalList });
+          this.approvalProvider = new ObservableValue<ArrayItemProvider<any>>(new ArrayItemProvider(approvalList));
+        });
+    });
+  }
 
   private onOnlyBuildWithDeployments = (event: React.SyntheticEvent<HTMLElement>, item: IListBoxItem<{}>) => {
     if(item.text !== undefined) {
