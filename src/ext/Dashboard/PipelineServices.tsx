@@ -118,7 +118,7 @@ export async function getReleases(projectName: string, isFirstLoad: boolean) {
   return dpl;
 }
 
-export async function getBuildTimeline(azureDevOpsUri: string, projectName: string, buildId: string, accessToken: string) {
+export async function getBuildTimeline(azureDevOpsUri: string, projectName: string, buildId: number, accessToken: string) {
   let apiVersion = "7.0";
   let envUrl = `${azureDevOpsUri}/${projectName}/_apis/build/builds/${buildId}/timeline?api-version=${apiVersion}`;
   let acceptHeaderValue = `application/json;api-version=${apiVersion};excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true`;
@@ -148,7 +148,7 @@ export async function getApprovals(azureDevOpsUri: string, projectNames: Array<s
   for(let i=0;i<projectNames.length;i++) {
     let projectName = projectNames[i];
     for(let b=0;b<buildsToCheck.length;b++) {
-      let buildApproval = await getBuildTimeline(azureDevOpsUri, projectName, buildsToCheck[b].toString(), accessToken);
+      let buildApproval = await getBuildTimeline(azureDevOpsUri, projectName, buildsToCheck[b], accessToken);
       if(buildApproval !== undefined) {
         for(let j=0;j<buildApproval.records.length;j++) {
           if(buildApproval.records[j].type === "Checkpoint.Approval") {
