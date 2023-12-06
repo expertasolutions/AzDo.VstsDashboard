@@ -373,11 +373,11 @@ export async function getBuildDefinitions(azureDevOpsUri: string, projectName: s
                                               undefined, minDate, undefined,undefined, true, undefined, 
                                               undefined, undefined);
   const castResult = result as Array<PipelineReference>;
-  for(let i=0;i<result.length;i++) {
-    let rs = await getBuildTimeline(azureDevOpsUri, projectName, result[i].id, accessToken);
-    castResult[i].timeline = rs;
-    castResult[i].pipelineType = 'na';
-  }
+  // for(let i=0;i<result.length;i++) {
+  //   //let rs = await getBuildTimeline(azureDevOpsUri, projectName, result[i].id, accessToken);
+  //   ///castResult[i].timeline = rs;
+  //   castResult[i].pipelineType = 'na';
+  // }
 
   return castResult;
 }
