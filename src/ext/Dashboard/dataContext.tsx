@@ -27,10 +27,13 @@ export const DataContext = React.createContext(
   }
 );
 
-export interface PipelineInfo extends BuildDefinitionReference {
+export interface PipelineElement extends Build {
+  timeline: any;
+}
+
+export interface PipelineReference extends BuildDefinitionReference {
   pipelineType: string;
   timeline: any;
-  allInProgress: Array<BuildDefinitionReference>;
 }
 
 export const DataProvider = DataContext.Provider;

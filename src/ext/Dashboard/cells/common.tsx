@@ -13,8 +13,7 @@ import { PipelineEnvironment } from "../dataContext";
 import { Ago } from "azure-devops-ui/Ago";
 import { Duration } from "azure-devops-ui/Duration";
 
-import { PipelineInfo } from "../dataContext";
-import { getBuildTimeline } from "../PipelineServices";
+import { PipelineReference, PipelineElement } from "../dataContext";
 
 const lightGreen: IColor = {
   red: 204,
@@ -482,7 +481,7 @@ export function getReleaseTagFromBuildV2(build: Build, environments: Array<Pipel
   return (<div></div>);
 }
 
-export function getEnvironmentStageSummary(build: PipelineInfo, environments: Array<PipelineEnvironment>, approvals: Array<any>) {
+export function getEnvironmentStageSummary(build: PipelineReference, environments: Array<PipelineEnvironment>, approvals: Array<any>) {
   if(build === undefined) {
     return (<div>Problem !</div>)
   }

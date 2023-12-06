@@ -24,15 +24,15 @@ import { BuildStatus } from "azure-devops-extension-api/Build";
 import { Status, Statuses, StatusSize } from "azure-devops-ui/Status";
 import { Link } from "azure-devops-ui/Link";
 import { Icon } from "azure-devops-ui/Icon";
-import { DataContext, PipelineInfo } from "../dataContext";
+import { DataContext, PipelineReference,  PipelineElement } from "../dataContext";
 import { Build } from "azure-devops-extension-api/Build";
 import { Deployment } from "azure-devops-extension-api/Release";
 
 export function renderBuildRef01 (
   rowIndex: number,
   columnIndex: number,
-  tableColumn: ITableColumn<PipelineInfo>,
-  tableItem: PipelineInfo
+  tableColumn: ITableColumn<PipelineReference>,
+  tableItem: PipelineReference
 ): JSX.Element {
   let definitionUrl = tableItem._links.web.href;
   let projectName = tableItem.project.name;
@@ -65,7 +65,7 @@ export function renderBuildRef01 (
   );
 }
 
-export function getPendingBuild(buildRef: PipelineInfo, buildList: Build[]) {
+export function getPendingBuild(buildRef: PipelineReference, buildList: Build[]) {
   let currentQueued = buildList.filter(x=> x.definition.id === buildRef.id && (x.status !== BuildStatus.Completed ));
   if(currentQueued.length == 2) {
     return (<span>&nbsp;-&nbsp;{currentQueued.length-1} other run</span>)
@@ -80,8 +80,8 @@ export function getPendingBuild(buildRef: PipelineInfo, buildList: Build[]) {
 export function renderLastBuild01 (
   rowIndex: number,
   columnIndex: number,
-  tableColumn: ITableColumn<PipelineInfo>,
-  tableItem: PipelineInfo
+  tableColumn: ITableColumn<PipelineReference>,
+  tableItem: PipelineReference
 ) {
   let lastBuild = tableItem.latestCompletedBuild;
   let contentRow1 = (<div>Not found</div>);
@@ -146,7 +146,7 @@ export function renderLastBuild01 (
   )
 }
 
-function renderPendingBuild(buildRef:PipelineInfo, buildList: Build[]) {
+function renderPendingBuild(buildRef:PipelineReference, buildList: Build[]) {
   let currentQueued = buildList.filter(x=> x.definition.id === buildRef.id && (x.status !== BuildStatus.Completed )).sort((a,b) => a.id-b.id);
   let currentRunningBuildCtrl = [];
   for(let i=0;i<currentQueued.length;i++) {
@@ -224,8 +224,8 @@ function renderPendingBuild(buildRef:PipelineInfo, buildList: Build[]) {
 export function renderLastBuild02(
   rowIndex: number,
   columnIndex: number,
-  tableColumn: ITableColumn<PipelineInfo>,
-  tableItem: PipelineInfo
+  tableColumn: ITableColumn<PipelineReference>,
+  tableItem: PipelineReference
 ): JSX.Element {
   let lastBuildRun = tableItem.latestCompletedBuild;
 
@@ -285,7 +285,7 @@ export function renderLastBuild02(
   );
 }
 
-export function renderAllInProgress(buildDefId: number, builds: Array<Build>, context: any, columnIndex: number, tableColumn: ITableColumn<PipelineInfo>) : Array<JSX.Element> {
+export function renderAllInProgress(buildDefId: number, builds: Array<Build>, context: any, columnIndex: number, tableColumn: ITableColumn<PipelineReference>) : Array<JSX.Element> {
   let childrens = Array<JSX.Element>();
   let pending = builds.filter(x=> x.definition.id ===buildDefId && x.status === BuildStatus.InProgress || x.status === BuildStatus.NotStarted).sort((a,b) => a.id-b.id);
   // TODO: Filter out build without environments stage in progress
@@ -299,7 +299,7 @@ export function renderAllInProgress(buildDefId: number, builds: Array<Build>, co
   return childrens;
 }
 
-export function renderPipelineStageSummary(build: PipelineInfo, context: any, columnIndex: number, tableColumn: ITableColumn<PipelineInfo>) : JSX.Element {
+export function renderPipelineStageSummary(build: PipelineReference, context: any, columnIndex: number, tableColumn: ITableColumn<PipelineReference>) : JSX.Element {
   let buildClassicReleases = [];
   let releases = context.state.releases as Array<Deployment>;
   buildClassicReleases = releases.filter(
@@ -332,8 +332,8 @@ export function renderPipelineStageSummary(build: PipelineInfo, context: any, co
 export function renderReleaseInfo01 (
   rowIndex: number,
   columnIndex: number,
-  tableColumn: ITableColumn<PipelineInfo>,
-  tableItem: PipelineInfo
+  tableColumn: ITableColumn<PipelineReference>,
+  tableItem: PipelineReference
 ) : JSX.Element {
   let lastCompletedBuild = tableItem.latestCompletedBuild;
   let lastBuild = tableItem.latestBuild;
@@ -377,7 +377,7 @@ export function renderReleaseInfo01 (
     );
 }
 
-function getBuildDefinitionStatus(buildDefItem: PipelineInfo) : IStatusIndicatorData {
+function getBuildDefinitionStatus(buildDefItem: PipelineReference) : IStatusIndicatorData {
   const indicatorData: IStatusIndicatorData = {
     label: "NA",
     statusProps: { ...Statuses.Queued, ariaLabel: "None" },

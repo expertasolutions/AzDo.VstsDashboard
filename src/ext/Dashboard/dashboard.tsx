@@ -41,7 +41,7 @@ import { showRootComponent } from "../../Common";
 import { ArrayItemProvider } from "azure-devops-ui/Utilities/Provider";
 import { ObservableValue } from "azure-devops-ui/Core/Observable";
 import { Observer } from "azure-devops-ui/Observer";
-import { DataContext, PipelineInfo }  from "./dataContext";
+import { DataContext, PipelineReference, PipelineElement }  from "./dataContext";
 import { CustomHeader, HeaderTitle, HeaderTitleArea, HeaderTitleRow, TitleSize, HeaderDescription } from "azure-devops-ui/Header";
 import { IListBoxItem } from "azure-devops-ui/ListBox";
 import { Filter, FILTER_CHANGE_EVENT, FILTER_RESET_EVENT } from "azure-devops-ui/Utilities/Filter";
@@ -101,8 +101,8 @@ class CICDDashboard extends React.Component<{}, {}> {
   }
 
   state = {
-    buildDefs: new Array<BuildDefinitionReference>(),
-    builds: new Array<Build>(),
+    buildDefs: new Array<PipelineReference>(),
+    builds: new Array<PipelineElement>(),
     releases: new Array<Deployment>(),
     projects: new Array<TeamProjectReference>(),
     environments: Array<PipelineEnvironment>(),
@@ -146,7 +146,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   private filterData() {
     let filterState = this.filter.getState();
 
-    let buildDefList = new Array<BuildDefinitionReference>();
+    let buildDefList = new Array<PipelineReference>();
 
     if(filterState.pipelineKeyWord !== undefined && filterState.pipelineKeyWord !== null && filterState.pipelineKeyWord.value !== "") {
       let pipelineFilterText = filterState.pipelineKeyWord.value.toLowerCase();
@@ -657,10 +657,10 @@ class CICDDashboard extends React.Component<{}, {}> {
       if(this.buildReferenceProvider.value.length > 0) {
         return (
           <Observer itemProvider={this.buildReferenceProvider} refreshUI={ this.refreshUI } >
-            {(props: {itemProvider: ArrayItemProvider<PipelineInfo> }) => 
+            {(props: {itemProvider: ArrayItemProvider<PipelineReference> }) => 
               {
                 return (
-                  <Table<PipelineInfo> columns={dashboardColumns} 
+                  <Table<PipelineReference> columns={dashboardColumns} 
                       itemProvider={props.itemProvider}
                       showLines={true}
                       role="table"/>

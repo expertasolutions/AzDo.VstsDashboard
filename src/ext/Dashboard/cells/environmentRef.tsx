@@ -17,7 +17,7 @@ import {
 import { Ago } from "azure-devops-ui/Ago";
 import { Duration } from "azure-devops-ui/Duration";
 
-import { DataContext, PipelineEnvironment, PipelineInfo } from "../dataContext";
+import { DataContext, PipelineEnvironment, PipelineReference, PipelineElement } from "../dataContext";
 
 export function renderEnvironmentCol01(
   rowIndex: number,

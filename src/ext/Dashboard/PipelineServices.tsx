@@ -13,7 +13,7 @@ import {
 } from "azure-devops-extension-api/core"
 
 import { ExtensionManagementRestClient } from "azure-devops-extension-api/ExtensionManagement";
-import { PipelineInfo, PipelineEnvironment } from "./dataContext";
+import { PipelineReference, PipelineElement, PipelineEnvironment } from "./dataContext";
 
 const coreClient = API.getClient(CoreRestClient);
 const buildClient = API.getClient(BuildRestClient);
@@ -244,7 +244,7 @@ export async function getEnvironmentDeplRecords(azureDevOpsUri: string, environm
 }
 
 export async function getBuildsV1(projectList: Array<string>, isFirstLoad: boolean, timeRangeLoad: string) {
-  let builds = new Array<Build>();
+  let builds = new Array<PipelineElement>();
   for(let i=0;i<projectList.length;i++) {
     let result = await getBuilds(projectList[i], isFirstLoad, timeRangeLoad);
     builds.push(...result);
@@ -298,24 +298,24 @@ export async function getBuilds(projectName: string, isFirstLoad: boolean, timeR
   let noneResult = await buildClient.getBuilds(projectName, undefined, undefined, undefined, undefined, undefined, undefined, undefined, BuildStatus.None);                                                
   let completedResult = await buildClient.getBuilds(projectName, undefined, undefined, undefined, minDate);
   
-  let result = new Array<Build>();
-  result.push(...inProgressResult);
-  result.push(...cancellingResult);
-  result.push(...notStartedResult);
-  result.push(...postponedResult);
-  result.push(...noneResult);
-  result.push(...completedResult);
+  let result = new Array<PipelineElement>();
+  result.push(...inProgressResult as Array<PipelineElement>);
+  result.push(...cancellingResult as Array<PipelineElement>);
+  result.push(...notStartedResult as Array<PipelineElement>);
+  result.push(...postponedResult as Array<PipelineElement>);
+  result.push(...noneResult as Array<PipelineElement>);
+  result.push(...completedResult as Array<PipelineElement>);
 
   return result;
 }
 
-export function sortBuilds(builds: Array<Build>) {
+export function sortBuilds(builds: Array<PipelineElement>) {
   return builds.sort((a,b) => {
     return b.id - a.id;
   });
 }
 
-export function sortBuildReferences(buildRefs: Array<BuildDefinitionReference>, errorOnTop: boolean) {
+export function sortBuildReferences(buildRefs: Array<PipelineReference>, errorOnTop: boolean) {
   buildRefs = buildRefs.sort((a,b) => {   
     if(b.latestBuild !== undefined && a.latestBuild !== undefined) {
       if(a.latestBuild.id > b.latestBuild.id){
@@ -351,7 +351,7 @@ export function sortBuildReferences(buildRefs: Array<BuildDefinitionReference>, 
 }
 
 export async function getBuildDefinitionsV1(azureDevOpsUri: string, projectList: Array<string>, isFirstLoad: boolean, accessToken: string) {
-  let buildDef = new Array<BuildDefinitionReference>();
+  let buildDef = new Array<PipelineReference>();
   for(let i=0;i<projectList.length;i++) {
     let result = await getBuildDefinitions(azureDevOpsUri, projectList[i], isFirstLoad, accessToken);
     buildDef.push(...result);
@@ -372,12 +372,10 @@ export async function getBuildDefinitions(azureDevOpsUri: string, projectName: s
                                               undefined, undefined, undefined, undefined, undefined,
                                               undefined, minDate, undefined,undefined, true, undefined, 
                                               undefined, undefined);
-  const castResult = result as Array<PipelineInfo>;
+  const castResult = result as Array<PipelineReference>;
   for(let i=0;i<result.length;i++) {
-    let rs = await getBuildTimeline(azureDevOpsUri, projectName, result[i].id, accessToken);
-    //console.log(`${result[i].id} - ${rs.configuration.type}`);
-    castResult[i].timeline = rs;
-    //castResult[i].pipelineType = rs.configuration.type;
+    //let rs = await getBuildTimeline(azureDevOpsUri, projectName, result[i].id, accessToken);
+    castResult[i].timeline = undefined;
     castResult[i].pipelineType = 'na';
   }
 
