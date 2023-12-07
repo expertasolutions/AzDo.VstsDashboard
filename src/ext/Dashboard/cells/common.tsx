@@ -431,7 +431,7 @@ export function getReleaseTagFromBuildV2(build: PipelineElement, environments: A
   for(let i=0;i<buildStages.length;i++) {
     let elm = buildStages[i];
     let attempCounts = "";
-    if(elm.previousAttempts.length > 1) {
+    if(elm.previousAttempts.length > 0) {
       attempCounts = `(${elm.previousAttempts.length})`;
     }
 
@@ -456,53 +456,6 @@ export function getReleaseTagFromBuildV2(build: PipelineElement, environments: A
       </Pill>
     );
   }
-
-  // // Last Build Execution
-  // let buildDeplRecords = allDeplRecords.filter(x=> x.owner.id === build.id).sort((a,b) => a.id - b.id);
-  // let buildIDApprovals = approvals.filter(x=> x.pipeline !== undefined && x.pipeline.owner.id === build.id);
-  // let children: any[] = [];
-  // let showedEnvStages = Array<any>();
-  // for(let i=0;i<buildDeplRecords.length;i++) {
-  //   let elm = buildDeplRecords[i];
-  //   if(buildDeplRecords[i].definition.id === build.definition.id) {
-  //     let currentShowed = showedEnvStages.find(x=> x.stageName === elm.stageName);
-  //     if(currentShowed === undefined) {
-  //       showedEnvStages.push(elm);
-  //     } else if(elm.stageAttempt > currentShowed.stageAttempt) {
-  //       let indx = showedEnvStages.findIndex(x=> x.id === currentShowed.id);
-  //       showedEnvStages[indx] = elm;
-  //     }
-  //   }
-  // }
-    
-  // for(let i=0;i<showedEnvStages.length;i++) {
-  //   let elm = showedEnvStages[i];
-  //   let attempCounts = "";
-  //   if(elm.jobAttemp > 1) {
-  //     attempCounts = `(${elm.stageAttempt})`;
-  //   }
-  //   let deplStatus = getStageIndicator(elm.result === undefined ? -1 : elm.result, false);
-
-  //   children.push(
-  //     <Pill color={deplStatus.color} variant={PillVariant.colored} 
-  //         onClick={() => window.open(elm.owner._links.web.href, "_blank") }>
-  //       <Status {...deplStatus.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{elm.stageName}&nbsp;{attempCounts}
-  //     </Pill>
-  //   );
-  // }
-  
-  // let pendingApproval = buildIDApprovals.filter(x=> x.status === 2);
-  // if(pendingApproval.length > 0) {
-  //   let elm = pendingApproval[0];
-  //   let approvalStatus = getApprovalIndicator(2);
-  //   let msgSingle = pendingApproval.length == 1 ? "Pending Approval" : "Pending Approvals";
-  //   children.push(
-  //     <Pill color={approvalStatus.color} variant={PillVariant.colored}
-  //         onClick={() => window.open(elm.pipeline.owner._links.web.href, "_blank") }>
-  //       &nbsp;{pendingApproval.length}&nbsp;{msgSingle}
-  //     </Pill>
-  //   );
-  // }
 
   if(children.length > 0) {
     content.push(
