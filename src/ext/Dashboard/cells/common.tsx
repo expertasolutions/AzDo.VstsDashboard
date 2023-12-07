@@ -461,7 +461,6 @@ export function getReleaseTagFromBuildV2(build: PipelineElement, environments: A
     let branchName = lastBuild.sourceBranch.replace('refs/heads/','');
     let branchUrl = lastBuild.repository.url;
     let commitUrl = lastBuild.repository.url;
-    let buildUrl = lastBuild._links.web.href + "&view=logs";
 
     if(lastBuild.repository.type === "TfsGit"){
       branchUrl = lastBuild.repository.url + "?version=GB" + branchName + "&_a=contents";
@@ -479,6 +478,7 @@ export function getReleaseTagFromBuildV2(build: PipelineElement, environments: A
         commitUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl/changeset/" + lastBuild.sourceVersion;
       }
     }
+  }
   /******/
 
   if(children.length > 0) {
