@@ -432,13 +432,13 @@ export function getReleaseTagFromBuildV2(build: PipelineElement, environments: A
       attempCounts = `(${elm.previousAttempts.length})`;
     }
 
-    switch(elm.state) {
-      case "inProgress":
+    if(elm.result === undefined) {
+      if(elm.state === 1) {
         elm.result = -1;
-        break;
-      case "pending": 
+      }
+      if(elm.state === 2) {
         elm.result = -2;
-        break;
+      }
     }
 
     let deplStatus = getStageIndicator(elm.result === undefined ? -1 : elm.result, false);
