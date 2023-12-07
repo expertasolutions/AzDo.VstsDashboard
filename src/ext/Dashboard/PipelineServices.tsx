@@ -136,7 +136,14 @@ export async function getBuildTimeline(azureDevOpsUri: string, projectName: stri
       mode: 'cors',
       headers: queryHeader
     })
-    .then(response => response.json());
+    .then(response => {
+      try {
+        return response.json()
+      } catch {
+        console.log("Error in getBuildTimeline");
+        return {records: []};
+      }
+    });
   return result;
 }
 
@@ -175,7 +182,15 @@ export async function getApprovals(azureDevOpsUri: string, projectNames: Array<s
           mode: 'cors',
           headers: queryHeader
         })
-        .then(response => response.json());
+        .then(response => {
+          try {
+            return response.json();
+          }
+          catch {
+            console.log("Error in getApprovals");
+            return [];
+          }
+        });
       result.push(...projectResult);
     }
   }
@@ -205,7 +220,14 @@ export async function getEnvironments(azureDevOpsUri: string, projectNames: Arra
         mode: 'cors',
         headers: queryHeader
       })
-      .then(response => response.json());
+      .then(response => {
+        try {
+          return response.json();
+        } catch {
+          console.log("Error in getEnvironments");
+          return [] as Array<PipelineEnvironment>;
+        }
+      });
       
     let finalResult:Array<PipelineEnvironment> = [];
 

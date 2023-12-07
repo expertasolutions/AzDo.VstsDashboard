@@ -126,7 +126,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       this.showErrorsOnSummaryOnTop = true;
       this.onlyWithDeploymentSelection.select(1);
       this.lastBuildsDisplaySelection.select(0);
-      this.lastBuildsDisplay = "lastHour";
+      //this.lastBuildsDisplay = "lastHour";
       this.showAllBuildDeployment = false;
       this.updateFromProject(true);
     }
@@ -556,10 +556,9 @@ class CICDDashboard extends React.Component<{}, {}> {
           }
 
           if(userPreferences.lastBuildsDisplaySelection !== undefined) {
-            this.lastBuildsDisplay = userPreferences.lastBuildsDisplaySelection;
-            this.lastBuildsDisplaySelection.select(userPreferences.lastBuildsDisplaySelection);
+            //this.lastBuildsDisplaySelection.select(userPreferences.lastBuildsDisplaySelection);
           } else {
-            this.lastBuildsDisplaySelection.select(0);
+            //this.lastBuildsDisplaySelection.select(0);
           }
 
         } else {
@@ -567,7 +566,6 @@ class CICDDashboard extends React.Component<{}, {}> {
           this.onlyWithDeploymentSelection.select(1);
           this.errorsOnSummaryTopSelection.select(0);
           this.lastBuildsDisplaySelection.select(0);
-          //this.lastBuildsDisplay = "lastHour";
         }
 
         this.updateFromProject(true);

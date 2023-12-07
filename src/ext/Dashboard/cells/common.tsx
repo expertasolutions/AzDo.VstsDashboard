@@ -417,16 +417,13 @@ export function getReleaseTagFromBuildV2(build: PipelineElement, environments: A
   }
 
   let content: any[] = [];
-  /*
   let pendingApprovals = build.timeline.records.filter((x: any) => x.type === "Checkpoint.Approval" && x.result === null);
   let approvalCheckpoints = build.timeline.records.filter((x: any) => x.type === "Checkpoint" && pendingApprovals.find((a: any) => a.parentId === x.id));
-  */
+
   let buildStages = build.timeline.records.filter((x: any) => x.type === "Stage").sort((a: any, b: any) => a.order - b.order);
   console.log(buildStages);
 
   let children: any[] = [];
-  
-  /*
   for(let i=0;i<buildStages.length;i++) {
     let elm = buildStages[i];
     let attempCounts = "";
@@ -457,7 +454,7 @@ export function getReleaseTagFromBuildV2(build: PipelineElement, environments: A
       </Pill>
     );
   }
-  */
+
   if(children.length > 0) {
     content.push(
       <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
