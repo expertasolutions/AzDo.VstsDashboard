@@ -421,7 +421,7 @@ export function getReleaseTagFromBuildV2(build: PipelineElement, environments: A
   let approvalCheckpoints = build.timeline.records.filter((x: any) => x.type === "Checkpoint" && pendingApprovals.find((a: any) => a.parentId === x.id));
 
   let buildStages = build.timeline.records.filter((x: any) => x.type === "Stage").sort((a: any, b: any) => a.order - b.order);
-  console.log(buildStages);
+  //console.log(buildStages);
 
   let children: any[] = [];
   for(let i=0;i<buildStages.length;i++) {
@@ -455,10 +455,38 @@ export function getReleaseTagFromBuildV2(build: PipelineElement, environments: A
     );
   }
 
+  /******/
+  let lastBuild = build;
+  if(lastBuild !== undefined) {
+    let branchName = lastBuild.sourceBranch.replace('refs/heads/','');
+    let branchUrl = lastBuild.repository.url;
+    let commitUrl = lastBuild.repository.url;
+    let buildUrl = lastBuild._links.web.href + "&view=logs";
+
+    if(lastBuild.repository.type === "TfsGit"){
+      branchUrl = lastBuild.repository.url + "?version=GB" + branchName + "&_a=contents";
+      commitUrl = lastBuild.repository.url + "/commit/" + lastBuild.sourceVersion;
+    }
+    else if(lastBuild.repository.type === "GitHub") {
+      branchUrl = "https://github.com/" + lastBuild.repository.id + "/tree/" + branchName;
+      commitUrl = lastBuild._links.sourceVersionDisplayUri.href;
+    } else if(lastBuild.repository.type === "TfsVersionControl") {
+      if(lastBuild.sourceBranch.indexOf("$/") == 0) {
+        branchUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl?path=" + lastBuild.sourceBranch;
+        commitUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl/changeset/" + lastBuild.sourceVersion;
+      } else {
+        branchUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl/shelveset?ss=" + lastBuild.sourceBranch;
+        commitUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl/changeset/" + lastBuild.sourceVersion;
+      }
+    }
+  /******/
+
   if(children.length > 0) {
     content.push(
       <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
-        <Link href={build._links.web.href} target="_blank"><b>{build.definition.name}</b> ({build.buildNumber})</Link>
+        <Link href={build._links.web.href} target="_blank"><b>{build.definition.name}</b> [{build.buildNumber}]</Link>&nbps;
+        <Icon iconName="BranchMerge"/>nbsp;<Link href={branchUrl} target="_blank">{branchName}</Link>
+        <Icon iconName="BranchCommit" /><Link href={commitUrl} target="blank">{lastBuild.sourceVersion.substr(0, 7)}</Link>
         <p>
           <PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{children}</PillGroup>
         </p>
