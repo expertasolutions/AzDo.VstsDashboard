@@ -150,7 +150,12 @@ export function getStageIndicator(status: number, pendingApproval: boolean): ISt
     return indicatorData;
   }
 
-  switch(status){
+  switch(status) {
+    case -2: 
+      indicatorData.statusProps = { ...Statuses.Waiting, ariaLabel: "Pending"};
+      indicatorData.label = "Pending";
+      indicatorData.color = lightBlue;
+      break;
     case -1:
       indicatorData.statusProps = { ...Statuses.Running, ariaLabel: "InProgress"};
       indicatorData.label = "In Progress";
@@ -289,7 +294,7 @@ export function getPipelineIndicator(result: BuildResult, status:BuildStatus) : 
   return indicatorData;
 }
 
-export function getReleaseTagFromBuild(build: PipelineElement, releases: Array<Deployment>, environments: Array<PipelineEnvironment>, approvals: Array<any>, allRelease: boolean) {
+export function getReleaseTagFromBuild(build: PipelineElement, releases: Array<Deployment>, environments: Array<PipelineEnvironment>, allRelease: boolean) {
   if(build === undefined) {
     return (<div>Not deployed yet</div>);
   }
@@ -397,10 +402,10 @@ export function getReleaseTagFromBuild(build: PipelineElement, releases: Array<D
   if(content.length > 0){
     return content;
   }
-  return getReleaseTagFromBuildV2(build, environments, approvals, allRelease, true);
+  return getReleaseTagFromBuildV2(build, environments, allRelease, true);
 }
 
-export function getReleaseTagFromBuildV2(build: PipelineElement, environments: Array<PipelineEnvironment>, approvals: Array<any>, allRelease: boolean, showDefaultOnEmpty: boolean) {
+export function getReleaseTagFromBuildV2(build: PipelineElement, environments: Array<PipelineEnvironment>, allRelease: boolean, showDefaultOnEmpty: boolean) {
   if(build === undefined) {
     return (<div>Not deployed yet</div>)
   }
@@ -426,12 +431,22 @@ export function getReleaseTagFromBuildV2(build: PipelineElement, environments: A
     if(elm.previousAttempts.length > 1) {
       attempCounts = `(${elm.previousAttempts.length})`;
     }
+
+    switch(elm.state) {
+      case "inProgress":
+        elm.result = -1;
+        break;
+      case "pending": 
+        elm.result = -2;
+        break;
+    }
+
     let deplStatus = getStageIndicator(elm.result === undefined ? -1 : elm.result, false);
 
     children.push(
       <Pill color={deplStatus.color} variant={PillVariant.colored} 
           onClick={() => window.open(elm.owner._links.web.href, "_blank") }>
-        <Status {...deplStatus.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{elm.name}&nbsp;{attempCounts}&nbsp;${elm.state}
+        <Status {...deplStatus.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{elm.name}&nbsp;{attempCounts}&nbsp;S:{elm.state}
       </Pill>
     );
   }

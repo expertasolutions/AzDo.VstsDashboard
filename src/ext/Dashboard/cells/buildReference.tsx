@@ -292,7 +292,7 @@ export function renderAllInProgress(buildDefId: number, builds: Array<PipelineEl
   for(let i=0;i<pending.length;i++) {
     childrens.push(
       <div>
-        {getReleaseTagFromBuildV2(pending[i], context.state.environments, context.state.approvals, context.state.showAllBuildDeployment, false)}
+        {getReleaseTagFromBuildV2(pending[i], context.state.environments, context.state.showAllBuildDeployment, false)}
       </div>
     );
   }
@@ -324,7 +324,7 @@ export function renderPipelineStageSummary(build: PipelineReference, context: an
   }
   return (
     <div>
-      {getReleaseTagFromBuild(build.latestCompletedBuild as PipelineElement, context.state.releases, context.state.environments, context.state.approvals, context.state.showAllBuildDeployment) }
+      {getReleaseTagFromBuild(build.latestCompletedBuild as PipelineElement, context.state.releases, context.state.environments, context.state.showAllBuildDeployment) }
     </div>
   );
 }
