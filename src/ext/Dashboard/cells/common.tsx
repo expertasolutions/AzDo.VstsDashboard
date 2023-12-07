@@ -428,7 +428,7 @@ export function getReleaseTagFromBuildV2(build: PipelineElement, environments: A
     let elm = buildStages[i];
     let attempCounts = "";
     if(elm.previousAttempts.length > 0) {
-      attempCounts = `(${elm.previousAttempts.length})`;
+      attempCounts = `(${elm.previousAttempts.length+1})`;
     }
 
     if(elm.result === undefined || elm.result === null) {

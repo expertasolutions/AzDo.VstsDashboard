@@ -466,6 +466,7 @@ class CICDDashboard extends React.Component<{}, {}> {
     , (this.showErrorsOnSummaryOnTop ? 0 : 1)
     , (this.showOnlyBuildWithDeployments ? 0 : 1)
     , (this.showAllBuildDeployment ? 0 : 1)
+    , (this.lastBuildsDisplaySelection ? 0: 1)
     , this.extContext
     , this.hostInfo.name
     , this.currentViewId);
@@ -553,12 +554,20 @@ class CICDDashboard extends React.Component<{}, {}> {
           } else {
             this.errorsOnSummaryTopSelection.select(0);
           }
+
+          if(userPreferences.lastBuildsDisplaySelection !== undefined) {
+            this.lastBuildsDisplay = userPreferences.lastBuildsDisplaySelection;
+            this.lastBuildsDisplaySelection.select(userPreferences.lastBuildsDisplaySelection);
+          } else {
+            this.lastBuildsDisplaySelection.select(0);
+          }
+
         } else {
           this.allDeploymentSelection.select(1);
           this.onlyWithDeploymentSelection.select(1);
           this.errorsOnSummaryTopSelection.select(0);
           this.lastBuildsDisplaySelection.select(0);
-          this.lastBuildsDisplay = "lastHour";
+          //this.lastBuildsDisplay = "lastHour";
         }
 
         this.updateFromProject(true);

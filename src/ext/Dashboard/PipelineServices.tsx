@@ -35,6 +35,7 @@ export async function setUserPreferences(
     , statusOrder: number
     , withDeploymentOnly: number
     , showAllDeployment: number
+    , lastBuildsDisplaySelection: number
     , extensionContext: any
     , collectionName: string
     , currentViewId: string
@@ -48,6 +49,7 @@ export async function setUserPreferences(
         showErrorsOnTop: statusOrder,
         withDeploymentOnly: withDeploymentOnly,
         showAllDeployment: showAllDeployment,
+        lastBuildsDisplaySelection: lastBuildsDisplaySelection,
         selectedProjects : projectList,
         currentViewId: currentViewId
       };
@@ -59,6 +61,7 @@ export async function setUserPreferences(
         showErrorsOnTop: statusOrder,
         withDeploymentOnly: withDeploymentOnly,
         showAllDeployment: showAllDeployment,
+        lastBuildsDisplaySelection: lastBuildsDisplaySelection,
         id: currentDocument.id,
         __etag: currentDocument.__etag,
         currentViewId: currentViewId
