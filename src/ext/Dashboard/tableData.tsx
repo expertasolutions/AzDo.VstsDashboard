@@ -86,18 +86,18 @@ export const dashboardColumns : ITableColumn<PipelineReference>[] = [
     renderCell: renderBuildRef01,
     width: new ObservableValue(-22.5)
   },
-  {
-    id: "pipeline",
-    name: "Last Build # | Branch & commit",
-    onSize: buildRefOnSize,
-    renderCell: renderLastBuild01,
-    width: new ObservableValue(-22.5)
-  },
+  // {
+  //   id: "pipeline",
+  //   name: "Last Build # | Branch & commit",
+  //   onSize: buildRefOnSize,
+  //   renderCell: renderLastBuild01,
+  //   width: new ObservableValue(-22.5)
+  // },
   {
     id: "ReleaseInfo01",
     name: "Environments/Stages Status",
     renderCell: renderReleaseInfo01,
-    width: new ObservableValue(-50)
+    width: new ObservableValue(-73)
   },
   {
     id:"LastBuildInfo02",
