@@ -480,9 +480,9 @@ export function getReleaseTagFromBuildV2(build: PipelineElement, environments: A
 
   let branchCommitControl = <span></span>;
   if(lastBuild.sourceBranch !== undefined) {
-    branchCommitControl = (<span><Icon iconName="BranchCommit" /><Link href={commitUrl} target="blank">{lastBuild.sourceVersion.substr(0, 7)}</Link></span>);
+    branchCommitControl = (<span> <Icon iconName="BranchCommit" /><Link href={commitUrl} target="blank">{lastBuild.sourceVersion.substr(0, 7)}</Link></span>);
   } else {
-    branchCommitControl = <span><Icon iconName="BranchCommit" />Not found</span>;
+    branchCommitControl = <span> <Icon iconName="BranchCommit" />Not found</span>;
   }
 
   /******/
