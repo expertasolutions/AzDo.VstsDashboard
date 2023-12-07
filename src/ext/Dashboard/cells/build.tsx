@@ -13,7 +13,7 @@ import { Duration } from "azure-devops-ui/Duration";
 import { Link } from "azure-devops-ui/Link";
 import { Icon } from "azure-devops-ui/Icon";
 import { Status, StatusSize } from "azure-devops-ui/Status";
-import { DataContext } from "../dataContext";
+import { DataContext, PipelineElement } from "../dataContext";
 
 import {
   ITableColumn,
@@ -35,10 +35,12 @@ function getBuildDefinitionUrl(buildDefs: BuildDefinitionReference[], buildDefId
 export function renderBuildStatus (
   rowIndex: number,
   columnIndex: number,
-  tableColumn: ITableColumn<Build>,
-  tableItem: Build
+  tableColumn: ITableColumn<PipelineElement>,
+  tableItem: PipelineElement
 ): JSX.Element {
   let projectName = tableItem.project.name;
+
+
   return (
     <DataContext.Consumer>
       {(context) => (
@@ -67,8 +69,8 @@ export function renderBuildStatus (
 export function renderBuildInfo01Cell(
   rowIndex: number,
   columnIndex: number,
-  tableColumn: ITableColumn<Build>,
-  tableItem: Build
+  tableColumn: ITableColumn<PipelineElement>,
+  tableItem: PipelineElement
 ) : JSX.Element {
   let lastBuild = tableItem;
   let contentRow1 = (<div>Not found</div>);
@@ -127,8 +129,8 @@ export function renderBuildInfo01Cell(
 export function renderDeploymentInfo01(
   rowIndex: number,
   columnIndex: number,
-  tableColumn: ITableColumn<Build>,
-  tableItem: Build
+  tableColumn: ITableColumn<PipelineElement>,
+  tableItem: PipelineElement
 ) : JSX.Element {
   return (
     <DataContext.Consumer>
@@ -149,8 +151,8 @@ export function renderDeploymentInfo01(
 export function renderBuildInfo02Cell(
   rowIndex: number,
   columnIndex: number,
-  tableColumn: ITableColumn<Build>,
-  tableItem: Build
+  tableColumn: ITableColumn<PipelineElement>,
+  tableItem: PipelineElement
 ) : JSX.Element {
   let lastBuildRun = tableItem;
   let requestByCtrl = (<div></div>);

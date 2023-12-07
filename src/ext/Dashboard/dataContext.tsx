@@ -16,7 +16,7 @@ export const DataContext = React.createContext(
   {  
     state: {
       buildDefs: Array<BuildDefinitionReference>(),
-      builds: Array<Build>(),
+      builds: Array<PipelineElement>(),
       releases: Array<Deployment>(),
       projects: Array<TeamProjectReference>(),
       environments: Array<PipelineEnvironment>(),

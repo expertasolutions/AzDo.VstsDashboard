@@ -48,7 +48,7 @@ export const environmentColumns : ITableColumn<PipelineEnvironment>[] = [
 ]
 
 // All Runs
-export const buildColumns : ITableColumn<Build>[] = [
+export const buildColumns : ITableColumn<PipelineElement>[] = [
   {
     id: "pipeline",
     name: "Pipeline",

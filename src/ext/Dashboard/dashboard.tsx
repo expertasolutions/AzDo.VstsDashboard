@@ -676,8 +676,8 @@ class CICDDashboard extends React.Component<{}, {}> {
     } else if(tabId === "builds") {
       return (
         <Observer itemProvider={ this.buildProvider }>
-          {(observableProps: { itemProvider: ArrayItemProvider<Build> }) => (
-              <Table<Build> columns={buildColumns} 
+          {(observableProps: { itemProvider: ArrayItemProvider<PipelineElement> }) => (
+              <Table<PipelineElement> columns={buildColumns} 
                   itemProvider={observableProps.itemProvider}
                   showLines={true}
                   role="table"/>
