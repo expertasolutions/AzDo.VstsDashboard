@@ -416,22 +416,22 @@ export function getReleaseTagFromBuildV2(build: PipelineElement, environments: A
   console.log(`Stage for Build: ${build.buildNumber}`);
   //console.log(tableItem.timeline);
 
-  let buildStages = build.timeline.records.filter((x: any) => x.type === "Stage");
+  let buildStages = build.timeline.records.filter((x: any) => x.type === "Stage").sort((a: any, b: any) => a.order - b.order);
   console.log(buildStages);
 
   let children: any[] = [];
   for(let i=0;i<buildStages.length;i++) {
     let elm = buildStages[i];
     let attempCounts = "";
-    // if(elm.jobAttemp > 1) {
-    //   attempCounts = `(${elm.stageAttempt})`;
-    // }
+    if(elm.previousAttempts.length > 1) {
+      attempCounts = `(${elm.previousAttempts.length})`;
+    }
     let deplStatus = getStageIndicator(elm.result === undefined ? -1 : elm.result, false);
 
     children.push(
       <Pill color={deplStatus.color} variant={PillVariant.colored} 
           onClick={() => window.open(elm.owner._links.web.href, "_blank") }>
-        <Status {...deplStatus.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{elm.name}&nbsp;{attempCounts}
+        <Status {...deplStatus.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{elm.name}&nbsp;{attempCounts}&nbs;${elm.state}
       </Pill>
     );
   }
