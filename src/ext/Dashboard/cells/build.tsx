@@ -39,10 +39,6 @@ export function renderBuildStatus (
   tableItem: PipelineElement
 ): JSX.Element {
   let projectName = tableItem.project.name;
-
-  console.log(`Timeline for Build: ${tableItem.buildNumber}`);
-  console.log(tableItem.timeline);
-
   return (
     <DataContext.Consumer>
       {(context) => (
@@ -134,6 +130,13 @@ export function renderDeploymentInfo01(
   tableColumn: ITableColumn<PipelineElement>,
   tableItem: PipelineElement
 ) : JSX.Element {
+
+  console.log(`Stage for Build: ${tableItem.buildNumber}`);
+  //console.log(tableItem.timeline);
+
+  let buildStages = tableItem.timeline.records.filter((x: any) => x.type === "Stage");
+  console.log(buildStages);
+
   return (
     <DataContext.Consumer>
       {(context) => (
