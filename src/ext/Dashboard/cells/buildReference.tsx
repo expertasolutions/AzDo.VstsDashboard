@@ -46,17 +46,19 @@ export function renderBuildRef01 (
               tableColumn={tableColumn}
               key={"col-" + columnIndex}
               contentClassName="fontSizeM font-size-m scroll-hidden">
-              <Status {...getBuildDefinitionStatusNew(lastBuild).statusProps}
-                      className="icon-large-margin"
-                      size={StatusSize.l}/>
-              <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
-                <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}} className="fontWeightSemiBold font-weight-semibold">
-                  <Link href={definitionUrl} target="_blank" className="bolt-table-cell-primary">
-                    {tableItem.name}
-                  </Link>
-                </div>
-                <div className="font-size-s" style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
-                  <span className="fontWeightSemiBold font-weight-semibold">{projectName}</span>{getPendingBuild(tableItem, context.state.builds)}
+              <div style={{ backgroundColor: "lightGray", verticalAlign: "top"}}>
+                <Status {...getBuildDefinitionStatusNew(lastBuild).statusProps}
+                        className="icon-large-margin"
+                        size={StatusSize.l}/>
+                <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
+                  <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}} className="fontWeightSemiBold font-weight-semibold">
+                    <Link href={definitionUrl} target="_blank" className="bolt-table-cell-primary">
+                      {tableItem.name}
+                    </Link>
+                  </div>
+                  <div className="font-size-s" style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
+                    <span className="fontWeightSemiBold font-weight-semibold">{projectName}</span>{getPendingBuild(tableItem, context.state.builds)}
+                  </div>
                 </div>
               </div>
           </SimpleTableCell>
