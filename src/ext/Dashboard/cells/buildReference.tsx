@@ -285,7 +285,7 @@ export function renderLastBuild02(
   );
 }
 
-export function renderAllInProgress(buildDefId: number, builds: Array<Build>, context: any, columnIndex: number, tableColumn: ITableColumn<PipelineReference>) : Array<JSX.Element> {
+export function renderAllInProgress(buildDefId: number, builds: Array<PipelineElement>, context: any, columnIndex: number, tableColumn: ITableColumn<PipelineReference>) : Array<JSX.Element> {
   let childrens = Array<JSX.Element>();
   let pending = builds.filter(x=> x.definition.id ===buildDefId && x.status === BuildStatus.InProgress || x.status === BuildStatus.NotStarted).sort((a,b) => a.id-b.id);
   // TODO: Filter out build without environments stage in progress
@@ -324,7 +324,7 @@ export function renderPipelineStageSummary(build: PipelineReference, context: an
   }
   return (
     <div>
-      {getReleaseTagFromBuild(build.latestCompletedBuild, context.state.releases, context.state.environments, context.state.approvals, context.state.showAllBuildDeployment) }
+      {getReleaseTagFromBuild(build.latestCompletedBuild as PipelineElement, context.state.releases, context.state.environments, context.state.approvals, context.state.showAllBuildDeployment) }
     </div>
   );
 }
