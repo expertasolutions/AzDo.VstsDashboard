@@ -95,7 +95,7 @@ export const dashboardColumns : ITableColumn<PipelineReference>[] = [
   },
   {
     id: "ReleaseInfo01",
-    name: "Current Deployment Health",
+    name: "Current Stages Health",
     renderCell: renderReleaseInfo01,
     width: new ObservableValue(-50)
   },
