@@ -421,7 +421,7 @@ export function getReleaseTagFromBuildV2(build: PipelineElement, environments: A
   //console.log(`Stage for Build: ${build.buildNumber}`);
   //console.log(tableItem.timeline);
 
-  let pendingApprovals = build.timeline.records.filter((x: any) => x.type === "Checkpoint.Approval"  && x.state === 2);
+  let pendingApprovals = build.timeline.records.filter((x: any) => x.type === "Checkpoint.Approval" && x.result === null);
   let approvalCheckpoints = build.timeline.records.filter((x: any) => x.type === "Checkpoint" && pendingApprovals.find((a: any) => a.parentId === x.id));
 
   let buildStages = build.timeline.records.filter((x: any) => x.type === "Stage").sort((a: any, b: any) => a.order - b.order);
@@ -445,7 +445,6 @@ export function getReleaseTagFromBuildV2(build: PipelineElement, environments: A
     }
 
     let hasPendingApproval = approvalCheckpoints.find((x: any) => x.parentId === elm.id);
-
     let deplStatus = getStageIndicator(elm.result === undefined ? -1 : elm.result, hasPendingApproval);
 
     let stageLink = build._links.web.href; //.replace('results', 'logs');
