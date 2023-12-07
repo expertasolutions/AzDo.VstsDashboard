@@ -140,6 +140,7 @@ export async function getBuildTimeline(azureDevOpsUri: string, projectName: stri
       try {
         return response.json()
       } catch {
+        console.log(envUrl);
         console.log("Error in getBuildTimeline");
         return {records: []};
       }
