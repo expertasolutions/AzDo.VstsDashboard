@@ -457,28 +457,34 @@ export function getReleaseTagFromBuildV2(build: PipelineElement, environments: A
 
   /******/
   let lastBuild = build;
-  if(lastBuild !== undefined) {
-    let branchName = lastBuild.sourceBranch.replace('refs/heads/','');
-    let branchUrl = lastBuild.repository.url;
-    let commitUrl = lastBuild.repository.url;
+  let branchName = lastBuild.sourceBranch.replace('refs/heads/','');
+  let branchUrl = lastBuild.repository.url;
+  let commitUrl = lastBuild.repository.url;
 
-    if(lastBuild.repository.type === "TfsGit"){
-      branchUrl = lastBuild.repository.url + "?version=GB" + branchName + "&_a=contents";
-      commitUrl = lastBuild.repository.url + "/commit/" + lastBuild.sourceVersion;
-    }
-    else if(lastBuild.repository.type === "GitHub") {
-      branchUrl = "https://github.com/" + lastBuild.repository.id + "/tree/" + branchName;
-      commitUrl = lastBuild._links.sourceVersionDisplayUri.href;
-    } else if(lastBuild.repository.type === "TfsVersionControl") {
-      if(lastBuild.sourceBranch.indexOf("$/") == 0) {
-        branchUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl?path=" + lastBuild.sourceBranch;
-        commitUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl/changeset/" + lastBuild.sourceVersion;
-      } else {
-        branchUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl/shelveset?ss=" + lastBuild.sourceBranch;
-        commitUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl/changeset/" + lastBuild.sourceVersion;
-      }
+  if(lastBuild.repository.type === "TfsGit"){
+    branchUrl = lastBuild.repository.url + "?version=GB" + branchName + "&_a=contents";
+    commitUrl = lastBuild.repository.url + "/commit/" + lastBuild.sourceVersion;
+  }
+  else if(lastBuild.repository.type === "GitHub") {
+    branchUrl = "https://github.com/" + lastBuild.repository.id + "/tree/" + branchName;
+    commitUrl = lastBuild._links.sourceVersionDisplayUri.href;
+  } else if(lastBuild.repository.type === "TfsVersionControl") {
+    if(lastBuild.sourceBranch.indexOf("$/") == 0) {
+      branchUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl?path=" + lastBuild.sourceBranch;
+      commitUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl/changeset/" + lastBuild.sourceVersion;
+    } else {
+      branchUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl/shelveset?ss=" + lastBuild.sourceBranch;
+      commitUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl/changeset/" + lastBuild.sourceVersion;
     }
   }
+
+  let branchCommitControl = <span></span>;
+  if(lastBuild.sourceBranch !== undefined) {
+    branchCommitControl = (<span><Icon iconName="BranchCommit" /><Link href={commitUrl} target="blank">{lastBuild.sourceVersion.substr(0, 7)}</Link></span>);
+  } else {
+    branchCommitControl = <span><Icon iconName="BranchCommit" />Not found</span>;
+  }
+
   /******/
 
   if(children.length > 0) {
@@ -486,7 +492,8 @@ export function getReleaseTagFromBuildV2(build: PipelineElement, environments: A
       <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
         <Link href={build._links.web.href} target="_blank"><b>{build.definition.name}</b> [{build.buildNumber}]</Link>&nbps;
         <Icon iconName="BranchMerge"/>nbsp;<Link href={branchUrl} target="_blank">{branchName}</Link>
-        <Icon iconName="BranchCommit" /><Link href={commitUrl} target="blank">{lastBuild.sourceVersion.substr(0, 7)}</Link>
+        <Icon iconName="BranchCommit" /><Link href={commitUrl} target="blank">{lastBuild.sourceVersion.substr(0, 7)}</Link>&nbsp;
+        branchCommitControl
         <p>
           <PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{children}</PillGroup>
         </p>
