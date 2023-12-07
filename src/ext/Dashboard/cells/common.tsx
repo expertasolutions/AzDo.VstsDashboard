@@ -432,7 +432,7 @@ export function getReleaseTagFromBuildV2(build: PipelineElement, environments: A
       attempCounts = `(${elm.previousAttempts.length})`;
     }
 
-    if(elm.result === undefined) {
+    if(elm.result === undefined || elm.result === 4) {
       if(elm.state === 1) {
         elm.result = -1;
       }
@@ -443,10 +443,12 @@ export function getReleaseTagFromBuildV2(build: PipelineElement, environments: A
 
     let deplStatus = getStageIndicator(elm.result === undefined ? -1 : elm.result, false);
 
+    let stageLink = build._links.web.href.replace('results', 'logs');
+
     children.push(
       <Pill color={deplStatus.color} variant={PillVariant.colored} 
-          onClick={() => window.open(elm.owner._links.web.href, "_blank") }>
-        <Status {...deplStatus.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{elm.name}&nbsp;{attempCounts}&nbsp;S:{elm.state}
+          onClick={() => window.open(stageLink, "_blank") }>
+        <Status {...deplStatus.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{elm.name}&nbsp;{attempCounts}&nbsp;S:{elm.state}|R:{elm.result}
       </Pill>
     );
   }
