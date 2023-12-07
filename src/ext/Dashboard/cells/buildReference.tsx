@@ -46,7 +46,7 @@ export function renderBuildRef01 (
               tableColumn={tableColumn}
               key={"col-" + columnIndex}
               contentClassName="fontSizeM font-size-m scroll-hidden">
-              <div style={{ backgroundColor: "lightGray", verticalAlign: "top"}}>
+              <div style={{ backgroundColor: "lightGray", verticalAlign: "top", width: "100%"}}>
                 <Status {...getBuildDefinitionStatusNew(lastBuild).statusProps}
                         className="icon-large-margin"
                         size={StatusSize.l}/>
