@@ -417,10 +417,6 @@ export function getReleaseTagFromBuildV2(build: PipelineElement, environments: A
   }
 
   let content: any[] = [];
-
-  //console.log(`Stage for Build: ${build.buildNumber}`);
-  //console.log(tableItem.timeline);
-
   let pendingApprovals = build.timeline.records.filter((x: any) => x.type === "Checkpoint.Approval" && x.result === null);
   let approvalCheckpoints = build.timeline.records.filter((x: any) => x.type === "Checkpoint" && pendingApprovals.find((a: any) => a.parentId === x.id));
 
@@ -482,6 +478,7 @@ export function getEnvironmentStageSummary(build: PipelineReference, environment
   if(build === undefined) {
     return (<div>Problem !</div>)
   }
+
 
   environments = environments.sort((a,b) => a.id - b.id);
 
@@ -561,6 +558,10 @@ export function getEnvironmentStageSummary(build: PipelineReference, environment
         <div style={{ paddingLeft: 16 }} className="font-size-s">{curEnv.lastExecution.owner.name}</div>
       </Pill>
     );
+  }
+
+  if(childrens.length === 0) {
+    return (<div>Not deployed yet</div>);
   }
 
   return (
