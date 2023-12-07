@@ -40,6 +40,8 @@ export function renderBuildStatus (
 ): JSX.Element {
   let projectName = tableItem.project.name;
 
+  console.log(`Timeline for Build: ${tableItem.buildNumber}`);
+  console.log(tableItem.timeline);
 
   return (
     <DataContext.Consumer>
