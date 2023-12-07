@@ -422,7 +422,7 @@ export function getReleaseTagFromBuildV2(build: PipelineElement, environments: A
   //console.log(tableItem.timeline);
 
   let buildStages = build.timeline.records.filter((x: any) => x.type === "Stage").sort((a: any, b: any) => a.order - b.order);
-  //console.log(buildStages);
+  console.log(buildStages);
 
   let children: any[] = [];
   for(let i=0;i<buildStages.length;i++) {
