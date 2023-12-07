@@ -448,7 +448,7 @@ export function getReleaseTagFromBuildV2(build: PipelineElement, environments: A
 
     let deplStatus = getStageIndicator(elm.result === undefined ? -1 : elm.result, hasPendingApproval);
 
-    let stageLink = build._links.web.href.replace('results', 'logs');
+    let stageLink = build._links.web.href; //.replace('results', 'logs');
 
     children.push(
       <Pill color={deplStatus.color} variant={PillVariant.colored} 
