@@ -99,10 +99,10 @@ export const dashboardColumns : ITableColumn<PipelineReference>[] = [
     renderCell: renderReleaseInfo01,
     width: new ObservableValue(-50)
   },
-  {
-    id:"LastBuildInfo02",
-    name: "Execution Infos",
-    renderCell: renderLastBuild02,
-    width: 165
-  }
+  // {
+  //   id:"LastBuildInfo02",
+  //   name: "Execution Infos",
+  //   renderCell: renderLastBuild02,
+  //   width: 165
+  // }
 ];
