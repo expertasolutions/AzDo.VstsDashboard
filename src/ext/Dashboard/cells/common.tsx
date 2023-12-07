@@ -480,9 +480,9 @@ export function getReleaseTagFromBuildV2(build: PipelineElement, environments: A
 
   let branchCommitControl = <span></span>;
   if(lastBuild.sourceBranch !== undefined) {
-    branchCommitControl = (<span> <Icon iconName="BranchCommit" /><Link href={commitUrl} target="blank">{lastBuild.sourceVersion.substr(0, 7)}</Link></span>);
+    branchCommitControl = (<span><Icon iconName="BranchCommit" /><Link href={commitUrl} target="blank">{lastBuild.sourceVersion.substr(0, 7)}</Link></span>);
   } else {
-    branchCommitControl = <span> <Icon iconName="BranchCommit" />Not found</span>;
+    branchCommitControl = <span><Icon iconName="BranchCommit" />Not found</span>;
   }
 
   /******/
@@ -490,8 +490,8 @@ export function getReleaseTagFromBuildV2(build: PipelineElement, environments: A
   if(children.length > 0) {
     content.push(
       <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
-        <Link href={build._links.web.href} target="_blank"><b>{build.definition.name}</b> [{build.buildNumber}]</Link>&nbps;
-        <Icon iconName="BranchMerge"/> <Link href={branchUrl} target="_blank">{branchName}</Link>
+        <Link href={build._links.web.href} target="_blank"><b>{build.definition.name}</b> [{build.buildNumber}]</Link>
+        <Icon iconName="BranchMerge"/><Link href={branchUrl} target="_blank">{branchName}</Link>
         {branchCommitControl}
         <p>
           <PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{children}</PillGroup>
