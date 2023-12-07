@@ -445,10 +445,12 @@ export function getReleaseTagFromBuildV2(build: PipelineElement, environments: A
 
     let stageLink = build._links.web.href; //.replace('results', 'logs');
 
+    // &nbsp;S:{elm.state}|R:{elm.result}
+    
     children.push(
       <Pill color={deplStatus.color} variant={PillVariant.colored} 
           onClick={() => window.open(stageLink, "_blank") }>
-        <Status {...deplStatus.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{elm.name}&nbsp;{attempCounts}&nbsp;S:{elm.state}|R:{elm.result}
+        <Status {...deplStatus.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{elm.name}&nbsp;{attempCounts}
       </Pill>
     );
   }
