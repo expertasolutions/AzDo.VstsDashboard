@@ -46,7 +46,6 @@ export function renderBuildRef01 (
               tableColumn={tableColumn}
               key={"col-" + columnIndex}
               contentClassName="fontSizeM font-size-m scroll-hidden">
-              <div style={{ backgroundColor: "lightGray", verticalAlign: "top", width: "100%", height: "100%"}}>
                 <Status {...getBuildDefinitionStatusNew(lastBuild).statusProps}
                         className="icon-large-margin"
                         size={StatusSize.l}/>
@@ -60,7 +59,6 @@ export function renderBuildRef01 (
                     <span className="fontWeightSemiBold font-weight-semibold">{projectName}</span>{getPendingBuild(tableItem, context.state.builds)}
                   </div>
                 </div>
-              </div>
           </SimpleTableCell>
         )}
       </DataContext.Consumer>
