@@ -67,11 +67,8 @@ export function renderBuildRef01 (
 
 export function getPendingBuild(buildRef: PipelineReference, buildList: Build[]) {
   let currentQueued = buildList.filter(x=> x.definition.id === buildRef.id && (x.status !== BuildStatus.Completed ));
-  if(currentQueued.length == 2) {
-    return (<span>&nbsp;-&nbsp;{currentQueued.length-1} other run</span>)
-  }
-  else if(currentQueued.length > 2){
-    return (<span>&nbsp;-&nbsp;{currentQueued.length-1} others runs</span>)
+  if(currentQueued.length > 0){
+    return (<span>&nbsp;-&nbsp;{currentQueued.length} in progress</span>)
   } else {
     return (<span></span>)
   }
