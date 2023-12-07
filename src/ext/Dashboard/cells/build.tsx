@@ -131,12 +131,6 @@ export function renderDeploymentInfo01(
   tableItem: PipelineElement
 ) : JSX.Element {
 
-  console.log(`Stage for Build: ${tableItem.buildNumber}`);
-  //console.log(tableItem.timeline);
-
-  let buildStages = tableItem.timeline.records.filter((x: any) => x.type === "Stage");
-  console.log(buildStages);
-
   return (
     <DataContext.Consumer>
       {(context) => (
