@@ -130,22 +130,21 @@ export async function getBuildTimeline(azureDevOpsUri: string, projectName: stri
       'Content-Type': 'application/json',
       'Authorization' : `Bearer ${accessToken}`
     };
-  // let result = await fetch(envUrl, 
-  //   {
-  //     method: 'GET',
-  //     mode: 'cors',
-  //     headers: queryHeader
-  //   })
-  //   .then(response => {
-  //     try {
-  //       return response.json()
-  //     } catch {
-  //       console.log("Error in getBuildTimeline");
-  //       return {records: []};
-  //     }
-  //   });
-  // return result;
-  return {records: []};
+  let result = await fetch(envUrl, 
+    {
+      method: 'GET',
+      mode: 'cors',
+      headers: queryHeader
+    })
+    .then(response => {
+      try {
+        return response.json()
+      } catch {
+        console.log("Error in getBuildTimeline");
+        return {records: []};
+      }
+    });
+  return result;
 }
 
 // export async function getApprovals(azureDevOpsUri: string, projectNames: Array<string>, accessToken: string, buildsToCheck: Array<number>) {
