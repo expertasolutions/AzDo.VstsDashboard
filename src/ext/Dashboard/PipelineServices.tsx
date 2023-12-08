@@ -148,56 +148,6 @@ export async function getBuildTimeline(azureDevOpsUri: string, projectName: stri
   return result;
 }
 
-// export async function getApprovals(azureDevOpsUri: string, projectNames: Array<string>, accessToken: string, buildsToCheck: Array<number>) {
-//   let result = new Array<any>();
-//   if(azureDevOpsUri === undefined || azureDevOpsUri === null || azureDevOpsUri === "") {
-//     return result;
-//   }
-
-//   let apiVersion = "7.0-preview.1";
-//   let approvalIds = new Array<string>();
-//   for(let i=0;i<projectNames.length;i++) {
-//     let projectName = projectNames[i];
-//     for(let b=0;b<buildsToCheck.length;b++) {
-//       let buildApproval = await getBuildTimeline(azureDevOpsUri, projectName, buildsToCheck[b], accessToken);
-//       if(buildApproval !== undefined) {
-//         for(let j=0;j<buildApproval.records.length;j++) {
-//           if(buildApproval.records[j].type === "Checkpoint.Approval") {
-//             approvalIds.push(buildApproval.records[j].id);
-//           }
-//         }
-//       }
-//     }
-
-//     if(approvalIds.length > 0) {
-//       let envUrl = `${azureDevOpsUri}/${projectName}/_apis/pipelines/approvals?approvalIds=${approvalIds.join(',')}&api-version=${apiVersion}`;
-//       let acceptHeaderValue = `application/json;api-version=${apiVersion};excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true`;
-//       let queryHeader = {
-//           'Accept': acceptHeaderValue,
-//           'Content-Type': 'application/json',
-//           'Authorization' : `Bearer ${accessToken}`
-//         };
-//       let projectResult = await fetch(envUrl, 
-//         {
-//           method: 'GET',
-//           mode: 'cors',
-//           headers: queryHeader
-//         })
-//         .then(response => {
-//           try {
-//             return response.json();
-//           }
-//           catch {
-//             console.log("Error in getApprovals");
-//             return [];
-//           }
-//         });
-//       result.push(...projectResult);
-//     }
-//   }
-//   return result;
-// }
-
 export async function getEnvironments(azureDevOpsUri: string, projectNames: Array<string>, accessToken: string) {
   let result = new Array<any>();
   if(azureDevOpsUri === undefined || azureDevOpsUri === null || azureDevOpsUri === "") {
@@ -408,6 +358,7 @@ export async function getBuildDefinitions(azureDevOpsUri: string, projectName: s
   for(let i=0;i<result.length;i++) {
     if(result[i].latestCompletedBuild !== undefined) {
       //let rs = await getBuildTimeline(azureDevOpsUri, projectName, result[i].latestCompletedBuild.id, accessToken);
+      console.log(result[i].latestCompletedBuild.id);
       let rs = { records: [] };
       castResult[i].timeline = rs;
     }
