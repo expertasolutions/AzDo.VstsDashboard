@@ -592,7 +592,7 @@ export function getEnvironmentStageSummary(build: PipelineReference, environment
 
     childrens.push(
       <Pill color={envStatus.color} variant={PillVariant.colored} onClick={() => window.open(curEnv.lastExecution.owner._links.web.href, "_blank")}>
-        <div>
+        <div style={{ top: "-5px" }}>
           <Status {...envStatus.statusProps} className="icon-small-margin" size={StatusSize.s} /> <b>{curEnv.displayName}</b>{realEnvName}
         </div>
         <div style={{ paddingLeft: 16 }} className="font-size-s">{curEnv.lastExecution.owner.name}</div>
