@@ -599,10 +599,10 @@ export function getEnvironmentStageSummary(build: PipelineReference, environment
         <div style={{ paddingLeft: 16 }}>
           <b>{curEnv.displayName}</b>{realEnvName}
         </div>
-        <div className="font-size-s">
-          <Status {...envStatus.statusProps} className="icon-small-margin" size={StatusSize.s} /> {curEnv.lastExecution.owner.name}
+        <div>
+          <Status {...envStatus.statusProps} className="icon-small-margin" size={StatusSize.m} /> {curEnv.lastExecution.owner.name}
         </div>
-        <div style={{ paddingLeft: 16 }}><Icon iconName="Clock"/> <Duration startDate={startDateTime} endDate={endDateTime} /> <Icon iconName="Calendar"/> <Ago date={queueDateTime} /></div>
+        <div style={{ paddingLeft: 16 }} className="font-size-s"><Icon iconName="Clock"/> <Duration startDate={startDateTime} endDate={endDateTime} /> <Icon iconName="Calendar"/> <Ago date={queueDateTime} /></div>
       </Pill>
     );
   }
