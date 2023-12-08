@@ -485,12 +485,16 @@ export function getReleaseTagFromBuildV2(build: PipelineElement, environments: A
     branchCommitControl = <span className="font-size-s"> <Icon iconName="BranchCommit" />Not found</span>;
   }
 
+  let sinceCtrl = <span></span>;
+  if(build.startTime !== undefined) {
+    sinceCtrl = (<span className="font-size-s"><Icon iconName="Clock" />&nbsp;<Ago date={new Date(build.startTime)} /></span>);
+  }
   /******/
 
   if(children.length > 0) {
     content.push(
       <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
-        <Link href={build._links.web.href} target="_blank"><b>{build.buildNumber}</b></Link> <span className="font-size-s"><Icon iconName="BranchMerge"/><Link href={branchUrl} target="_blank">{branchName}</Link></span> {branchCommitControl} {(<span className="font-size-s"><Icon iconName="People"/>&nbsp;{build.requestedFor!.displayName} </span>)}
+        <Link href={build._links.web.href} target="_blank"><b>{build.buildNumber}</b></Link> <span className="font-size-s"><Icon iconName="BranchMerge"/><Link href={branchUrl} target="_blank">{branchName}</Link></span> {branchCommitControl} {(<span className="font-size-s"><Icon iconName="People"/>&nbsp;{build.requestedFor!.displayName} {sinceCtrl} </span>)}
         <p>
           <PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{children}</PillGroup>
         </p>
