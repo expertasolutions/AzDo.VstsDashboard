@@ -86,7 +86,7 @@ stages:
       succeeded(), 
       or(
         eq(variables['build.sourceBranch'], 'refs/heads/master')
-      , eq(variables['build.sourceBranch'], 'refs/heads/feature/*')
+      , eq(variables['build.sourceBranch'], 'refs/heads/feature/fix-supported-version')
       , eq(variables['build.sourceBranch'], 'refs/heads/Issue0170b')
       , eq(variables['build.sourceBranch'], 'refs/heads/Delivery/*')
       )
