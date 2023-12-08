@@ -530,32 +530,35 @@ export function getEnvironmentStageSummary(build: PipelineReference, environment
     let envStage = allStages[i];
 
     let buildStage = stagesList.find((x:any)=> x.name === envStage);
+    console.log(buildStage);
 
-    if(envStage !== undefined) {
-      let currentElement = {
-        environment: envStage,
-        order: buildStage.order,
-        lastExecution: undefined
-      };
+    //if(buildStage !== undefined) {
+      if(envStage !== undefined) {
+        let currentElement = {
+          environment: envStage,
+          //order: buildStage.order,
+          lastExecution: undefined
+        };
 
-      let lastExecution = allDeplRecords.filter(x=> x.definition.id === build.id && x.stageName === envStage)
-                                        .sort((a,b) => a.id - b.id);
-      if(lastExecution.length > 0) {
-        let currentShowed = buildStageEnvironments.find(x=> x.environment === envStage);
-        if(currentShowed === undefined || currentShowed.length > 0) {
-          currentElement.lastExecution = lastExecution[lastExecution.length - 1];
-          buildStageEnvironments.push(currentElement);
-        } else {
-          let index = buildStageEnvironments.findIndex(x=> x.environment === envStage);
-          currentShowed.lastExecution = lastExecution[lastExecution.length - 1];
-          buildStageEnvironments[index] = currentShowed;
+        let lastExecution = allDeplRecords.filter(x=> x.definition.id === build.id && x.stageName === envStage)
+                                          .sort((a,b) => a.id - b.id);
+        if(lastExecution.length > 0) {
+          let currentShowed = buildStageEnvironments.find(x=> x.environment === envStage);
+          if(currentShowed === undefined || currentShowed.length > 0) {
+            currentElement.lastExecution = lastExecution[lastExecution.length - 1];
+            buildStageEnvironments.push(currentElement);
+          } else {
+            let index = buildStageEnvironments.findIndex(x=> x.environment === envStage);
+            currentShowed.lastExecution = lastExecution[lastExecution.length - 1];
+            buildStageEnvironments[index] = currentShowed;
+          }
         }
       }
-    }
+    //}
   }
 
-  //buildStageEnvironments = buildStageEnvironments.sort((a,b) => a.lastExecution.environmentId - b.lastExecution.environmentId);
-  buildStageEnvironments = buildStageEnvironments.sort((a,b) => a.lastExecution.order - b.lastExecution.order);
+  buildStageEnvironments = buildStageEnvironments.sort((a,b) => a.lastExecution.environmentId - b.lastExecution.environmentId);
+  //buildStageEnvironments = buildStageEnvironments.sort((a,b) => a.lastExecution.order - b.lastExecution.order);
 
   let childrens = Array<any>();
   for(let i=0;i<buildStageEnvironments.length;i++) { 
