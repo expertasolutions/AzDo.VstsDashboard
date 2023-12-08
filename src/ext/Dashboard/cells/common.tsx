@@ -568,7 +568,7 @@ export function getEnvironmentStageSummary(build: PipelineReference, environment
     let envStatus = getStageIndicator(curEnv.lastExecution.result === undefined ? -1 : curEnv.lastExecution.result, false);
     let attempCounts = "";
     if(curEnv.lastExecution.jobAttemp > 1) {
-      attempCounts = `(${curEnv.lastExecution.stageAttempt})`;
+      attempCounts = ` (${curEnv.lastExecution.stageAttempt})`;
     }
     let queueTimeCleanup = curEnv.lastExecution.queueTime.replace('/Date(', '').replace(')/','').replace(')','');
     let queueDateTime = new Date(Number(queueTimeCleanup));
@@ -588,7 +588,7 @@ export function getEnvironmentStageSummary(build: PipelineReference, environment
       endDateTime = new Date(Number(endDateTimeCleanup));
     }
 
-    let realEnvName = curEnv.displayName !== curEnv.environment ? (<span> | {curEnv.environment} ({attempCounts})</span>) : (<span> ({attempCounts})</span>);
+    let realEnvName = curEnv.displayName !== curEnv.environment ? (<span> | {curEnv.environment}{attempCounts}</span>) : (<span>{attempCounts}</span>);
 
     childrens.push(
       <Pill color={envStatus.color} variant={PillVariant.colored} onClick={() => window.open(curEnv.lastExecution.owner._links.web.href, "_blank")}>
