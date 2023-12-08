@@ -532,11 +532,11 @@ export function getEnvironmentStageSummary(build: PipelineReference, environment
     let buildStage = stagesList.find((x:any)=> x.name === envStage);
     console.log(buildStage);
 
-    //if(buildStage !== undefined) {
+    if(buildStage !== undefined) {
       if(envStage !== undefined) {
         let currentElement = {
           environment: envStage,
-          //order: buildStage.order,
+          order: buildStage.order,
           lastExecution: undefined
         };
 
@@ -554,11 +554,11 @@ export function getEnvironmentStageSummary(build: PipelineReference, environment
           }
         }
       }
-    //}
+    }
   }
 
-  buildStageEnvironments = buildStageEnvironments.sort((a,b) => a.lastExecution.environmentId - b.lastExecution.environmentId);
-  //buildStageEnvironments = buildStageEnvironments.sort((a,b) => a.lastExecution.order - b.lastExecution.order);
+  //buildStageEnvironments = buildStageEnvironments.sort((a,b) => a.lastExecution.environmentId - b.lastExecution.environmentId);
+  buildStageEnvironments = buildStageEnvironments.sort((a,b) => a.lastExecution.order - b.lastExecution.order);
 
   let childrens = Array<any>();
   for(let i=0;i<buildStageEnvironments.length;i++) { 
