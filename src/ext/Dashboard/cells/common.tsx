@@ -588,14 +588,15 @@ export function getEnvironmentStageSummary(build: PipelineReference, environment
       endDateTime = new Date(Number(endDateTimeCleanup));
     }
 
-    let realEnvName = curEnv.displayName !== curEnv.environment ? (<span> ({curEnv.environment}) {attempCounts}</span>) : (<span> {attempCounts}</span>);
+    let realEnvName = curEnv.displayName !== curEnv.environment ? (<span> | {curEnv.environment} ({attempCounts})</span>) : (<span> ({attempCounts})</span>);
 
     childrens.push(
       <Pill color={envStatus.color} variant={PillVariant.colored} onClick={() => window.open(curEnv.lastExecution.owner._links.web.href, "_blank")}>
         <div>
           <Status {...envStatus.statusProps} className="icon-small-margin" size={StatusSize.s} /> <b>{curEnv.displayName}</b>{realEnvName}
         </div>
-        <div style={{ paddingLeft: 16 }} className="font-size-s">{curEnv.lastExecution.owner.name} <Icon iconName="Clock"/> <Duration startDate={startDateTime} endDate={endDateTime} /> <Icon iconName="Calendar"/> <Ago date={queueDateTime} /></div>
+        <div style={{ paddingLeft: 16 }} className="font-size-s">{curEnv.lastExecution.owner.name}</div>
+        <div><Icon iconName="Clock"/> <Duration startDate={startDateTime} endDate={endDateTime} /> <Icon iconName="Calendar"/> <Ago date={queueDateTime} /></div>
       </Pill>
     );
   }
