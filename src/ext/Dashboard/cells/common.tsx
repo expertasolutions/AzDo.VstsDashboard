@@ -487,7 +487,7 @@ export function getReleaseTagFromBuildV2(build: PipelineElement, environments: A
 
   let sinceCtrl = <span></span>;
   if(build.startTime !== undefined) {
-    sinceCtrl = (<span className="font-size-s"><Icon iconName="Clock" />&nbsp;<Ago date={new Date(build.startTime)} /></span>);
+    sinceCtrl = (<span className="font-size-s"><Icon iconName="Calendar" />&nbsp;<Ago date={new Date(build.startTime)} /></span>);
   }
   /******/
 
