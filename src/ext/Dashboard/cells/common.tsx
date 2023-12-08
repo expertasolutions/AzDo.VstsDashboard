@@ -592,10 +592,12 @@ export function getEnvironmentStageSummary(build: PipelineReference, environment
 
     childrens.push(
       <Pill color={envStatus.color} variant={PillVariant.colored} onClick={() => window.open(curEnv.lastExecution.owner._links.web.href, "_blank")}>
-        <div style={{ top: "-5px" }}>
-          <Status {...envStatus.statusProps} className="icon-small-margin" size={StatusSize.s} /> <b>{curEnv.displayName}</b>{realEnvName}
+        <div style={{ paddingLeft: 16 }}>
+          <b>{curEnv.displayName}</b>{realEnvName}
         </div>
-        <div style={{ paddingLeft: 16 }} className="font-size-s">{curEnv.lastExecution.owner.name}</div>
+        <div className="font-size-s">
+          <Status {...envStatus.statusProps} className="icon-small-margin" size={StatusSize.s} /> {curEnv.lastExecution.owner.name}
+        </div>
         <div style={{ paddingLeft: 16 }}><Icon iconName="Clock"/> <Duration startDate={startDateTime} endDate={endDateTime} /> <Icon iconName="Calendar"/> <Ago date={queueDateTime} /></div>
       </Pill>
     );
