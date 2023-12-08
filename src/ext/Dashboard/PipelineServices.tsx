@@ -407,7 +407,8 @@ export async function getBuildDefinitions(azureDevOpsUri: string, projectName: s
   const castResult = result as Array<PipelineReference>;
   for(let i=0;i<result.length;i++) {
     if(result[i].latestCompletedBuild !== undefined) {
-      let rs = await getBuildTimeline(azureDevOpsUri, projectName, result[i].latestCompletedBuild.id, accessToken);
+      //let rs = await getBuildTimeline(azureDevOpsUri, projectName, result[i].latestCompletedBuild.id, accessToken);
+      let rs = { records: [] };
       castResult[i].timeline = rs;
     }
     castResult[i].pipelineType = 'na';
