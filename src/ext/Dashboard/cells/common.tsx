@@ -588,7 +588,7 @@ export function getEnvironmentStageSummary(build: PipelineReference, environment
       endDateTime = new Date(Number(endDateTimeCleanup));
     }
 
-    let realEnvName = curEnv.displayName !== <span> ({curEnv.environment}) {attempCounts}</span> ? curEnv.environment : <span> {attempCounts}</span>
+    let realEnvName = curEnv.displayName !== curEnv.environment ? (<span> ({curEnv.environment}) {attempCounts}</span>) : (<span> {attempCounts}</span>);
 
     childrens.push(
       <Pill color={envStatus.color} variant={PillVariant.colored} onClick={() => window.open(curEnv.lastExecution.owner._links.web.href, "_blank")}>
