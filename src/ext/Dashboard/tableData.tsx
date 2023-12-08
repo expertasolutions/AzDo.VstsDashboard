@@ -73,7 +73,7 @@ export const buildColumns : ITableColumn<PipelineElement>[] = [
     id: "BuildInfo02",
     name: "Execution Infos",
     renderCell: renderBuildInfo02Cell,
-    width: 165,
+    width: 175,
   }
 ]
 
@@ -103,6 +103,6 @@ export const dashboardColumns : ITableColumn<PipelineReference>[] = [
     id:"LastBuildInfo02",
     name: "Execution Infos",
     renderCell: renderLastBuild02,
-    width: 165
+    width: 175
   }
 ];
