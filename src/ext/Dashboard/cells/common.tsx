@@ -490,9 +490,7 @@ export function getReleaseTagFromBuildV2(build: PipelineElement, environments: A
   if(children.length > 0) {
     content.push(
       <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
-        <Link href={build._links.web.href} target="_blank"><b>{build.buildNumber}</b> </Link>
-        <Icon iconName="BranchMerge"/><Link href={branchUrl} target="_blank">{branchName}</Link>
-        {branchCommitControl}
+        <Link href={build._links.web.href} target="_blank"><b>{build.buildNumber}</b></Link> <Icon iconName="BranchMerge"/><Link href={branchUrl} target="_blank">{branchName}</Link> {branchCommitControl}
         <p>
           <PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{children}</PillGroup>
         </p>
