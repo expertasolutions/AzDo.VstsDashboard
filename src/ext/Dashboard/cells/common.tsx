@@ -529,8 +529,8 @@ export function getEnvironmentStageSummary(build: PipelineReference, environment
   for(let i=0;i<allStages.length;i++) {
     let envStage = allStages[i];
 
-    let buildStage = stagesList.find((x:any)=> x.name === envStage);
-    console.log(buildStage);
+    let buildStage = stagesList.find((x:any)=> x.identifier === envStage);
+    //console.log(buildStage);
 
     if(buildStage !== undefined) {
       if(envStage !== undefined) {
