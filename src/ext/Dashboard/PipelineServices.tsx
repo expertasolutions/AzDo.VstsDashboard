@@ -357,9 +357,13 @@ export async function getBuildDefinitions(azureDevOpsUri: string, projectName: s
   const castResult = result as Array<PipelineReference>;
   for(let i=0;i<result.length;i++) {
     if(result[i].latestCompletedBuild !== undefined) {
-      //let rs = await getBuildTimeline(azureDevOpsUri, projectName, result[i].latestCompletedBuild.id, accessToken);
-      console.log(result[i].latestCompletedBuild.id);
-      let rs = { records: [] };
+      let rs = {records: []};
+      try {
+        rs = await getBuildTimeline(azureDevOpsUri, projectName, result[i].latestCompletedBuild.id, accessToken);
+      } catch {
+        console.log(result[i].latestCompletedBuild.id);
+        console.log("Error in getBuildDefinitions");
+      }
       castResult[i].timeline = rs;
     }
     castResult[i].pipelineType = 'na';
