@@ -380,30 +380,6 @@ class CICDDashboard extends React.Component<{}, {}> {
         this.filterBuildsData();
 
       });
-    
-      // Filter Approval by InProgress Builds
-      //let buildsToCheck = this.state.builds.filter(x=> x.status === BuildStatus.InProgress).map(x=> x.id);
-      //console.log("-- Builds in progress --");
-      //console.log(buildsToCheck);
-
-      // getApprovals(this.state.azureDevOpsUri, this.currentSelectedProjects, this.currentAccessToken, buildsToCheck)
-      //   .then(result => {
-      //     let approvalList = this.state.approvals;
-      //     for(let i=0;i<result.length;i++) {
-      //       var newApproval = result[i];
-      //       let approval = approvalList.find(x=> x.id === newApproval.id);
-      //       if(approval != undefined) {
-      //         let approvalIndex = approvalList.indexOf(approval, 0);
-      //         if(approvalIndex > -1) {
-      //           approvalList[approvalIndex] = newApproval;
-      //         }
-      //       } else {
-      //         approvalList.splice(0, 0, newApproval);
-      //       }
-      //     }
-      //     this.setState({ approvalList: approvalList });
-      //     this.approvalProvider = new ObservableValue<ArrayItemProvider<any>>(new ArrayItemProvider(approvalList));
-      //   });
     });
   }
 

@@ -403,6 +403,7 @@ export async function getBuildDefinitions(azureDevOpsUri: string, projectName: s
                                               undefined, undefined, undefined, undefined, undefined,
                                               undefined, minDate, undefined,undefined, true, undefined, 
                                               undefined, undefined);
+                                              
   const castResult = result as Array<PipelineReference>;
   for(let i=0;i<result.length;i++) {
     if(result[i].latestCompletedBuild !== undefined) {

@@ -284,10 +284,10 @@ export function renderLastBuild02(
 
 export function renderAllInProgress(buildDefId: number, builds: Array<PipelineElement>, context: any, columnIndex: number, tableColumn: ITableColumn<PipelineReference>) : Array<JSX.Element> {
   let childrens = Array<JSX.Element>();
-  if(buildDefId === 240) {
-    console.log(builds.filter(x=> x.definition.id ===buildDefId && x.status === BuildStatus.InProgress || x.status === BuildStatus.NotStarted));
-  }
-  let pending = builds.filter(x=> x.definition.id ===buildDefId && x.status === BuildStatus.InProgress || x.status === BuildStatus.NotStarted).sort((a,b) => a.id-b.id);
+  // if(buildDefId === 240) {
+  //   console.log(builds.filter(x=> x.definition.id === buildDefId && (x.status === BuildStatus.InProgress || x.status === BuildStatus.NotStarted)));
+  // }
+  let pending = builds.filter(x=> x.definition.id === buildDefId && (x.status === BuildStatus.InProgress || x.status === BuildStatus.NotStarted)).sort((a,b) => a.id-b.id);
   // TODO: Filter out build without environments stage in progress
   for(let i=0;i<pending.length;i++) {
     childrens.push(
