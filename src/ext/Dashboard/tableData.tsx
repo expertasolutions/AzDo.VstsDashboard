@@ -56,18 +56,18 @@ export const buildColumns : ITableColumn<PipelineElement>[] = [
     renderCell: renderBuildStatus,
     width: new ObservableValue(-22.5),
   },
-  {
-    id: "BuildInfo01",
-    name: "Build # | Branch & commit", 
-    onSize: buildOnSize,
-    renderCell: renderBuildInfo01Cell,
-    width: new ObservableValue(-22.5),
-  },
+  // {
+  //   id: "BuildInfo01",
+  //   name: "Build # | Branch & commit", 
+  //   onSize: buildOnSize,
+  //   renderCell: renderBuildInfo01Cell,
+  //   width: new ObservableValue(-22.5),
+  // },
   {
     id: "ReleaseInfo01",
     name: "Environments/Stages Status",
     renderCell: renderDeploymentInfo01,
-    width: new ObservableValue(-50)
+    width: new ObservableValue(-73)
   },
   {
     id: "BuildInfo02",
