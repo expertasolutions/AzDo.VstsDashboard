@@ -361,8 +361,7 @@ export async function getBuildDefinitions(azureDevOpsUri: string, projectName: s
       try {
         rs = await getBuildTimeline(azureDevOpsUri, projectName, result[i].latestCompletedBuild.id, accessToken);
       } catch {
-        console.log(result[i].latestCompletedBuild.id);
-        console.log("Error in getBuildDefinitions");
+        console.log(`Error in getBuildDefinitions for build ${result[i].latestCompletedBuild.id}`);
       }
       castResult[i].timeline = rs;
     }
