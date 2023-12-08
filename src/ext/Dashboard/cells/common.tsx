@@ -513,8 +513,8 @@ export function getEnvironmentStageSummary(build: PipelineReference, environment
     return (<div>Problem !</div>)
   }
 
-
   environments = environments.sort((a,b) => a.id - b.id);
+  let stagesList = build.timeline.records.filter((x: any) => x.type === "Stage");
 
   let allDeplRecords = Array<any>();
   let allStages = Array<string>();
@@ -525,15 +525,16 @@ export function getEnvironmentStageSummary(build: PipelineReference, environment
     allStages = allStages.filter((v, i, a) => a.indexOf(v) === i);
   }
 
-  // TODO: Get build timeline
-
   let buildStageEnvironments = Array<any>();
   for(let i=0;i<allStages.length;i++) {
     let envStage = allStages[i];
 
+    let buildStage = stagesList.find((x:any)=> x.name === envStage);
+
     if(envStage !== undefined) {
       let currentElement = {
         environment: envStage,
+        order: buildStage.order,
         lastExecution: undefined
       };
 
@@ -553,10 +554,9 @@ export function getEnvironmentStageSummary(build: PipelineReference, environment
     }
   }
 
-  // Must be Pipeline StageName NOT Environment /// but we have a *** order issue here... !!!
-  //buildStageEnvironments = buildStageEnvironments.sort((a,b) => b.lastExecution.id - a.lastExecution.id);
-  buildStageEnvironments = buildStageEnvironments.sort((a,b) => a.lastExecution.environmentId - b.lastExecution.environmentId);
-  
+  //buildStageEnvironments = buildStageEnvironments.sort((a,b) => a.lastExecution.environmentId - b.lastExecution.environmentId);
+  buildStageEnvironments = buildStageEnvironments.sort((a,b) => a.lastExecution.order - b.lastExecution.order);
+
   let childrens = Array<any>();
   for(let i=0;i<buildStageEnvironments.length;i++) { 
     let curEnv = buildStageEnvironments[i];
