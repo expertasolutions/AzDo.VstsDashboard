@@ -67,13 +67,13 @@ export const buildColumns : ITableColumn<PipelineElement>[] = [
     id: "ReleaseInfo01",
     name: "Environments/Stages Status",
     renderCell: renderDeploymentInfo01,
-    width: new ObservableValue(-73)
+    width: new ObservableValue(-62.5)
   },
   {
     id: "BuildInfo02",
     name: "Execution Infos",
     renderCell: renderBuildInfo02Cell,
-    width: new ObservableValue(-12.5)
+    width: new ObservableValue(-15)
   }
 ]
 
@@ -97,12 +97,12 @@ export const dashboardColumns : ITableColumn<PipelineReference>[] = [
     id: "ReleaseInfo01",
     name: "Environments/Stages Status",
     renderCell: renderReleaseInfo01,
-    width: new ObservableValue(-65)
+    width: new ObservableValue(-62.5)
   },
   {
     id:"LastBuildInfo02",
     name: "Execution Infos",
     renderCell: renderLastBuild02,
-    width: new ObservableValue(-12.5)
+    width: new ObservableValue(-15)
   }
 ];
