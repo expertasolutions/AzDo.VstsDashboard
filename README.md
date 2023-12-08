@@ -6,7 +6,7 @@ The intention was to see what's currently happened into the CI/CD pipeline and p
 ![CICD_Screencapture](screenshots/CI_CD_Dashboard.png)
 
 ## **Important**:
-- **Pipeline YAML**: Since ***October 2023***, We reopened this extension, due to some Azure DevOps Rest API enhancement for Environments deployment history & Approval.
+- **Pipeline YAML**: Since ***October 2023***, We reopened this extension, due to some Azure DevOps Rest API enhancements & community requests.
 
 ## Permissions Authorization
 Don't forget to Authorize the Extension permissions under your Azure DevOps/Server Organization Settings/Extensions/CI/CD Dashboard.
@@ -15,7 +15,7 @@ Don't forget to Authorize the Extension permissions under your Azure DevOps/Serv
 
 ## Azure DevOps Supported versions
 - Azure DevOps Services
-- Azure DevOps Server 2022 (19.205.33122.1) & later
+- Azure DevOps Server 2022 (19.205.33122.1) or later
   
   See [Azure DevOps Server build numbers](https://learn.microsoft.com/en-us/azure/devops/user-guide/lookup-platform-version?view=azure-devops)
 
