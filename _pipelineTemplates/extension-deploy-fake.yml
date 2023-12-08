@@ -1,0 +1,33 @@
+parameters:
+- name: publisherId
+  type: string
+- name: extensionId
+  type: string
+- name: extensionName
+  type: string
+- name: updateTasksId
+  type: boolean
+  default: false
+- name: extensionVisibility
+  type: string
+- name: shareWith
+  type: string
+- name: releaseNoteAction
+  type: string
+- name: releaseNoteVersion
+  type: string
+- name: releaseNoteDisplayName
+  type: string
+- name: releaseNoteIsDraft
+  type: boolean
+  default: false
+- name: releaseNoteIsPreRelease
+  type: boolean
+  default: false
+
+steps:
+  - task: VersionExtractor@5
+    name: build
+    displayName: 'Version extractor digit'
+    inputs:
+      stringToAnalyze: '$(build.buildnumber)'

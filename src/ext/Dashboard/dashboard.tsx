@@ -9,14 +9,16 @@ import {
 , getReleasesV1
 , getProjects
 , getProject
+, getEnvironments
 , sortBuilds
 , sortBuildReferences
 , getMinTimeFromNow
 , setUserPreferences
-, getUserPreferences
+, getUserPreferences,
 } from "./PipelineServices";
 
-import { dashboardColumns, buildColumns }  from "./tableData";
+import { dashboardColumns, buildColumns, environmentColumns }  from "./tableData";
+import { PipelineEnvironment } from "./dataContext";
 
 import { KeywordFilterBarItem } from "azure-devops-ui/TextFilterBarItem";
 import { DropdownFilterBarItem } from "azure-devops-ui/Dropdown";
@@ -30,7 +32,7 @@ import { Link } from "azure-devops-ui/Link";
 import { Icon, IconSize } from "azure-devops-ui/Icon";
 import { Status, Statuses, StatusSize } from "azure-devops-ui/Status";
 
-import { TeamProjectReference } from "azure-devops-extension-api/Core";
+import { TeamProjectReference } from "azure-devops-extension-api/core";
 import { BuildDefinitionReference, Build, BuildStatus, BuildResult } from "azure-devops-extension-api/Build";
 import { Deployment } from "azure-devops-extension-api/Release";
 
@@ -38,13 +40,13 @@ import { showRootComponent } from "../../Common";
 import { ArrayItemProvider } from "azure-devops-ui/Utilities/Provider";
 import { ObservableValue } from "azure-devops-ui/Core/Observable";
 import { Observer } from "azure-devops-ui/Observer";
-import { DataContext }  from "./dataContext";
+import { DataContext, PipelineReference, PipelineElement }  from "./dataContext";
 import { CustomHeader, HeaderTitle, HeaderTitleArea, HeaderTitleRow, TitleSize, HeaderDescription } from "azure-devops-ui/Header";
 import { IListBoxItem } from "azure-devops-ui/ListBox";
 import { Filter, FILTER_CHANGE_EVENT, FILTER_RESET_EVENT } from "azure-devops-ui/Utilities/Filter";
 import { FilterBar } from "azure-devops-ui/FilterBar";
 import { ZeroData } from "azure-devops-ui/ZeroData";
-import { CommonServiceIds, IProjectPageService, IHostPageLayoutService } from "azure-devops-extension-api";
+import { CommonServiceIds, IProjectPageService, IHostPageLayoutService, ILocationService } from "azure-devops-extension-api";
 
 const isFullScreen = new ObservableValue(false);
 
@@ -74,6 +76,7 @@ class CICDDashboard extends React.Component<{}, {}> {
   private onlyBuildWithDeploymentFilter: Filter = new Filter();
   private lastBuildsDisplayFilter: Filter = new Filter();
 
+  private currentViewId: string = "";
   private currentSelectedProjects: Array<string> = new Array<string>();
   private initialProjectName : string = "";
   private extensionVersion : string = "";
@@ -88,20 +91,27 @@ class CICDDashboard extends React.Component<{}, {}> {
   private hostInfo: any = undefined;
   private extContext: any = undefined;
 
+  private currentAccessToken: any = undefined;
+
   constructor(props: {}) {
     super(props);
     this.filter = new Filter();
-    setInterval(()=> this.updateFromProject(false), 5000);
+    // TODO: Put this configurable
+    setInterval(()=> this.updateFromProject(false), 10000);
   }
 
   state = {
-    buildDefs: new Array<BuildDefinitionReference>(),
-    builds: new Array<Build>(),
+    buildDefs: new Array<PipelineReference>(),
+    builds: new Array<PipelineElement>(),
     releases: new Array<Deployment>(),
     projects: new Array<TeamProjectReference>(),
+    environments: Array<PipelineEnvironment>(),
+    approvals: Array<any>(),
+    deploymentRecords: Array<any>(),
     showAllBuildDeployment: false,
     refreshUI: new Date().toTimeString(),
-    fullScreenMode: false
+    fullScreenMode: false,
+    azureDevOpsUri: ""
   };
 
   private onFilterReset = async () => {
@@ -116,7 +126,7 @@ class CICDDashboard extends React.Component<{}, {}> {
       this.showErrorsOnSummaryOnTop = true;
       this.onlyWithDeploymentSelection.select(1);
       this.lastBuildsDisplaySelection.select(0);
-      this.lastBuildsDisplay = "lastHour";
+      //this.lastBuildsDisplay = "lastHour";
       this.showAllBuildDeployment = false;
       this.updateFromProject(true);
     }
@@ -136,15 +146,15 @@ class CICDDashboard extends React.Component<{}, {}> {
   private filterData() {
     let filterState = this.filter.getState();
 
-    let buildDefList = new Array<BuildDefinitionReference>();
+    let buildDefList = new Array<PipelineReference>();
 
     if(filterState.pipelineKeyWord !== undefined && filterState.pipelineKeyWord !== null && filterState.pipelineKeyWord.value !== "") {
       let pipelineFilterText = filterState.pipelineKeyWord.value.toLowerCase();
       
       let elm = this.state.buildDefs.filter(
         x=> x.name.toLowerCase().indexOf(pipelineFilterText) !== -1 || 
-        (x.latestCompletedBuild != null && x.latestCompletedBuild.buildNumber.toLowerCase().indexOf(pipelineFilterText) !== -1) ||
-        (x.latestCompletedBuild != null && x.latestCompletedBuild.sourceBranch.toLowerCase().indexOf(pipelineFilterText) !== -1)
+        (x.latestCompletedBuild !== undefined && x.latestCompletedBuild.buildNumber.toLowerCase().indexOf(pipelineFilterText) !== -1) ||
+        (x.latestCompletedBuild !== undefined && x.latestCompletedBuild.sourceBranch.toLowerCase().indexOf(pipelineFilterText) !== -1)
       );
 
       if(elm.length === 0) {
@@ -152,8 +162,8 @@ class CICDDashboard extends React.Component<{}, {}> {
           let regexSearcher = new RegExp(pipelineFilterText.toLowerCase());
           elm = this.state.buildDefs.filter(
               x=> regexSearcher.test(x.name.toLowerCase()) ||
-              (x.latestCompletedBuild != null && regexSearcher.test(x.latestCompletedBuild.buildNumber.toLowerCase())) ||
-              (x.latestCompletedBuild != null && regexSearcher.test(x.latestCompletedBuild.sourceBranch.toLowerCase()))
+              (x.latestCompletedBuild !== undefined && regexSearcher.test(x.latestCompletedBuild.buildNumber.toLowerCase())) ||
+              (x.latestCompletedBuild !== undefined && regexSearcher.test(x.latestCompletedBuild.sourceBranch.toLowerCase()))
           );
         } catch {
           elm = [];
@@ -167,7 +177,7 @@ class CICDDashboard extends React.Component<{}, {}> {
 
     if(this.showOnlyBuildWithDeployments) {
       let allBuildWithRelease = buildDefList.filter(
-        b => b.latestCompletedBuild != undefined && this.state.releases.find(r=> 
+        b => b.latestCompletedBuild !== undefined && this.state.releases.find(r=> 
             r.release.artifacts.find(a=> 
               {
                 let version = a.definitionReference["version"];
@@ -234,108 +244,143 @@ class CICDDashboard extends React.Component<{}, {}> {
         this.currentSelectedProjects.push(selectedProjectName.name);
       }
     }
-
-    getBuildDefinitionsV1(this.currentSelectedProjects, firstLoad).then(result => {
-      let currentDef = this.state.buildDefs;
-
-      if(firstLoad) {
-        currentDef = result;
-      } else {
-        for(let i=0;i<result.length;i++) {
-          let newDef = result[i];
-          let def = currentDef.find(x=> x.id === newDef.id);
-          if(def !== undefined) {
-            let defIndx = currentDef.indexOf(def, 0);
-            if(defIndx > -1) {
-              currentDef[defIndx] = newDef;
-            }
-          } else {
-            currentDef.push(newDef);
-          }
-        }
-      }
-
-      this.setState({ buildDefs: currentDef });
-      this.buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(currentDef));
-
-      // Get Build Reference Status
-      buildNeverQueued.value = this.getCompletedBuildStatusCount(BuildStatus.None, BuildResult.None);
-      buildCancelled.value = this.getCompletedBuildStatusCount(BuildStatus.None, BuildResult.Canceled);
-      buildSucceeded.value = this.getCompletedBuildStatusCount(BuildStatus.Completed, BuildResult.Succeeded);
-      buildInWarning.value = this.getCompletedBuildStatusCount(BuildStatus.Completed, BuildResult.PartiallySucceeded);
-      buildInError.value = this.getCompletedBuildStatusCount(BuildStatus.Completed, BuildResult.Failed);
-
-      this.filterData();
-    }).then(()=> {
-      SDK.ready().then(()=> { this.isLoading.value = false; });
-    });
-   
-    // Update the Release List
-    getReleasesV1(this.currentSelectedProjects, firstLoad).then(result => {
-      let currentReleases = this.state.releases;
-      if(firstLoad) {
-        currentReleases = result;
-      } else {
-        for(let i=0;i<result.length;i++) {
-          let newRelease = result[i];
-          let rel = currentReleases.find(x=> x.id === newRelease.id);
-          if(rel !== undefined) {
-            let relIndex = currentReleases.indexOf(rel, 0);
-            if(relIndex > -1) {
-              currentReleases[relIndex] = newRelease;
-            }
-          } else {
-            currentReleases.splice(0, 0, newRelease);
-          }
-        }
-      }
-      this.setState({ releases: currentReleases });
-    });
     
-    // Update Builds Runs list...
-    if(firstLoad) {
-      this.buildTimeRangeHasChanged = true;
-    }
+    SDK.ready().then(async ()=> { 
+      // console.log("---------------------");
+      // console.log(`SDK.sdkVersion: ${SDK.sdkVersion}`);
+      // console.log(`SDK Host serviceVersion: ${SDK.getHost().serviceVersion}`);
+      // console.log(`SDK Host type: ${SDK.getHost().type}`);
+      // console.log(`SDK Host name: ${SDK.getHost().name}`);
+      // console.log("---------------------");
 
-    getBuildsV1(this.currentSelectedProjects, this.buildTimeRangeHasChanged, this.lastBuildsDisplay).then(result => {
-      let currentResult = this.state.builds;
+      this.isLoading.value = false; 
+      this.currentAccessToken = await SDK.getAccessToken();
+      const locationService = await SDK.getService<ILocationService>(CommonServiceIds.LocationService);
+      let test = await locationService.getServiceLocation();
+      this.setState({ azureDevOpsUri: test });
 
-      for(let i=0;i<result.length;i++) {
-        let newElement = result[i];
-        let existingElement = currentResult.find(x=> x.id === newElement.id);
-        if(existingElement !== undefined) {
-          let buildIndex = currentResult.indexOf(existingElement, 0);
-          if(buildIndex > -1) {
-            currentResult[buildIndex] = newElement;
-            let buildDefs = this.state.buildDefs;
-            let buildDef = buildDefs.find(x=> x.id === newElement.definition.id);
-            if(buildDef !== undefined && buildDef.latestBuild.id <= newElement.id) {
-              let buildDefIndex = buildDefs.indexOf(buildDef, 0);
-          
-              if(buildDefIndex > -1) {
-                buildDefs[buildDefIndex].latestBuild = newElement;
-                let newbuildDef = sortBuildReferences(this.state.buildDefs, this.showErrorsOnSummaryOnTop);
-                this.setState({ buildDefs: newbuildDef });
-                this.filterData();
+      getBuildDefinitionsV1(this.state.azureDevOpsUri, this.currentSelectedProjects, firstLoad, this.currentAccessToken).then(result => {
+        let currentDef = this.state.buildDefs;
+  
+        if(firstLoad) {
+          currentDef = result;
+        } else {
+          for(let i=0;i<result.length;i++) {
+            let newDef = result[i];
+            let def = currentDef.find(x=> x.id === newDef.id);
+            if(def !== undefined) {
+              let defIndx = currentDef.indexOf(def, 0);
+              if(defIndx > -1) {
+                currentDef[defIndx] = newDef;
+              }
+            } else {
+              currentDef.push(newDef);
+            }
+          }
+        }
+  
+        this.setState({ buildDefs: currentDef });
+        this.buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(currentDef));
+  
+        // Get Build Reference Status
+        buildNeverQueued.value = this.getCompletedBuildStatusCount(BuildStatus.None, BuildResult.None);
+        buildCancelled.value = this.getCompletedBuildStatusCount(BuildStatus.None, BuildResult.Canceled);
+        buildSucceeded.value = this.getCompletedBuildStatusCount(BuildStatus.Completed, BuildResult.Succeeded);
+        buildInWarning.value = this.getCompletedBuildStatusCount(BuildStatus.Completed, BuildResult.PartiallySucceeded);
+        buildInError.value = this.getCompletedBuildStatusCount(BuildStatus.Completed, BuildResult.Failed);
+  
+        this.filterData();
+      });
+    
+   
+      // Update the Release List
+      getReleasesV1(this.currentSelectedProjects, firstLoad).then(result => {
+        let currentReleases = this.state.releases;
+        if(firstLoad) {
+          currentReleases = result;
+        } else {
+          for(let i=0;i<result.length;i++) {
+            let newRelease = result[i];
+            let rel = currentReleases.find(x=> x.id === newRelease.id);
+            if(rel !== undefined) {
+              let relIndex = currentReleases.indexOf(rel, 0);
+              if(relIndex > -1) {
+                currentReleases[relIndex] = newRelease;
+              }
+            } else {
+              currentReleases.splice(0, 0, newRelease);
+            }
+          }
+        }
+        this.setState({ releases: currentReleases });
+      });
+    
+      // Update Builds Runs list...
+      if(firstLoad) {
+        this.buildTimeRangeHasChanged = true;
+      }
+
+      getEnvironments(this.state.azureDevOpsUri, this.currentSelectedProjects, this.currentAccessToken).then(result => {
+        let envList = this.state.environments;
+        for(let i=0;i<result.length;i++) {
+          var newEnv = result[i];
+          let env = envList.find(x=> x.id === newEnv.id);
+          if(env != undefined) {
+            let envIndex = envList.indexOf(env, 0);
+            if(envIndex > -1) {
+              envList[envIndex] = newEnv;
+            }
+          } else {
+            envList.splice(0, 0, newEnv);
+          }
+        }
+        this.setState({ environments: envList });
+        this.environmentProvider = new ObservableValue<ArrayItemProvider<PipelineEnvironment>>(new ArrayItemProvider(envList));
+      });
+
+      getBuildsV1(this.state.azureDevOpsUri, this.currentSelectedProjects, this.buildTimeRangeHasChanged, this.lastBuildsDisplay, this.currentAccessToken).then(result => {
+        let currentResult = this.state.builds;
+
+        for(let i=0;i<result.length;i++) {
+          let newElement = result[i];
+          let existingElement = currentResult.find(x=> x.id === newElement.id);
+          if(existingElement !== undefined) {
+            let buildIndex = currentResult.indexOf(existingElement, 0);
+            if(buildIndex > -1) {
+              currentResult[buildIndex] = newElement;
+              let buildDefs = this.state.buildDefs;
+              let buildDef = buildDefs.find(x=> x.id === newElement.definition.id);
+              
+              if(buildDef !== undefined && (buildDef.latestBuild !== undefined && buildDef.latestBuild !== null)) {
+                if(buildDef.latestBuild.id <= newElement.id) {
+                  let buildDefIndex = buildDefs.indexOf(buildDef, 0);
+                  if(buildDefIndex > -1) {
+                    buildDefs[buildDefIndex].latestBuild = newElement;
+                    let newbuildDef = sortBuildReferences(this.state.buildDefs, this.showErrorsOnSummaryOnTop);
+                    this.setState({ buildDefs: newbuildDef });
+                    this.filterData();
+                  }
+                }
               }
             }
+          } else {
+            currentResult.push(newElement);
           }
-        } else {
-          currentResult.push(newElement);
         }
-      }
 
-      currentResult = sortBuilds(currentResult);
+        currentResult = sortBuilds(currentResult);
 
-      // Get Build Reference Status
-      buildInPending.value = this.getActiveBuildStatusCount(BuildStatus.NotStarted, currentResult);
-      buildInProgress.value = this.getActiveBuildStatusCount(BuildStatus.InProgress, currentResult);
+        // Get Build Reference Status
+        buildInPending.value = this.getActiveBuildStatusCount(BuildStatus.NotStarted, currentResult);
+        buildInProgress.value = this.getActiveBuildStatusCount(BuildStatus.InProgress, currentResult);
 
-      this.setState({ builds: currentResult });
-      this.refreshUI.value = new Date().toTimeString();
-      this.buildTimeRangeHasChanged = false;
+        this.setState({ builds: currentResult });
+        this.refreshUI.value = new Date().toTimeString();
+        this.buildTimeRangeHasChanged = false;
 
-      this.filterBuildsData();
+        this.filterBuildsData();
+
+      });
     });
   }
 
@@ -398,7 +443,10 @@ class CICDDashboard extends React.Component<{}, {}> {
     , (this.showErrorsOnSummaryOnTop ? 0 : 1)
     , (this.showOnlyBuildWithDeployments ? 0 : 1)
     , (this.showAllBuildDeployment ? 0 : 1)
-    , this.extContext, this.hostInfo.name);
+    , (this.lastBuildsDisplaySelection ? 0: 1)
+    , this.extContext
+    , this.hostInfo.name
+    , this.currentViewId);
     /************ Preferences storage tests ***********/
   }
 
@@ -437,6 +485,9 @@ class CICDDashboard extends React.Component<{}, {}> {
     this.extensionVersion = "v" + this.extContext.version;
     this.releaseNoteVersion = "https://github.com/expertasolutions/VstsDashboard/releases/tag/" + this.extContext.version;
 
+    let userPreferences = await getUserPreferences(this.extContext, this.hostInfo.name);
+    this.selectedTabId.value = (userPreferences === undefined || userPreferences.currentViewId === "") ? "summary" : userPreferences.currentViewId;
+
     const projectService = await SDK.getService<IProjectPageService>(CommonServiceIds.ProjectPageService);
     let currentProject = await projectService.getProject();
 
@@ -448,15 +499,9 @@ class CICDDashboard extends React.Component<{}, {}> {
       let prj = this.state.projects.find(x=> x.name === this.initialProjectName);
       if(prj != undefined) {
         let index = this.state.projects.indexOf(prj);
-
-        // If no UsersPreferences is set...
         this.projectSelection.select(index);
-
-        // Select Projectlist from the UserPreferences
-        let userPreferences = await getUserPreferences(this.extContext, this.hostInfo.name);
-        //
+      
         if(userPreferences !== undefined) {
-          
           for(let i=0;i<userPreferences.selectedProjects.length;i++) {
             let prString = userPreferences.selectedProjects[i]
             let pr = this.state.projects.find(x=> x.name === prString);
@@ -486,6 +531,13 @@ class CICDDashboard extends React.Component<{}, {}> {
           } else {
             this.errorsOnSummaryTopSelection.select(0);
           }
+
+          if(userPreferences.lastBuildsDisplaySelection !== undefined) {
+            //this.lastBuildsDisplaySelection.select(userPreferences.lastBuildsDisplaySelection);
+          } else {
+            //this.lastBuildsDisplaySelection.select(0);
+          }
+
         } else {
           this.allDeploymentSelection.select(1);
           this.onlyWithDeploymentSelection.select(1);
@@ -502,9 +554,13 @@ class CICDDashboard extends React.Component<{}, {}> {
 
   private buildReferenceProvider = new ObservableValue<ArrayItemProvider<BuildDefinitionReference>>(new ArrayItemProvider(this.state.buildDefs));
   private buildProvider = new ObservableValue<ArrayItemProvider<Build>>(new ArrayItemProvider(this.state.builds));
+  private environmentProvider = new ObservableValue<ArrayItemProvider<PipelineEnvironment>>(new ArrayItemProvider(this.state.environments));
+  private approvalProvider = new ObservableValue<ArrayItemProvider<any>>(new ArrayItemProvider(this.state.approvals));
 
   private onSelectedTabChanged = (newTabId: string) => {
     this.selectedTabId.value = newTabId;
+    this.currentViewId = newTabId;
+    this.assignUserPreferences();
   }
 
   private async getProjectUrl(projectName:string) {
@@ -586,10 +642,10 @@ class CICDDashboard extends React.Component<{}, {}> {
       if(this.buildReferenceProvider.value.length > 0) {
         return (
           <Observer itemProvider={this.buildReferenceProvider} refreshUI={ this.refreshUI } >
-            {(props: {itemProvider: ArrayItemProvider<BuildDefinitionReference> }) => 
+            {(props: {itemProvider: ArrayItemProvider<PipelineReference> }) => 
               {
                 return (
-                  <Table<BuildDefinitionReference> columns={dashboardColumns} 
+                  <Table<PipelineReference> columns={dashboardColumns} 
                       itemProvider={props.itemProvider}
                       showLines={true}
                       role="table"/>
@@ -604,8 +660,19 @@ class CICDDashboard extends React.Component<{}, {}> {
     } else if(tabId === "builds") {
       return (
         <Observer itemProvider={ this.buildProvider }>
-          {(observableProps: { itemProvider: ArrayItemProvider<Build> }) => (
-              <Table<Build> columns={buildColumns} 
+          {(observableProps: { itemProvider: ArrayItemProvider<PipelineElement> }) => (
+              <Table<PipelineElement> columns={buildColumns} 
+                  itemProvider={observableProps.itemProvider}
+                  showLines={true}
+                  role="table"/>
+          )}
+        </Observer>
+      );
+    } else if(tabId === "environments") {
+      return (
+        <Observer itemProvider={ this.environmentProvider }>
+          {(observableProps: { itemProvider: ArrayItemProvider<PipelineEnvironment> }) => (
+              <Table<PipelineEnvironment> columns={environmentColumns} 
                   itemProvider={observableProps.itemProvider}
                   showLines={true}
                   role="table"/>
@@ -618,13 +685,14 @@ class CICDDashboard extends React.Component<{}, {}> {
   }
 
   public renderTabBar() : JSX.Element {
+    // <Tab name="Environments" id="environments" />
     return (<TabBar
             onSelectedTabChanged={this.onSelectedTabChanged}
             selectedTabId={this.selectedTabId}
             tabSize={TabSize.Tall}
             renderAdditionalContent={this.renderOptionsFilterView}>
-            <Tab name="Summary" id="summary"/>
-            <Tab name="All Runs" id="builds"/>
+            <Tab name="Summary" id="summary" />
+            <Tab name="All Runs" id="builds" />
           </TabBar>);
   }
 
@@ -666,6 +734,17 @@ class CICDDashboard extends React.Component<{}, {}> {
         </Link>
       </div>
     );
+  }
+
+  public getCardTitle(tabId: string) : string {
+    switch(tabId) {
+      case "environments":
+        return "Environments";
+      case "summary":
+      case "builds":
+      default:
+        return "All pipelines";
+    }
   }
 
   public renderHeader() : JSX.Element {
@@ -814,7 +893,7 @@ class CICDDashboard extends React.Component<{}, {}> {
                                 return (
                                   <div>
                                     <Card className="flex-grow bolt-table-card" 
-                                        titleProps={{ text: "All pipelines" }} 
+                                        titleProps={{ text: this.getCardTitle(props.selectedTabId) }} 
                                         contentProps={{ contentPadding: false }}>
                                       <div style={{ marginTop: "16px;", marginBottom: "16px;"}}>
                                           { this.renderTab(props.selectedTabId) }

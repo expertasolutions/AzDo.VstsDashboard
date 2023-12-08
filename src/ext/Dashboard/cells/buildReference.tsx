@@ -6,29 +6,33 @@ import {
   getPipelineIndicator,
   getReleaseTagFromBuild,
   lightGray,
+  getReleaseTagFromBuildV2,
+  getEnvironmentStageSummary
 } from "./common";
 
 import {
   ITableColumn,
   TwoLineTableCell,
   SimpleTableCell,
+  ITable,
 } from "azure-devops-ui/Table";
 
 import { Ago } from "azure-devops-ui/Ago";
 import { Duration } from "azure-devops-ui/Duration";
 
-import { BuildDefinitionReference, BuildStatus } from "azure-devops-extension-api/Build";
+import { BuildStatus } from "azure-devops-extension-api/Build";
 import { Status, Statuses, StatusSize } from "azure-devops-ui/Status";
 import { Link } from "azure-devops-ui/Link";
 import { Icon } from "azure-devops-ui/Icon";
-import { DataContext } from "../dataContext";
+import { DataContext, PipelineReference,  PipelineElement } from "../dataContext";
 import { Build } from "azure-devops-extension-api/Build";
+import { Deployment } from "azure-devops-extension-api/Release";
 
 export function renderBuildRef01 (
   rowIndex: number,
   columnIndex: number,
-  tableColumn: ITableColumn<BuildDefinitionReference>,
-  tableItem: BuildDefinitionReference
+  tableColumn: ITableColumn<PipelineReference>,
+  tableItem: PipelineReference
 ): JSX.Element {
   let definitionUrl = tableItem._links.web.href;
   let projectName = tableItem.project.name;
@@ -42,32 +46,29 @@ export function renderBuildRef01 (
               tableColumn={tableColumn}
               key={"col-" + columnIndex}
               contentClassName="fontSizeM font-size-m scroll-hidden">
-              <Status {...getBuildDefinitionStatusNew(lastBuild).statusProps}
-                      className="icon-large-margin"
-                      size={StatusSize.l}/>
-              <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
-                <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}} className="fontWeightSemiBold font-weight-semibold">
-                  <Link href={definitionUrl} target="_blank" className="bolt-table-cell-primary">
-                    {tableItem.name}
-                  </Link>
+                <Status {...getBuildDefinitionStatusNew(lastBuild).statusProps}
+                        className="icon-large-margin"
+                        size={StatusSize.l}/>
+                <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
+                  <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}} className="fontWeightSemiBold font-weight-semibold">
+                    <Link href={definitionUrl} target="_blank" className="bolt-table-cell-primary">
+                      {tableItem.name}
+                    </Link>
+                  </div>
+                  <div className="font-size-s" style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
+                    <span className="fontWeightSemiBold font-weight-semibold">{projectName}</span>{getPendingBuild(tableItem, context.state.builds)}
+                  </div>
                 </div>
-                <div className="font-size-s" style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
-                  <span className="fontWeightSemiBold font-weight-semibold">{projectName}</span>{getPendingBuild(tableItem, context.state.builds)}
-                </div>
-              </div>
           </SimpleTableCell>
         )}
       </DataContext.Consumer>
   );
 }
 
-export function getPendingBuild(buildRef: BuildDefinitionReference, buildList: Build[]) {
+export function getPendingBuild(buildRef: PipelineReference, buildList: Build[]) {
   let currentQueued = buildList.filter(x=> x.definition.id === buildRef.id && (x.status !== BuildStatus.Completed ));
-  if(currentQueued.length == 2) {
-    return (<span>&nbsp;-&nbsp;{currentQueued.length-1} other run</span>)
-  }
-  else if(currentQueued.length > 2){
-    return (<span>&nbsp;-&nbsp;{currentQueued.length-1} others runs</span>)
+  if(currentQueued.length > 0){
+    return (<span>&nbsp;-&nbsp;{currentQueued.length} in progress</span>)
   } else {
     return (<span></span>)
   }
@@ -76,14 +77,14 @@ export function getPendingBuild(buildRef: BuildDefinitionReference, buildList: B
 export function renderLastBuild01 (
   rowIndex: number,
   columnIndex: number,
-  tableColumn: ITableColumn<BuildDefinitionReference>,
-  tableItem: BuildDefinitionReference
+  tableColumn: ITableColumn<PipelineReference>,
+  tableItem: PipelineReference
 ) {
   let lastBuild = tableItem.latestCompletedBuild;
   let contentRow1 = (<div>Not found</div>);
   let contentRow2 = (<div></div>);
 
-  if(lastBuild != undefined) {
+  if(lastBuild !== undefined) {
     let branchName = lastBuild.sourceBranch.replace('refs/heads/','');
     let branchUrl = lastBuild.repository.url;
     let commitUrl = lastBuild.repository.url;
@@ -142,7 +143,7 @@ export function renderLastBuild01 (
   )
 }
 
-function renderPendingBuild(buildRef:BuildDefinitionReference, buildList: Build[]) {
+function renderPendingBuild(buildRef:PipelineReference, buildList: Build[]) {
   let currentQueued = buildList.filter(x=> x.definition.id === buildRef.id && (x.status !== BuildStatus.Completed )).sort((a,b) => a.id-b.id);
   let currentRunningBuildCtrl = [];
   for(let i=0;i<currentQueued.length;i++) {
@@ -220,8 +221,8 @@ function renderPendingBuild(buildRef:BuildDefinitionReference, buildList: Build[
 export function renderLastBuild02(
   rowIndex: number,
   columnIndex: number,
-  tableColumn: ITableColumn<BuildDefinitionReference>,
-  tableItem: BuildDefinitionReference
+  tableColumn: ITableColumn<PipelineReference>,
+  tableItem: PipelineReference
 ): JSX.Element {
   let lastBuildRun = tableItem.latestCompletedBuild;
 
@@ -281,30 +282,102 @@ export function renderLastBuild02(
   );
 }
 
+export function renderAllInProgress(buildDefId: number, builds: Array<PipelineElement>, context: any, columnIndex: number, tableColumn: ITableColumn<PipelineReference>) : Array<JSX.Element> {
+  let childrens = Array<JSX.Element>();
+  // if(buildDefId === 240) {
+  //   console.log(builds.filter(x=> x.definition.id === buildDefId && (x.status === BuildStatus.InProgress || x.status === BuildStatus.NotStarted)));
+  // }
+  let pending = builds.filter(x=> x.definition.id === buildDefId && (x.status === BuildStatus.InProgress || x.status === BuildStatus.NotStarted)).sort((a,b) => a.id-b.id);
+  // TODO: Filter out build without environments stage in progress
+  for(let i=0;i<pending.length;i++) {
+    childrens.push(
+      <div>
+        {getReleaseTagFromBuildV2(pending[i], context.state.environments, context.state.showAllBuildDeployment, false)}
+      </div>
+    );
+  }
+  return childrens;
+}
+
+export function renderPipelineStageSummary(build: PipelineReference, context: any, columnIndex: number, tableColumn: ITableColumn<PipelineReference>) : JSX.Element {
+  let buildClassicReleases = [];
+  let releases = context.state.releases as Array<Deployment>;
+  buildClassicReleases = releases.filter(
+    x => x.release.artifacts.find(
+      a => {
+        let version = a.definitionReference["version"];
+        if(build.latestCompletedBuild !== undefined) {
+          return version.id === build.latestCompletedBuild.id.toString();
+        }
+        return false;
+      }
+    ) != null
+  );
+
+  let isClassicRelease = buildClassicReleases.length > 0;
+  if(!isClassicRelease) {
+    return (
+      <div>
+        {getEnvironmentStageSummary(build, context.state.environments, context.state.approvals)}
+      </div>
+    );
+  }
+  return (
+    <div>
+      {getReleaseTagFromBuild(build.latestCompletedBuild as PipelineElement, context.state.releases, context.state.environments, context.state.showAllBuildDeployment) }
+    </div>
+  );
+}
+
 export function renderReleaseInfo01 (
   rowIndex: number,
   columnIndex: number,
-  tableColumn: ITableColumn<BuildDefinitionReference>,
-  tableItem: BuildDefinitionReference
+  tableColumn: ITableColumn<PipelineReference>,
+  tableItem: PipelineReference
 ) : JSX.Element {
-  let lastBuild = tableItem.latestCompletedBuild;
+  let lastCompletedBuild = tableItem.latestCompletedBuild;
+  let lastBuild = tableItem.latestBuild;
+
+  // TODO: Get Last Currently Running Pipelines
+  if(lastBuild !== null && lastBuild !== undefined && lastCompletedBuild !== undefined && lastBuild.id !== lastCompletedBuild.id) {
+    return (
+      <DataContext.Consumer>
+          {(context) => (
+            <SimpleTableCell
+                key={"col-" + columnIndex}
+                columnIndex={columnIndex}
+                tableColumn={tableColumn}>
+              <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
+                <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
+                  {renderPipelineStageSummary(tableItem, context, columnIndex, tableColumn)}
+                </div>
+                <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
+                  {renderAllInProgress(tableItem.id, context.state.builds, context, columnIndex, tableColumn) }
+                </div>
+              </div>
+            </SimpleTableCell>
+          )}
+        </DataContext.Consumer>
+      );
+  };
+  
   return (
     <DataContext.Consumer>
-      {(context) => (
-      <SimpleTableCell
-            key={"col-" + columnIndex}
-            columnIndex={columnIndex}
-            tableColumn={tableColumn}>
-              <div>
-                {getReleaseTagFromBuild(lastBuild, context.state.releases, context.state.showAllBuildDeployment) }
-              </div>
-        </SimpleTableCell>
-      )}
-    </DataContext.Consumer>
-  )
+        {(context) => (
+          <SimpleTableCell
+              key={"col-" + columnIndex}
+              columnIndex={columnIndex}
+              tableColumn={tableColumn}>
+            <div>
+              {renderPipelineStageSummary(tableItem, context, columnIndex, tableColumn)}
+            </div>
+          </SimpleTableCell>
+        )}
+      </DataContext.Consumer>
+    );
 }
 
-function getBuildDefinitionStatus(buildDefItem: BuildDefinitionReference) : IStatusIndicatorData {
+function getBuildDefinitionStatus(buildDefItem: PipelineReference) : IStatusIndicatorData {
   const indicatorData: IStatusIndicatorData = {
     label: "NA",
     statusProps: { ...Statuses.Queued, ariaLabel: "None" },

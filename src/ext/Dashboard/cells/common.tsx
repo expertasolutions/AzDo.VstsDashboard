@@ -4,11 +4,16 @@ import { Icon, IIconProps } from "azure-devops-ui/Icon";
 import { Status, IStatusProps, Statuses, StatusSize } from "azure-devops-ui/Status";
 import { IColor } from "azure-devops-ui/Utilities/Color";
 import { BuildResult, BuildStatus } from "azure-devops-extension-api/Build";
-import { Deployment, DeploymentStatus, ReleaseReference, ApprovalStatus, ReleaseDefinition } from "azure-devops-extension-api/Release";
+import { Deployment, DeploymentStatus, ReleaseReference, ApprovalStatus, ReleaseDefinition, ReleaseStatus } from "azure-devops-extension-api/Release";
 import { Pill, PillVariant } from "azure-devops-ui/Pill";
 import { PillGroup, PillGroupOverflow } from "azure-devops-ui/PillGroup";
 import { Build } from "azure-devops-extension-api/Build";
 import { Link } from "azure-devops-ui/Link";
+import { PipelineEnvironment } from "../dataContext";
+import { Ago } from "azure-devops-ui/Ago";
+import { Duration } from "azure-devops-ui/Duration";
+
+import { PipelineReference, PipelineElement } from "../dataContext";
 
 const lightGreen: IColor = {
   red: 204,
@@ -79,6 +84,110 @@ export function getReleaseStatus(depl: Deployment, pendingApproval: boolean) : I
     color: lightGray,
   };
   return getReleaseIndicator(depl.deploymentStatus, pendingApproval);
+}
+
+export function getApprovalIndicator(status: number) : IStatusIndicatorData {
+  const indicatorData: IStatusIndicatorData = {
+    label: "NA",
+    statusProps: { ...Statuses.Queued, ariaLabel: "None" },
+    color: lightGreen
+  };
+
+  if(status === undefined){
+    status = DeploymentStatus.Undefined;
+  }
+
+  switch(status) {
+    case 2:
+      indicatorData.statusProps = { ...Statuses.Queued, ariaLabel: "PendingApproval"};
+      indicatorData.label = "Pending Approval";
+      indicatorData.color = lightBlue;
+      break;
+    case 4:
+      indicatorData.statusProps = { ...Statuses.Success, ariaLabel: "Approved"};
+      indicatorData.label = "Approved";
+      indicatorData.color = lightGreen;
+      break;
+    case 8:
+      indicatorData.statusProps = { ...Statuses.Failed, ariaLabel: "Rejected"};
+      indicatorData.label = "Rejected";
+      indicatorData.color = lightRed;
+      break;
+    case 32:
+      indicatorData.statusProps = { ...Statuses.Queued, ariaLabel: "Canceled"};
+      indicatorData.label = "NA";
+      indicatorData.color = lightGray;
+      break;
+    case 64:
+      indicatorData.statusProps = { ...Statuses.Queued, ariaLabel: "Timed Out"};
+      indicatorData.label = "Time Out";
+      indicatorData.color = lightGray;
+      break;
+    default:
+      indicatorData.statusProps = { ...Statuses.Queued, ariaLabel: "Canceled"};
+      indicatorData.label = "NA";
+      indicatorData.color = lightGray;
+      break;
+  }
+  return indicatorData;
+}
+
+export function getStageIndicator(status: number, pendingApproval: boolean): IStatusIndicatorData {
+  const indicatorData: IStatusIndicatorData = {
+    label: "NA",
+    statusProps: { ...Statuses.Queued, ariaLabel: "None" },
+    color: lightGreen
+  };
+
+  if(status === undefined){
+    status = DeploymentStatus.Undefined;
+  }
+
+  if(pendingApproval){
+    indicatorData.statusProps = { ...Statuses.Waiting, ariaLabel: "Waiting Approval"};
+    indicatorData.label = "Waiting Approval";
+    indicatorData.color = lightBlue;
+    return indicatorData;
+  }
+
+  switch(status) {
+    case -2: 
+      indicatorData.statusProps = { ...Statuses.Waiting, ariaLabel: "Pending"};
+      indicatorData.label = "Pending";
+      indicatorData.color = lightBlue;
+      break;
+    case -1:
+      indicatorData.statusProps = { ...Statuses.Running, ariaLabel: "InProgress"};
+      indicatorData.label = "In Progress";
+      indicatorData.color = lightBlue;
+      break;
+    case 0: // Success
+      indicatorData.statusProps = { ...Statuses.Success, ariaLabel: "Success"};
+      indicatorData.label = "Success";
+      indicatorData.color = lightGreen;
+      break;
+    case 1: // succeededWithIssues
+      indicatorData.statusProps = { ...Statuses.Warning, ariaLabel: "PartiallySucceeded"};
+      indicatorData.label = "PartiallySucceeded";
+      indicatorData.color = lightOrange;
+      break;
+    case 2:
+      indicatorData.statusProps = { ...Statuses.Failed, ariaLabel: "Fail"};
+      indicatorData.label = "Fail";
+      indicatorData.color = lightRed;
+      break;
+    case 3:
+      indicatorData.statusProps = { ...Statuses.Queued, ariaLabel: "Canceled"};
+      indicatorData.label = "Not Deployed";
+      indicatorData.color = lightGray;
+      break;
+    default:
+      indicatorData.statusProps = { ...Statuses.Queued, ariaLabel: "Stopped"};
+      indicatorData.label = "Not Deployed";
+      indicatorData.color = lightGray;
+      break;
+  }
+  return indicatorData;
 }
 
 export function getReleaseIndicator(status: DeploymentStatus, pendingApproval: boolean) : IStatusIndicatorData {
@@ -185,9 +294,9 @@ export function getPipelineIndicator(result: BuildResult, status:BuildStatus) : 
   return indicatorData;
 }
 
-export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>, allRelease: boolean) {
+export function getReleaseTagFromBuild(build: PipelineElement, releases: Array<Deployment>, environments: Array<PipelineEnvironment>, allRelease: boolean) {
   if(build === undefined) {
-    return (<div>Not deploy yet</div>);
+    return (<div>Not deployed yet</div>);
   }
 
   let deploys = releases.filter(
@@ -235,7 +344,7 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
 
     releaseReferences = releaseReferences.sort((a, b) => b.id - a.id);
 
-    for(let relRef=0;relRef<releaseReferences.length;relRef++){
+    for(let relRef=0;relRef<releaseReferences.length;relRef++) {
       let relRefInfo = releaseReferences[relRef];
       lastRelease = Array<string>();
       let releaseDeploys = deploys.filter(x=> x.release.id == relRefInfo.id && x.releaseDefinition.name === depName)
@@ -293,7 +402,222 @@ export function getReleaseTagFromBuild(build: Build, releases: Array<Deployment>
   if(content.length > 0){
     return content;
   }
-  return <div>Not deploy yet</div>
+  return getReleaseTagFromBuildV2(build, environments, allRelease, true);
+}
+
+export function getReleaseTagFromBuildV2(build: PipelineElement, environments: Array<PipelineEnvironment>, allRelease: boolean, showDefaultOnEmpty: boolean) {
+  if(build === undefined) {
+    return (<div>Not deployed yet</div>)
+  }
+  let allDeplRecords: any[] = [];
+  for(let i=0;i<environments.length;i++) {
+    if(environments[i] !== undefined) {
+      allDeplRecords.push(...environments[i].deploymentRecords);
+    }
+  }
+
+  let content: any[] = [];
+  let pendingApprovals = build.timeline.records.filter((x: any) => x.type === "Checkpoint.Approval" && x.result === null);
+  let approvalCheckpoints = build.timeline.records.filter((x: any) => x.type === "Checkpoint" && pendingApprovals.find((a: any) => a.parentId === x.id));
+
+  let buildStages = build.timeline.records.filter((x: any) => x.type === "Stage").sort((a: any, b: any) => a.order - b.order);
+  //console.log(buildStages);
+
+  let children: any[] = [];
+  for(let i=0;i<buildStages.length;i++) {
+    let elm = buildStages[i];
+    let attempCounts = "";
+    if(elm.previousAttempts.length > 0) {
+      attempCounts = `(${elm.previousAttempts.length+1})`;
+    }
+
+    if(elm.result === undefined || elm.result === null) {
+      if(elm.state === 1) {
+        elm.result = -1;
+      }
+      if(elm.state === 2) {
+        elm.result = -2;
+      }
+    }
+
+    let hasPendingApproval = approvalCheckpoints.find((x: any) => x.parentId === elm.id);
+    let deplStatus = getStageIndicator(elm.result === undefined ? -1 : elm.result, hasPendingApproval);
+
+    let stageLink = build._links.web.href; //.replace('results', 'logs');
+
+    // &nbsp;S:{elm.state}|R:{elm.result}
+    
+    children.push(
+      <Pill color={deplStatus.color} variant={PillVariant.colored} 
+          onClick={() => window.open(stageLink, "_blank") }>
+        <Status {...deplStatus.statusProps} className="icon-small-margin" size={StatusSize.s} />&nbsp;{elm.name}&nbsp;{attempCounts}
+      </Pill>
+    );
+  }
+
+  /******/
+  let lastBuild = build;
+  let branchName = lastBuild.sourceBranch.replace('refs/heads/','');
+  let branchUrl = lastBuild.repository.url;
+  let commitUrl = lastBuild.repository.url;
+
+  if(lastBuild.repository.type === "TfsGit"){
+    branchUrl = lastBuild.repository.url + "?version=GB" + branchName + "&_a=contents";
+    commitUrl = lastBuild.repository.url + "/commit/" + lastBuild.sourceVersion;
+  }
+  else if(lastBuild.repository.type === "GitHub") {
+    branchUrl = "https://github.com/" + lastBuild.repository.id + "/tree/" + branchName;
+    commitUrl = lastBuild._links.sourceVersionDisplayUri.href;
+  } else if(lastBuild.repository.type === "TfsVersionControl") {
+    if(lastBuild.sourceBranch.indexOf("$/") == 0) {
+      branchUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl?path=" + lastBuild.sourceBranch;
+      commitUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl/changeset/" + lastBuild.sourceVersion;
+    } else {
+      branchUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl/shelveset?ss=" + lastBuild.sourceBranch;
+      commitUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl/changeset/" + lastBuild.sourceVersion;
+    }
+  }
+
+  let branchCommitControl = <span></span>;
+  if(lastBuild.sourceBranch !== undefined) {
+    branchCommitControl = (<span className="font-size-s"> <Icon iconName="BranchCommit" /><Link href={commitUrl} target="blank">{lastBuild.sourceVersion.substr(0, 7)}</Link></span>);
+  } else {
+    branchCommitControl = <span className="font-size-s"> <Icon iconName="BranchCommit" />Not found</span>;
+  }
+
+  let sinceCtrl = <span></span>;
+  if(build.startTime !== undefined) {
+    sinceCtrl = (<span className="font-size-s"><Icon iconName="Calendar" />&nbsp;<Ago date={new Date(build.startTime)} /></span>);
+  }
+  /******/
+
+  if(children.length > 0) {
+    content.push(
+      <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
+        <Link href={build._links.web.href} target="_blank"><b>{build.buildNumber}</b></Link> <span className="font-size-s"><Icon iconName="BranchMerge"/><Link href={branchUrl} target="_blank">{branchName}</Link></span> {branchCommitControl} {(<span className="font-size-s"><Icon iconName="People"/>&nbsp;{build.requestedFor!.displayName} {sinceCtrl} </span>)}
+        <p>
+          <PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{children}</PillGroup>
+        </p>
+      </div>
+    )
+  }
+
+  if(content.length > 0) {
+    return content;
+  }
+  if(showDefaultOnEmpty) {
+    return (<div>Not deployed yet</div>)
+  }
+  // TODO: Put this hidden;
+  return (<div></div>);
+}
+
+export function getEnvironmentStageSummary(build: PipelineReference, environments: Array<PipelineEnvironment>, approvals: Array<any>) {
+  if(build === undefined) {
+    return (<div>Problem !</div>)
+  }
+
+  environments = environments.sort((a,b) => a.id - b.id);
+  let stagesList = build.timeline.records.filter((x: any) => x.type === "Stage");
+  // if(build.id === 240) {
+  //   console.log(stagesList);
+  // }
+
+  let allDeplRecords = Array<any>();
+  let allStages = Array<string>();
+  for(let i=0;i<environments.length;i++) {
+    let currentEnv = environments[i];
+    allDeplRecords.push(...currentEnv.deploymentRecords);
+    allStages.push(...currentEnv.deploymentRecords.map(x=> x.stageName));
+    allStages = allStages.filter((v, i, a) => a.indexOf(v) === i);
+  }
+
+  let buildStageEnvironments = Array<any>();
+  for(let i=0;i<allStages.length;i++) {
+    let envStage = allStages[i];
+
+    let buildStage = stagesList.find((x:any)=> x.identifier === envStage);
+    //console.log(buildStage);
+
+    if(buildStage !== undefined) {
+      if(envStage !== undefined) {
+        let currentElement = {
+          environment: envStage,
+          displayName: buildStage.name,
+          order: buildStage.order,
+          lastExecution: undefined
+        };
+
+        let lastExecution = allDeplRecords.filter(x=> x.definition.id === build.id && x.stageName === envStage)
+                                          .sort((a,b) => a.id - b.id);
+        if(lastExecution.length > 0) {
+          let currentShowed = buildStageEnvironments.find(x=> x.environment === envStage);
+          if(currentShowed === undefined || currentShowed.length > 0) {
+            currentElement.lastExecution = lastExecution[lastExecution.length - 1];
+            buildStageEnvironments.push(currentElement);
+          } else {
+            let index = buildStageEnvironments.findIndex(x=> x.environment === envStage);
+            currentShowed.lastExecution = lastExecution[lastExecution.length - 1];
+            buildStageEnvironments[index] = currentShowed;
+          }
+        }
+      }
+    }
+  }
+
+  //buildStageEnvironments = buildStageEnvironments.sort((a,b) => a.lastExecution.environmentId - b.lastExecution.environmentId);
+  buildStageEnvironments = buildStageEnvironments.sort((a,b) => a.lastExecution.order - b.lastExecution.order);
+
+  let childrens = Array<any>();
+  for(let i=0;i<buildStageEnvironments.length;i++) { 
+    let curEnv = buildStageEnvironments[i];
+    let envStatus = getStageIndicator(curEnv.lastExecution.result === undefined ? -1 : curEnv.lastExecution.result, false);
+    let attempCounts = "";
+    if(curEnv.lastExecution.jobAttemp > 1) {
+      attempCounts = ` (${curEnv.lastExecution.stageAttempt})`;
+    }
+    let queueTimeCleanup = curEnv.lastExecution.queueTime.replace('/Date(', '').replace(')/','').replace(')','');
+    let queueDateTime = new Date(Number(queueTimeCleanup));
+
+    let startDateTime : Date = new Date();
+    let endDateTime : Date = new Date();
+
+    if(curEnv.lastExecution.startTime !== undefined) {
+      let startDateTimeCleanup = curEnv.lastExecution.startTime.replace('/Date(', '').replace(')/','').replace(')','');
+      startDateTime = new Date(Number(startDateTimeCleanup));
+    } else {
+      startDateTime = queueDateTime
+    }
+
+    if(curEnv.lastExecution.finishTime !== undefined) {
+      let endDateTimeCleanup = curEnv.lastExecution.finishTime.replace('/Date(', '').replace(')/','').replace(')','');
+      endDateTime = new Date(Number(endDateTimeCleanup));
+    }
+
+    let realEnvName = curEnv.displayName !== curEnv.environment ? (<span> | {curEnv.environment}{attempCounts}</span>) : (<span>{attempCounts}</span>);
+
+    childrens.push(
+      <Pill color={envStatus.color} variant={PillVariant.colored} onClick={() => window.open(curEnv.lastExecution.owner._links.web.href, "_blank")}>
+        <div style={{ paddingLeft: 18 }}>
+          <b>{curEnv.displayName}</b>{realEnvName}
+        </div>
+        <div>
+          <Status {...envStatus.statusProps} className="icon-small-margin" size={StatusSize.m} /> {curEnv.lastExecution.owner.name}
+        </div>
+        <div style={{ paddingLeft: 18 }} className="font-size-s"><Icon iconName="Clock"/> <Duration startDate={startDateTime} endDate={endDateTime} /> <Icon iconName="Calendar"/> <Ago date={queueDateTime} /></div>
+      </Pill>
+    );
+  }
+
+  if(childrens.length === 0) {
+    return (<div>Not deployed yet</div>);
+  }
+
+  return (
+    <p>
+      <PillGroup className="flex-row" overflow={PillGroupOverflow.wrap}>{childrens}</PillGroup>
+    </p>
+  );
 }
 
 export function waitingForApproval(dep: Deployment, envId: number) {

@@ -13,6 +13,7 @@ import {
 } from "azure-devops-extension-api/core"
 
 import { ExtensionManagementRestClient } from "azure-devops-extension-api/ExtensionManagement";
+import { PipelineReference, PipelineElement, PipelineEnvironment } from "./dataContext";
 
 const coreClient = API.getClient(CoreRestClient);
 const buildClient = API.getClient(BuildRestClient);
@@ -34,8 +35,10 @@ export async function setUserPreferences(
     , statusOrder: number
     , withDeploymentOnly: number
     , showAllDeployment: number
+    , lastBuildsDisplaySelection: number
     , extensionContext: any
     , collectionName: string
+    , currentViewId: string
   ) : Promise<any> {
   try {
     let currentDocument = await getUserPreferences(extensionContext, collectionName);
@@ -46,7 +49,9 @@ export async function setUserPreferences(
         showErrorsOnTop: statusOrder,
         withDeploymentOnly: withDeploymentOnly,
         showAllDeployment: showAllDeployment,
-        selectedProjects : projectList
+        lastBuildsDisplaySelection: lastBuildsDisplaySelection,
+        selectedProjects : projectList,
+        currentViewId: currentViewId
       };
       result = await extClient.createDocumentByName(newDoc, extensionContext.publisherId, extensionContext.extensionId, "User", "Me", collectionName);
     } else {
@@ -56,8 +61,10 @@ export async function setUserPreferences(
         showErrorsOnTop: statusOrder,
         withDeploymentOnly: withDeploymentOnly,
         showAllDeployment: showAllDeployment,
+        lastBuildsDisplaySelection: lastBuildsDisplaySelection,
         id: currentDocument.id,
-        __etag: currentDocument.__etag
+        __etag: currentDocument.__etag,
+        currentViewId: currentViewId
       };
       result = await extClient.updateDocumentByName(updDoc, extensionContext.publisherId, extensionContext.extensionId, "User", "Me", collectionName);
     }
@@ -78,7 +85,7 @@ export async function getUserPreferences(extensionContext: any, collectionName: 
   }
 }
 
-export async function getReleasesV1(projectList: Array<string>, isFirstLoad: boolean){
+export async function getReleasesV1(projectList: Array<string>, isFirstLoad: boolean) {
   let deployments = new Array<Deployment>();
   for(let i=0;i<projectList.length;i++) {
     let result = await getReleases(projectList[i], isFirstLoad);
@@ -114,10 +121,108 @@ export async function getReleases(projectName: string, isFirstLoad: boolean) {
   return dpl;
 }
 
-export async function getBuildsV1(projectList: Array<string>, isFirstLoad: boolean, timeRangeLoad: string) {
-  let builds = new Array<Build>();
+export async function getBuildTimeline(azureDevOpsUri: string, projectName: string, buildId: number, accessToken: string) {
+  let apiVersion = "7.0";
+  let envUrl = `${azureDevOpsUri}/${projectName}/_apis/build/builds/${buildId}/timeline?api-version=${apiVersion}`;
+  let acceptHeaderValue = `application/json;api-version=${apiVersion};excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true`;
+  let queryHeader = {
+      'Accept': acceptHeaderValue,
+      'Content-Type': 'application/json',
+      'Authorization' : `Bearer ${accessToken}`
+    };
+  let result = await fetch(envUrl, 
+    {
+      method: 'GET',
+      mode: 'cors',
+      headers: queryHeader
+    })
+    .then(response => {
+      try {
+        return response.json()
+      } catch {
+        console.log(envUrl);
+        console.log("Error in getBuildTimeline");
+        return {records: []};
+      }
+    });
+  return result;
+}
+
+export async function getEnvironments(azureDevOpsUri: string, projectNames: Array<string>, accessToken: string) {
+  let result = new Array<any>();
+  if(azureDevOpsUri === undefined || azureDevOpsUri === null || azureDevOpsUri === "") {
+    return result;
+  }
+
+  let apiVersion = "7.0-preview.1";
+  for(let i=0;i<projectNames.length;i++) {
+    let projectName = projectNames[i];
+    let envUrl = `${azureDevOpsUri}${projectName}/_apis/distributedtask/environments?api-version=${apiVersion}`;
+    let acceptHeaderValue = `application/json;api-version=${apiVersion};excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true`;
+    let queryHeader = {
+      "Accept": acceptHeaderValue,
+      "Content-Type": "application/json",
+      "Authorization" : `Bearer ${accessToken}`,
+    };
+
+    let projectResult = await fetch(envUrl, 
+      {
+        method: 'GET',
+        mode: 'cors',
+        headers: queryHeader
+      })
+      .then(response => {
+        try {
+          return response.json();
+        } catch {
+          console.log("Error in getEnvironments");
+          return [] as Array<PipelineEnvironment>;
+        }
+      });
+      
+    let finalResult:Array<PipelineEnvironment> = [];
+
+    for(let i=0;i<projectResult.length;i++) {
+      let newEnv : PipelineEnvironment = {
+        id: projectResult[i].id,
+        name: projectResult[i].name,
+        projectId: projectName,
+        deploymentRecords: [],
+        environmentChecks: []
+      };
+      let test = await getEnvironmentDeplRecords(azureDevOpsUri, projectResult[i].id, projectName, accessToken);
+      newEnv.deploymentRecords.push(...test);
+      finalResult.push(newEnv);
+    }
+
+    result.push(...finalResult);
+  }
+  return result;
+}
+
+export async function getEnvironmentDeplRecords(azureDevOpsUri: string, environmentId: string, projectName: string, accessToken: string) {
+  let apiVersion = "7.0-preview.1";
+  let top = 1000;
+  let envUrl = `${azureDevOpsUri}/${projectName}/_apis/distributedtask/environments/${environmentId}/environmentdeploymentrecords?top=${top}&api-version=${apiVersion}`;
+  let acceptHeaderValue = `application/json;api-version=${apiVersion};excludeUrls=true;enumsAsNumbers=true;msDateFormat=true;noArrayWrap=true`;
+  let queryHeader = {
+    'Accept': acceptHeaderValue,
+    'Content-Type': 'application/json',
+    'Authorization' : `Bearer ${accessToken}`
+  };
+  let result = await fetch(envUrl, 
+    {
+      method: 'GET',
+      headers: queryHeader
+    })
+    .then(response => response.json());
+  return result;
+}
+
+export async function getBuildsV1(azureDevOpsUri: string, projectList: Array<string>, isFirstLoad: boolean, timeRangeLoad: string, accessToken: string) {
+  let builds = new Array<PipelineElement>();
   for(let i=0;i<projectList.length;i++) {
-    let result = await getBuilds(projectList[i], isFirstLoad, timeRangeLoad);
+    let result = await getBuilds(azureDevOpsUri, projectList[i], isFirstLoad, timeRangeLoad, accessToken);
     builds.push(...result);
   }
   return builds;
@@ -152,7 +257,7 @@ export function getMinTimeFromNow(timeRangeLoad: string) {
   return minDate;
 }
 
-export async function getBuilds(projectName: string, isFirstLoad: boolean, timeRangeLoad: string)  {
+export async function getBuilds(azureDevOpsUri: string, projectName: string, isFirstLoad: boolean, timeRangeLoad: string, accessToken: string)  {
   const MS_IN_MIN = 60000;
   let minDate = undefined;
   let now = new Date();
@@ -169,26 +274,30 @@ export async function getBuilds(projectName: string, isFirstLoad: boolean, timeR
   let noneResult = await buildClient.getBuilds(projectName, undefined, undefined, undefined, undefined, undefined, undefined, undefined, BuildStatus.None);                                                
   let completedResult = await buildClient.getBuilds(projectName, undefined, undefined, undefined, minDate);
   
-  let result = new Array<Build>();
-  result.push(...inProgressResult);
-  result.push(...cancellingResult);
-  result.push(...notStartedResult);
-  result.push(...postponedResult);
-  result.push(...noneResult);
-  result.push(...completedResult);
+  let result = new Array<PipelineElement>();
+  result.push(...inProgressResult as Array<PipelineElement>);
+  result.push(...cancellingResult as Array<PipelineElement>);
+  result.push(...notStartedResult as Array<PipelineElement>);
+  result.push(...postponedResult as Array<PipelineElement>);
+  result.push(...noneResult as Array<PipelineElement>);
+  result.push(...completedResult as Array<PipelineElement>);
+
+  for(let i=0;i<result.length;i++) {
+    let rs = await getBuildTimeline(azureDevOpsUri, projectName, result[i].id, accessToken);
+    result[i].timeline = rs;
+  }
 
   return result;
 }
 
-export function sortBuilds(builds: Array<Build>) {
+export function sortBuilds(builds: Array<PipelineElement>) {
   return builds.sort((a,b) => {
     return b.id - a.id;
   });
 }
 
-export function sortBuildReferences(buildRefs: Array<BuildDefinitionReference>, errorOnTop: boolean) {
-
-  buildRefs = buildRefs.sort((a,b) => {
+export function sortBuildReferences(buildRefs: Array<PipelineReference>, errorOnTop: boolean) {
+  buildRefs = buildRefs.sort((a,b) => {   
     if(b.latestBuild !== undefined && a.latestBuild !== undefined) {
       if(a.latestBuild.id > b.latestBuild.id){
         return -1;
@@ -222,16 +331,16 @@ export function sortBuildReferences(buildRefs: Array<BuildDefinitionReference>, 
   return buildRefs;
 }
 
-export async function getBuildDefinitionsV1(projectList: Array<string>, isFirstLoad: boolean) {
-  let buildDef = new Array<BuildDefinitionReference>();
+export async function getBuildDefinitionsV1(azureDevOpsUri: string, projectList: Array<string>, isFirstLoad: boolean, accessToken: string) {
+  let buildDef = new Array<PipelineReference>();
   for(let i=0;i<projectList.length;i++) {
-    let result = await getBuildDefinitions(projectList[i], isFirstLoad);
+    let result = await getBuildDefinitions(azureDevOpsUri, projectList[i], isFirstLoad, accessToken);
     buildDef.push(...result);
   }
   return buildDef;
 }
 
-export async function getBuildDefinitions(projectName: string, isFirstLoad: boolean) {
+export async function getBuildDefinitions(azureDevOpsUri: string, projectName: string, isFirstLoad: boolean, accessToken: string) {
   const MS_IN_MIN = 60000;
   let minDate = undefined;
   let now = new Date();
@@ -244,5 +353,19 @@ export async function getBuildDefinitions(projectName: string, isFirstLoad: bool
                                               undefined, undefined, undefined, undefined, undefined,
                                               undefined, minDate, undefined,undefined, true, undefined, 
                                               undefined, undefined);
-  return result;
+                                              
+  const castResult = result as Array<PipelineReference>;
+  for(let i=0;i<result.length;i++) {
+    if(result[i].latestCompletedBuild !== undefined) {
+      let rs = {records: []};
+      try {
+        rs = await getBuildTimeline(azureDevOpsUri, projectName, result[i].latestCompletedBuild.id, accessToken);
+      } catch {
+        console.log(`Error in getBuildDefinitions for build ${result[i].latestCompletedBuild.id}`);
+      }
+      castResult[i].timeline = rs;
+    }
+    castResult[i].pipelineType = 'na';
+  }
+  return castResult;
 }

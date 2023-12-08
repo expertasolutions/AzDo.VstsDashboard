@@ -13,7 +13,7 @@ import { Duration } from "azure-devops-ui/Duration";
 import { Link } from "azure-devops-ui/Link";
 import { Icon } from "azure-devops-ui/Icon";
 import { Status, StatusSize } from "azure-devops-ui/Status";
-import { DataContext } from "../dataContext";
+import { DataContext, PipelineElement } from "../dataContext";
 
 import {
   ITableColumn,
@@ -35,8 +35,8 @@ function getBuildDefinitionUrl(buildDefs: BuildDefinitionReference[], buildDefId
 export function renderBuildStatus (
   rowIndex: number,
   columnIndex: number,
-  tableColumn: ITableColumn<Build>,
-  tableItem: Build
+  tableColumn: ITableColumn<PipelineElement>,
+  tableItem: PipelineElement
 ): JSX.Element {
   let projectName = tableItem.project.name;
   return (
@@ -51,12 +51,12 @@ export function renderBuildStatus (
                       className="icon-large-margin"
                       size={StatusSize.l}/>
               <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
-                  <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
-                    <Link href={getBuildDefinitionUrl(context.state.buildDefs, tableItem.definition.id)} target="_blank" className="bolt-table-cell-primary">
-                      {tableItem.definition.name}
-                    </Link>
-                  </div>
-                  <div className="font-size-s" style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>{projectName}</div>
+                <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>
+                  <Link href={getBuildDefinitionUrl(context.state.buildDefs, tableItem.definition.id)} target="_blank" className="bolt-table-cell-primary">
+                    {tableItem.definition.name}
+                  </Link>
+                </div>
+                <div className="font-size-s" style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis"}}>{projectName}</div>
               </div>
         </SimpleTableCell>
       )}
@@ -67,8 +67,8 @@ export function renderBuildStatus (
 export function renderBuildInfo01Cell(
   rowIndex: number,
   columnIndex: number,
-  tableColumn: ITableColumn<Build>,
-  tableItem: Build
+  tableColumn: ITableColumn<PipelineElement>,
+  tableItem: PipelineElement
 ) : JSX.Element {
   let lastBuild = tableItem;
   let contentRow1 = (<div>Not found</div>);
@@ -89,7 +89,6 @@ export function renderBuildInfo01Cell(
       branchUrl = "https://github.com/" + lastBuild.repository.id + "/tree/" + branchName;
       commitUrl = lastBuild._links.sourceVersionDisplayUri.href;
     } else if(lastBuild.repository.type === "TfsVersionControl") {
-
       if(lastBuild.sourceBranch.indexOf("$/") == 0) {
         branchUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl?path=" + lastBuild.sourceBranch;
         commitUrl = lastBuild.repository.url + lastBuild.repository.name + "/_versionControl/changeset/" + lastBuild.sourceVersion;
@@ -128,9 +127,10 @@ export function renderBuildInfo01Cell(
 export function renderDeploymentInfo01(
   rowIndex: number,
   columnIndex: number,
-  tableColumn: ITableColumn<Build>,
-  tableItem: Build
+  tableColumn: ITableColumn<PipelineElement>,
+  tableItem: PipelineElement
 ) : JSX.Element {
+
   return (
     <DataContext.Consumer>
       {(context) => (
@@ -139,7 +139,7 @@ export function renderDeploymentInfo01(
             columnIndex={columnIndex}
             tableColumn={tableColumn}>
           <div>
-            { getReleaseTagFromBuild(tableItem, context.state.releases, context.state.showAllBuildDeployment) }
+            { getReleaseTagFromBuild(tableItem, context.state.releases, context.state.environments, context.state.showAllBuildDeployment) }
           </div>
         </SimpleTableCell>
       )}
@@ -150,8 +150,8 @@ export function renderDeploymentInfo01(
 export function renderBuildInfo02Cell(
   rowIndex: number,
   columnIndex: number,
-  tableColumn: ITableColumn<Build>,
-  tableItem: Build
+  tableColumn: ITableColumn<PipelineElement>,
+  tableItem: PipelineElement
 ) : JSX.Element {
   let lastBuildRun = tableItem;
   let requestByCtrl = (<div></div>);

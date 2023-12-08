@@ -1,11 +1,9 @@
-name: VstsDashboard-v1.$(date:yy)$(DayOfYear)$(rev:.r)-$(Build.SourceBranchName)
+name: testlouis-v1.$(date:yy)$(DayOfYear)$(rev:.r)-$(Build.SourceBranchName)
 
 trigger:
 - master
 - Issue*
 - Delivery*
-- feature/*
-- dependatbot/*
 
 pr:
 - master
@@ -23,62 +21,13 @@ stages:
     steps:
     
     - task: UseNode@1
-      displayName: 'Use Node 20.x'
-      inputs:
-        version: 20.x
+      displayName: 'Use Node 10.x'
 
     - task: VersionExtractor@5
       name: build
       displayName: 'Version extractor digit'
       inputs:
         stringToAnalyze: '$(Build.BuildNumber)'
-
-    # Compile the extension
-    - task: Npm@1
-      displayName: 'Install Dependencies'
-      inputs:
-        command: 'custom'
-        customCommand: 'install --force'
-
-    - task: Powershell@2
-      displayName: 'Compile Extension'
-      inputs:
-        targetType: 'inline'
-        script: |
-          $env:NODE_OPTIONS = "--openssl-legacy-provider"
-          npm run compile
-
-    # Package the extension
-    - task: UseNode@1
-      displayName: 'Use Node 10.x'
-      inputs:
-        version: 10.x
-
-    - task: TfxInstaller@2
-      inputs:
-        displayName: 'Use Node CLI for Azure DevOps (tfx-cli): v0.6.x'
-
-    - task: PackageAzureDevOpsExtension@2
-      displayName: 'Package Extension'
-      inputs:
-        rootFolder: 
-        patternManifest: |
-          vss-extension.json
-          src/ext/**/*.json
-        extensionVersion: '$(build.fullVersion)'
-        updateTasksVersion: true
-
-    - task: CopyFiles@2
-      displayName: 'Copy Files *.vsix'
-      inputs:
-        SourceFolder: '$(Build.SourcesDirectory)'
-        Contents: |
-          *.vsix
-          CurrentReleaseNotes.md
-        TargetFolder: '$(Build.ArtifactStagingDirectory)'
-
-    - task: PublishBuildArtifacts@1
-      displayName: 'Publish Artifact: drop'
 
 - stage: ExpertaPrivatePreview
   dependsOn: Build
@@ -96,13 +45,13 @@ stages:
     pool:
       vmImage: macOS-latest
       demands: npm
-    environment: ExpertaPrivatePreview
-    #environment: ExpertaPrivate
+    #environment: ExpertaPrivatePreview
+    environment: ExpertaPrivate
     strategy:
       runOnce:
         deploy:
           steps:
-          - template: _pipelineTemplates/extension-deploy.yml
+          - template: _pipelineTemplates/extension-deploy-fake.yml
             parameters:
               publisherId: ExpertaPreview
               extensionId: pvprCICDDashboard
@@ -134,7 +83,7 @@ stages:
       runOnce:
         deploy:
           steps:
-          - template: _pipelineTemplates/extension-deploy.yml
+          - template: _pipelineTemplates/extension-deploy-fake.yml
             parameters:
               publisherId: ExpertaPreview
               extensionId: prCICDDashboard
@@ -160,7 +109,7 @@ stages:
       runOnce:
         deploy:
           steps:
-          - template: _pipelineTemplates/extension-deploy.yml
+          - template: _pipelineTemplates/extension-deploy-fake.yml
             parameters:
               publisherId: experta
               extensionId: cicd-dashboard

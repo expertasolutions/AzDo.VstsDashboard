@@ -8,7 +8,7 @@
   "categories": ["Azure Pipelines"],
   "targets": [
     { "id": "Microsoft.VisualStudio.Services.Cloud" },
-    { "id": "Microsoft.TeamFoundation.Server", "version": "[17.153,)" }
+    { "id": "Microsoft.TeamFoundation.Server", "version": "[19.205,)" }
   ],
   "demands": [
     "api-version/5.1"
@@ -17,6 +17,8 @@
     "vso.project",
     "vso.build", 
     "vso.release",
+    "vso.environment_manage",
+    "vso.agentpools",
     "vso.extension.data_write"
   ],
   "icons": {
