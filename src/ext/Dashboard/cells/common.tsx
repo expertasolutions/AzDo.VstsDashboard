@@ -518,11 +518,12 @@ export function getEnvironmentStageSummary(build: PipelineReference, environment
   }
 
   environments = environments.sort((a,b) => a.id - b.id);
-  let stagesList = build.timeline.records.filter((x: any) => x.type === "Stage");
-  // if(build.id === 240) {
-  //   console.log(stagesList);
-  // }
-
+  let stagesList : Array<any> = [];
+  
+  if(build.timeline !== undefined && build.timeline.records !== undefined) {
+    stagesList = build.timeline.records.filter((x: any) => x.type === "Stage");
+  }
+  
   let allDeplRecords = Array<any>();
   let allStages = Array<string>();
   for(let i=0;i<environments.length;i++) {
